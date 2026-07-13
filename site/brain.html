@@ -284,6 +284,11 @@
     .node:hover circle, .node:hover polygon { stroke: #fff; filter: url(#glow-bright); }
     .node.highlighted circle, .node.highlighted polygon { stroke: var(--bright) !important; stroke-width: 2.2px !important; filter: url(#glow-bright); }
     .node.dimmed { opacity: .18; }
+    .node.ghost { opacity: 0.22; }
+    .node.charging { opacity: 0.85; }
+    .node.lit { opacity: 1.0; }
+    .node.lit circle, .node.lit polygon { stroke: #fff; stroke-width: 1.5px; filter: url(#glow-bright); }
+    .node.charging circle, .node.charging polygon { animation: pulse 1.8s infinite alternate; }
     .node.pulsing circle, .node.pulsing polygon { animation: pulse 1.5s infinite alternate; }
 
     @keyframes pulse {
@@ -382,9 +387,9 @@
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
 </button>
 
-<!-- PREVIEW badge (top center, always visible when in PREVIEW mode) -->
+<!-- VISION badge (top center, always visible when in VISION mode) -->
 <div id="preview-badge" class="glass" role="status" aria-live="polite">
-  PREVIEW — illustrative Day-251 vision, not real entries
+  VISION — THE LIVING MAP
 </div>
 
 <!-- Control panel -->
@@ -418,13 +423,13 @@
     <div class="ctrl-label">Data Mode</div>
     <div class="tog-group data-mode-group">
       <button class="tog" id="btn-live" data-mode="live">LIVE</button>
-      <button class="tog on" id="btn-preview" data-mode="preview">PREVIEW</button>
+      <button class="tog on" id="btn-preview" data-mode="preview">VISION</button>
     </div>
   </div>
 
   <!-- Preview info strip -->
   <div id="preview-strip" class="visible">
-    You&rsquo;re viewing the <strong style="color:#f6ad55">Day-251 vision</strong> &mdash; switch to LIVE for real entries.
+    THE LIVING MAP — plan v1.0.0 · 200 nodes. The past is locked. The future evolves.
   </div>
 
   <!-- LAYOUT -->
@@ -565,7 +570,33 @@ document.getElementById('day-chip').textContent = `Day ${DAY_NUM} of 251`;
 const LIVE_SRC    = 'brain-index.public.json';
 const PREVIEW_SRC = 'brain-index.preview.json';
 
-const ringRadii = { center: 0, skills: 145, knowledge: 320, routines: 490, applications: 640 };
+const ringRadii = {
+  center: 0,
+  foundations: 120,
+  'prompting-apis': 200,
+  'rag-retrieval': 280,
+  agents: 360,
+  'multi-agent-mcp': 440,
+  'memory-knowledge': 520,
+  'evals-observability': 600,
+  'safety-security': 680,
+  production: 760,
+  'frontier-capstone': 840,
+  milestones: 920
+};
+
+const domainsOrdered = [
+  'foundations',
+  'prompting-apis',
+  'rag-retrieval',
+  'agents',
+  'multi-agent-mcp',
+  'memory-knowledge',
+  'evals-observability',
+  'safety-security',
+  'production',
+  'frontier-capstone'
+];
 
 const domainColors = {
   foundations:         '#3ee2e2',
@@ -582,13 +613,9 @@ const domainColors = {
 
 function nodeColor(d) {
   if (d.type === 'center')      return '#3ee2e2';
-  if (d.type === 'domain')      return d.color || domainColors[d.domain] || '#2a7f7f';
-  if (d.type === 'feynman')     return '#f6ad55';
-  if (d.type === 'knowledge')   return domainColors[d.domain] || '#68d391';
-  if (d.type === 'skill')       return '#fc8181';
-  if (d.type === 'routine')     return d.status === 'planned' ? '#8a6914' : '#d4a017';
-  if (d.type === 'application') return '#a0aec0';
-  return '#94a3b8';
+  if (d.type === 'domain')      return domainColors[d.domain] || '#2a7f7f';
+  if (d.type === 'milestone')   return '#f687b3';
+  return domainColors[d.domain] || '#94a3b8';
 }
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -646,18 +673,36 @@ const simulation = d3.forceSimulation()
 function getR(d) {
   if (d.type === 'center')      return baseNodeSize * 2.2;
   if (d.type === 'domain')      return baseNodeSize * 1.5;
-  if (d.type === 'skill')       return baseNodeSize * 1.0;
-  if (d.type === 'routine')     return baseNodeSize * 0.95;
-  if (d.type === 'application') return baseNodeSize * 1.2;
-  return baseNodeSize * 0.52; // Muted tiny dots for memory nodes
+  if (d.type === 'milestone')   return baseNodeSize * 1.4;
+  if (d.type === 'capstone')    return baseNodeSize * 1.1;
+  if (d.type === 'synthesis')   return baseNodeSize * 0.95;
+  if (d.type === 'deep-dive')   return baseNodeSize * 0.9;
+  if (d.type === 'build')       return baseNodeSize * 0.85;
+  if (d.type === 'concept')     return baseNodeSize * 0.8;
+  if (d.type === 'frontier')    return baseNodeSize * 0.9;
+  return baseNodeSize * 0.8;
 }
 
 // ── Load data ─────────────────────────────────────────────────────────────────
 function loadData(src) {
   d3.json(src).then(data => {
     graphData = data;
-    document.getElementById('st-nodes').textContent = data.metadata ? data.metadata.node_count : data.nodes.length;
+    // Count curriculum nodes: filter out center, domains, and milestones
+    const currNodesCount = data.nodes.filter(n => n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length;
+    document.getElementById('st-nodes').textContent = currNodesCount;
     document.getElementById('st-edges').textContent = data.metadata ? data.metadata.edge_count : data.edges.length;
+    
+    const badge = document.getElementById('preview-badge');
+    const strip = document.getElementById('preview-strip');
+    
+    if (dataMode === 'preview') {
+      badge.textContent = `VISION — THE LIVING MAP`;
+      strip.innerHTML = `THE LIVING MAP — plan v1.0.0 · ${currNodesCount} nodes. The past is locked. The future evolves.`;
+    } else {
+      badge.textContent = `LIVE`;
+      strip.innerHTML = `LIVE — visitors watch one brain wire itself up in real time.`;
+    }
+    
     renderGraph();
     setupSearch();
   }).catch(err => {
@@ -726,17 +771,20 @@ function renderGraph() {
   // ── Ring guides ────────────────────────────────────────────────────────────
   if (layoutMode === 'rings') {
     const rg = G.append('g').attr('class', 'ring-guides').attr('transform', `translate(${W/2},${H/2})`);
-    [
-      [ringRadii.skills,       'SKILLS'],
-      [ringRadii.knowledge,    'MEMORY'],
-      [ringRadii.routines,     'ROUTINES'],
-      [ringRadii.applications, 'APPLICATIONS'],
-    ].forEach(([r, lbl]) => {
+    domainsOrdered.forEach((dom, index) => {
+      const r = ringRadii[dom];
+      const lbl = `${(index + 1).toString().padStart(2, '0')} ${dom.toUpperCase().replace('-', ' ')}`;
       rg.append('circle').attr('class', 'ring-guide').attr('r', r);
       rg.append('text').attr('class', 'ring-label')
         .attr('x', 0).attr('y', -(r + 7))
         .attr('text-anchor', 'middle').text(lbl);
     });
+    // Add milestones ring guide too!
+    const msR = ringRadii.milestones;
+    rg.append('circle').attr('class', 'ring-guide').attr('r', msR);
+    rg.append('text').attr('class', 'ring-label')
+      .attr('x', 0).attr('y', -(msR + 7))
+      .attr('text-anchor', 'middle').text('FLOATING MILESTONES');
   }
 
   // ── Links ─────────────────────────────────────────────────────────────────
@@ -787,7 +835,7 @@ function getBrandIconPath(label) {
     .selectAll('.node')
     .data(nodes, d => d.id)
     .join('g')
-    .attr('class', d => `node ${d.type}`)
+    .attr('class', d => `node ${d.type} ${d.status || 'ghost'}`)
     .on('mouseover', onNodeHover)
     .on('mouseout',  onNodeOut)
     .on('click',     onNodeClick);
@@ -797,8 +845,8 @@ function getBrandIconPath(label) {
     const r = getR(d);
     const color = nodeColor(d);
 
-    if (d.type === 'application') {
-      const hexRadius = 14;
+    if (d.type === 'milestone') {
+      const hexRadius = r;
       const hx = hexRadius * 0.866;
       const hy = hexRadius * 0.5;
       const points = `0,-${hexRadius} ${hx},-${hy} ${hx},${hy} 0,${hexRadius} -${hx},${hy} -${hx},-${hy}`;
@@ -807,28 +855,25 @@ function getBrandIconPath(label) {
         .attr('points', points)
         .attr('fill', 'rgba(10, 15, 22, 0.9)')
         .attr('stroke', color)
-        .attr('stroke-width', 1.5);
-
-      const iconPath = getBrandIconPath(d.label || d.id);
-      if (iconPath) {
-        el.append('path')
-          .attr('d', iconPath)
-          .attr('fill', 'none')
-          .attr('stroke', '#fff')
-          .attr('stroke-width', 1.2)
-          .attr('stroke-linecap', 'round')
-          .attr('stroke-linejoin', 'round')
-          .attr('transform', 'scale(0.65) translate(-12, -12)');
-      }
-    } else if (d.type === 'routine') {
+        .attr('stroke-width', 2.0);
+    } else if (d.type === 'capstone') {
       el.append('circle')
         .attr('r', r)
         .attr('fill', 'none')
         .attr('stroke', color)
-        .attr('stroke-width', 0.8)
-        .attr('stroke-dasharray', '2,2');
+        .attr('stroke-width', 1.8);
       el.append('circle')
-        .attr('r', r * 0.5)
+        .attr('r', r * 0.6)
+        .attr('fill', color)
+        .attr('stroke', 'none');
+    } else if (d.type === 'domain') {
+      el.append('circle')
+        .attr('r', r)
+        .attr('fill', 'none')
+        .attr('stroke', color)
+        .attr('stroke-width', 1.8);
+      el.append('circle')
+        .attr('r', r * 0.4)
         .attr('fill', color)
         .attr('stroke', 'none');
     } else {
@@ -843,10 +888,10 @@ function getBrandIconPath(label) {
   // ── Labels ──────────────────────────────────────────────────────────────
   labelSel = G.append('g').attr('class', 'labels')
     .selectAll('text')
-    .data(nodes.filter(n => n.type !== 'feynman' && n.type !== 'knowledge' || n.type === 'domain' || n.type === 'center'), d => d.id)
+    .data(nodes, d => d.id)
     .join('text')
     .attr('class', 'node-label')
-    .attr('dy', d => getR(d) + 10)
+    .attr('dy', d => getR(d) + 12)
     .text(d => truncLabel(d.label, d.type));
 
   if (layoutMode === 'rings') {
@@ -869,7 +914,7 @@ function assignRingPositions(nodes) {
   // Group by ring
   const byRing = {};
   for (const n of nodes) {
-    const r = n.ring || 'knowledge';
+    const r = n.ring || 'foundations';
     if (!byRing[r]) byRing[r] = [];
     byRing[r].push(n);
   }
@@ -878,66 +923,52 @@ function assignRingPositions(nodes) {
   const center = byRing.center || [];
   center.forEach(n => { n.x = cx; n.y = cy; n.fx = cx; n.fy = cy; });
 
-  // Inner rings placed on circle
-  function placeOnRing(nodes, radius, startAngle = 0) {
-    nodes.forEach((n, i) => {
-      const angle = startAngle + (2 * Math.PI * i) / nodes.length;
-      n.x  = cx + radius * Math.cos(angle);
-      n.y  = cy + radius * Math.sin(angle);
+  // Place nodes on concentric rings
+  domainsOrdered.forEach(dom => {
+    const domNodes = byRing[dom] || [];
+    if (domNodes.length === 0) return;
+
+    const guides = domNodes.filter(n => n.type === 'domain');
+    const normalNodes = domNodes.filter(n => n.type !== 'domain');
+    const radius = ringRadii[dom];
+
+    if (guides[0]) {
+      const g = guides[0];
+      const angle = -Math.PI / 2;
+      g.x = cx + radius * Math.cos(angle);
+      g.y = cy + radius * Math.sin(angle);
+      g.fx = g.x;
+      g.fy = g.y;
+      g._angle = angle;
+      g._radius = radius;
+    }
+
+    normalNodes.forEach((n, i) => {
+      const startAngle = -Math.PI / 2 + 0.15;
+      const angle = startAngle + (2 * Math.PI * (i + 1)) / (normalNodes.length + 1);
+      // alternate radius to spread them beautifully
+      const radiusVar = radius + ((i % 2) ? 6 : -6);
+      n.x = cx + radiusVar * Math.cos(angle);
+      n.y = cy + radiusVar * Math.sin(angle);
       n.fx = n.x;
       n.fy = n.y;
-      n._angle  = angle;
-      n._radius = radius;
-    });
-  }
-
-  // Skills
-  placeOnRing(byRing.skills || [], ringRadii.skills);
-
-  // Knowledge — cluster by domain within the ring
-  const knowledgeNodes = byRing.knowledge || [];
-  const domainNodes    = knowledgeNodes.filter(n => n.type === 'domain');
-  const noteNodes      = knowledgeNodes.filter(n => n.type !== 'domain');
-
-  // Place domain nodes evenly on ring
-  placeOnRing(domainNodes, ringRadii.knowledge);
-
-  // Place note nodes in clusters near their domain
-  const domainAngleMap = {};
-  for (const d of domainNodes) {
-    domainAngleMap[d.domain || d.id.replace('domain-', '')] = d._angle;
-  }
-
-  const notesByDomain = {};
-  for (const n of noteNodes) {
-    const dom = n.domain || 'meta';
-    if (!notesByDomain[dom]) notesByDomain[dom] = [];
-    notesByDomain[dom].push(n);
-  }
-
-  for (const [dom, notes] of Object.entries(notesByDomain)) {
-    const baseAngle = domainAngleMap[dom] ?? 0;
-    const spread    = (2 * Math.PI) / Math.max(Object.keys(notesByDomain).length, 1);
-    const halfSpread = spread * 0.40; // tighter angle spread
-
-    notes.forEach((n, i) => {
-      // 6 discrete concentric lanes for a beautiful packed orbital texture
-      const radiusVar = ringRadii.knowledge - 60 + (i % 6) * 24;
-      const angle = baseAngle - halfSpread + (2 * halfSpread * i) / Math.max(notes.length - 1, 1);
-      n.x  = cx + radiusVar * Math.cos(angle);
-      n.y  = cy + radiusVar * Math.sin(angle);
-      n.fx = n.x;
-      n.fy = n.y;
-      n._angle  = angle;
+      n._angle = angle;
       n._radius = radiusVar;
     });
-  }
+  });
 
-  // Routines
-  placeOnRing(byRing.routines || [], ringRadii.routines);
-
-  // Applications
-  placeOnRing(byRing.applications || [], ringRadii.applications);
+  // Place milestones on outermost ring
+  const msNodes = byRing.milestones || [];
+  msNodes.forEach((n, i) => {
+    const radius = ringRadii.milestones;
+    const angle = (2 * Math.PI * i) / msNodes.length;
+    n.x = cx + radius * Math.cos(angle);
+    n.y = cy + radius * Math.sin(angle);
+    n.fx = n.x;
+    n.fy = n.y;
+    n._angle = angle;
+    n._radius = radius;
+  });
 }
 
 function positionRings() {
@@ -955,12 +986,12 @@ function startRingSpin() {
   const cx = W / 2, cy = H / 2;
 
   function tick() {
-    ringSpin += spinSpeed * 0.001; // slow radians per frame
+    ringSpin += spinSpeed * 0.0003; // slow rotation
 
-    // Rotate only skills and applications rings (inner + outer spin together)
+    // Only rotate milestone nodes
     nodeSel.each(function(d) {
       if (d.fx === undefined || d.ring === 'center') return;
-      if (d.ring === 'skills' || d.ring === 'applications') {
+      if (d.ring === 'milestones') {
         const baseAngle = d._angle + ringSpin;
         d.x = cx + d._radius * Math.cos(baseAngle);
         d.y = cy + d._radius * Math.sin(baseAngle);
@@ -1209,7 +1240,7 @@ function updateLabels() {
   if (!labelSel || labelSel.empty()) return;
   labelSel.style('display', d => {
     if (labelsMode === 'none') return 'none';
-    if (labelsMode === 'smart') return (d.type === 'center' || d.type === 'domain' || d.type === 'skill' || d.type === 'routine') ? '' : 'none';
+    if (labelsMode === 'smart') return (d.type === 'center' || d.type === 'domain' || d.type === 'milestone') ? '' : 'none';
     return '';
   });
 }

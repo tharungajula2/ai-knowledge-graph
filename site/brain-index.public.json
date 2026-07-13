@@ -3,78 +3,2767 @@
     {
       "id": "center-vizier",
       "label": "VIZIER",
+      "title": "VIZIER",
       "type": "center",
-      "ring": "center"
+      "ring": "center",
+      "status": "lit",
+      "summary": "The main nervous system of AI engineering."
     },
     {
       "id": "domain-foundations",
-      "label": "Foundations",
+      "label": "FOUNDATIONS",
+      "title": "FOUNDATIONS",
       "type": "domain",
-      "ring": "knowledge",
-      "domain": "foundations"
+      "ring": "foundations",
+      "domain": "foundations",
+      "status": "lit"
     },
     {
       "id": "domain-prompting-apis",
-      "label": "Prompting & APIs",
+      "label": "PROMPTING APIS",
+      "title": "PROMPTING APIS",
       "type": "domain",
-      "ring": "knowledge",
-      "domain": "prompting-apis"
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "status": "lit"
     },
     {
       "id": "domain-rag-retrieval",
-      "label": "RAG & Retrieval",
+      "label": "RAG RETRIEVAL",
+      "title": "RAG RETRIEVAL",
       "type": "domain",
-      "ring": "knowledge",
-      "domain": "rag-retrieval"
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "status": "lit"
     },
     {
       "id": "domain-agents",
-      "label": "Agents",
+      "label": "AGENTS",
+      "title": "AGENTS",
       "type": "domain",
-      "ring": "knowledge",
-      "domain": "agents"
+      "ring": "agents",
+      "domain": "agents",
+      "status": "lit"
     },
     {
       "id": "domain-multi-agent-mcp",
-      "label": "Multi-Agent & MCP",
+      "label": "MULTI AGENT-MCP",
+      "title": "MULTI AGENT-MCP",
       "type": "domain",
-      "ring": "knowledge",
-      "domain": "multi-agent-mcp"
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "status": "lit"
     },
     {
       "id": "domain-memory-knowledge",
-      "label": "Memory & Knowledge",
+      "label": "MEMORY KNOWLEDGE",
+      "title": "MEMORY KNOWLEDGE",
       "type": "domain",
-      "ring": "knowledge",
-      "domain": "memory-knowledge"
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "status": "lit"
     },
     {
       "id": "domain-evals-observability",
-      "label": "Evals & Observability",
+      "label": "EVALS OBSERVABILITY",
+      "title": "EVALS OBSERVABILITY",
       "type": "domain",
-      "ring": "knowledge",
-      "domain": "evals-observability"
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "status": "lit"
     },
     {
       "id": "domain-safety-security",
-      "label": "Safety & Security",
+      "label": "SAFETY SECURITY",
+      "title": "SAFETY SECURITY",
       "type": "domain",
-      "ring": "knowledge",
-      "domain": "safety-security"
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "status": "lit"
     },
     {
       "id": "domain-production",
-      "label": "Production",
+      "label": "PRODUCTION",
+      "title": "PRODUCTION",
       "type": "domain",
-      "ring": "knowledge",
-      "domain": "production"
+      "ring": "production",
+      "domain": "production",
+      "status": "lit"
     },
     {
       "id": "domain-frontier-capstone",
-      "label": "Frontier & Capstone",
+      "label": "FRONTIER CAPSTONE",
+      "title": "FRONTIER CAPSTONE",
       "type": "domain",
-      "ring": "knowledge",
-      "domain": "frontier-capstone"
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "status": "lit"
+    },
+    {
+      "id": "map-of-ai",
+      "label": "The Map of AI",
+      "title": "The Map of AI",
+      "type": "concept",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "AI vs ML vs DL vs GenAI vs Agentic — the family tree.",
+      "backlinks": [],
+      "slug": "map-of-ai"
+    },
+    {
+      "id": "how-machines-learn",
+      "label": "How Machines Learn",
+      "title": "How Machines Learn",
+      "type": "concept",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "weights, loss, gradient descent — pure intuition.",
+      "backlinks": [],
+      "slug": "how-machines-learn"
+    },
+    {
+      "id": "what-is-a-language-model",
+      "label": "What a Language Model Is",
+      "title": "What a Language Model Is",
+      "type": "concept",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "next-token prediction, and why that's enough for magic.",
+      "backlinks": [],
+      "slug": "what-is-a-language-model"
+    },
+    {
+      "id": "tokens",
+      "label": "Tokens",
+      "title": "Tokens",
+      "type": "concept",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "play with a real tokenizer; why \"strawberry\" confuses models.",
+      "backlinks": [],
+      "slug": "tokens"
+    },
+    {
+      "id": "embeddings-intuition",
+      "label": "Embeddings Intuition",
+      "title": "Embeddings Intuition",
+      "type": "concept",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "meaning as coordinates; nearest-neighbor thinking.",
+      "backlinks": [],
+      "slug": "embeddings-intuition"
+    },
+    {
+      "id": "attention-transformers",
+      "label": "Attention & Transformers",
+      "title": "Attention & Transformers",
+      "type": "concept",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "M",
+      "status": "ghost",
+      "summary": "the \"every word looks at every word\" idea.",
+      "backlinks": [],
+      "slug": "attention-transformers"
+    },
+    {
+      "id": "training-pipeline",
+      "label": "Pretraining → Fine-tuning → RLHF",
+      "title": "Pretraining → Fine-tuning → RLHF",
+      "type": "concept",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "the three-stage recipe behind every chatbot.",
+      "backlinks": [],
+      "slug": "training-pipeline"
+    },
+    {
+      "id": "context-windows",
+      "label": "Context Windows",
+      "title": "Context Windows",
+      "type": "concept",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "the model's short-term memory and what fits.",
+      "backlinks": [],
+      "slug": "context-windows"
+    },
+    {
+      "id": "sampling-controls",
+      "label": "Temperature & Top-p",
+      "title": "Temperature & Top-p",
+      "type": "concept",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "why the same prompt gives different answers.",
+      "backlinks": [],
+      "slug": "sampling-controls"
+    },
+    {
+      "id": "hallucination",
+      "label": "Hallucination",
+      "title": "Hallucination",
+      "type": "concept",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "why models confidently make things up; grounding preview.",
+      "backlinks": [],
+      "slug": "hallucination"
+    },
+    {
+      "id": "model-landscape",
+      "label": "The Current Model Landscape",
+      "title": "The Current Model Landscape",
+      "type": "frontier",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "open vs closed, frontier vs small — as of the day I light this node.",
+      "backlinks": [],
+      "slug": "model-landscape"
+    },
+    {
+      "id": "python-environments",
+      "label": "Environments & Packages",
+      "title": "Environments & Packages",
+      "type": "build",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "venv, pip, running scripts like a pro.",
+      "backlinks": [],
+      "slug": "python-environments"
+    },
+    {
+      "id": "python-data-shapes",
+      "label": "Data Shapes",
+      "title": "Data Shapes",
+      "type": "build",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "functions, dicts, JSON — the shapes of AI data.",
+      "backlinks": [],
+      "slug": "python-data-shapes"
+    },
+    {
+      "id": "python-classes-modules",
+      "label": "Classes & Modules",
+      "title": "Classes & Modules",
+      "type": "build",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "reading real codebases.",
+      "backlinks": [],
+      "slug": "python-classes-modules"
+    },
+    {
+      "id": "python-async",
+      "label": "Async/Await",
+      "title": "Async/Await",
+      "type": "build",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "M",
+      "status": "ghost",
+      "summary": "why AI apps need it; hands-on.",
+      "backlinks": [],
+      "slug": "python-async"
+    },
+    {
+      "id": "python-typing-pydantic",
+      "label": "Types & Pydantic",
+      "title": "Types & Pydantic",
+      "type": "build",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "the schema mindset.",
+      "backlinks": [],
+      "slug": "python-typing-pydantic"
+    },
+    {
+      "id": "git-mastery",
+      "label": "Git Mastery",
+      "title": "Git Mastery",
+      "type": "build",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "branches, commits, history — understand my own daily ritual.",
+      "backlinks": [],
+      "slug": "git-mastery"
+    },
+    {
+      "id": "terminal-fluency",
+      "label": "Terminal Fluency",
+      "title": "Terminal Fluency",
+      "type": "build",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "navigate, pipe, grep — no more fear.",
+      "backlinks": [],
+      "slug": "terminal-fluency"
+    },
+    {
+      "id": "build-token-cost-calculator",
+      "label": "Build: Token & Cost Calculator",
+      "title": "Build: Token & Cost Calculator",
+      "type": "build",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "M",
+      "status": "ghost",
+      "summary": "count tokens, estimate API cost, write the explainer.",
+      "backlinks": [],
+      "slug": "build-token-cost-calculator"
+    },
+    {
+      "id": "synthesis-foundations",
+      "label": "Synthesis: The Foundations Map",
+      "title": "Synthesis: The Foundations Map",
+      "type": "synthesis",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "S",
+      "status": "ghost",
+      "summary": "explain \"how an LLM works\" to a 12-year-old, end to end.",
+      "backlinks": [],
+      "slug": "synthesis-foundations"
+    },
+    {
+      "id": "capstone-foundations",
+      "label": "🏁 Capstone: Foundations",
+      "title": "🏁 Capstone: Foundations",
+      "type": "capstone",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "M",
+      "status": "ghost",
+      "summary": "mega-note + carousel \"How AI really works\" + replan checkpoint.",
+      "backlinks": [],
+      "slug": "capstone-foundations"
+    },
+    {
+      "id": "first-api-call",
+      "label": "First API Call",
+      "title": "First API Call",
+      "type": "build",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "S",
+      "status": "ghost",
+      "summary": "call Gemini from Python; inspect the raw response.",
+      "backlinks": [],
+      "slug": "first-api-call"
+    },
+    {
+      "id": "roles-and-system-prompts",
+      "label": "Roles & System Prompts",
+      "title": "Roles & System Prompts",
+      "type": "concept",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "S",
+      "status": "ghost",
+      "summary": "who's talking; why system prompts steer everything.",
+      "backlinks": [],
+      "slug": "roles-and-system-prompts"
+    },
+    {
+      "id": "prompt-skeleton",
+      "label": "The Prompt Skeleton",
+      "title": "The Prompt Skeleton",
+      "type": "concept",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "S",
+      "status": "ghost",
+      "summary": "role + context + task + format — the reusable pattern.",
+      "backlinks": [],
+      "slug": "prompt-skeleton"
+    },
+    {
+      "id": "few-shot-prompting",
+      "label": "Few-shot Examples",
+      "title": "Few-shot Examples",
+      "type": "concept",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "S",
+      "status": "ghost",
+      "summary": "when 3 examples beat 300 words.",
+      "backlinks": [],
+      "slug": "few-shot-prompting"
+    },
+    {
+      "id": "reasoning-prompts",
+      "label": "Reasoning Prompts",
+      "title": "Reasoning Prompts",
+      "type": "concept",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "S",
+      "status": "ghost",
+      "summary": "chain-of-thought, step-by-step, and their limits.",
+      "backlinks": [],
+      "slug": "reasoning-prompts"
+    },
+    {
+      "id": "structured-output",
+      "label": "Structured Output",
+      "title": "Structured Output",
+      "type": "build",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "S",
+      "status": "ghost",
+      "summary": "force clean JSON out of a model; parse safely.",
+      "backlinks": [],
+      "slug": "structured-output"
+    },
+    {
+      "id": "tool-calling",
+      "label": "Tool / Function Calling",
+      "title": "Tool / Function Calling",
+      "type": "concept",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "M",
+      "status": "ghost",
+      "summary": "the single most important mechanic in agentic AI.",
+      "backlinks": [],
+      "slug": "tool-calling"
+    },
+    {
+      "id": "streaming-responses",
+      "label": "Streaming",
+      "title": "Streaming",
+      "type": "build",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "S",
+      "status": "ghost",
+      "summary": "tokens flowing into the terminal, live.",
+      "backlinks": [],
+      "slug": "streaming-responses"
+    },
+    {
+      "id": "errors-retries-backoff",
+      "label": "Errors, Retries, Backoff",
+      "title": "Errors, Retries, Backoff",
+      "type": "build",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "S",
+      "status": "ghost",
+      "summary": "API calls that survive failure.",
+      "backlinks": [],
+      "slug": "errors-retries-backoff"
+    },
+    {
+      "id": "rate-limits-caching",
+      "label": "Rate Limits & Caching",
+      "title": "Rate Limits & Caching",
+      "type": "concept",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "S",
+      "status": "ghost",
+      "summary": "why free tiers throttle; how caching saves you.",
+      "backlinks": [],
+      "slug": "rate-limits-caching"
+    },
+    {
+      "id": "study-gateway",
+      "label": "🔩 Deep-dive: gateway.py",
+      "title": "🔩 Deep-dive: gateway.py",
+      "type": "deep-dive",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "M",
+      "status": "ghost",
+      "summary": "my own multi-provider fallback gateway, finally readable.",
+      "backlinks": [],
+      "slug": "study-gateway"
+    },
+    {
+      "id": "injection-first-look",
+      "label": "Prompt Injection: First Look",
+      "title": "Prompt Injection: First Look",
+      "type": "concept",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "S",
+      "status": "ghost",
+      "summary": "the attack that shapes everything later.",
+      "backlinks": [],
+      "slug": "injection-first-look"
+    },
+    {
+      "id": "multimodal-input",
+      "label": "Multimodal In",
+      "title": "Multimodal In",
+      "type": "build",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "S",
+      "status": "ghost",
+      "summary": "send an image; extract structured info.",
+      "backlinks": [],
+      "slug": "multimodal-input"
+    },
+    {
+      "id": "voice-audio-apis",
+      "label": "Voice & Audio APIs",
+      "title": "Voice & Audio APIs",
+      "type": "concept",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "S",
+      "status": "ghost",
+      "summary": "speech-to-text and text-to-speech landscape.",
+      "backlinks": [],
+      "slug": "voice-audio-apis"
+    },
+    {
+      "id": "long-context-strategies",
+      "label": "Long-Context Strategies",
+      "title": "Long-Context Strategies",
+      "type": "concept",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "S",
+      "status": "ghost",
+      "summary": "stuffing vs retrieval vs summarizing.",
+      "backlinks": [],
+      "slug": "long-context-strategies"
+    },
+    {
+      "id": "prompt-quality",
+      "label": "Is My Prompt Good?",
+      "title": "Is My Prompt Good?",
+      "type": "concept",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "S",
+      "status": "ghost",
+      "summary": "informal evaluation; A/B thinking begins.",
+      "backlinks": [],
+      "slug": "prompt-quality"
+    },
+    {
+      "id": "build-cli-chatbot",
+      "label": "Build: CLI Chatbot",
+      "title": "Build: CLI Chatbot",
+      "type": "build",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "M",
+      "status": "ghost",
+      "summary": "terminal chatbot with in-session memory, streaming, a persona.",
+      "backlinks": [],
+      "slug": "build-cli-chatbot"
+    },
+    {
+      "id": "build-feynman-bot",
+      "label": "Build: Feynman-Bot",
+      "title": "Build: Feynman-Bot",
+      "type": "build",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "L",
+      "status": "ghost",
+      "summary": "explains any AI term with an Indian-life analogy — ship it public. → M3",
+      "backlinks": [],
+      "slug": "build-feynman-bot"
+    },
+    {
+      "id": "synthesis-apis",
+      "label": "Synthesis: The API Layer",
+      "title": "Synthesis: The API Layer",
+      "type": "synthesis",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "S",
+      "status": "ghost",
+      "summary": "the whole call path, explained start to finish.",
+      "backlinks": [],
+      "slug": "synthesis-apis"
+    },
+    {
+      "id": "capstone-apis",
+      "label": "🏁 Capstone: APIs",
+      "title": "🏁 Capstone: APIs",
+      "type": "capstone",
+      "ring": "prompting-apis",
+      "domain": "prompting-apis",
+      "size": "M",
+      "status": "ghost",
+      "summary": "\"I taught a computer to take orders\" + replan checkpoint.",
+      "backlinks": [],
+      "slug": "capstone-apis"
+    },
+    {
+      "id": "why-rag",
+      "label": "Why RAG Exists",
+      "title": "Why RAG Exists",
+      "type": "concept",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "S",
+      "status": "ghost",
+      "summary": "closed-book vs open-book exams; the grounding solution.",
+      "backlinks": [],
+      "slug": "why-rag"
+    },
+    {
+      "id": "embeddings-hands-on",
+      "label": "Embeddings Hands-on",
+      "title": "Embeddings Hands-on",
+      "type": "build",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "S",
+      "status": "ghost",
+      "summary": "embed sentences; cosine similarity by hand.",
+      "backlinks": [],
+      "slug": "embeddings-hands-on"
+    },
+    {
+      "id": "chunking",
+      "label": "Chunking",
+      "title": "Chunking",
+      "type": "concept",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "S",
+      "status": "ghost",
+      "summary": "slicing documents; why overlap matters.",
+      "backlinks": [],
+      "slug": "chunking"
+    },
+    {
+      "id": "vector-databases",
+      "label": "Vector Databases",
+      "title": "Vector Databases",
+      "type": "concept",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "M",
+      "status": "ghost",
+      "summary": "what pgvector/HNSW actually do.",
+      "backlinks": [],
+      "slug": "vector-databases"
+    },
+    {
+      "id": "build-first-rag",
+      "label": "Build: First RAG Pipeline",
+      "title": "Build: First RAG Pipeline",
+      "type": "build",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "M",
+      "status": "ghost",
+      "summary": "ingest → embed → store → retrieve → answer.",
+      "backlinks": [],
+      "slug": "build-first-rag"
+    },
+    {
+      "id": "keyword-fulltext-search",
+      "label": "Keyword & Full-Text Search",
+      "title": "Keyword & Full-Text Search",
+      "type": "concept",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "S",
+      "status": "ghost",
+      "summary": "BM25/tsvector — old magic that still wins.",
+      "backlinks": [],
+      "slug": "keyword-fulltext-search"
+    },
+    {
+      "id": "hybrid-search-rrf",
+      "label": "🔩 Deep-dive: Hybrid Search + RRF",
+      "title": "🔩 Deep-dive: Hybrid Search + RRF",
+      "type": "deep-dive",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "M",
+      "status": "ghost",
+      "summary": "my own retrieve.py — vectors + keywords merged.",
+      "backlinks": [],
+      "slug": "hybrid-search-rrf"
+    },
+    {
+      "id": "reranking",
+      "label": "Reranking",
+      "title": "Reranking",
+      "type": "concept",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "S",
+      "status": "ghost",
+      "summary": "the second pass that fixes retrieval quality.",
+      "backlinks": [],
+      "slug": "reranking"
+    },
+    {
+      "id": "citations-grounding",
+      "label": "Citations & Grounding",
+      "title": "Citations & Grounding",
+      "type": "build",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "S",
+      "status": "ghost",
+      "summary": "every answer points at its source.",
+      "backlinks": [],
+      "slug": "citations-grounding"
+    },
+    {
+      "id": "rag-failure-modes",
+      "label": "RAG Failure Modes",
+      "title": "RAG Failure Modes",
+      "type": "concept",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "S",
+      "status": "ghost",
+      "summary": "lost-in-the-middle, bad chunks, stale indexes.",
+      "backlinks": [],
+      "slug": "rag-failure-modes"
+    },
+    {
+      "id": "metadata-filters",
+      "label": "Metadata & Filters",
+      "title": "Metadata & Filters",
+      "type": "build",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "S",
+      "status": "ghost",
+      "summary": "retrieval with structure — dates, tags, domains.",
+      "backlinks": [],
+      "slug": "metadata-filters"
+    },
+    {
+      "id": "query-rewriting-hyde",
+      "label": "Query Rewriting & HyDE",
+      "title": "Query Rewriting & HyDE",
+      "type": "concept",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "S",
+      "status": "ghost",
+      "summary": "fixing bad questions before retrieval.",
+      "backlinks": [],
+      "slug": "query-rewriting-hyde"
+    },
+    {
+      "id": "multi-hop-retrieval",
+      "label": "Multi-hop Retrieval",
+      "title": "Multi-hop Retrieval",
+      "type": "concept",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "S",
+      "status": "ghost",
+      "summary": "questions that need two lookups.",
+      "backlinks": [],
+      "slug": "multi-hop-retrieval"
+    },
+    {
+      "id": "ingestion-pipelines",
+      "label": "Ingestion Pipelines",
+      "title": "Ingestion Pipelines",
+      "type": "build",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "M",
+      "status": "ghost",
+      "summary": "PDFs and messy HTML → clean chunks.",
+      "backlinks": [],
+      "slug": "ingestion-pipelines"
+    },
+    {
+      "id": "rag-evals-intro",
+      "label": "RAG Evals Intro",
+      "title": "RAG Evals Intro",
+      "type": "concept",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "S",
+      "status": "ghost",
+      "summary": "faithfulness & context recall — measuring groundedness.",
+      "backlinks": [],
+      "slug": "rag-evals-intro"
+    },
+    {
+      "id": "build-chat-with-my-brain",
+      "label": "Build: Chat With My Brain",
+      "title": "Build: Chat With My Brain",
+      "type": "build",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "L",
+      "status": "ghost",
+      "summary": "RAG over my own notes, with citations + domain filters — meta and glorious.",
+      "backlinks": [],
+      "slug": "build-chat-with-my-brain"
+    },
+    {
+      "id": "evaluate-brain-chat",
+      "label": "Build: Evaluate It",
+      "title": "Build: Evaluate It",
+      "type": "build",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "M",
+      "status": "ghost",
+      "summary": "mini golden set; score faithfulness.",
+      "backlinks": [],
+      "slug": "evaluate-brain-chat"
+    },
+    {
+      "id": "graphrag-preview",
+      "label": "GraphRAG Preview",
+      "title": "GraphRAG Preview",
+      "type": "concept",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "S",
+      "status": "ghost",
+      "summary": "when knowledge is a graph, not a pile.",
+      "backlinks": [],
+      "slug": "graphrag-preview"
+    },
+    {
+      "id": "semantic-caching",
+      "label": "Semantic Caching",
+      "title": "Semantic Caching",
+      "type": "concept",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "S",
+      "status": "ghost",
+      "summary": "answering repeat questions for free.",
+      "backlinks": [],
+      "slug": "semantic-caching"
+    },
+    {
+      "id": "synthesis-rag",
+      "label": "Synthesis: The Retrieval Story",
+      "title": "Synthesis: The Retrieval Story",
+      "type": "synthesis",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "S",
+      "status": "ghost",
+      "summary": "the full pipeline, one diagram.",
+      "backlinks": [],
+      "slug": "synthesis-rag"
+    },
+    {
+      "id": "capstone-rag",
+      "label": "🏁 Capstone: Retrieval",
+      "title": "🏁 Capstone: Retrieval",
+      "type": "capstone",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "M",
+      "status": "ghost",
+      "summary": "\"I gave AI an open book\" + replan checkpoint.",
+      "backlinks": [],
+      "slug": "capstone-rag"
+    },
+    {
+      "id": "what-makes-an-agent",
+      "label": "What Makes an Agent",
+      "title": "What Makes an Agent",
+      "type": "concept",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "S",
+      "status": "ghost",
+      "summary": "reason, act, observe, repeat.",
+      "backlinks": [],
+      "slug": "what-makes-an-agent"
+    },
+    {
+      "id": "react-by-hand",
+      "label": "ReAct By Hand",
+      "title": "ReAct By Hand",
+      "type": "build",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "S",
+      "status": "ghost",
+      "summary": "run the loop manually on paper with a real task.",
+      "backlinks": [],
+      "slug": "react-by-hand"
+    },
+    {
+      "id": "designing-tools",
+      "label": "Designing Tools",
+      "title": "Designing Tools",
+      "type": "concept",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "S",
+      "status": "ghost",
+      "summary": "schemas, descriptions, why naming matters.",
+      "backlinks": [],
+      "slug": "designing-tools"
+    },
+    {
+      "id": "build-agent-from-scratch",
+      "label": "Build: Agent From Scratch",
+      "title": "Build: Agent From Scratch",
+      "type": "build",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "M",
+      "status": "ghost",
+      "summary": "pure-Python loop, no framework.",
+      "backlinks": [],
+      "slug": "build-agent-from-scratch"
+    },
+    {
+      "id": "langgraph-state",
+      "label": "LangGraph: Nodes & State",
+      "title": "LangGraph: Nodes & State",
+      "type": "concept",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "M",
+      "status": "ghost",
+      "summary": "the graph mental model.",
+      "backlinks": [],
+      "slug": "langgraph-state"
+    },
+    {
+      "id": "langgraph-checkpointers",
+      "label": "Checkpointers",
+      "title": "Checkpointers",
+      "type": "concept",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "S",
+      "status": "ghost",
+      "summary": "pause, resume, survive crashes.",
+      "backlinks": [],
+      "slug": "langgraph-checkpointers"
+    },
+    {
+      "id": "hitl-interrupts",
+      "label": "Human-in-the-Loop Interrupts",
+      "title": "Human-in-the-Loop Interrupts",
+      "type": "build",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "M",
+      "status": "ghost",
+      "summary": "an agent that stops and asks permission.",
+      "backlinks": [],
+      "slug": "hitl-interrupts"
+    },
+    {
+      "id": "plan-and-execute",
+      "label": "Plan-and-Execute",
+      "title": "Plan-and-Execute",
+      "type": "concept",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "S",
+      "status": "ghost",
+      "summary": "planners vs reactors.",
+      "backlinks": [],
+      "slug": "plan-and-execute"
+    },
+    {
+      "id": "reflection-patterns",
+      "label": "Reflection / Reflexion",
+      "title": "Reflection / Reflexion",
+      "type": "concept",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "S",
+      "status": "ghost",
+      "summary": "agents that critique themselves.",
+      "backlinks": [],
+      "slug": "reflection-patterns"
+    },
+    {
+      "id": "subgraphs",
+      "label": "Subgraphs",
+      "title": "Subgraphs",
+      "type": "concept",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "S",
+      "status": "ghost",
+      "summary": "agents made of agents.",
+      "backlinks": [],
+      "slug": "subgraphs"
+    },
+    {
+      "id": "study-supervisor",
+      "label": "🔩 Deep-dive: supervisor.py",
+      "title": "🔩 Deep-dive: supervisor.py",
+      "type": "deep-dive",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "M",
+      "status": "ghost",
+      "summary": "my own supervisor router, understood.",
+      "backlinks": [],
+      "slug": "study-supervisor"
+    },
+    {
+      "id": "study-specialists",
+      "label": "🔩 Deep-dive: specialists.py",
+      "title": "🔩 Deep-dive: specialists.py",
+      "type": "deep-dive",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Scheduler, Scribe, Researcher, Analyst dissected.",
+      "backlinks": [],
+      "slug": "study-specialists"
+    },
+    {
+      "id": "scratchpads-working-memory",
+      "label": "Scratchpads",
+      "title": "Scratchpads",
+      "type": "concept",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "S",
+      "status": "ghost",
+      "summary": "what the agent remembers mid-task.",
+      "backlinks": [],
+      "slug": "scratchpads-working-memory"
+    },
+    {
+      "id": "build-research-agent",
+      "label": "Build: Research Agent",
+      "title": "Build: Research Agent",
+      "type": "build",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "L",
+      "status": "ghost",
+      "summary": "web-search tool + multi-step plans + cited synthesis.",
+      "backlinks": [],
+      "slug": "build-research-agent"
+    },
+    {
+      "id": "add-the-gate",
+      "label": "Build: Add the Gate",
+      "title": "Build: Add the Gate",
+      "type": "build",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "M",
+      "status": "ghost",
+      "summary": "HITL approval before it saves anything.",
+      "backlinks": [],
+      "slug": "add-the-gate"
+    },
+    {
+      "id": "agent-failure-modes",
+      "label": "Agent Failure Modes",
+      "title": "Agent Failure Modes",
+      "type": "concept",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "S",
+      "status": "ghost",
+      "summary": "infinite loops, tool spam, derailment — and guards.",
+      "backlinks": [],
+      "slug": "agent-failure-modes"
+    },
+    {
+      "id": "cost-latency-budgets",
+      "label": "Cost & Latency Budgets",
+      "title": "Cost & Latency Budgets",
+      "type": "concept",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "S",
+      "status": "ghost",
+      "summary": "agents burn tokens; engineer the bill.",
+      "backlinks": [],
+      "slug": "cost-latency-budgets"
+    },
+    {
+      "id": "build-node-proposer",
+      "label": "Build: The Node-Proposer",
+      "title": "Build: The Node-Proposer",
+      "type": "build",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "L",
+      "status": "ghost",
+      "summary": "an agent that proposes brain nodes for my approval — the seed of The Bridge.",
+      "backlinks": [],
+      "slug": "build-node-proposer"
+    },
+    {
+      "id": "synthesis-agents",
+      "label": "Synthesis: Chatbot vs Agent",
+      "title": "Synthesis: Chatbot vs Agent",
+      "type": "synthesis",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "S",
+      "status": "ghost",
+      "summary": "explained forever.",
+      "backlinks": [],
+      "slug": "synthesis-agents"
+    },
+    {
+      "id": "capstone-agents",
+      "label": "🏁 Capstone: Agents",
+      "title": "🏁 Capstone: Agents",
+      "type": "capstone",
+      "ring": "agents",
+      "domain": "agents",
+      "size": "M",
+      "status": "ghost",
+      "summary": "milestone mega-post + replan checkpoint.",
+      "backlinks": [],
+      "slug": "capstone-agents"
+    },
+    {
+      "id": "when-many-beats-one",
+      "label": "When Many Beats One",
+      "title": "When Many Beats One",
+      "type": "concept",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "S",
+      "status": "ghost",
+      "summary": "honest criteria for multi-agent (and when it's hype).",
+      "backlinks": [],
+      "slug": "when-many-beats-one"
+    },
+    {
+      "id": "orchestrator-worker",
+      "label": "Orchestrator–Worker",
+      "title": "Orchestrator–Worker",
+      "type": "concept",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "S",
+      "status": "ghost",
+      "summary": "the supervisor pattern, formalized.",
+      "backlinks": [],
+      "slug": "orchestrator-worker"
+    },
+    {
+      "id": "handoffs-routing",
+      "label": "Handoffs & Routing",
+      "title": "Handoffs & Routing",
+      "type": "concept",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "S",
+      "status": "ghost",
+      "summary": "tasks moving between agents cleanly.",
+      "backlinks": [],
+      "slug": "handoffs-routing"
+    },
+    {
+      "id": "shared-state-patterns",
+      "label": "Shared State",
+      "title": "Shared State",
+      "type": "concept",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "S",
+      "status": "ghost",
+      "summary": "scratchpads, blackboards, message passing.",
+      "backlinks": [],
+      "slug": "shared-state-patterns"
+    },
+    {
+      "id": "parallel-agents",
+      "label": "Parallel Agents",
+      "title": "Parallel Agents",
+      "type": "concept",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "S",
+      "status": "ghost",
+      "summary": "fan-out/fan-in; what's safe to parallelize.",
+      "backlinks": [],
+      "slug": "parallel-agents"
+    },
+    {
+      "id": "debate-consensus",
+      "label": "Debate & Consensus",
+      "title": "Debate & Consensus",
+      "type": "concept",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "S",
+      "status": "ghost",
+      "summary": "agents arguing their way to better answers.",
+      "backlinks": [],
+      "slug": "debate-consensus"
+    },
+    {
+      "id": "token-economics-of-teams",
+      "label": "Token Economics of Teams",
+      "title": "Token Economics of Teams",
+      "type": "concept",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "S",
+      "status": "ghost",
+      "summary": "multi-agent cost math, honestly.",
+      "backlinks": [],
+      "slug": "token-economics-of-teams"
+    },
+    {
+      "id": "mcp-fundamentals",
+      "label": "MCP: The USB-C of AI",
+      "title": "MCP: The USB-C of AI",
+      "type": "concept",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "M",
+      "status": "ghost",
+      "summary": "why one protocol won tool connectivity.",
+      "backlinks": [],
+      "slug": "mcp-fundamentals"
+    },
+    {
+      "id": "build-mcp-server",
+      "label": "🔩 Build: My First MCP Server",
+      "title": "🔩 Build: My First MCP Server",
+      "type": "deep-dive",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "M",
+      "status": "ghost",
+      "summary": "study vizier_utils_server.py, then extend it.",
+      "backlinks": [],
+      "slug": "build-mcp-server"
+    },
+    {
+      "id": "mcp-clients",
+      "label": "MCP Clients",
+      "title": "MCP Clients",
+      "type": "build",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "S",
+      "status": "ghost",
+      "summary": "connect my server to a client and call it.",
+      "backlinks": [],
+      "slug": "mcp-clients"
+    },
+    {
+      "id": "mcp-resources-prompts",
+      "label": "MCP Deep: Resources & Prompts",
+      "title": "MCP Deep: Resources & Prompts",
+      "type": "concept",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "S",
+      "status": "ghost",
+      "summary": "beyond tools — the full spec.",
+      "backlinks": [],
+      "slug": "mcp-resources-prompts"
+    },
+    {
+      "id": "mcp-security",
+      "label": "MCP Security",
+      "title": "MCP Security",
+      "type": "concept",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "M",
+      "status": "ghost",
+      "summary": "tool poisoning, confused deputies — the new attack surface.",
+      "backlinks": [],
+      "slug": "mcp-security"
+    },
+    {
+      "id": "protocol-landscape",
+      "label": "The Protocol Landscape",
+      "title": "The Protocol Landscape",
+      "type": "frontier",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "S",
+      "status": "ghost",
+      "summary": "A2A and whatever is current when I light this node.",
+      "backlinks": [],
+      "slug": "protocol-landscape"
+    },
+    {
+      "id": "build-writer-critic",
+      "label": "Build: Writer + Critic",
+      "title": "Build: Writer + Critic",
+      "type": "build",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "M",
+      "status": "ghost",
+      "summary": "two agents improving a draft in a loop; add a supervisor; measure gain.",
+      "backlinks": [],
+      "slug": "build-writer-critic"
+    },
+    {
+      "id": "build-brain-mcp-server",
+      "label": "Build: Brain MCP Server",
+      "title": "Build: Brain MCP Server",
+      "type": "build",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "L",
+      "status": "ghost",
+      "summary": "expose my brain graph as MCP tools — any AI client can query my learning.",
+      "backlinks": [],
+      "slug": "build-brain-mcp-server"
+    },
+    {
+      "id": "experiment-one-vs-many",
+      "label": "Experiment: One vs Many",
+      "title": "Experiment: One vs Many",
+      "type": "build",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "M",
+      "status": "ghost",
+      "summary": "same task, single vs multi; publish the honest finding.",
+      "backlinks": [],
+      "slug": "experiment-one-vs-many"
+    },
+    {
+      "id": "synthesis-multi-agent",
+      "label": "Synthesis: The Connected-Agents Map",
+      "title": "Synthesis: The Connected-Agents Map",
+      "type": "synthesis",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "S",
+      "status": "ghost",
+      "summary": "",
+      "backlinks": [],
+      "slug": "synthesis-multi-agent"
+    },
+    {
+      "id": "capstone-multi-agent",
+      "label": "🏁 Capstone: Multi-Agent",
+      "title": "🏁 Capstone: Multi-Agent",
+      "type": "capstone",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "M",
+      "status": "ghost",
+      "summary": "+ replan checkpoint.",
+      "backlinks": [],
+      "slug": "capstone-multi-agent"
+    },
+    {
+      "id": "memory-taxonomy",
+      "label": "🔩 Memory Taxonomy",
+      "title": "🔩 Memory Taxonomy",
+      "type": "deep-dive",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "S",
+      "status": "ghost",
+      "summary": "semantic/episodic/procedural — study my own memories table.",
+      "backlinks": [],
+      "slug": "memory-taxonomy"
+    },
+    {
+      "id": "memory-architectures",
+      "label": "Memory Architectures",
+      "title": "Memory Architectures",
+      "type": "concept",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "S",
+      "status": "ghost",
+      "summary": "context vs store; the memory stack.",
+      "backlinks": [],
+      "slug": "memory-architectures"
+    },
+    {
+      "id": "memory-extraction",
+      "label": "Memory Extraction",
+      "title": "Memory Extraction",
+      "type": "concept",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "S",
+      "status": "ghost",
+      "summary": "conversations → durable facts.",
+      "backlinks": [],
+      "slug": "memory-extraction"
+    },
+    {
+      "id": "retrieval-and-decay",
+      "label": "Retrieval & Decay",
+      "title": "Retrieval & Decay",
+      "type": "concept",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "S",
+      "status": "ghost",
+      "summary": "importance, recency, forgetting on purpose.",
+      "backlinks": [],
+      "slug": "retrieval-and-decay"
+    },
+    {
+      "id": "memory-frameworks",
+      "label": "Memory Frameworks",
+      "title": "Memory Frameworks",
+      "type": "frontier",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "S",
+      "status": "ghost",
+      "summary": "the current landscape when I light this node.",
+      "backlinks": [],
+      "slug": "memory-frameworks"
+    },
+    {
+      "id": "compaction-summarization",
+      "label": "Compaction & Summarization",
+      "title": "Compaction & Summarization",
+      "type": "concept",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "S",
+      "status": "ghost",
+      "summary": "keeping memory small and sharp.",
+      "backlinks": [],
+      "slug": "compaction-summarization"
+    },
+    {
+      "id": "personalization-via-memory",
+      "label": "Personalization",
+      "title": "Personalization",
+      "type": "concept",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "S",
+      "status": "ghost",
+      "summary": "assistants that actually know you.",
+      "backlinks": [],
+      "slug": "personalization-via-memory"
+    },
+    {
+      "id": "privacy-in-memory",
+      "label": "Privacy in Memory",
+      "title": "Privacy in Memory",
+      "type": "concept",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "S",
+      "status": "ghost",
+      "summary": "what should never be remembered.",
+      "backlinks": [],
+      "slug": "privacy-in-memory"
+    },
+    {
+      "id": "knowledge-graphs-101",
+      "label": "Knowledge Graphs 101",
+      "title": "Knowledge Graphs 101",
+      "type": "concept",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "S",
+      "status": "ghost",
+      "summary": "entities, relations, triples.",
+      "backlinks": [],
+      "slug": "knowledge-graphs-101"
+    },
+    {
+      "id": "entity-extraction",
+      "label": "Entity Extraction",
+      "title": "Entity Extraction",
+      "type": "build",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "M",
+      "status": "ghost",
+      "summary": "LLM pulls entities/relations from my notes.",
+      "backlinks": [],
+      "slug": "entity-extraction"
+    },
+    {
+      "id": "graphrag-deep",
+      "label": "GraphRAG Properly",
+      "title": "GraphRAG Properly",
+      "type": "concept",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "M",
+      "status": "ghost",
+      "summary": "community summaries, graph-aware retrieval.",
+      "backlinks": [],
+      "slug": "graphrag-deep"
+    },
+    {
+      "id": "temporal-knowledge",
+      "label": "Temporal Knowledge",
+      "title": "Temporal Knowledge",
+      "type": "concept",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "S",
+      "status": "ghost",
+      "summary": "facts that change over time.",
+      "backlinks": [],
+      "slug": "temporal-knowledge"
+    },
+    {
+      "id": "brain-as-knowledge-graph",
+      "label": "My Brain, Formalized",
+      "title": "My Brain, Formalized",
+      "type": "concept",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "M",
+      "status": "ghost",
+      "summary": "map my graph to a real KG schema.",
+      "backlinks": [],
+      "slug": "brain-as-knowledge-graph"
+    },
+    {
+      "id": "build-memory-layer",
+      "label": "Build: Memory Layer",
+      "title": "Build: Memory Layer",
+      "type": "build",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "L",
+      "status": "ghost",
+      "summary": "long-term memory bolted onto my research agent — extraction, retrieval, importance.",
+      "backlinks": [],
+      "slug": "build-memory-layer"
+    },
+    {
+      "id": "build-link-suggester-v2",
+      "label": "Build: Link-Suggester v2",
+      "title": "Build: Link-Suggester v2",
+      "type": "build",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "M",
+      "status": "ghost",
+      "summary": "entity-aware edge proposals for the brain, still human-approved.",
+      "backlinks": [],
+      "slug": "build-link-suggester-v2"
+    },
+    {
+      "id": "build-learning-recall-agent",
+      "label": "Build: \"What Did I Learn?\" Agent",
+      "title": "Build: \"What Did I Learn?\" Agent",
+      "type": "build",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "M",
+      "status": "ghost",
+      "summary": "ask my brain about any period; grounded, node-cited answers.",
+      "backlinks": [],
+      "slug": "build-learning-recall-agent"
+    },
+    {
+      "id": "synthesis-memory",
+      "label": "Synthesis: The Memory Stack",
+      "title": "Synthesis: The Memory Stack",
+      "type": "synthesis",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "S",
+      "status": "ghost",
+      "summary": "",
+      "backlinks": [],
+      "slug": "synthesis-memory"
+    },
+    {
+      "id": "capstone-memory",
+      "label": "🏁 Capstone: Memory",
+      "title": "🏁 Capstone: Memory",
+      "type": "capstone",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "M",
+      "status": "ghost",
+      "summary": "\"I built an AI that remembers\" + replan checkpoint.",
+      "backlinks": [],
+      "slug": "capstone-memory"
+    },
+    {
+      "id": "why-evals-rule",
+      "label": "Why Evals Rule Everything",
+      "title": "Why Evals Rule Everything",
+      "type": "concept",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "S",
+      "status": "ghost",
+      "summary": "you can't improve what you can't measure.",
+      "backlinks": [],
+      "slug": "why-evals-rule"
+    },
+    {
+      "id": "build-golden-dataset",
+      "label": "Build: Golden Dataset",
+      "title": "Build: Golden Dataset",
+      "type": "build",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "M",
+      "status": "ghost",
+      "summary": "20 golden cases for my research agent.",
+      "backlinks": [],
+      "slug": "build-golden-dataset"
+    },
+    {
+      "id": "llm-as-judge",
+      "label": "🔩 LLM-as-Judge",
+      "title": "🔩 LLM-as-Judge",
+      "type": "deep-dive",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "M",
+      "status": "ghost",
+      "summary": "study my own evals.py; judging with rubrics.",
+      "backlinks": [],
+      "slug": "llm-as-judge"
+    },
+    {
+      "id": "judge-bias-pinning",
+      "label": "Judge Bias & Pinning",
+      "title": "Judge Bias & Pinning",
+      "type": "concept",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "S",
+      "status": "ghost",
+      "summary": "when the judge is wrong; version-pin the judge.",
+      "backlinks": [],
+      "slug": "judge-bias-pinning"
+    },
+    {
+      "id": "trajectory-evals",
+      "label": "Trajectory Evals",
+      "title": "Trajectory Evals",
+      "type": "concept",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "S",
+      "status": "ghost",
+      "summary": "scoring the path, not just the answer.",
+      "backlinks": [],
+      "slug": "trajectory-evals"
+    },
+    {
+      "id": "tool-use-metrics",
+      "label": "Tool-Use Metrics",
+      "title": "Tool-Use Metrics",
+      "type": "concept",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "S",
+      "status": "ghost",
+      "summary": "right tool, right args, right time.",
+      "backlinks": [],
+      "slug": "tool-use-metrics"
+    },
+    {
+      "id": "eval-frameworks-hands-on",
+      "label": "Eval Frameworks Hands-on",
+      "title": "Eval Frameworks Hands-on",
+      "type": "build",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "M",
+      "status": "ghost",
+      "summary": "run current frameworks on my brain-chat.",
+      "backlinks": [],
+      "slug": "eval-frameworks-hands-on"
+    },
+    {
+      "id": "prompt-regression-tests",
+      "label": "Prompt Regression Tests",
+      "title": "Prompt Regression Tests",
+      "type": "build",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "S",
+      "status": "ghost",
+      "summary": "freeze behavior; catch silent breakage.",
+      "backlinks": [],
+      "slug": "prompt-regression-tests"
+    },
+    {
+      "id": "ci-gates-for-ai",
+      "label": "CI Gates for AI",
+      "title": "CI Gates for AI",
+      "type": "concept",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "S",
+      "status": "ghost",
+      "summary": "evals as merge blockers.",
+      "backlinks": [],
+      "slug": "ci-gates-for-ai"
+    },
+    {
+      "id": "tracing-spans",
+      "label": "🔩 Tracing: Spans & Traces",
+      "title": "🔩 Tracing: Spans & Traces",
+      "type": "deep-dive",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "M",
+      "status": "ghost",
+      "summary": "study observability.py; the tracing model.",
+      "backlinks": [],
+      "slug": "tracing-spans"
+    },
+    {
+      "id": "reading-traces",
+      "label": "Reading Traces",
+      "title": "Reading Traces",
+      "type": "build",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "S",
+      "status": "ghost",
+      "summary": "debug a real agent failure from its trace.",
+      "backlinks": [],
+      "slug": "reading-traces"
+    },
+    {
+      "id": "online-evals",
+      "label": "Online Evals",
+      "title": "Online Evals",
+      "type": "concept",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "S",
+      "status": "ghost",
+      "summary": "scoring production traffic continuously.",
+      "backlinks": [],
+      "slug": "online-evals"
+    },
+    {
+      "id": "ab-testing-prompts",
+      "label": "A/B Testing Prompts",
+      "title": "A/B Testing Prompts",
+      "type": "concept",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "S",
+      "status": "ghost",
+      "summary": "shipping prompt changes like features.",
+      "backlinks": [],
+      "slug": "ab-testing-prompts"
+    },
+    {
+      "id": "cost-latency-dashboards",
+      "label": "Cost & Latency Dashboards",
+      "title": "Cost & Latency Dashboards",
+      "type": "build",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "M",
+      "status": "ghost",
+      "summary": "see the money and the milliseconds.",
+      "backlinks": [],
+      "slug": "cost-latency-dashboards"
+    },
+    {
+      "id": "build-eval-harness",
+      "label": "Build: Eval Harness",
+      "title": "Build: Eval Harness",
+      "type": "build",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "L",
+      "status": "ghost",
+      "summary": "trajectory + judge + regression around the node-proposer, one command.",
+      "backlinks": [],
+      "slug": "build-eval-harness"
+    },
+    {
+      "id": "failure-to-golden-loop",
+      "label": "Build: Failure→Golden Loop",
+      "title": "Build: Failure→Golden Loop",
+      "type": "build",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "M",
+      "status": "ghost",
+      "summary": "every bug becomes a permanent test.",
+      "backlinks": [],
+      "slug": "failure-to-golden-loop"
+    },
+    {
+      "id": "error-analysis-practice",
+      "label": "Error Analysis Practice",
+      "title": "Error Analysis Practice",
+      "type": "build",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "S",
+      "status": "ghost",
+      "summary": "categorize 20 failures; find the pattern.",
+      "backlinks": [],
+      "slug": "error-analysis-practice"
+    },
+    {
+      "id": "synthesis-evals",
+      "label": "Synthesis: Eval-Driven Development",
+      "title": "Synthesis: Eval-Driven Development",
+      "type": "synthesis",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "S",
+      "status": "ghost",
+      "summary": "the full EDD loop, internalized.",
+      "backlinks": [],
+      "slug": "synthesis-evals"
+    },
+    {
+      "id": "capstone-evals",
+      "label": "🏁 Capstone: Evals",
+      "title": "🏁 Capstone: Evals",
+      "type": "capstone",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "M",
+      "status": "ghost",
+      "summary": "\"How I test software that's never the same twice\" + replan checkpoint.",
+      "backlinks": [],
+      "slug": "capstone-evals"
+    },
+    {
+      "id": "agent-threat-model",
+      "label": "The Threat Model",
+      "title": "The Threat Model",
+      "type": "concept",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "M",
+      "status": "ghost",
+      "summary": "everything that can go wrong with an agent, mapped.",
+      "backlinks": [],
+      "slug": "agent-threat-model"
+    },
+    {
+      "id": "direct-injection",
+      "label": "Direct Prompt Injection",
+      "title": "Direct Prompt Injection",
+      "type": "concept",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "S",
+      "status": "ghost",
+      "summary": "attacks in the user's own message.",
+      "backlinks": [],
+      "slug": "direct-injection"
+    },
+    {
+      "id": "indirect-injection",
+      "label": "🔩 Indirect Injection",
+      "title": "🔩 Indirect Injection",
+      "type": "deep-dive",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "M",
+      "status": "ghost",
+      "summary": "study my own scanner.py — poisoned emails & pages.",
+      "backlinks": [],
+      "slug": "indirect-injection"
+    },
+    {
+      "id": "jailbreaks-redteaming",
+      "label": "Jailbreaks & Red-Teaming",
+      "title": "Jailbreaks & Red-Teaming",
+      "type": "concept",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "S",
+      "status": "ghost",
+      "summary": "thinking like the attacker.",
+      "backlinks": [],
+      "slug": "jailbreaks-redteaming"
+    },
+    {
+      "id": "supply-chain-risks",
+      "label": "Supply-Chain Risks",
+      "title": "Supply-Chain Risks",
+      "type": "concept",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "S",
+      "status": "ghost",
+      "summary": "poisoned packages, models, and MCP servers.",
+      "backlinks": [],
+      "slug": "supply-chain-risks"
+    },
+    {
+      "id": "spotlighting-delimiters",
+      "label": "Spotlighting & Delimiters",
+      "title": "Spotlighting & Delimiters",
+      "type": "concept",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "S",
+      "status": "ghost",
+      "summary": "quarantining untrusted content.",
+      "backlinks": [],
+      "slug": "spotlighting-delimiters"
+    },
+    {
+      "id": "lethal-trifecta",
+      "label": "The Lethal Trifecta & Rule of Two",
+      "title": "The Lethal Trifecta & Rule of Two",
+      "type": "concept",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "S",
+      "status": "ghost",
+      "summary": "private data + untrusted input + exfil paths.",
+      "backlinks": [],
+      "slug": "lethal-trifecta"
+    },
+    {
+      "id": "least-privilege-tools",
+      "label": "Least-Privilege Tools",
+      "title": "Least-Privilege Tools",
+      "type": "concept",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "S",
+      "status": "ghost",
+      "summary": "capabilities, not keys to everything.",
+      "backlinks": [],
+      "slug": "least-privilege-tools"
+    },
+    {
+      "id": "the-approval-gate",
+      "label": "🔩 The Approval Gate",
+      "title": "🔩 The Approval Gate",
+      "type": "deep-dive",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "M",
+      "status": "ghost",
+      "summary": "study proposer.py — my own HITL gate, understood.",
+      "backlinks": [],
+      "slug": "the-approval-gate"
+    },
+    {
+      "id": "idempotency-audit-logs",
+      "label": "🔩 Idempotency & Audit Logs",
+      "title": "🔩 Idempotency & Audit Logs",
+      "type": "deep-dive",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "S",
+      "status": "ghost",
+      "summary": "study audit.py; actions that can't double-fire.",
+      "backlinks": [],
+      "slug": "idempotency-audit-logs"
+    },
+    {
+      "id": "guardrails-in-out",
+      "label": "Guardrails In & Out",
+      "title": "Guardrails In & Out",
+      "type": "concept",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "S",
+      "status": "ghost",
+      "summary": "input scanning, output enforcement.",
+      "backlinks": [],
+      "slug": "guardrails-in-out"
+    },
+    {
+      "id": "pii-redaction",
+      "label": "PII Redaction",
+      "title": "PII Redaction",
+      "type": "build",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "S",
+      "status": "ghost",
+      "summary": "scrub personal data before the model sees it.",
+      "backlinks": [],
+      "slug": "pii-redaction"
+    },
+    {
+      "id": "refusals-content-safety",
+      "label": "Refusals & Content Safety",
+      "title": "Refusals & Content Safety",
+      "type": "concept",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "S",
+      "status": "ghost",
+      "summary": "designing what my system won't do.",
+      "backlinks": [],
+      "slug": "refusals-content-safety"
+    },
+    {
+      "id": "sandboxing-isolation",
+      "label": "Sandboxing & Isolation",
+      "title": "Sandboxing & Isolation",
+      "type": "concept",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "S",
+      "status": "ghost",
+      "summary": "blast-radius thinking for tools.",
+      "backlinks": [],
+      "slug": "sandboxing-isolation"
+    },
+    {
+      "id": "build-redteam-my-agent",
+      "label": "Build: Red-Team My Agent",
+      "title": "Build: Red-Team My Agent",
+      "type": "build",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "M",
+      "status": "ghost",
+      "summary": "attack my own agent with injection payloads.",
+      "backlinks": [],
+      "slug": "build-redteam-my-agent"
+    },
+    {
+      "id": "fix-what-broke",
+      "label": "Build: Fix What Broke",
+      "title": "Build: Fix What Broke",
+      "type": "build",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "M",
+      "status": "ghost",
+      "summary": "patch the holes; document each fix.",
+      "backlinks": [],
+      "slug": "fix-what-broke"
+    },
+    {
+      "id": "build-injection-suite",
+      "label": "Build: Injection Test Suite",
+      "title": "Build: Injection Test Suite",
+      "type": "build",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "M",
+      "status": "ghost",
+      "summary": "permanent attack suite + CI; zero-exfil gate.",
+      "backlinks": [],
+      "slug": "build-injection-suite"
+    },
+    {
+      "id": "responsible-shipping",
+      "label": "Responsible Shipping",
+      "title": "Responsible Shipping",
+      "type": "concept",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "S",
+      "status": "ghost",
+      "summary": "what you owe the public when you deploy AI.",
+      "backlinks": [],
+      "slug": "responsible-shipping"
+    },
+    {
+      "id": "synthesis-safety",
+      "label": "Synthesis: Defense in Depth",
+      "title": "Synthesis: Defense in Depth",
+      "type": "synthesis",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "S",
+      "status": "ghost",
+      "summary": "the layered diagram.",
+      "backlinks": [],
+      "slug": "synthesis-safety"
+    },
+    {
+      "id": "capstone-safety",
+      "label": "🏁 Capstone: Safety",
+      "title": "🏁 Capstone: Safety",
+      "type": "capstone",
+      "ring": "safety-security",
+      "domain": "safety-security",
+      "size": "M",
+      "status": "ghost",
+      "summary": "\"I attacked my own AI. Here's what I learned\" + replan checkpoint.",
+      "backlinks": [],
+      "slug": "capstone-safety"
+    },
+    {
+      "id": "fastapi-fundamentals",
+      "label": "🔩 FastAPI Fundamentals",
+      "title": "🔩 FastAPI Fundamentals",
+      "type": "deep-dive",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "study main.py; routes, models, dependency injection.",
+      "backlinks": [],
+      "slug": "fastapi-fundamentals"
+    },
+    {
+      "id": "sse-streaming",
+      "label": "SSE & Streaming",
+      "title": "SSE & Streaming",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "how tokens travel from server to screen.",
+      "backlinks": [],
+      "slug": "sse-streaming"
+    },
+    {
+      "id": "schedulers-cron",
+      "label": "🔩 Schedulers & Cron",
+      "title": "🔩 Schedulers & Cron",
+      "type": "deep-dive",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "study scheduler.py; the morning-briefing machinery.",
+      "backlinks": [],
+      "slug": "schedulers-cron"
+    },
+    {
+      "id": "postgres-migrations",
+      "label": "🔩 Postgres & Migrations",
+      "title": "🔩 Postgres & Migrations",
+      "type": "deep-dive",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "study migrations/ 001–023; schema evolution.",
+      "backlinks": [],
+      "slug": "postgres-migrations"
+    },
+    {
+      "id": "docker-for-ai",
+      "label": "Docker for AI Services",
+      "title": "Docker for AI Services",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "containerize a small service myself.",
+      "backlinks": [],
+      "slug": "docker-for-ai"
+    },
+    {
+      "id": "deploying-backends",
+      "label": "Deploying Backends",
+      "title": "Deploying Backends",
+      "type": "frontier",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "current hosting options and tradeoffs when I light this node.",
+      "backlinks": [],
+      "slug": "deploying-backends"
+    },
+    {
+      "id": "secrets-done-right",
+      "label": "Secrets Done Right",
+      "title": "Secrets Done Right",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "env, vaults, rotation — never again in a repo.",
+      "backlinks": [],
+      "slug": "secrets-done-right"
+    },
+    {
+      "id": "supabase-deep-dive",
+      "label": "Supabase Deep Dive",
+      "title": "Supabase Deep Dive",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "auth, RLS, realtime — the whole platform.",
+      "backlinks": [],
+      "slug": "supabase-deep-dive"
+    },
+    {
+      "id": "realtime-subscriptions",
+      "label": "Realtime Subscriptions",
+      "title": "Realtime Subscriptions",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "live UI updates from Postgres changes.",
+      "backlinks": [],
+      "slug": "realtime-subscriptions"
+    },
+    {
+      "id": "study-command-center",
+      "label": "🔩 The Command Center",
+      "title": "🔩 The Command Center",
+      "type": "deep-dive",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "study agent-lab/web — Next.js for AI dashboards.",
+      "backlinks": [],
+      "slug": "study-command-center"
+    },
+    {
+      "id": "caching-layers",
+      "label": "Caching Layers",
+      "title": "Caching Layers",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "response cache, semantic cache, CDN.",
+      "backlinks": [],
+      "slug": "caching-layers"
+    },
+    {
+      "id": "queues-pollers",
+      "label": "🔩 Queues & Pollers",
+      "title": "🔩 Queues & Pollers",
+      "type": "deep-dive",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "study the approval poller; async job patterns.",
+      "backlinks": [],
+      "slug": "queues-pollers"
+    },
+    {
+      "id": "webhooks-telegram",
+      "label": "Webhooks & Telegram",
+      "title": "Webhooks & Telegram",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "wire a real notification path.",
+      "backlinks": [],
+      "slug": "webhooks-telegram"
+    },
+    {
+      "id": "monitoring-alerting",
+      "label": "Monitoring & Alerting",
+      "title": "Monitoring & Alerting",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "knowing it broke before users do.",
+      "backlinks": [],
+      "slug": "monitoring-alerting"
+    },
+    {
+      "id": "resurrection",
+      "label": "🔥 Build: RESURRECTION",
+      "title": "🔥 Build: RESURRECTION",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "L",
+      "status": "ghost",
+      "summary": "deploy Machine 1 + Machine 2 with my own hands — env, DB, migrations, OAuth, scheduler, gate, dashboard, every subsystem verified. → M1",
+      "backlinks": [],
+      "slug": "resurrection"
+    },
+    {
+      "id": "the-bridge",
+      "label": "🔥 Build: THE BRIDGE",
+      "title": "🔥 Build: THE BRIDGE",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "L",
+      "status": "ghost",
+      "summary": "the deployed agent proposes brain nodes through its own approval gate — agent + brain, one nervous system. → M2",
+      "backlinks": [],
+      "slug": "the-bridge"
+    },
+    {
+      "id": "hardening-pass",
+      "label": "Build: Hardening Pass",
+      "title": "Build: Hardening Pass",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "load, cost caps, failure drills.",
+      "backlinks": [],
+      "slug": "hardening-pass"
+    },
+    {
+      "id": "synthesis-production",
+      "label": "Synthesis: The Production Diagram",
+      "title": "Synthesis: The Production Diagram",
+      "type": "synthesis",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "the full system, mine now.",
+      "backlinks": [],
+      "slug": "synthesis-production"
+    },
+    {
+      "id": "capstone-production",
+      "label": "🏁 Capstone: Production",
+      "title": "🏁 Capstone: Production",
+      "type": "capstone",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "\"The AI built it. I understood it. I run it.\" + replan checkpoint.",
+      "backlinks": [],
+      "slug": "capstone-production"
+    },
+    {
+      "id": "local-models",
+      "label": "Local Models",
+      "title": "Local Models",
+      "type": "build",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "M",
+      "status": "ghost",
+      "summary": "run a model on my own laptop.",
+      "backlinks": [],
+      "slug": "local-models"
+    },
+    {
+      "id": "fine-tuning-when-why",
+      "label": "Fine-Tuning: When & Why",
+      "title": "Fine-Tuning: When & Why",
+      "type": "concept",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "M",
+      "status": "ghost",
+      "summary": "adapter concepts; the buy-vs-tune decision.",
+      "backlinks": [],
+      "slug": "fine-tuning-when-why"
+    },
+    {
+      "id": "small-distilled-models",
+      "label": "Small & Distilled Models",
+      "title": "Small & Distilled Models",
+      "type": "concept",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "S",
+      "status": "ghost",
+      "summary": "why tiny models are eating the edge.",
+      "backlinks": [],
+      "slug": "small-distilled-models"
+    },
+    {
+      "id": "voice-agents",
+      "label": "Voice Agents",
+      "title": "Voice Agents",
+      "type": "concept",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "M",
+      "status": "ghost",
+      "summary": "realtime speech loops; latency budgets.",
+      "backlinks": [],
+      "slug": "voice-agents"
+    },
+    {
+      "id": "computer-use-agents",
+      "label": "Computer-Use & Browser Agents",
+      "title": "Computer-Use & Browser Agents",
+      "type": "concept",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "M",
+      "status": "ghost",
+      "summary": "agents that click and type.",
+      "backlinks": [],
+      "slug": "computer-use-agents"
+    },
+    {
+      "id": "coding-agents",
+      "label": "Coding Agents",
+      "title": "Coding Agents",
+      "type": "concept",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "S",
+      "status": "ghost",
+      "summary": "how the tools that built VIZIER actually work.",
+      "backlinks": [],
+      "slug": "coding-agents"
+    },
+    {
+      "id": "agentic-rag-frontiers",
+      "label": "Agentic RAG Frontiers",
+      "title": "Agentic RAG Frontiers",
+      "type": "concept",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "S",
+      "status": "ghost",
+      "summary": "retrieval as a tool inside the loop.",
+      "backlinks": [],
+      "slug": "agentic-rag-frontiers"
+    },
+    {
+      "id": "reasoning-test-time-compute",
+      "label": "Reasoning & Test-Time Compute",
+      "title": "Reasoning & Test-Time Compute",
+      "type": "concept",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "S",
+      "status": "ghost",
+      "summary": "models that think longer, not just bigger.",
+      "backlinks": [],
+      "slug": "reasoning-test-time-compute"
+    },
+    {
+      "id": "protocol-futures",
+      "label": "Protocol Futures",
+      "title": "Protocol Futures",
+      "type": "frontier",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "S",
+      "status": "ghost",
+      "summary": "where MCP/A2A and successors are heading — live view.",
+      "backlinks": [],
+      "slug": "protocol-futures"
+    },
+    {
+      "id": "reading-papers-forever",
+      "label": "Reading Papers Forever",
+      "title": "Reading Papers Forever",
+      "type": "concept",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "S",
+      "status": "ghost",
+      "summary": "a personal system to stay frontier after the marathon.",
+      "backlinks": [],
+      "slug": "reading-papers-forever"
+    },
+    {
+      "id": "frontier-slot-1",
+      "label": "Frontier Slot α",
+      "title": "Frontier Slot α",
+      "type": "frontier",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "M",
+      "status": "ghost",
+      "summary": "reserved — regenerated from frontier-scan on arrival.",
+      "backlinks": [],
+      "slug": "frontier-slot-1"
+    },
+    {
+      "id": "frontier-slot-2",
+      "label": "Frontier Slot β",
+      "title": "Frontier Slot β",
+      "type": "frontier",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "M",
+      "status": "ghost",
+      "summary": "reserved — regenerated from frontier-scan on arrival.",
+      "backlinks": [],
+      "slug": "frontier-slot-2"
+    },
+    {
+      "id": "frontier-slot-3",
+      "label": "Frontier Slot γ",
+      "title": "Frontier Slot γ",
+      "type": "frontier",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "M",
+      "status": "ghost",
+      "summary": "reserved — regenerated from frontier-scan on arrival.",
+      "backlinks": [],
+      "slug": "frontier-slot-3"
+    },
+    {
+      "id": "define-vizier-v2",
+      "label": "Define VIZIER v2",
+      "title": "Define VIZIER v2",
+      "type": "capstone",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "M",
+      "status": "ghost",
+      "summary": "spec the unified agent+brain, written by ME. → M5",
+      "backlinks": [],
+      "slug": "define-vizier-v2"
+    },
+    {
+      "id": "build-vizier-v2-core",
+      "label": "Build: v2 Core Loop",
+      "title": "Build: v2 Core Loop",
+      "type": "build",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "L",
+      "status": "ghost",
+      "summary": "",
+      "backlinks": [],
+      "slug": "build-vizier-v2-core"
+    },
+    {
+      "id": "vizier-v2-memory-retrieval",
+      "label": "Build: v2 Memory + Retrieval",
+      "title": "Build: v2 Memory + Retrieval",
+      "type": "build",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "L",
+      "status": "ghost",
+      "summary": "",
+      "backlinks": [],
+      "slug": "vizier-v2-memory-retrieval"
+    },
+    {
+      "id": "vizier-v2-gate-safety",
+      "label": "Build: v2 Gate + Safety",
+      "title": "Build: v2 Gate + Safety",
+      "type": "build",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "M",
+      "status": "ghost",
+      "summary": "",
+      "backlinks": [],
+      "slug": "vizier-v2-gate-safety"
+    },
+    {
+      "id": "vizier-v2-evals-traces",
+      "label": "Build: v2 Evals + Traces",
+      "title": "Build: v2 Evals + Traces",
+      "type": "build",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "M",
+      "status": "ghost",
+      "summary": "",
+      "backlinks": [],
+      "slug": "vizier-v2-evals-traces"
+    },
+    {
+      "id": "vizier-v2-redteam-ship",
+      "label": "Build: v2 Red-Team & Ship",
+      "title": "Build: v2 Red-Team & Ship",
+      "type": "build",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "M",
+      "status": "ghost",
+      "summary": "golden gate, then deploy.",
+      "backlinks": [],
+      "slug": "vizier-v2-redteam-ship"
+    },
+    {
+      "id": "the-full-story",
+      "label": "The Full Story",
+      "title": "The Full Story",
+      "type": "synthesis",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "M",
+      "status": "ghost",
+      "summary": "long-form essay — the whole arc.",
+      "backlinks": [],
+      "slug": "the-full-story"
+    },
+    {
+      "id": "the-demo-film",
+      "label": "The Demo Film",
+      "title": "The Demo Film",
+      "type": "build",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "S",
+      "status": "ghost",
+      "summary": "record the cinematic brain tour + system walkthrough.",
+      "backlinks": [],
+      "slug": "the-demo-film"
+    },
+    {
+      "id": "portfolio-integration",
+      "label": "Portfolio Integration",
+      "title": "Portfolio Integration",
+      "type": "build",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "M",
+      "status": "ghost",
+      "summary": "VIZIER takes its throne on tharungajula.vercel.app.",
+      "backlinks": [],
+      "slug": "portfolio-integration"
+    },
+    {
+      "id": "retrospective",
+      "label": "Retrospective",
+      "title": "Retrospective",
+      "type": "synthesis",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "S",
+      "status": "ghost",
+      "summary": "what actually changed in me; honest lessons.",
+      "backlinks": [],
+      "slug": "retrospective"
+    },
+    {
+      "id": "graduation",
+      "label": "🏆 GRADUATION",
+      "title": "🏆 GRADUATION",
+      "type": "capstone",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "S",
+      "status": "ghost",
+      "summary": "the graph is lit. Publish the mega-post. Begin again.",
+      "backlinks": [],
+      "slug": "graduation"
+    },
+    {
+      "id": "M1",
+      "label": "RESURRECTION",
+      "title": "RESURRECTION",
+      "type": "milestone",
+      "ring": "milestones",
+      "status": "ghost",
+      "summary": "Deploy Machine 1 (backend) and Machine 2 (dashboard) with my own hands — env, DB, migrations, OAuth, scheduler, gate, UI. Trigger ANY day via \"unfreeze agent-lab\".",
+      "related_domains": [
+        "production"
+      ],
+      "slug": "resurrection"
+    },
+    {
+      "id": "M2",
+      "label": "THE BRIDGE",
+      "title": "THE BRIDGE",
+      "type": "milestone",
+      "ring": "milestones",
+      "status": "ghost",
+      "summary": "The deployed agent proposes new brain nodes through its own human-approval gate — agent and brain become one nervous system.",
+      "related_domains": [
+        "production",
+        "agents"
+      ],
+      "slug": "the-bridge"
+    },
+    {
+      "id": "M3",
+      "label": "FIRST PUBLIC ARTIFACT",
+      "title": "FIRST PUBLIC ARTIFACT",
+      "type": "milestone",
+      "ring": "milestones",
+      "status": "ghost",
+      "summary": "Ship something strangers can use.",
+      "related_domains": [
+        "prompting-apis"
+      ],
+      "slug": "build-feynman-bot"
+    },
+    {
+      "id": "M4",
+      "label": "HALF-LIT BRAIN",
+      "title": "HALF-LIT BRAIN",
+      "type": "milestone",
+      "ring": "milestones",
+      "status": "floating",
+      "summary": "50% of current plan's nodes lit; the halfway story post.",
+      "related_domains": [
+        "all"
+      ],
+      "slug": ""
+    },
+    {
+      "id": "M5",
+      "label": "VIZIER v2",
+      "title": "VIZIER v2",
+      "type": "milestone",
+      "ring": "milestones",
+      "status": "ghost",
+      "summary": "The final capstone: a unified agent+brain system spec'd and built by ME, not by an IDE agent.",
+      "related_domains": [
+        "frontier-capstone"
+      ],
+      "slug": "define-vizier-v2"
     }
   ],
   "edges": [
@@ -127,11 +2816,1986 @@
       "source": "center-vizier",
       "target": "domain-frontier-capstone",
       "type": "domain-core"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "map-of-ai",
+      "type": "containment"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "how-machines-learn",
+      "type": "containment"
+    },
+    {
+      "source": "map-of-ai",
+      "target": "how-machines-learn",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "what-is-a-language-model",
+      "type": "containment"
+    },
+    {
+      "source": "how-machines-learn",
+      "target": "what-is-a-language-model",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "tokens",
+      "type": "containment"
+    },
+    {
+      "source": "what-is-a-language-model",
+      "target": "tokens",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "embeddings-intuition",
+      "type": "containment"
+    },
+    {
+      "source": "tokens",
+      "target": "embeddings-intuition",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "attention-transformers",
+      "type": "containment"
+    },
+    {
+      "source": "embeddings-intuition",
+      "target": "attention-transformers",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "training-pipeline",
+      "type": "containment"
+    },
+    {
+      "source": "attention-transformers",
+      "target": "training-pipeline",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "context-windows",
+      "type": "containment"
+    },
+    {
+      "source": "training-pipeline",
+      "target": "context-windows",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "sampling-controls",
+      "type": "containment"
+    },
+    {
+      "source": "context-windows",
+      "target": "sampling-controls",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "hallucination",
+      "type": "containment"
+    },
+    {
+      "source": "sampling-controls",
+      "target": "hallucination",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "model-landscape",
+      "type": "containment"
+    },
+    {
+      "source": "hallucination",
+      "target": "model-landscape",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "python-environments",
+      "type": "containment"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "python-data-shapes",
+      "type": "containment"
+    },
+    {
+      "source": "python-environments",
+      "target": "python-data-shapes",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "python-classes-modules",
+      "type": "containment"
+    },
+    {
+      "source": "python-data-shapes",
+      "target": "python-classes-modules",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "python-async",
+      "type": "containment"
+    },
+    {
+      "source": "python-classes-modules",
+      "target": "python-async",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "python-typing-pydantic",
+      "type": "containment"
+    },
+    {
+      "source": "python-async",
+      "target": "python-typing-pydantic",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "git-mastery",
+      "type": "containment"
+    },
+    {
+      "source": "python-typing-pydantic",
+      "target": "git-mastery",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "terminal-fluency",
+      "type": "containment"
+    },
+    {
+      "source": "git-mastery",
+      "target": "terminal-fluency",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "build-token-cost-calculator",
+      "type": "containment"
+    },
+    {
+      "source": "terminal-fluency",
+      "target": "build-token-cost-calculator",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "synthesis-foundations",
+      "type": "containment"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "capstone-foundations",
+      "type": "containment"
+    },
+    {
+      "source": "synthesis-foundations",
+      "target": "capstone-foundations",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "first-api-call",
+      "type": "containment"
+    },
+    {
+      "source": "capstone-foundations",
+      "target": "first-api-call",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "roles-and-system-prompts",
+      "type": "containment"
+    },
+    {
+      "source": "first-api-call",
+      "target": "roles-and-system-prompts",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "prompt-skeleton",
+      "type": "containment"
+    },
+    {
+      "source": "roles-and-system-prompts",
+      "target": "prompt-skeleton",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "few-shot-prompting",
+      "type": "containment"
+    },
+    {
+      "source": "prompt-skeleton",
+      "target": "few-shot-prompting",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "reasoning-prompts",
+      "type": "containment"
+    },
+    {
+      "source": "few-shot-prompting",
+      "target": "reasoning-prompts",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "structured-output",
+      "type": "containment"
+    },
+    {
+      "source": "reasoning-prompts",
+      "target": "structured-output",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "tool-calling",
+      "type": "containment"
+    },
+    {
+      "source": "structured-output",
+      "target": "tool-calling",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "streaming-responses",
+      "type": "containment"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "errors-retries-backoff",
+      "type": "containment"
+    },
+    {
+      "source": "streaming-responses",
+      "target": "errors-retries-backoff",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "rate-limits-caching",
+      "type": "containment"
+    },
+    {
+      "source": "errors-retries-backoff",
+      "target": "rate-limits-caching",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "study-gateway",
+      "type": "containment"
+    },
+    {
+      "source": "rate-limits-caching",
+      "target": "study-gateway",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "injection-first-look",
+      "type": "containment"
+    },
+    {
+      "source": "study-gateway",
+      "target": "injection-first-look",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "multimodal-input",
+      "type": "containment"
+    },
+    {
+      "source": "injection-first-look",
+      "target": "multimodal-input",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "voice-audio-apis",
+      "type": "containment"
+    },
+    {
+      "source": "multimodal-input",
+      "target": "voice-audio-apis",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "long-context-strategies",
+      "type": "containment"
+    },
+    {
+      "source": "voice-audio-apis",
+      "target": "long-context-strategies",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "prompt-quality",
+      "type": "containment"
+    },
+    {
+      "source": "long-context-strategies",
+      "target": "prompt-quality",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "build-cli-chatbot",
+      "type": "containment"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "build-feynman-bot",
+      "type": "containment"
+    },
+    {
+      "source": "build-cli-chatbot",
+      "target": "build-feynman-bot",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "synthesis-apis",
+      "type": "containment"
+    },
+    {
+      "source": "build-feynman-bot",
+      "target": "synthesis-apis",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-prompting-apis",
+      "target": "capstone-apis",
+      "type": "containment"
+    },
+    {
+      "source": "synthesis-apis",
+      "target": "capstone-apis",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "why-rag",
+      "type": "containment"
+    },
+    {
+      "source": "capstone-apis",
+      "target": "why-rag",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "embeddings-hands-on",
+      "type": "containment"
+    },
+    {
+      "source": "why-rag",
+      "target": "embeddings-hands-on",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "chunking",
+      "type": "containment"
+    },
+    {
+      "source": "embeddings-hands-on",
+      "target": "chunking",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "vector-databases",
+      "type": "containment"
+    },
+    {
+      "source": "chunking",
+      "target": "vector-databases",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "build-first-rag",
+      "type": "containment"
+    },
+    {
+      "source": "vector-databases",
+      "target": "build-first-rag",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "keyword-fulltext-search",
+      "type": "containment"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "hybrid-search-rrf",
+      "type": "containment"
+    },
+    {
+      "source": "keyword-fulltext-search",
+      "target": "hybrid-search-rrf",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "reranking",
+      "type": "containment"
+    },
+    {
+      "source": "hybrid-search-rrf",
+      "target": "reranking",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "citations-grounding",
+      "type": "containment"
+    },
+    {
+      "source": "reranking",
+      "target": "citations-grounding",
+      "type": "dependency"
+    },
+    {
+      "source": "hallucination",
+      "target": "citations-grounding",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "rag-failure-modes",
+      "type": "containment"
+    },
+    {
+      "source": "citations-grounding",
+      "target": "rag-failure-modes",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "metadata-filters",
+      "type": "containment"
+    },
+    {
+      "source": "rag-failure-modes",
+      "target": "metadata-filters",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "query-rewriting-hyde",
+      "type": "containment"
+    },
+    {
+      "source": "metadata-filters",
+      "target": "query-rewriting-hyde",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "multi-hop-retrieval",
+      "type": "containment"
+    },
+    {
+      "source": "query-rewriting-hyde",
+      "target": "multi-hop-retrieval",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "ingestion-pipelines",
+      "type": "containment"
+    },
+    {
+      "source": "multi-hop-retrieval",
+      "target": "ingestion-pipelines",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "rag-evals-intro",
+      "type": "containment"
+    },
+    {
+      "source": "ingestion-pipelines",
+      "target": "rag-evals-intro",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "build-chat-with-my-brain",
+      "type": "containment"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "evaluate-brain-chat",
+      "type": "containment"
+    },
+    {
+      "source": "build-chat-with-my-brain",
+      "target": "evaluate-brain-chat",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "graphrag-preview",
+      "type": "containment"
+    },
+    {
+      "source": "evaluate-brain-chat",
+      "target": "graphrag-preview",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "semantic-caching",
+      "type": "containment"
+    },
+    {
+      "source": "graphrag-preview",
+      "target": "semantic-caching",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "synthesis-rag",
+      "type": "containment"
+    },
+    {
+      "source": "semantic-caching",
+      "target": "synthesis-rag",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "capstone-rag",
+      "type": "containment"
+    },
+    {
+      "source": "synthesis-rag",
+      "target": "capstone-rag",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "what-makes-an-agent",
+      "type": "containment"
+    },
+    {
+      "source": "capstone-rag",
+      "target": "what-makes-an-agent",
+      "type": "dependency"
+    },
+    {
+      "source": "tool-calling",
+      "target": "what-makes-an-agent",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "react-by-hand",
+      "type": "containment"
+    },
+    {
+      "source": "what-makes-an-agent",
+      "target": "react-by-hand",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "designing-tools",
+      "type": "containment"
+    },
+    {
+      "source": "react-by-hand",
+      "target": "designing-tools",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "build-agent-from-scratch",
+      "type": "containment"
+    },
+    {
+      "source": "designing-tools",
+      "target": "build-agent-from-scratch",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "langgraph-state",
+      "type": "containment"
+    },
+    {
+      "source": "domain-agents",
+      "target": "langgraph-checkpointers",
+      "type": "containment"
+    },
+    {
+      "source": "langgraph-state",
+      "target": "langgraph-checkpointers",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "hitl-interrupts",
+      "type": "containment"
+    },
+    {
+      "source": "langgraph-checkpointers",
+      "target": "hitl-interrupts",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "plan-and-execute",
+      "type": "containment"
+    },
+    {
+      "source": "hitl-interrupts",
+      "target": "plan-and-execute",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "reflection-patterns",
+      "type": "containment"
+    },
+    {
+      "source": "plan-and-execute",
+      "target": "reflection-patterns",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "subgraphs",
+      "type": "containment"
+    },
+    {
+      "source": "reflection-patterns",
+      "target": "subgraphs",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "study-supervisor",
+      "type": "containment"
+    },
+    {
+      "source": "subgraphs",
+      "target": "study-supervisor",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "study-specialists",
+      "type": "containment"
+    },
+    {
+      "source": "study-supervisor",
+      "target": "study-specialists",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "scratchpads-working-memory",
+      "type": "containment"
+    },
+    {
+      "source": "study-specialists",
+      "target": "scratchpads-working-memory",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "build-research-agent",
+      "type": "containment"
+    },
+    {
+      "source": "domain-agents",
+      "target": "add-the-gate",
+      "type": "containment"
+    },
+    {
+      "source": "build-research-agent",
+      "target": "add-the-gate",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "agent-failure-modes",
+      "type": "containment"
+    },
+    {
+      "source": "add-the-gate",
+      "target": "agent-failure-modes",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "cost-latency-budgets",
+      "type": "containment"
+    },
+    {
+      "source": "agent-failure-modes",
+      "target": "cost-latency-budgets",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "build-node-proposer",
+      "type": "containment"
+    },
+    {
+      "source": "cost-latency-budgets",
+      "target": "build-node-proposer",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "synthesis-agents",
+      "type": "containment"
+    },
+    {
+      "source": "build-node-proposer",
+      "target": "synthesis-agents",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-agents",
+      "target": "capstone-agents",
+      "type": "containment"
+    },
+    {
+      "source": "synthesis-agents",
+      "target": "capstone-agents",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "when-many-beats-one",
+      "type": "containment"
+    },
+    {
+      "source": "capstone-agents",
+      "target": "when-many-beats-one",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "orchestrator-worker",
+      "type": "containment"
+    },
+    {
+      "source": "when-many-beats-one",
+      "target": "orchestrator-worker",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "handoffs-routing",
+      "type": "containment"
+    },
+    {
+      "source": "orchestrator-worker",
+      "target": "handoffs-routing",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "shared-state-patterns",
+      "type": "containment"
+    },
+    {
+      "source": "handoffs-routing",
+      "target": "shared-state-patterns",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "parallel-agents",
+      "type": "containment"
+    },
+    {
+      "source": "shared-state-patterns",
+      "target": "parallel-agents",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "debate-consensus",
+      "type": "containment"
+    },
+    {
+      "source": "parallel-agents",
+      "target": "debate-consensus",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "token-economics-of-teams",
+      "type": "containment"
+    },
+    {
+      "source": "debate-consensus",
+      "target": "token-economics-of-teams",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "mcp-fundamentals",
+      "type": "containment"
+    },
+    {
+      "source": "study-gateway",
+      "target": "mcp-fundamentals",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "build-mcp-server",
+      "type": "containment"
+    },
+    {
+      "source": "mcp-fundamentals",
+      "target": "build-mcp-server",
+      "type": "dependency"
+    },
+    {
+      "source": "designing-tools",
+      "target": "build-mcp-server",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "mcp-clients",
+      "type": "containment"
+    },
+    {
+      "source": "build-mcp-server",
+      "target": "mcp-clients",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "mcp-resources-prompts",
+      "type": "containment"
+    },
+    {
+      "source": "mcp-clients",
+      "target": "mcp-resources-prompts",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "mcp-security",
+      "type": "containment"
+    },
+    {
+      "source": "mcp-resources-prompts",
+      "target": "mcp-security",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "protocol-landscape",
+      "type": "containment"
+    },
+    {
+      "source": "mcp-security",
+      "target": "protocol-landscape",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "build-writer-critic",
+      "type": "containment"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "build-brain-mcp-server",
+      "type": "containment"
+    },
+    {
+      "source": "build-writer-critic",
+      "target": "build-brain-mcp-server",
+      "type": "dependency"
+    },
+    {
+      "source": "build-chat-with-my-brain",
+      "target": "build-brain-mcp-server",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "experiment-one-vs-many",
+      "type": "containment"
+    },
+    {
+      "source": "build-brain-mcp-server",
+      "target": "experiment-one-vs-many",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "synthesis-multi-agent",
+      "type": "containment"
+    },
+    {
+      "source": "experiment-one-vs-many",
+      "target": "synthesis-multi-agent",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "capstone-multi-agent",
+      "type": "containment"
+    },
+    {
+      "source": "synthesis-multi-agent",
+      "target": "capstone-multi-agent",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "memory-taxonomy",
+      "type": "containment"
+    },
+    {
+      "source": "capstone-multi-agent",
+      "target": "memory-taxonomy",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "memory-architectures",
+      "type": "containment"
+    },
+    {
+      "source": "memory-taxonomy",
+      "target": "memory-architectures",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "memory-extraction",
+      "type": "containment"
+    },
+    {
+      "source": "memory-architectures",
+      "target": "memory-extraction",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "retrieval-and-decay",
+      "type": "containment"
+    },
+    {
+      "source": "memory-extraction",
+      "target": "retrieval-and-decay",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "memory-frameworks",
+      "type": "containment"
+    },
+    {
+      "source": "retrieval-and-decay",
+      "target": "memory-frameworks",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "compaction-summarization",
+      "type": "containment"
+    },
+    {
+      "source": "memory-frameworks",
+      "target": "compaction-summarization",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "personalization-via-memory",
+      "type": "containment"
+    },
+    {
+      "source": "compaction-summarization",
+      "target": "personalization-via-memory",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "privacy-in-memory",
+      "type": "containment"
+    },
+    {
+      "source": "personalization-via-memory",
+      "target": "privacy-in-memory",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "knowledge-graphs-101",
+      "type": "containment"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "entity-extraction",
+      "type": "containment"
+    },
+    {
+      "source": "knowledge-graphs-101",
+      "target": "entity-extraction",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "graphrag-deep",
+      "type": "containment"
+    },
+    {
+      "source": "entity-extraction",
+      "target": "graphrag-deep",
+      "type": "dependency"
+    },
+    {
+      "source": "hybrid-search-rrf",
+      "target": "graphrag-deep",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "temporal-knowledge",
+      "type": "containment"
+    },
+    {
+      "source": "graphrag-deep",
+      "target": "temporal-knowledge",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "brain-as-knowledge-graph",
+      "type": "containment"
+    },
+    {
+      "source": "temporal-knowledge",
+      "target": "brain-as-knowledge-graph",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "build-memory-layer",
+      "type": "containment"
+    },
+    {
+      "source": "memory-taxonomy",
+      "target": "build-memory-layer",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "build-link-suggester-v2",
+      "type": "containment"
+    },
+    {
+      "source": "build-memory-layer",
+      "target": "build-link-suggester-v2",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "build-learning-recall-agent",
+      "type": "containment"
+    },
+    {
+      "source": "build-link-suggester-v2",
+      "target": "build-learning-recall-agent",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "synthesis-memory",
+      "type": "containment"
+    },
+    {
+      "source": "build-learning-recall-agent",
+      "target": "synthesis-memory",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "capstone-memory",
+      "type": "containment"
+    },
+    {
+      "source": "synthesis-memory",
+      "target": "capstone-memory",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "why-evals-rule",
+      "type": "containment"
+    },
+    {
+      "source": "capstone-memory",
+      "target": "why-evals-rule",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "build-golden-dataset",
+      "type": "containment"
+    },
+    {
+      "source": "why-evals-rule",
+      "target": "build-golden-dataset",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "llm-as-judge",
+      "type": "containment"
+    },
+    {
+      "source": "build-golden-dataset",
+      "target": "llm-as-judge",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "judge-bias-pinning",
+      "type": "containment"
+    },
+    {
+      "source": "llm-as-judge",
+      "target": "judge-bias-pinning",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "trajectory-evals",
+      "type": "containment"
+    },
+    {
+      "source": "judge-bias-pinning",
+      "target": "trajectory-evals",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "tool-use-metrics",
+      "type": "containment"
+    },
+    {
+      "source": "trajectory-evals",
+      "target": "tool-use-metrics",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "eval-frameworks-hands-on",
+      "type": "containment"
+    },
+    {
+      "source": "tool-use-metrics",
+      "target": "eval-frameworks-hands-on",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "prompt-regression-tests",
+      "type": "containment"
+    },
+    {
+      "source": "eval-frameworks-hands-on",
+      "target": "prompt-regression-tests",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "ci-gates-for-ai",
+      "type": "containment"
+    },
+    {
+      "source": "prompt-regression-tests",
+      "target": "ci-gates-for-ai",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "tracing-spans",
+      "type": "containment"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "reading-traces",
+      "type": "containment"
+    },
+    {
+      "source": "tracing-spans",
+      "target": "reading-traces",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "online-evals",
+      "type": "containment"
+    },
+    {
+      "source": "reading-traces",
+      "target": "online-evals",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "ab-testing-prompts",
+      "type": "containment"
+    },
+    {
+      "source": "online-evals",
+      "target": "ab-testing-prompts",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "cost-latency-dashboards",
+      "type": "containment"
+    },
+    {
+      "source": "ab-testing-prompts",
+      "target": "cost-latency-dashboards",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "build-eval-harness",
+      "type": "containment"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "failure-to-golden-loop",
+      "type": "containment"
+    },
+    {
+      "source": "build-eval-harness",
+      "target": "failure-to-golden-loop",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "error-analysis-practice",
+      "type": "containment"
+    },
+    {
+      "source": "failure-to-golden-loop",
+      "target": "error-analysis-practice",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "synthesis-evals",
+      "type": "containment"
+    },
+    {
+      "source": "error-analysis-practice",
+      "target": "synthesis-evals",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "capstone-evals",
+      "type": "containment"
+    },
+    {
+      "source": "synthesis-evals",
+      "target": "capstone-evals",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "agent-threat-model",
+      "type": "containment"
+    },
+    {
+      "source": "capstone-evals",
+      "target": "agent-threat-model",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "direct-injection",
+      "type": "containment"
+    },
+    {
+      "source": "agent-threat-model",
+      "target": "direct-injection",
+      "type": "dependency"
+    },
+    {
+      "source": "injection-first-look",
+      "target": "direct-injection",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "indirect-injection",
+      "type": "containment"
+    },
+    {
+      "source": "direct-injection",
+      "target": "indirect-injection",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "jailbreaks-redteaming",
+      "type": "containment"
+    },
+    {
+      "source": "indirect-injection",
+      "target": "jailbreaks-redteaming",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "supply-chain-risks",
+      "type": "containment"
+    },
+    {
+      "source": "jailbreaks-redteaming",
+      "target": "supply-chain-risks",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "spotlighting-delimiters",
+      "type": "containment"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "lethal-trifecta",
+      "type": "containment"
+    },
+    {
+      "source": "spotlighting-delimiters",
+      "target": "lethal-trifecta",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "least-privilege-tools",
+      "type": "containment"
+    },
+    {
+      "source": "lethal-trifecta",
+      "target": "least-privilege-tools",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "the-approval-gate",
+      "type": "containment"
+    },
+    {
+      "source": "least-privilege-tools",
+      "target": "the-approval-gate",
+      "type": "dependency"
+    },
+    {
+      "source": "hitl-interrupts",
+      "target": "the-approval-gate",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "idempotency-audit-logs",
+      "type": "containment"
+    },
+    {
+      "source": "the-approval-gate",
+      "target": "idempotency-audit-logs",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "guardrails-in-out",
+      "type": "containment"
+    },
+    {
+      "source": "idempotency-audit-logs",
+      "target": "guardrails-in-out",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "pii-redaction",
+      "type": "containment"
+    },
+    {
+      "source": "guardrails-in-out",
+      "target": "pii-redaction",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "refusals-content-safety",
+      "type": "containment"
+    },
+    {
+      "source": "pii-redaction",
+      "target": "refusals-content-safety",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "sandboxing-isolation",
+      "type": "containment"
+    },
+    {
+      "source": "refusals-content-safety",
+      "target": "sandboxing-isolation",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "build-redteam-my-agent",
+      "type": "containment"
+    },
+    {
+      "source": "build-golden-dataset",
+      "target": "build-redteam-my-agent",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "fix-what-broke",
+      "type": "containment"
+    },
+    {
+      "source": "build-redteam-my-agent",
+      "target": "fix-what-broke",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "build-injection-suite",
+      "type": "containment"
+    },
+    {
+      "source": "fix-what-broke",
+      "target": "build-injection-suite",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "responsible-shipping",
+      "type": "containment"
+    },
+    {
+      "source": "build-injection-suite",
+      "target": "responsible-shipping",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "synthesis-safety",
+      "type": "containment"
+    },
+    {
+      "source": "responsible-shipping",
+      "target": "synthesis-safety",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-safety-security",
+      "target": "capstone-safety",
+      "type": "containment"
+    },
+    {
+      "source": "synthesis-safety",
+      "target": "capstone-safety",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "fastapi-fundamentals",
+      "type": "containment"
+    },
+    {
+      "source": "capstone-safety",
+      "target": "fastapi-fundamentals",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "sse-streaming",
+      "type": "containment"
+    },
+    {
+      "source": "fastapi-fundamentals",
+      "target": "sse-streaming",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "schedulers-cron",
+      "type": "containment"
+    },
+    {
+      "source": "sse-streaming",
+      "target": "schedulers-cron",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "postgres-migrations",
+      "type": "containment"
+    },
+    {
+      "source": "schedulers-cron",
+      "target": "postgres-migrations",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "docker-for-ai",
+      "type": "containment"
+    },
+    {
+      "source": "postgres-migrations",
+      "target": "docker-for-ai",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "deploying-backends",
+      "type": "containment"
+    },
+    {
+      "source": "docker-for-ai",
+      "target": "deploying-backends",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "secrets-done-right",
+      "type": "containment"
+    },
+    {
+      "source": "deploying-backends",
+      "target": "secrets-done-right",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "supabase-deep-dive",
+      "type": "containment"
+    },
+    {
+      "source": "domain-production",
+      "target": "realtime-subscriptions",
+      "type": "containment"
+    },
+    {
+      "source": "supabase-deep-dive",
+      "target": "realtime-subscriptions",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "study-command-center",
+      "type": "containment"
+    },
+    {
+      "source": "realtime-subscriptions",
+      "target": "study-command-center",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "caching-layers",
+      "type": "containment"
+    },
+    {
+      "source": "study-command-center",
+      "target": "caching-layers",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "queues-pollers",
+      "type": "containment"
+    },
+    {
+      "source": "caching-layers",
+      "target": "queues-pollers",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "webhooks-telegram",
+      "type": "containment"
+    },
+    {
+      "source": "queues-pollers",
+      "target": "webhooks-telegram",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "monitoring-alerting",
+      "type": "containment"
+    },
+    {
+      "source": "webhooks-telegram",
+      "target": "monitoring-alerting",
+      "type": "dependency"
+    },
+    {
+      "source": "tracing-spans",
+      "target": "monitoring-alerting",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "resurrection",
+      "type": "containment"
+    },
+    {
+      "source": "domain-production",
+      "target": "the-bridge",
+      "type": "containment"
+    },
+    {
+      "source": "resurrection",
+      "target": "the-bridge",
+      "type": "dependency"
+    },
+    {
+      "source": "build-node-proposer",
+      "target": "the-bridge",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "hardening-pass",
+      "type": "containment"
+    },
+    {
+      "source": "the-bridge",
+      "target": "hardening-pass",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "synthesis-production",
+      "type": "containment"
+    },
+    {
+      "source": "hardening-pass",
+      "target": "synthesis-production",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "capstone-production",
+      "type": "containment"
+    },
+    {
+      "source": "synthesis-production",
+      "target": "capstone-production",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "local-models",
+      "type": "containment"
+    },
+    {
+      "source": "capstone-production",
+      "target": "local-models",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "fine-tuning-when-why",
+      "type": "containment"
+    },
+    {
+      "source": "local-models",
+      "target": "fine-tuning-when-why",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "small-distilled-models",
+      "type": "containment"
+    },
+    {
+      "source": "fine-tuning-when-why",
+      "target": "small-distilled-models",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "voice-agents",
+      "type": "containment"
+    },
+    {
+      "source": "small-distilled-models",
+      "target": "voice-agents",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "computer-use-agents",
+      "type": "containment"
+    },
+    {
+      "source": "voice-agents",
+      "target": "computer-use-agents",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "coding-agents",
+      "type": "containment"
+    },
+    {
+      "source": "computer-use-agents",
+      "target": "coding-agents",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "agentic-rag-frontiers",
+      "type": "containment"
+    },
+    {
+      "source": "coding-agents",
+      "target": "agentic-rag-frontiers",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "reasoning-test-time-compute",
+      "type": "containment"
+    },
+    {
+      "source": "agentic-rag-frontiers",
+      "target": "reasoning-test-time-compute",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "protocol-futures",
+      "type": "containment"
+    },
+    {
+      "source": "reasoning-test-time-compute",
+      "target": "protocol-futures",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "reading-papers-forever",
+      "type": "containment"
+    },
+    {
+      "source": "protocol-futures",
+      "target": "reading-papers-forever",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "frontier-slot-1",
+      "type": "containment"
+    },
+    {
+      "source": "reading-papers-forever",
+      "target": "frontier-slot-1",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "frontier-slot-2",
+      "type": "containment"
+    },
+    {
+      "source": "frontier-slot-1",
+      "target": "frontier-slot-2",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "frontier-slot-3",
+      "type": "containment"
+    },
+    {
+      "source": "frontier-slot-2",
+      "target": "frontier-slot-3",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "define-vizier-v2",
+      "type": "containment"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "build-vizier-v2-core",
+      "type": "containment"
+    },
+    {
+      "source": "define-vizier-v2",
+      "target": "build-vizier-v2-core",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "vizier-v2-memory-retrieval",
+      "type": "containment"
+    },
+    {
+      "source": "build-vizier-v2-core",
+      "target": "vizier-v2-memory-retrieval",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "vizier-v2-gate-safety",
+      "type": "containment"
+    },
+    {
+      "source": "vizier-v2-memory-retrieval",
+      "target": "vizier-v2-gate-safety",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "vizier-v2-evals-traces",
+      "type": "containment"
+    },
+    {
+      "source": "vizier-v2-gate-safety",
+      "target": "vizier-v2-evals-traces",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "vizier-v2-redteam-ship",
+      "type": "containment"
+    },
+    {
+      "source": "vizier-v2-evals-traces",
+      "target": "vizier-v2-redteam-ship",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "the-full-story",
+      "type": "containment"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "the-demo-film",
+      "type": "containment"
+    },
+    {
+      "source": "the-full-story",
+      "target": "the-demo-film",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "portfolio-integration",
+      "type": "containment"
+    },
+    {
+      "source": "the-demo-film",
+      "target": "portfolio-integration",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "retrospective",
+      "type": "containment"
+    },
+    {
+      "source": "portfolio-integration",
+      "target": "retrospective",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "graduation",
+      "type": "containment"
+    },
+    {
+      "source": "retrospective",
+      "target": "graduation",
+      "type": "dependency"
+    },
+    {
+      "source": "resurrection",
+      "target": "M1",
+      "type": "milestone-dependency"
+    },
+    {
+      "source": "the-bridge",
+      "target": "M2",
+      "type": "milestone-dependency"
+    },
+    {
+      "source": "build-feynman-bot",
+      "target": "M3",
+      "type": "milestone-dependency"
+    },
+    {
+      "source": "define-vizier-v2",
+      "target": "M5",
+      "type": "milestone-dependency"
     }
   ],
   "metadata": {
-    "generated_at": "2026-07-13T09:01:17.247Z",
-    "node_count": 11,
-    "edge_count": 10
+    "generated_at": "2026-07-13T09:10:34.739Z",
+    "node_count": 216,
+    "edge_count": 405
   }
 }

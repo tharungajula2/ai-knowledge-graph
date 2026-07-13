@@ -1,0 +1,3036 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-07-13T09:10:34.737Z",
+  "marathon": {
+    "days": 250,
+    "start_date": "2026-07-09"
+  },
+  "nodes": [
+    {
+      "id": "map-of-ai",
+      "title": "The Map of AI",
+      "domain": "foundations",
+      "cluster": "How AI Works",
+      "type": "concept",
+      "size": "S",
+      "summary": "AI vs ML vs DL vs GenAI vs Agentic — the family tree.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "how-machines-learn",
+      "title": "How Machines Learn",
+      "domain": "foundations",
+      "cluster": "How AI Works",
+      "type": "concept",
+      "size": "S",
+      "summary": "weights, loss, gradient descent — pure intuition.",
+      "requires": [
+        "map-of-ai"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "what-is-a-language-model",
+      "title": "What a Language Model Is",
+      "domain": "foundations",
+      "cluster": "How AI Works",
+      "type": "concept",
+      "size": "S",
+      "summary": "next-token prediction, and why that's enough for magic.",
+      "requires": [
+        "how-machines-learn"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "tokens",
+      "title": "Tokens",
+      "domain": "foundations",
+      "cluster": "How AI Works",
+      "type": "concept",
+      "size": "S",
+      "summary": "play with a real tokenizer; why \"strawberry\" confuses models.",
+      "requires": [
+        "what-is-a-language-model"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "embeddings-intuition",
+      "title": "Embeddings Intuition",
+      "domain": "foundations",
+      "cluster": "How AI Works",
+      "type": "concept",
+      "size": "S",
+      "summary": "meaning as coordinates; nearest-neighbor thinking.",
+      "requires": [
+        "tokens"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "attention-transformers",
+      "title": "Attention & Transformers",
+      "domain": "foundations",
+      "cluster": "How AI Works",
+      "type": "concept",
+      "size": "M",
+      "summary": "the \"every word looks at every word\" idea.",
+      "requires": [
+        "embeddings-intuition"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "training-pipeline",
+      "title": "Pretraining → Fine-tuning → RLHF",
+      "domain": "foundations",
+      "cluster": "How AI Works",
+      "type": "concept",
+      "size": "S",
+      "summary": "the three-stage recipe behind every chatbot.",
+      "requires": [
+        "attention-transformers"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "context-windows",
+      "title": "Context Windows",
+      "domain": "foundations",
+      "cluster": "How AI Works",
+      "type": "concept",
+      "size": "S",
+      "summary": "the model's short-term memory and what fits.",
+      "requires": [
+        "training-pipeline"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "sampling-controls",
+      "title": "Temperature & Top-p",
+      "domain": "foundations",
+      "cluster": "How AI Works",
+      "type": "concept",
+      "size": "S",
+      "summary": "why the same prompt gives different answers.",
+      "requires": [
+        "context-windows"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "hallucination",
+      "title": "Hallucination",
+      "domain": "foundations",
+      "cluster": "How AI Works",
+      "type": "concept",
+      "size": "S",
+      "summary": "why models confidently make things up; grounding preview.",
+      "requires": [
+        "sampling-controls"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "model-landscape",
+      "title": "The Current Model Landscape",
+      "domain": "foundations",
+      "cluster": "How AI Works",
+      "type": "frontier",
+      "size": "S",
+      "summary": "open vs closed, frontier vs small — as of the day I light this node.",
+      "requires": [
+        "hallucination"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "python-environments",
+      "title": "Environments & Packages",
+      "domain": "foundations",
+      "cluster": "The Engineer's Floor",
+      "type": "build",
+      "size": "S",
+      "summary": "venv, pip, running scripts like a pro.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "python-data-shapes",
+      "title": "Data Shapes",
+      "domain": "foundations",
+      "cluster": "The Engineer's Floor",
+      "type": "build",
+      "size": "S",
+      "summary": "functions, dicts, JSON — the shapes of AI data.",
+      "requires": [
+        "python-environments"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "python-classes-modules",
+      "title": "Classes & Modules",
+      "domain": "foundations",
+      "cluster": "The Engineer's Floor",
+      "type": "build",
+      "size": "S",
+      "summary": "reading real codebases.",
+      "requires": [
+        "python-data-shapes"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "python-async",
+      "title": "Async/Await",
+      "domain": "foundations",
+      "cluster": "The Engineer's Floor",
+      "type": "build",
+      "size": "M",
+      "summary": "why AI apps need it; hands-on.",
+      "requires": [
+        "python-classes-modules"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "python-typing-pydantic",
+      "title": "Types & Pydantic",
+      "domain": "foundations",
+      "cluster": "The Engineer's Floor",
+      "type": "build",
+      "size": "S",
+      "summary": "the schema mindset.",
+      "requires": [
+        "python-async"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "git-mastery",
+      "title": "Git Mastery",
+      "domain": "foundations",
+      "cluster": "The Engineer's Floor",
+      "type": "build",
+      "size": "S",
+      "summary": "branches, commits, history — understand my own daily ritual.",
+      "requires": [
+        "python-typing-pydantic"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "terminal-fluency",
+      "title": "Terminal Fluency",
+      "domain": "foundations",
+      "cluster": "The Engineer's Floor",
+      "type": "build",
+      "size": "S",
+      "summary": "navigate, pipe, grep — no more fear.",
+      "requires": [
+        "git-mastery"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-token-cost-calculator",
+      "title": "Build: Token & Cost Calculator",
+      "domain": "foundations",
+      "cluster": "The Engineer's Floor",
+      "type": "build",
+      "size": "M",
+      "summary": "count tokens, estimate API cost, write the explainer.",
+      "requires": [
+        "terminal-fluency"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "synthesis-foundations",
+      "title": "Synthesis: The Foundations Map",
+      "domain": "foundations",
+      "cluster": "Consolidation",
+      "type": "synthesis",
+      "size": "S",
+      "summary": "explain \"how an LLM works\" to a 12-year-old, end to end.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "capstone-foundations",
+      "title": "🏁 Capstone: Foundations",
+      "domain": "foundations",
+      "cluster": "Consolidation",
+      "type": "capstone",
+      "size": "M",
+      "summary": "mega-note + carousel \"How AI really works\" + replan checkpoint.",
+      "requires": [
+        "synthesis-foundations"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "first-api-call",
+      "title": "First API Call",
+      "domain": "prompting-apis",
+      "cluster": "Speaking to Models",
+      "type": "build",
+      "size": "S",
+      "summary": "call Gemini from Python; inspect the raw response.",
+      "requires": [
+        "capstone-foundations"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "roles-and-system-prompts",
+      "title": "Roles & System Prompts",
+      "domain": "prompting-apis",
+      "cluster": "Speaking to Models",
+      "type": "concept",
+      "size": "S",
+      "summary": "who's talking; why system prompts steer everything.",
+      "requires": [
+        "first-api-call"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "prompt-skeleton",
+      "title": "The Prompt Skeleton",
+      "domain": "prompting-apis",
+      "cluster": "Speaking to Models",
+      "type": "concept",
+      "size": "S",
+      "summary": "role + context + task + format — the reusable pattern.",
+      "requires": [
+        "roles-and-system-prompts"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "few-shot-prompting",
+      "title": "Few-shot Examples",
+      "domain": "prompting-apis",
+      "cluster": "Speaking to Models",
+      "type": "concept",
+      "size": "S",
+      "summary": "when 3 examples beat 300 words.",
+      "requires": [
+        "prompt-skeleton"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "reasoning-prompts",
+      "title": "Reasoning Prompts",
+      "domain": "prompting-apis",
+      "cluster": "Speaking to Models",
+      "type": "concept",
+      "size": "S",
+      "summary": "chain-of-thought, step-by-step, and their limits.",
+      "requires": [
+        "few-shot-prompting"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "structured-output",
+      "title": "Structured Output",
+      "domain": "prompting-apis",
+      "cluster": "Speaking to Models",
+      "type": "build",
+      "size": "S",
+      "summary": "force clean JSON out of a model; parse safely.",
+      "requires": [
+        "reasoning-prompts"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "tool-calling",
+      "title": "Tool / Function Calling",
+      "domain": "prompting-apis",
+      "cluster": "Speaking to Models",
+      "type": "concept",
+      "size": "M",
+      "summary": "the single most important mechanic in agentic AI.",
+      "requires": [
+        "structured-output"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "streaming-responses",
+      "title": "Streaming",
+      "domain": "prompting-apis",
+      "cluster": "Engineering the Call",
+      "type": "build",
+      "size": "S",
+      "summary": "tokens flowing into the terminal, live.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "errors-retries-backoff",
+      "title": "Errors, Retries, Backoff",
+      "domain": "prompting-apis",
+      "cluster": "Engineering the Call",
+      "type": "build",
+      "size": "S",
+      "summary": "API calls that survive failure.",
+      "requires": [
+        "streaming-responses"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "rate-limits-caching",
+      "title": "Rate Limits & Caching",
+      "domain": "prompting-apis",
+      "cluster": "Engineering the Call",
+      "type": "concept",
+      "size": "S",
+      "summary": "why free tiers throttle; how caching saves you.",
+      "requires": [
+        "errors-retries-backoff"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "study-gateway",
+      "title": "🔩 Deep-dive: gateway.py",
+      "domain": "prompting-apis",
+      "cluster": "Engineering the Call",
+      "type": "deep-dive",
+      "size": "M",
+      "summary": "my own multi-provider fallback gateway, finally readable.",
+      "requires": [
+        "rate-limits-caching"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "injection-first-look",
+      "title": "Prompt Injection: First Look",
+      "domain": "prompting-apis",
+      "cluster": "Engineering the Call",
+      "type": "concept",
+      "size": "S",
+      "summary": "the attack that shapes everything later.",
+      "requires": [
+        "study-gateway"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "multimodal-input",
+      "title": "Multimodal In",
+      "domain": "prompting-apis",
+      "cluster": "Engineering the Call",
+      "type": "build",
+      "size": "S",
+      "summary": "send an image; extract structured info.",
+      "requires": [
+        "injection-first-look"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "voice-audio-apis",
+      "title": "Voice & Audio APIs",
+      "domain": "prompting-apis",
+      "cluster": "Engineering the Call",
+      "type": "concept",
+      "size": "S",
+      "summary": "speech-to-text and text-to-speech landscape.",
+      "requires": [
+        "multimodal-input"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "long-context-strategies",
+      "title": "Long-Context Strategies",
+      "domain": "prompting-apis",
+      "cluster": "Engineering the Call",
+      "type": "concept",
+      "size": "S",
+      "summary": "stuffing vs retrieval vs summarizing.",
+      "requires": [
+        "voice-audio-apis"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "prompt-quality",
+      "title": "Is My Prompt Good?",
+      "domain": "prompting-apis",
+      "cluster": "Engineering the Call",
+      "type": "concept",
+      "size": "S",
+      "summary": "informal evaluation; A/B thinking begins.",
+      "requires": [
+        "long-context-strategies"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-cli-chatbot",
+      "title": "Build: CLI Chatbot",
+      "domain": "prompting-apis",
+      "cluster": "First Ships",
+      "type": "build",
+      "size": "M",
+      "summary": "terminal chatbot with in-session memory, streaming, a persona.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-feynman-bot",
+      "title": "Build: Feynman-Bot",
+      "domain": "prompting-apis",
+      "cluster": "First Ships",
+      "type": "build",
+      "size": "L",
+      "summary": "explains any AI term with an Indian-life analogy — ship it public. → M3",
+      "requires": [
+        "build-cli-chatbot"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "synthesis-apis",
+      "title": "Synthesis: The API Layer",
+      "domain": "prompting-apis",
+      "cluster": "First Ships",
+      "type": "synthesis",
+      "size": "S",
+      "summary": "the whole call path, explained start to finish.",
+      "requires": [
+        "build-feynman-bot"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "capstone-apis",
+      "title": "🏁 Capstone: APIs",
+      "domain": "prompting-apis",
+      "cluster": "First Ships",
+      "type": "capstone",
+      "size": "M",
+      "summary": "\"I taught a computer to take orders\" + replan checkpoint.",
+      "requires": [
+        "synthesis-apis"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "why-rag",
+      "title": "Why RAG Exists",
+      "domain": "rag-retrieval",
+      "cluster": "Retrieval Fundamentals",
+      "type": "concept",
+      "size": "S",
+      "summary": "closed-book vs open-book exams; the grounding solution.",
+      "requires": [
+        "capstone-apis"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "embeddings-hands-on",
+      "title": "Embeddings Hands-on",
+      "domain": "rag-retrieval",
+      "cluster": "Retrieval Fundamentals",
+      "type": "build",
+      "size": "S",
+      "summary": "embed sentences; cosine similarity by hand.",
+      "requires": [
+        "why-rag"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "chunking",
+      "title": "Chunking",
+      "domain": "rag-retrieval",
+      "cluster": "Retrieval Fundamentals",
+      "type": "concept",
+      "size": "S",
+      "summary": "slicing documents; why overlap matters.",
+      "requires": [
+        "embeddings-hands-on"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "vector-databases",
+      "title": "Vector Databases",
+      "domain": "rag-retrieval",
+      "cluster": "Retrieval Fundamentals",
+      "type": "concept",
+      "size": "M",
+      "summary": "what pgvector/HNSW actually do.",
+      "requires": [
+        "chunking"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-first-rag",
+      "title": "Build: First RAG Pipeline",
+      "domain": "rag-retrieval",
+      "cluster": "Retrieval Fundamentals",
+      "type": "build",
+      "size": "M",
+      "summary": "ingest → embed → store → retrieve → answer.",
+      "requires": [
+        "vector-databases"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "keyword-fulltext-search",
+      "title": "Keyword & Full-Text Search",
+      "domain": "rag-retrieval",
+      "cluster": "Retrieval, Seriously",
+      "type": "concept",
+      "size": "S",
+      "summary": "BM25/tsvector — old magic that still wins.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "hybrid-search-rrf",
+      "title": "🔩 Deep-dive: Hybrid Search + RRF",
+      "domain": "rag-retrieval",
+      "cluster": "Retrieval, Seriously",
+      "type": "deep-dive",
+      "size": "M",
+      "summary": "my own retrieve.py — vectors + keywords merged.",
+      "requires": [
+        "keyword-fulltext-search"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "reranking",
+      "title": "Reranking",
+      "domain": "rag-retrieval",
+      "cluster": "Retrieval, Seriously",
+      "type": "concept",
+      "size": "S",
+      "summary": "the second pass that fixes retrieval quality.",
+      "requires": [
+        "hybrid-search-rrf"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "citations-grounding",
+      "title": "Citations & Grounding",
+      "domain": "rag-retrieval",
+      "cluster": "Retrieval, Seriously",
+      "type": "build",
+      "size": "S",
+      "summary": "every answer points at its source.",
+      "requires": [
+        "reranking",
+        "hallucination"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "rag-failure-modes",
+      "title": "RAG Failure Modes",
+      "domain": "rag-retrieval",
+      "cluster": "Retrieval, Seriously",
+      "type": "concept",
+      "size": "S",
+      "summary": "lost-in-the-middle, bad chunks, stale indexes.",
+      "requires": [
+        "citations-grounding"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "metadata-filters",
+      "title": "Metadata & Filters",
+      "domain": "rag-retrieval",
+      "cluster": "Retrieval, Seriously",
+      "type": "build",
+      "size": "S",
+      "summary": "retrieval with structure — dates, tags, domains.",
+      "requires": [
+        "rag-failure-modes"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "query-rewriting-hyde",
+      "title": "Query Rewriting & HyDE",
+      "domain": "rag-retrieval",
+      "cluster": "Retrieval, Seriously",
+      "type": "concept",
+      "size": "S",
+      "summary": "fixing bad questions before retrieval.",
+      "requires": [
+        "metadata-filters"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "multi-hop-retrieval",
+      "title": "Multi-hop Retrieval",
+      "domain": "rag-retrieval",
+      "cluster": "Retrieval, Seriously",
+      "type": "concept",
+      "size": "S",
+      "summary": "questions that need two lookups.",
+      "requires": [
+        "query-rewriting-hyde"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "ingestion-pipelines",
+      "title": "Ingestion Pipelines",
+      "domain": "rag-retrieval",
+      "cluster": "Retrieval, Seriously",
+      "type": "build",
+      "size": "M",
+      "summary": "PDFs and messy HTML → clean chunks.",
+      "requires": [
+        "multi-hop-retrieval"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "rag-evals-intro",
+      "title": "RAG Evals Intro",
+      "domain": "rag-retrieval",
+      "cluster": "Retrieval, Seriously",
+      "type": "concept",
+      "size": "S",
+      "summary": "faithfulness & context recall — measuring groundedness.",
+      "requires": [
+        "ingestion-pipelines"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-chat-with-my-brain",
+      "title": "Build: Chat With My Brain",
+      "domain": "rag-retrieval",
+      "cluster": "RAG on My Own Brain",
+      "type": "build",
+      "size": "L",
+      "summary": "RAG over my own notes, with citations + domain filters — meta and glorious.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "evaluate-brain-chat",
+      "title": "Build: Evaluate It",
+      "domain": "rag-retrieval",
+      "cluster": "RAG on My Own Brain",
+      "type": "build",
+      "size": "M",
+      "summary": "mini golden set; score faithfulness.",
+      "requires": [
+        "build-chat-with-my-brain"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "graphrag-preview",
+      "title": "GraphRAG Preview",
+      "domain": "rag-retrieval",
+      "cluster": "RAG on My Own Brain",
+      "type": "concept",
+      "size": "S",
+      "summary": "when knowledge is a graph, not a pile.",
+      "requires": [
+        "evaluate-brain-chat"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "semantic-caching",
+      "title": "Semantic Caching",
+      "domain": "rag-retrieval",
+      "cluster": "RAG on My Own Brain",
+      "type": "concept",
+      "size": "S",
+      "summary": "answering repeat questions for free.",
+      "requires": [
+        "graphrag-preview"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "synthesis-rag",
+      "title": "Synthesis: The Retrieval Story",
+      "domain": "rag-retrieval",
+      "cluster": "RAG on My Own Brain",
+      "type": "synthesis",
+      "size": "S",
+      "summary": "the full pipeline, one diagram.",
+      "requires": [
+        "semantic-caching"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "capstone-rag",
+      "title": "🏁 Capstone: Retrieval",
+      "domain": "rag-retrieval",
+      "cluster": "RAG on My Own Brain",
+      "type": "capstone",
+      "size": "M",
+      "summary": "\"I gave AI an open book\" + replan checkpoint.",
+      "requires": [
+        "synthesis-rag"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "what-makes-an-agent",
+      "title": "What Makes an Agent",
+      "domain": "agents",
+      "cluster": "The Loop",
+      "type": "concept",
+      "size": "S",
+      "summary": "reason, act, observe, repeat.",
+      "requires": [
+        "capstone-rag",
+        "tool-calling"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "react-by-hand",
+      "title": "ReAct By Hand",
+      "domain": "agents",
+      "cluster": "The Loop",
+      "type": "build",
+      "size": "S",
+      "summary": "run the loop manually on paper with a real task.",
+      "requires": [
+        "what-makes-an-agent"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "designing-tools",
+      "title": "Designing Tools",
+      "domain": "agents",
+      "cluster": "The Loop",
+      "type": "concept",
+      "size": "S",
+      "summary": "schemas, descriptions, why naming matters.",
+      "requires": [
+        "react-by-hand"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-agent-from-scratch",
+      "title": "Build: Agent From Scratch",
+      "domain": "agents",
+      "cluster": "The Loop",
+      "type": "build",
+      "size": "M",
+      "summary": "pure-Python loop, no framework.",
+      "requires": [
+        "designing-tools"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "langgraph-state",
+      "title": "LangGraph: Nodes & State",
+      "domain": "agents",
+      "cluster": "LangGraph & Patterns",
+      "type": "concept",
+      "size": "M",
+      "summary": "the graph mental model.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "langgraph-checkpointers",
+      "title": "Checkpointers",
+      "domain": "agents",
+      "cluster": "LangGraph & Patterns",
+      "type": "concept",
+      "size": "S",
+      "summary": "pause, resume, survive crashes.",
+      "requires": [
+        "langgraph-state"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "hitl-interrupts",
+      "title": "Human-in-the-Loop Interrupts",
+      "domain": "agents",
+      "cluster": "LangGraph & Patterns",
+      "type": "build",
+      "size": "M",
+      "summary": "an agent that stops and asks permission.",
+      "requires": [
+        "langgraph-checkpointers"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "plan-and-execute",
+      "title": "Plan-and-Execute",
+      "domain": "agents",
+      "cluster": "LangGraph & Patterns",
+      "type": "concept",
+      "size": "S",
+      "summary": "planners vs reactors.",
+      "requires": [
+        "hitl-interrupts"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "reflection-patterns",
+      "title": "Reflection / Reflexion",
+      "domain": "agents",
+      "cluster": "LangGraph & Patterns",
+      "type": "concept",
+      "size": "S",
+      "summary": "agents that critique themselves.",
+      "requires": [
+        "plan-and-execute"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "subgraphs",
+      "title": "Subgraphs",
+      "domain": "agents",
+      "cluster": "LangGraph & Patterns",
+      "type": "concept",
+      "size": "S",
+      "summary": "agents made of agents.",
+      "requires": [
+        "reflection-patterns"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "study-supervisor",
+      "title": "🔩 Deep-dive: supervisor.py",
+      "domain": "agents",
+      "cluster": "LangGraph & Patterns",
+      "type": "deep-dive",
+      "size": "M",
+      "summary": "my own supervisor router, understood.",
+      "requires": [
+        "subgraphs"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "study-specialists",
+      "title": "🔩 Deep-dive: specialists.py",
+      "domain": "agents",
+      "cluster": "LangGraph & Patterns",
+      "type": "deep-dive",
+      "size": "M",
+      "summary": "Scheduler, Scribe, Researcher, Analyst dissected.",
+      "requires": [
+        "study-supervisor"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "scratchpads-working-memory",
+      "title": "Scratchpads",
+      "domain": "agents",
+      "cluster": "LangGraph & Patterns",
+      "type": "concept",
+      "size": "S",
+      "summary": "what the agent remembers mid-task.",
+      "requires": [
+        "study-specialists"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-research-agent",
+      "title": "Build: Research Agent",
+      "domain": "agents",
+      "cluster": "Real Agents",
+      "type": "build",
+      "size": "L",
+      "summary": "web-search tool + multi-step plans + cited synthesis.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "add-the-gate",
+      "title": "Build: Add the Gate",
+      "domain": "agents",
+      "cluster": "Real Agents",
+      "type": "build",
+      "size": "M",
+      "summary": "HITL approval before it saves anything.",
+      "requires": [
+        "build-research-agent"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "agent-failure-modes",
+      "title": "Agent Failure Modes",
+      "domain": "agents",
+      "cluster": "Real Agents",
+      "type": "concept",
+      "size": "S",
+      "summary": "infinite loops, tool spam, derailment — and guards.",
+      "requires": [
+        "add-the-gate"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "cost-latency-budgets",
+      "title": "Cost & Latency Budgets",
+      "domain": "agents",
+      "cluster": "Real Agents",
+      "type": "concept",
+      "size": "S",
+      "summary": "agents burn tokens; engineer the bill.",
+      "requires": [
+        "agent-failure-modes"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-node-proposer",
+      "title": "Build: The Node-Proposer",
+      "domain": "agents",
+      "cluster": "Real Agents",
+      "type": "build",
+      "size": "L",
+      "summary": "an agent that proposes brain nodes for my approval — the seed of The Bridge.",
+      "requires": [
+        "cost-latency-budgets"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "synthesis-agents",
+      "title": "Synthesis: Chatbot vs Agent",
+      "domain": "agents",
+      "cluster": "Real Agents",
+      "type": "synthesis",
+      "size": "S",
+      "summary": "explained forever.",
+      "requires": [
+        "build-node-proposer"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "capstone-agents",
+      "title": "🏁 Capstone: Agents",
+      "domain": "agents",
+      "cluster": "Real Agents",
+      "type": "capstone",
+      "size": "M",
+      "summary": "milestone mega-post + replan checkpoint.",
+      "requires": [
+        "synthesis-agents"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "when-many-beats-one",
+      "title": "When Many Beats One",
+      "domain": "multi-agent-mcp",
+      "cluster": "Teams",
+      "type": "concept",
+      "size": "S",
+      "summary": "honest criteria for multi-agent (and when it's hype).",
+      "requires": [
+        "capstone-agents"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "orchestrator-worker",
+      "title": "Orchestrator–Worker",
+      "domain": "multi-agent-mcp",
+      "cluster": "Teams",
+      "type": "concept",
+      "size": "S",
+      "summary": "the supervisor pattern, formalized.",
+      "requires": [
+        "when-many-beats-one"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "handoffs-routing",
+      "title": "Handoffs & Routing",
+      "domain": "multi-agent-mcp",
+      "cluster": "Teams",
+      "type": "concept",
+      "size": "S",
+      "summary": "tasks moving between agents cleanly.",
+      "requires": [
+        "orchestrator-worker"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "shared-state-patterns",
+      "title": "Shared State",
+      "domain": "multi-agent-mcp",
+      "cluster": "Teams",
+      "type": "concept",
+      "size": "S",
+      "summary": "scratchpads, blackboards, message passing.",
+      "requires": [
+        "handoffs-routing"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "parallel-agents",
+      "title": "Parallel Agents",
+      "domain": "multi-agent-mcp",
+      "cluster": "Teams",
+      "type": "concept",
+      "size": "S",
+      "summary": "fan-out/fan-in; what's safe to parallelize.",
+      "requires": [
+        "shared-state-patterns"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "debate-consensus",
+      "title": "Debate & Consensus",
+      "domain": "multi-agent-mcp",
+      "cluster": "Teams",
+      "type": "concept",
+      "size": "S",
+      "summary": "agents arguing their way to better answers.",
+      "requires": [
+        "parallel-agents"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "token-economics-of-teams",
+      "title": "Token Economics of Teams",
+      "domain": "multi-agent-mcp",
+      "cluster": "Teams",
+      "type": "concept",
+      "size": "S",
+      "summary": "multi-agent cost math, honestly.",
+      "requires": [
+        "debate-consensus"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "mcp-fundamentals",
+      "title": "MCP: The USB-C of AI",
+      "domain": "multi-agent-mcp",
+      "cluster": "MCP & Protocols",
+      "type": "concept",
+      "size": "M",
+      "summary": "why one protocol won tool connectivity.",
+      "requires": [
+        "study-gateway"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-mcp-server",
+      "title": "🔩 Build: My First MCP Server",
+      "domain": "multi-agent-mcp",
+      "cluster": "MCP & Protocols",
+      "type": "deep-dive",
+      "size": "M",
+      "summary": "study vizier_utils_server.py, then extend it.",
+      "requires": [
+        "mcp-fundamentals",
+        "designing-tools"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "mcp-clients",
+      "title": "MCP Clients",
+      "domain": "multi-agent-mcp",
+      "cluster": "MCP & Protocols",
+      "type": "build",
+      "size": "S",
+      "summary": "connect my server to a client and call it.",
+      "requires": [
+        "build-mcp-server"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "mcp-resources-prompts",
+      "title": "MCP Deep: Resources & Prompts",
+      "domain": "multi-agent-mcp",
+      "cluster": "MCP & Protocols",
+      "type": "concept",
+      "size": "S",
+      "summary": "beyond tools — the full spec.",
+      "requires": [
+        "mcp-clients"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "mcp-security",
+      "title": "MCP Security",
+      "domain": "multi-agent-mcp",
+      "cluster": "MCP & Protocols",
+      "type": "concept",
+      "size": "M",
+      "summary": "tool poisoning, confused deputies — the new attack surface.",
+      "requires": [
+        "mcp-resources-prompts"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "protocol-landscape",
+      "title": "The Protocol Landscape",
+      "domain": "multi-agent-mcp",
+      "cluster": "MCP & Protocols",
+      "type": "frontier",
+      "size": "S",
+      "summary": "A2A and whatever is current when I light this node.",
+      "requires": [
+        "mcp-security"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-writer-critic",
+      "title": "Build: Writer + Critic",
+      "domain": "multi-agent-mcp",
+      "cluster": "Team Builds",
+      "type": "build",
+      "size": "M",
+      "summary": "two agents improving a draft in a loop; add a supervisor; measure gain.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-brain-mcp-server",
+      "title": "Build: Brain MCP Server",
+      "domain": "multi-agent-mcp",
+      "cluster": "Team Builds",
+      "type": "build",
+      "size": "L",
+      "summary": "expose my brain graph as MCP tools — any AI client can query my learning.",
+      "requires": [
+        "build-writer-critic",
+        "build-chat-with-my-brain"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "experiment-one-vs-many",
+      "title": "Experiment: One vs Many",
+      "domain": "multi-agent-mcp",
+      "cluster": "Team Builds",
+      "type": "build",
+      "size": "M",
+      "summary": "same task, single vs multi; publish the honest finding.",
+      "requires": [
+        "build-brain-mcp-server"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "synthesis-multi-agent",
+      "title": "Synthesis: The Connected-Agents Map",
+      "domain": "multi-agent-mcp",
+      "cluster": "Team Builds",
+      "type": "synthesis",
+      "size": "S",
+      "summary": "",
+      "requires": [
+        "experiment-one-vs-many"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "capstone-multi-agent",
+      "title": "🏁 Capstone: Multi-Agent",
+      "domain": "multi-agent-mcp",
+      "cluster": "Team Builds",
+      "type": "capstone",
+      "size": "M",
+      "summary": "+ replan checkpoint.",
+      "requires": [
+        "synthesis-multi-agent"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "memory-taxonomy",
+      "title": "🔩 Memory Taxonomy",
+      "domain": "memory-knowledge",
+      "cluster": "Agent Memory",
+      "type": "deep-dive",
+      "size": "S",
+      "summary": "semantic/episodic/procedural — study my own memories table.",
+      "requires": [
+        "capstone-multi-agent"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "memory-architectures",
+      "title": "Memory Architectures",
+      "domain": "memory-knowledge",
+      "cluster": "Agent Memory",
+      "type": "concept",
+      "size": "S",
+      "summary": "context vs store; the memory stack.",
+      "requires": [
+        "memory-taxonomy"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "memory-extraction",
+      "title": "Memory Extraction",
+      "domain": "memory-knowledge",
+      "cluster": "Agent Memory",
+      "type": "concept",
+      "size": "S",
+      "summary": "conversations → durable facts.",
+      "requires": [
+        "memory-architectures"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "retrieval-and-decay",
+      "title": "Retrieval & Decay",
+      "domain": "memory-knowledge",
+      "cluster": "Agent Memory",
+      "type": "concept",
+      "size": "S",
+      "summary": "importance, recency, forgetting on purpose.",
+      "requires": [
+        "memory-extraction"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "memory-frameworks",
+      "title": "Memory Frameworks",
+      "domain": "memory-knowledge",
+      "cluster": "Agent Memory",
+      "type": "frontier",
+      "size": "S",
+      "summary": "the current landscape when I light this node.",
+      "requires": [
+        "retrieval-and-decay"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "compaction-summarization",
+      "title": "Compaction & Summarization",
+      "domain": "memory-knowledge",
+      "cluster": "Agent Memory",
+      "type": "concept",
+      "size": "S",
+      "summary": "keeping memory small and sharp.",
+      "requires": [
+        "memory-frameworks"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "personalization-via-memory",
+      "title": "Personalization",
+      "domain": "memory-knowledge",
+      "cluster": "Agent Memory",
+      "type": "concept",
+      "size": "S",
+      "summary": "assistants that actually know you.",
+      "requires": [
+        "compaction-summarization"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "privacy-in-memory",
+      "title": "Privacy in Memory",
+      "domain": "memory-knowledge",
+      "cluster": "Agent Memory",
+      "type": "concept",
+      "size": "S",
+      "summary": "what should never be remembered.",
+      "requires": [
+        "personalization-via-memory"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "knowledge-graphs-101",
+      "title": "Knowledge Graphs 101",
+      "domain": "memory-knowledge",
+      "cluster": "Knowledge Graphs",
+      "type": "concept",
+      "size": "S",
+      "summary": "entities, relations, triples.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "entity-extraction",
+      "title": "Entity Extraction",
+      "domain": "memory-knowledge",
+      "cluster": "Knowledge Graphs",
+      "type": "build",
+      "size": "M",
+      "summary": "LLM pulls entities/relations from my notes.",
+      "requires": [
+        "knowledge-graphs-101"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "graphrag-deep",
+      "title": "GraphRAG Properly",
+      "domain": "memory-knowledge",
+      "cluster": "Knowledge Graphs",
+      "type": "concept",
+      "size": "M",
+      "summary": "community summaries, graph-aware retrieval.",
+      "requires": [
+        "entity-extraction",
+        "hybrid-search-rrf"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "temporal-knowledge",
+      "title": "Temporal Knowledge",
+      "domain": "memory-knowledge",
+      "cluster": "Knowledge Graphs",
+      "type": "concept",
+      "size": "S",
+      "summary": "facts that change over time.",
+      "requires": [
+        "graphrag-deep"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "brain-as-knowledge-graph",
+      "title": "My Brain, Formalized",
+      "domain": "memory-knowledge",
+      "cluster": "Knowledge Graphs",
+      "type": "concept",
+      "size": "M",
+      "summary": "map my graph to a real KG schema.",
+      "requires": [
+        "temporal-knowledge"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-memory-layer",
+      "title": "Build: Memory Layer",
+      "domain": "memory-knowledge",
+      "cluster": "Memory Builds",
+      "type": "build",
+      "size": "L",
+      "summary": "long-term memory bolted onto my research agent — extraction, retrieval, importance.",
+      "requires": [
+        "memory-taxonomy"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-link-suggester-v2",
+      "title": "Build: Link-Suggester v2",
+      "domain": "memory-knowledge",
+      "cluster": "Memory Builds",
+      "type": "build",
+      "size": "M",
+      "summary": "entity-aware edge proposals for the brain, still human-approved.",
+      "requires": [
+        "build-memory-layer"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-learning-recall-agent",
+      "title": "Build: \"What Did I Learn?\" Agent",
+      "domain": "memory-knowledge",
+      "cluster": "Memory Builds",
+      "type": "build",
+      "size": "M",
+      "summary": "ask my brain about any period; grounded, node-cited answers.",
+      "requires": [
+        "build-link-suggester-v2"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "synthesis-memory",
+      "title": "Synthesis: The Memory Stack",
+      "domain": "memory-knowledge",
+      "cluster": "Memory Builds",
+      "type": "synthesis",
+      "size": "S",
+      "summary": "",
+      "requires": [
+        "build-learning-recall-agent"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "capstone-memory",
+      "title": "🏁 Capstone: Memory",
+      "domain": "memory-knowledge",
+      "cluster": "Memory Builds",
+      "type": "capstone",
+      "size": "M",
+      "summary": "\"I built an AI that remembers\" + replan checkpoint.",
+      "requires": [
+        "synthesis-memory"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "why-evals-rule",
+      "title": "Why Evals Rule Everything",
+      "domain": "evals-observability",
+      "cluster": "Measuring Quality",
+      "type": "concept",
+      "size": "S",
+      "summary": "you can't improve what you can't measure.",
+      "requires": [
+        "capstone-memory"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-golden-dataset",
+      "title": "Build: Golden Dataset",
+      "domain": "evals-observability",
+      "cluster": "Measuring Quality",
+      "type": "build",
+      "size": "M",
+      "summary": "20 golden cases for my research agent.",
+      "requires": [
+        "why-evals-rule"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "llm-as-judge",
+      "title": "🔩 LLM-as-Judge",
+      "domain": "evals-observability",
+      "cluster": "Measuring Quality",
+      "type": "deep-dive",
+      "size": "M",
+      "summary": "study my own evals.py; judging with rubrics.",
+      "requires": [
+        "build-golden-dataset"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "judge-bias-pinning",
+      "title": "Judge Bias & Pinning",
+      "domain": "evals-observability",
+      "cluster": "Measuring Quality",
+      "type": "concept",
+      "size": "S",
+      "summary": "when the judge is wrong; version-pin the judge.",
+      "requires": [
+        "llm-as-judge"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "trajectory-evals",
+      "title": "Trajectory Evals",
+      "domain": "evals-observability",
+      "cluster": "Measuring Quality",
+      "type": "concept",
+      "size": "S",
+      "summary": "scoring the path, not just the answer.",
+      "requires": [
+        "judge-bias-pinning"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "tool-use-metrics",
+      "title": "Tool-Use Metrics",
+      "domain": "evals-observability",
+      "cluster": "Measuring Quality",
+      "type": "concept",
+      "size": "S",
+      "summary": "right tool, right args, right time.",
+      "requires": [
+        "trajectory-evals"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "eval-frameworks-hands-on",
+      "title": "Eval Frameworks Hands-on",
+      "domain": "evals-observability",
+      "cluster": "Measuring Quality",
+      "type": "build",
+      "size": "M",
+      "summary": "run current frameworks on my brain-chat.",
+      "requires": [
+        "tool-use-metrics"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "prompt-regression-tests",
+      "title": "Prompt Regression Tests",
+      "domain": "evals-observability",
+      "cluster": "Measuring Quality",
+      "type": "build",
+      "size": "S",
+      "summary": "freeze behavior; catch silent breakage.",
+      "requires": [
+        "eval-frameworks-hands-on"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "ci-gates-for-ai",
+      "title": "CI Gates for AI",
+      "domain": "evals-observability",
+      "cluster": "Measuring Quality",
+      "type": "concept",
+      "size": "S",
+      "summary": "evals as merge blockers.",
+      "requires": [
+        "prompt-regression-tests"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "tracing-spans",
+      "title": "🔩 Tracing: Spans & Traces",
+      "domain": "evals-observability",
+      "cluster": "Seeing Inside",
+      "type": "deep-dive",
+      "size": "M",
+      "summary": "study observability.py; the tracing model.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "reading-traces",
+      "title": "Reading Traces",
+      "domain": "evals-observability",
+      "cluster": "Seeing Inside",
+      "type": "build",
+      "size": "S",
+      "summary": "debug a real agent failure from its trace.",
+      "requires": [
+        "tracing-spans"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "online-evals",
+      "title": "Online Evals",
+      "domain": "evals-observability",
+      "cluster": "Seeing Inside",
+      "type": "concept",
+      "size": "S",
+      "summary": "scoring production traffic continuously.",
+      "requires": [
+        "reading-traces"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "ab-testing-prompts",
+      "title": "A/B Testing Prompts",
+      "domain": "evals-observability",
+      "cluster": "Seeing Inside",
+      "type": "concept",
+      "size": "S",
+      "summary": "shipping prompt changes like features.",
+      "requires": [
+        "online-evals"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "cost-latency-dashboards",
+      "title": "Cost & Latency Dashboards",
+      "domain": "evals-observability",
+      "cluster": "Seeing Inside",
+      "type": "build",
+      "size": "M",
+      "summary": "see the money and the milliseconds.",
+      "requires": [
+        "ab-testing-prompts"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-eval-harness",
+      "title": "Build: Eval Harness",
+      "domain": "evals-observability",
+      "cluster": "The Harness",
+      "type": "build",
+      "size": "L",
+      "summary": "trajectory + judge + regression around the node-proposer, one command.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "failure-to-golden-loop",
+      "title": "Build: Failure→Golden Loop",
+      "domain": "evals-observability",
+      "cluster": "The Harness",
+      "type": "build",
+      "size": "M",
+      "summary": "every bug becomes a permanent test.",
+      "requires": [
+        "build-eval-harness"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "error-analysis-practice",
+      "title": "Error Analysis Practice",
+      "domain": "evals-observability",
+      "cluster": "The Harness",
+      "type": "build",
+      "size": "S",
+      "summary": "categorize 20 failures; find the pattern.",
+      "requires": [
+        "failure-to-golden-loop"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "synthesis-evals",
+      "title": "Synthesis: Eval-Driven Development",
+      "domain": "evals-observability",
+      "cluster": "The Harness",
+      "type": "synthesis",
+      "size": "S",
+      "summary": "the full EDD loop, internalized.",
+      "requires": [
+        "error-analysis-practice"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "capstone-evals",
+      "title": "🏁 Capstone: Evals",
+      "domain": "evals-observability",
+      "cluster": "The Harness",
+      "type": "capstone",
+      "size": "M",
+      "summary": "\"How I test software that's never the same twice\" + replan checkpoint.",
+      "requires": [
+        "synthesis-evals"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "agent-threat-model",
+      "title": "The Threat Model",
+      "domain": "safety-security",
+      "cluster": "The Attacks",
+      "type": "concept",
+      "size": "M",
+      "summary": "everything that can go wrong with an agent, mapped.",
+      "requires": [
+        "capstone-evals"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "direct-injection",
+      "title": "Direct Prompt Injection",
+      "domain": "safety-security",
+      "cluster": "The Attacks",
+      "type": "concept",
+      "size": "S",
+      "summary": "attacks in the user's own message.",
+      "requires": [
+        "agent-threat-model",
+        "injection-first-look"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "indirect-injection",
+      "title": "🔩 Indirect Injection",
+      "domain": "safety-security",
+      "cluster": "The Attacks",
+      "type": "deep-dive",
+      "size": "M",
+      "summary": "study my own scanner.py — poisoned emails & pages.",
+      "requires": [
+        "direct-injection"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "jailbreaks-redteaming",
+      "title": "Jailbreaks & Red-Teaming",
+      "domain": "safety-security",
+      "cluster": "The Attacks",
+      "type": "concept",
+      "size": "S",
+      "summary": "thinking like the attacker.",
+      "requires": [
+        "indirect-injection"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "supply-chain-risks",
+      "title": "Supply-Chain Risks",
+      "domain": "safety-security",
+      "cluster": "The Attacks",
+      "type": "concept",
+      "size": "S",
+      "summary": "poisoned packages, models, and MCP servers.",
+      "requires": [
+        "jailbreaks-redteaming"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "spotlighting-delimiters",
+      "title": "Spotlighting & Delimiters",
+      "domain": "safety-security",
+      "cluster": "The Defenses",
+      "type": "concept",
+      "size": "S",
+      "summary": "quarantining untrusted content.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "lethal-trifecta",
+      "title": "The Lethal Trifecta & Rule of Two",
+      "domain": "safety-security",
+      "cluster": "The Defenses",
+      "type": "concept",
+      "size": "S",
+      "summary": "private data + untrusted input + exfil paths.",
+      "requires": [
+        "spotlighting-delimiters"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "least-privilege-tools",
+      "title": "Least-Privilege Tools",
+      "domain": "safety-security",
+      "cluster": "The Defenses",
+      "type": "concept",
+      "size": "S",
+      "summary": "capabilities, not keys to everything.",
+      "requires": [
+        "lethal-trifecta"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "the-approval-gate",
+      "title": "🔩 The Approval Gate",
+      "domain": "safety-security",
+      "cluster": "The Defenses",
+      "type": "deep-dive",
+      "size": "M",
+      "summary": "study proposer.py — my own HITL gate, understood.",
+      "requires": [
+        "least-privilege-tools",
+        "hitl-interrupts"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "idempotency-audit-logs",
+      "title": "🔩 Idempotency & Audit Logs",
+      "domain": "safety-security",
+      "cluster": "The Defenses",
+      "type": "deep-dive",
+      "size": "S",
+      "summary": "study audit.py; actions that can't double-fire.",
+      "requires": [
+        "the-approval-gate"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "guardrails-in-out",
+      "title": "Guardrails In & Out",
+      "domain": "safety-security",
+      "cluster": "The Defenses",
+      "type": "concept",
+      "size": "S",
+      "summary": "input scanning, output enforcement.",
+      "requires": [
+        "idempotency-audit-logs"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "pii-redaction",
+      "title": "PII Redaction",
+      "domain": "safety-security",
+      "cluster": "The Defenses",
+      "type": "build",
+      "size": "S",
+      "summary": "scrub personal data before the model sees it.",
+      "requires": [
+        "guardrails-in-out"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "refusals-content-safety",
+      "title": "Refusals & Content Safety",
+      "domain": "safety-security",
+      "cluster": "The Defenses",
+      "type": "concept",
+      "size": "S",
+      "summary": "designing what my system won't do.",
+      "requires": [
+        "pii-redaction"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "sandboxing-isolation",
+      "title": "Sandboxing & Isolation",
+      "domain": "safety-security",
+      "cluster": "The Defenses",
+      "type": "concept",
+      "size": "S",
+      "summary": "blast-radius thinking for tools.",
+      "requires": [
+        "refusals-content-safety"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-redteam-my-agent",
+      "title": "Build: Red-Team My Agent",
+      "domain": "safety-security",
+      "cluster": "Prove It",
+      "type": "build",
+      "size": "M",
+      "summary": "attack my own agent with injection payloads.",
+      "requires": [
+        "build-golden-dataset"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "fix-what-broke",
+      "title": "Build: Fix What Broke",
+      "domain": "safety-security",
+      "cluster": "Prove It",
+      "type": "build",
+      "size": "M",
+      "summary": "patch the holes; document each fix.",
+      "requires": [
+        "build-redteam-my-agent"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-injection-suite",
+      "title": "Build: Injection Test Suite",
+      "domain": "safety-security",
+      "cluster": "Prove It",
+      "type": "build",
+      "size": "M",
+      "summary": "permanent attack suite + CI; zero-exfil gate.",
+      "requires": [
+        "fix-what-broke"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "responsible-shipping",
+      "title": "Responsible Shipping",
+      "domain": "safety-security",
+      "cluster": "Prove It",
+      "type": "concept",
+      "size": "S",
+      "summary": "what you owe the public when you deploy AI.",
+      "requires": [
+        "build-injection-suite"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "synthesis-safety",
+      "title": "Synthesis: Defense in Depth",
+      "domain": "safety-security",
+      "cluster": "Prove It",
+      "type": "synthesis",
+      "size": "S",
+      "summary": "the layered diagram.",
+      "requires": [
+        "responsible-shipping"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "capstone-safety",
+      "title": "🏁 Capstone: Safety",
+      "domain": "safety-security",
+      "cluster": "Prove It",
+      "type": "capstone",
+      "size": "M",
+      "summary": "\"I attacked my own AI. Here's what I learned\" + replan checkpoint.",
+      "requires": [
+        "synthesis-safety"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "fastapi-fundamentals",
+      "title": "🔩 FastAPI Fundamentals",
+      "domain": "production",
+      "cluster": "The Backend Craft",
+      "type": "deep-dive",
+      "size": "M",
+      "summary": "study main.py; routes, models, dependency injection.",
+      "requires": [
+        "capstone-safety"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "sse-streaming",
+      "title": "SSE & Streaming",
+      "domain": "production",
+      "cluster": "The Backend Craft",
+      "type": "concept",
+      "size": "S",
+      "summary": "how tokens travel from server to screen.",
+      "requires": [
+        "fastapi-fundamentals"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "schedulers-cron",
+      "title": "🔩 Schedulers & Cron",
+      "domain": "production",
+      "cluster": "The Backend Craft",
+      "type": "deep-dive",
+      "size": "S",
+      "summary": "study scheduler.py; the morning-briefing machinery.",
+      "requires": [
+        "sse-streaming"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "postgres-migrations",
+      "title": "🔩 Postgres & Migrations",
+      "domain": "production",
+      "cluster": "The Backend Craft",
+      "type": "deep-dive",
+      "size": "M",
+      "summary": "study migrations/ 001–023; schema evolution.",
+      "requires": [
+        "schedulers-cron"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "docker-for-ai",
+      "title": "Docker for AI Services",
+      "domain": "production",
+      "cluster": "The Backend Craft",
+      "type": "build",
+      "size": "M",
+      "summary": "containerize a small service myself.",
+      "requires": [
+        "postgres-migrations"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "deploying-backends",
+      "title": "Deploying Backends",
+      "domain": "production",
+      "cluster": "The Backend Craft",
+      "type": "frontier",
+      "size": "S",
+      "summary": "current hosting options and tradeoffs when I light this node.",
+      "requires": [
+        "docker-for-ai"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "secrets-done-right",
+      "title": "Secrets Done Right",
+      "domain": "production",
+      "cluster": "The Backend Craft",
+      "type": "concept",
+      "size": "S",
+      "summary": "env, vaults, rotation — never again in a repo.",
+      "requires": [
+        "deploying-backends"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "supabase-deep-dive",
+      "title": "Supabase Deep Dive",
+      "domain": "production",
+      "cluster": "The Platform",
+      "type": "concept",
+      "size": "M",
+      "summary": "auth, RLS, realtime — the whole platform.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "realtime-subscriptions",
+      "title": "Realtime Subscriptions",
+      "domain": "production",
+      "cluster": "The Platform",
+      "type": "build",
+      "size": "S",
+      "summary": "live UI updates from Postgres changes.",
+      "requires": [
+        "supabase-deep-dive"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "study-command-center",
+      "title": "🔩 The Command Center",
+      "domain": "production",
+      "cluster": "The Platform",
+      "type": "deep-dive",
+      "size": "M",
+      "summary": "study agent-lab/web — Next.js for AI dashboards.",
+      "requires": [
+        "realtime-subscriptions"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "caching-layers",
+      "title": "Caching Layers",
+      "domain": "production",
+      "cluster": "The Platform",
+      "type": "concept",
+      "size": "S",
+      "summary": "response cache, semantic cache, CDN.",
+      "requires": [
+        "study-command-center"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "queues-pollers",
+      "title": "🔩 Queues & Pollers",
+      "domain": "production",
+      "cluster": "The Platform",
+      "type": "deep-dive",
+      "size": "S",
+      "summary": "study the approval poller; async job patterns.",
+      "requires": [
+        "caching-layers"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "webhooks-telegram",
+      "title": "Webhooks & Telegram",
+      "domain": "production",
+      "cluster": "The Platform",
+      "type": "build",
+      "size": "S",
+      "summary": "wire a real notification path.",
+      "requires": [
+        "queues-pollers"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "monitoring-alerting",
+      "title": "Monitoring & Alerting",
+      "domain": "production",
+      "cluster": "The Platform",
+      "type": "concept",
+      "size": "S",
+      "summary": "knowing it broke before users do.",
+      "requires": [
+        "webhooks-telegram",
+        "tracing-spans"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "resurrection",
+      "title": "🔥 Build: RESURRECTION",
+      "domain": "production",
+      "cluster": "The Resurrection",
+      "type": "build",
+      "size": "L",
+      "summary": "deploy Machine 1 + Machine 2 with my own hands — env, DB, migrations, OAuth, scheduler, gate, dashboard, every subsystem verified. → M1",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "the-bridge",
+      "title": "🔥 Build: THE BRIDGE",
+      "domain": "production",
+      "cluster": "The Resurrection",
+      "type": "build",
+      "size": "L",
+      "summary": "the deployed agent proposes brain nodes through its own approval gate — agent + brain, one nervous system. → M2",
+      "requires": [
+        "resurrection",
+        "build-node-proposer"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "hardening-pass",
+      "title": "Build: Hardening Pass",
+      "domain": "production",
+      "cluster": "The Resurrection",
+      "type": "build",
+      "size": "M",
+      "summary": "load, cost caps, failure drills.",
+      "requires": [
+        "the-bridge"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "synthesis-production",
+      "title": "Synthesis: The Production Diagram",
+      "domain": "production",
+      "cluster": "The Resurrection",
+      "type": "synthesis",
+      "size": "S",
+      "summary": "the full system, mine now.",
+      "requires": [
+        "hardening-pass"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "capstone-production",
+      "title": "🏁 Capstone: Production",
+      "domain": "production",
+      "cluster": "The Resurrection",
+      "type": "capstone",
+      "size": "M",
+      "summary": "\"The AI built it. I understood it. I run it.\" + replan checkpoint.",
+      "requires": [
+        "synthesis-production"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "local-models",
+      "title": "Local Models",
+      "domain": "frontier-capstone",
+      "cluster": "The Moving Edge (baseline guesses — expect replans)",
+      "type": "build",
+      "size": "M",
+      "summary": "run a model on my own laptop.",
+      "requires": [
+        "capstone-production"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "fine-tuning-when-why",
+      "title": "Fine-Tuning: When & Why",
+      "domain": "frontier-capstone",
+      "cluster": "The Moving Edge (baseline guesses — expect replans)",
+      "type": "concept",
+      "size": "M",
+      "summary": "adapter concepts; the buy-vs-tune decision.",
+      "requires": [
+        "local-models"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "small-distilled-models",
+      "title": "Small & Distilled Models",
+      "domain": "frontier-capstone",
+      "cluster": "The Moving Edge (baseline guesses — expect replans)",
+      "type": "concept",
+      "size": "S",
+      "summary": "why tiny models are eating the edge.",
+      "requires": [
+        "fine-tuning-when-why"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "voice-agents",
+      "title": "Voice Agents",
+      "domain": "frontier-capstone",
+      "cluster": "The Moving Edge (baseline guesses — expect replans)",
+      "type": "concept",
+      "size": "M",
+      "summary": "realtime speech loops; latency budgets.",
+      "requires": [
+        "small-distilled-models"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "computer-use-agents",
+      "title": "Computer-Use & Browser Agents",
+      "domain": "frontier-capstone",
+      "cluster": "The Moving Edge (baseline guesses — expect replans)",
+      "type": "concept",
+      "size": "M",
+      "summary": "agents that click and type.",
+      "requires": [
+        "voice-agents"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "coding-agents",
+      "title": "Coding Agents",
+      "domain": "frontier-capstone",
+      "cluster": "The Moving Edge (baseline guesses — expect replans)",
+      "type": "concept",
+      "size": "S",
+      "summary": "how the tools that built VIZIER actually work.",
+      "requires": [
+        "computer-use-agents"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "agentic-rag-frontiers",
+      "title": "Agentic RAG Frontiers",
+      "domain": "frontier-capstone",
+      "cluster": "The Moving Edge (baseline guesses — expect replans)",
+      "type": "concept",
+      "size": "S",
+      "summary": "retrieval as a tool inside the loop.",
+      "requires": [
+        "coding-agents"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "reasoning-test-time-compute",
+      "title": "Reasoning & Test-Time Compute",
+      "domain": "frontier-capstone",
+      "cluster": "The Moving Edge (baseline guesses — expect replans)",
+      "type": "concept",
+      "size": "S",
+      "summary": "models that think longer, not just bigger.",
+      "requires": [
+        "agentic-rag-frontiers"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "protocol-futures",
+      "title": "Protocol Futures",
+      "domain": "frontier-capstone",
+      "cluster": "The Moving Edge (baseline guesses — expect replans)",
+      "type": "frontier",
+      "size": "S",
+      "summary": "where MCP/A2A and successors are heading — live view.",
+      "requires": [
+        "reasoning-test-time-compute"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "reading-papers-forever",
+      "title": "Reading Papers Forever",
+      "domain": "frontier-capstone",
+      "cluster": "The Moving Edge (baseline guesses — expect replans)",
+      "type": "concept",
+      "size": "S",
+      "summary": "a personal system to stay frontier after the marathon.",
+      "requires": [
+        "protocol-futures"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "frontier-slot-1",
+      "title": "Frontier Slot α",
+      "domain": "frontier-capstone",
+      "cluster": "The Moving Edge (baseline guesses — expect replans)",
+      "type": "frontier",
+      "size": "M",
+      "summary": "reserved — regenerated from frontier-scan on arrival.",
+      "requires": [
+        "reading-papers-forever"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "frontier-slot-2",
+      "title": "Frontier Slot β",
+      "domain": "frontier-capstone",
+      "cluster": "The Moving Edge (baseline guesses — expect replans)",
+      "type": "frontier",
+      "size": "M",
+      "summary": "reserved — regenerated from frontier-scan on arrival.",
+      "requires": [
+        "frontier-slot-1"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "frontier-slot-3",
+      "title": "Frontier Slot γ",
+      "domain": "frontier-capstone",
+      "cluster": "The Moving Edge (baseline guesses — expect replans)",
+      "type": "frontier",
+      "size": "M",
+      "summary": "reserved — regenerated from frontier-scan on arrival.",
+      "requires": [
+        "frontier-slot-2"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "define-vizier-v2",
+      "title": "Define VIZIER v2",
+      "domain": "frontier-capstone",
+      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "type": "capstone",
+      "size": "M",
+      "summary": "spec the unified agent+brain, written by ME. → M5",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-vizier-v2-core",
+      "title": "Build: v2 Core Loop",
+      "domain": "frontier-capstone",
+      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "type": "build",
+      "size": "L",
+      "summary": "",
+      "requires": [
+        "define-vizier-v2"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "vizier-v2-memory-retrieval",
+      "title": "Build: v2 Memory + Retrieval",
+      "domain": "frontier-capstone",
+      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "type": "build",
+      "size": "L",
+      "summary": "",
+      "requires": [
+        "build-vizier-v2-core"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "vizier-v2-gate-safety",
+      "title": "Build: v2 Gate + Safety",
+      "domain": "frontier-capstone",
+      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "type": "build",
+      "size": "M",
+      "summary": "",
+      "requires": [
+        "vizier-v2-memory-retrieval"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "vizier-v2-evals-traces",
+      "title": "Build: v2 Evals + Traces",
+      "domain": "frontier-capstone",
+      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "type": "build",
+      "size": "M",
+      "summary": "",
+      "requires": [
+        "vizier-v2-gate-safety"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "vizier-v2-redteam-ship",
+      "title": "Build: v2 Red-Team & Ship",
+      "domain": "frontier-capstone",
+      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "type": "build",
+      "size": "M",
+      "summary": "golden gate, then deploy.",
+      "requires": [
+        "vizier-v2-evals-traces"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "the-full-story",
+      "title": "The Full Story",
+      "domain": "frontier-capstone",
+      "cluster": "Graduation",
+      "type": "synthesis",
+      "size": "M",
+      "summary": "long-form essay — the whole arc.",
+      "requires": [],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "the-demo-film",
+      "title": "The Demo Film",
+      "domain": "frontier-capstone",
+      "cluster": "Graduation",
+      "type": "build",
+      "size": "S",
+      "summary": "record the cinematic brain tour + system walkthrough.",
+      "requires": [
+        "the-full-story"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "portfolio-integration",
+      "title": "Portfolio Integration",
+      "domain": "frontier-capstone",
+      "cluster": "Graduation",
+      "type": "build",
+      "size": "M",
+      "summary": "VIZIER takes its throne on tharungajula.vercel.app.",
+      "requires": [
+        "the-demo-film"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "retrospective",
+      "title": "Retrospective",
+      "domain": "frontier-capstone",
+      "cluster": "Graduation",
+      "type": "synthesis",
+      "size": "S",
+      "summary": "what actually changed in me; honest lessons.",
+      "requires": [
+        "portfolio-integration"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "graduation",
+      "title": "🏆 GRADUATION",
+      "domain": "frontier-capstone",
+      "cluster": "Graduation",
+      "type": "capstone",
+      "size": "S",
+      "summary": "the graph is lit. Publish the mega-post. Begin again.",
+      "requires": [
+        "retrospective"
+      ],
+      "locked": false,
+      "status": "ghost",
+      "backlinks": []
+    }
+  ],
+  "milestones": [
+    {
+      "id": "M1",
+      "title": "RESURRECTION",
+      "description": "Deploy Machine 1 (backend) and Machine 2 (dashboard) with my own hands — env, DB, migrations, OAuth, scheduler, gate, UI. Trigger ANY day via \"unfreeze agent-lab\".",
+      "related_domains": [
+        "production"
+      ],
+      "baseline_node": "resurrection",
+      "status": "ghost"
+    },
+    {
+      "id": "M2",
+      "title": "THE BRIDGE",
+      "description": "The deployed agent proposes new brain nodes through its own human-approval gate — agent and brain become one nervous system.",
+      "related_domains": [
+        "production",
+        "agents"
+      ],
+      "baseline_node": "the-bridge",
+      "status": "ghost"
+    },
+    {
+      "id": "M3",
+      "title": "FIRST PUBLIC ARTIFACT",
+      "description": "Ship something strangers can use.",
+      "related_domains": [
+        "prompting-apis"
+      ],
+      "baseline_node": "build-feynman-bot",
+      "status": "ghost"
+    },
+    {
+      "id": "M4",
+      "title": "HALF-LIT BRAIN",
+      "description": "50% of current plan's nodes lit; the halfway story post.",
+      "related_domains": [
+        "all"
+      ],
+      "baseline_node": null,
+      "status": "floating"
+    },
+    {
+      "id": "M5",
+      "title": "VIZIER v2",
+      "description": "The final capstone: a unified agent+brain system spec'd and built by ME, not by an IDE agent.",
+      "related_domains": [
+        "frontier-capstone"
+      ],
+      "baseline_node": "define-vizier-v2",
+      "status": "ghost"
+    }
+  ]
+}

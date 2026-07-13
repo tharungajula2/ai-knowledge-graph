@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { runExport } = require('../../brain/export-public.js');
+const { compileCurriculum } = require('./compile-curriculum.js');
 // Note: gen-preview-brain.js can be run separately: node tools/site-build/gen-preview-brain.js
 
 const repoRoot = path.join(__dirname, '../..');
@@ -352,7 +352,7 @@ function buildSite() {
   console.log('--- Rebuilding Static Site Pages ---');
   
   // Call exporter first to verify and get files list
-  const filesToExport = runExport();
+  const filesToExport = compileCurriculum();
   
   // HTML Template Wrapper
   function wrapHtml(title, canonicalUrl, contentHtml) {
