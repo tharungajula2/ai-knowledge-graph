@@ -554,7 +554,10 @@ async function run() {
   }
   
   // 8. Query Supabase READ-ONLY
-  const envPath = path.join(__dirname, '../backend/.env');
+  let envPath = path.join(__dirname, '../_local-secrets/backend/.env');
+  if (!fs.existsSync(envPath)) {
+    envPath = path.join(__dirname, '../agent-lab/backend/.env');
+  }
   const env = loadEnv(envPath);
   
   let live = false;
@@ -582,7 +585,7 @@ async function run() {
       supabaseStatus = 'offline';
     }
   } else {
-    console.warn('Supabase configuration missing in backend/.env. Using default offline counts.');
+    console.warn(`Supabase configuration missing in ${envPath}. Using default offline counts.`);
     live = false;
     supabaseStatus = 'offline';
   }

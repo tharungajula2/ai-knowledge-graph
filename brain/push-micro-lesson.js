@@ -70,11 +70,14 @@ async function run() {
   console.log('--- Starting VIZIER Micro-Learning Push ---');
   
   // 1. Load config
-  const envPath = path.join(__dirname, '../backend/.env');
+  let envPath = path.join(__dirname, '../_local-secrets/backend/.env');
+  if (!fs.existsSync(envPath)) {
+    envPath = path.join(__dirname, '../agent-lab/backend/.env');
+  }
   const env = loadEnv(envPath);
   
   if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) {
-    console.error('Error: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not found in backend/.env');
+    console.error(`Error: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not found in ${envPath}`);
     process.exit(1);
   }
   

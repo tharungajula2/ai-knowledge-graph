@@ -3,9 +3,12 @@ _local-secrets/
 
 # Environments and API credentials
 .env*
+!**/.env*.example
+!**/.env.local.example
 
 # Secrets configurations
-backend/secrets/*.json
+**/secrets/*.json
+!**/secrets/*.json.example
 
 # Cache directories
 .cache/
