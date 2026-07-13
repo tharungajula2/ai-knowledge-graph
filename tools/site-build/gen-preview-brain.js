@@ -331,7 +331,7 @@ for (const domain of DOMAINS) {
       id: noteId,
       label: topic,
       type: noteType,
-      ring: 'knowledge',
+      ring: domain.id,
       domain: domain.id,
       tier: tier,
       tags: [domain.id, noteType, `tier-${tier}`],
@@ -352,7 +352,7 @@ for (const domain of DOMAINS) {
 // Build an index of note nodes per domain for efficient linking
 const notesByDomain = {};
 for (const n of nodes) {
-  if (n.ring === 'knowledge' && n.type !== 'domain') {
+  if ((n.type === 'feynman' || n.type === 'knowledge') && n.type !== 'domain') {
     if (!notesByDomain[n.domain]) notesByDomain[n.domain] = [];
     notesByDomain[n.domain].push(n.id);
   }
@@ -444,7 +444,7 @@ for (const e of edges) {
 // ─── Build domain stats ───────────────────────────────────────────────────────
 const domainStats = {};
 for (const n of nodes) {
-  if (n.ring === 'knowledge' && n.domain && n.type !== 'domain') {
+  if ((n.type === 'feynman' || n.type === 'knowledge') && n.domain && n.type !== 'domain') {
     domainStats[n.domain] = (domainStats[n.domain] || 0) + 1;
   }
 }

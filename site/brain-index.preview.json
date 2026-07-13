@@ -350,7 +350,7 @@
       "id": "note-foundations-note-001",
       "label": "Tokenization limitations: Byte-Pair Encoding (BPE) and OOV handling",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -365,7 +365,7 @@
       "id": "note-foundations-note-002",
       "label": "Layer normalization placement: Pre-LN vs Post-LN stability tradeoffs",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 4,
       "tags": [
@@ -380,7 +380,7 @@
       "id": "note-foundations-note-003",
       "label": "Loss functions in LLM training: Cross-entropy and perplexity tracking",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -395,7 +395,7 @@
       "id": "note-foundations-note-004",
       "label": "FlashAttention: GPU SRAM utilization and memory IO reduction",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -410,7 +410,7 @@
       "id": "note-foundations-note-005",
       "label": "Maximum sequence length extrapolation and context scaling methods",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -425,7 +425,7 @@
       "id": "note-foundations-note-006",
       "label": "Tokenizer vocabulary size impact on representation and training speed",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -440,7 +440,7 @@
       "id": "note-foundations-note-007",
       "label": "Transformer self-attention mathematics and QKV dot-product scaling",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -455,7 +455,7 @@
       "id": "note-foundations-note-008",
       "label": "Fine-tuning techniques: LoRA rank selection and QLoRA double quantization",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -470,7 +470,7 @@
       "id": "note-foundations-note-009",
       "label": "Decoding strategies: Top-P, Top-K, Temperature, and Min-P mechanics",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -485,7 +485,7 @@
       "id": "note-foundations-note-010",
       "label": "Model quantization math: GPTQ, AWQ, and GGUF active weight formats",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -500,7 +500,7 @@
       "id": "note-foundations-note-011",
       "label": "Gradient descent and backpropagation through attention heads",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -515,7 +515,7 @@
       "id": "note-foundations-note-012",
       "label": "KV Cache mechanics and GPU memory bandwidth bottlenecks in decoding",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 4,
       "tags": [
@@ -530,7 +530,7 @@
       "id": "note-foundations-note-013",
       "label": "Mixture of Experts (MoE) routing, gating networks, and capacity factor",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -545,7 +545,7 @@
       "id": "note-foundations-note-014",
       "label": "Feed-Forward Network (FFN) architectures: SwiGLU activation dynamics",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -560,7 +560,7 @@
       "id": "note-foundations-note-015",
       "label": "Positional embeddings: Sinusoidal vs Rotary Position Embedding (RoPE)",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -575,7 +575,7 @@
       "id": "note-foundations-note-016",
       "label": "Tokenization limitations: Byte-Pair Encoding (BPE) and OOV handling",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -590,7 +590,7 @@
       "id": "note-foundations-note-017",
       "label": "Layer normalization placement: Pre-LN vs Post-LN stability tradeoffs",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -605,7 +605,7 @@
       "id": "note-foundations-note-018",
       "label": "Loss functions in LLM training: Cross-entropy and perplexity tracking",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -620,7 +620,7 @@
       "id": "note-foundations-note-019",
       "label": "FlashAttention: GPU SRAM utilization and memory IO reduction",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -635,7 +635,7 @@
       "id": "note-foundations-note-020",
       "label": "Maximum sequence length extrapolation and context scaling methods",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -650,7 +650,7 @@
       "id": "note-foundations-note-021",
       "label": "Tokenizer vocabulary size impact on representation and training speed",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -665,7 +665,7 @@
       "id": "note-foundations-note-022",
       "label": "Transformer self-attention mathematics and QKV dot-product scaling",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -680,7 +680,7 @@
       "id": "note-foundations-note-023",
       "label": "Fine-tuning techniques: LoRA rank selection and QLoRA double quantization",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -695,7 +695,7 @@
       "id": "note-foundations-note-024",
       "label": "Decoding strategies: Top-P, Top-K, Temperature, and Min-P mechanics",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -710,7 +710,7 @@
       "id": "note-foundations-note-025",
       "label": "Model quantization math: GPTQ, AWQ, and GGUF active weight formats",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -725,7 +725,7 @@
       "id": "note-foundations-note-026",
       "label": "Gradient descent and backpropagation through attention heads",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -740,7 +740,7 @@
       "id": "note-foundations-note-027",
       "label": "KV Cache mechanics and GPU memory bandwidth bottlenecks in decoding",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -755,7 +755,7 @@
       "id": "note-foundations-note-028",
       "label": "Mixture of Experts (MoE) routing, gating networks, and capacity factor",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -770,7 +770,7 @@
       "id": "note-foundations-note-029",
       "label": "Feed-Forward Network (FFN) architectures: SwiGLU activation dynamics",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -785,7 +785,7 @@
       "id": "note-foundations-note-030",
       "label": "Positional embeddings: Sinusoidal vs Rotary Position Embedding (RoPE)",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -800,7 +800,7 @@
       "id": "note-foundations-note-031",
       "label": "Tokenization limitations: Byte-Pair Encoding (BPE) and OOV handling",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -815,7 +815,7 @@
       "id": "note-foundations-note-032",
       "label": "Layer normalization placement: Pre-LN vs Post-LN stability tradeoffs",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 4,
       "tags": [
@@ -830,7 +830,7 @@
       "id": "note-foundations-note-033",
       "label": "Loss functions in LLM training: Cross-entropy and perplexity tracking",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 4,
       "tags": [
@@ -845,7 +845,7 @@
       "id": "note-foundations-note-034",
       "label": "FlashAttention: GPU SRAM utilization and memory IO reduction",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -860,7 +860,7 @@
       "id": "note-foundations-note-035",
       "label": "Maximum sequence length extrapolation and context scaling methods",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -875,7 +875,7 @@
       "id": "note-foundations-note-036",
       "label": "Tokenizer vocabulary size impact on representation and training speed",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -890,7 +890,7 @@
       "id": "note-foundations-note-037",
       "label": "Transformer self-attention mathematics and QKV dot-product scaling",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -905,7 +905,7 @@
       "id": "note-foundations-note-038",
       "label": "Fine-tuning techniques: LoRA rank selection and QLoRA double quantization",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -920,7 +920,7 @@
       "id": "note-foundations-note-039",
       "label": "Decoding strategies: Top-P, Top-K, Temperature, and Min-P mechanics",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -935,7 +935,7 @@
       "id": "note-foundations-note-040",
       "label": "Model quantization math: GPTQ, AWQ, and GGUF active weight formats",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -950,7 +950,7 @@
       "id": "note-foundations-note-041",
       "label": "Gradient descent and backpropagation through attention heads",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -965,7 +965,7 @@
       "id": "note-foundations-note-042",
       "label": "KV Cache mechanics and GPU memory bandwidth bottlenecks in decoding",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -980,7 +980,7 @@
       "id": "note-foundations-note-043",
       "label": "Mixture of Experts (MoE) routing, gating networks, and capacity factor",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 4,
       "tags": [
@@ -995,7 +995,7 @@
       "id": "note-foundations-note-044",
       "label": "Feed-Forward Network (FFN) architectures: SwiGLU activation dynamics",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -1010,7 +1010,7 @@
       "id": "note-foundations-note-045",
       "label": "Positional embeddings: Sinusoidal vs Rotary Position Embedding (RoPE)",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -1025,7 +1025,7 @@
       "id": "note-foundations-note-046",
       "label": "Tokenization limitations: Byte-Pair Encoding (BPE) and OOV handling",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -1040,7 +1040,7 @@
       "id": "note-foundations-note-047",
       "label": "Layer normalization placement: Pre-LN vs Post-LN stability tradeoffs",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -1055,7 +1055,7 @@
       "id": "note-foundations-note-048",
       "label": "Loss functions in LLM training: Cross-entropy and perplexity tracking",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -1070,7 +1070,7 @@
       "id": "note-foundations-note-049",
       "label": "FlashAttention: GPU SRAM utilization and memory IO reduction",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -1085,7 +1085,7 @@
       "id": "note-foundations-note-050",
       "label": "Maximum sequence length extrapolation and context scaling methods",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -1100,7 +1100,7 @@
       "id": "note-foundations-note-051",
       "label": "Tokenizer vocabulary size impact on representation and training speed",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -1115,7 +1115,7 @@
       "id": "note-foundations-note-052",
       "label": "Transformer self-attention mathematics and QKV dot-product scaling",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -1130,7 +1130,7 @@
       "id": "note-foundations-note-053",
       "label": "Fine-tuning techniques: LoRA rank selection and QLoRA double quantization",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -1145,7 +1145,7 @@
       "id": "note-foundations-note-054",
       "label": "Decoding strategies: Top-P, Top-K, Temperature, and Min-P mechanics",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -1160,7 +1160,7 @@
       "id": "note-foundations-note-055",
       "label": "Model quantization math: GPTQ, AWQ, and GGUF active weight formats",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -1175,7 +1175,7 @@
       "id": "note-foundations-note-056",
       "label": "Gradient descent and backpropagation through attention heads",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -1190,7 +1190,7 @@
       "id": "note-foundations-note-057",
       "label": "KV Cache mechanics and GPU memory bandwidth bottlenecks in decoding",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -1205,7 +1205,7 @@
       "id": "note-foundations-note-058",
       "label": "Mixture of Experts (MoE) routing, gating networks, and capacity factor",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -1220,7 +1220,7 @@
       "id": "note-foundations-note-059",
       "label": "Feed-Forward Network (FFN) architectures: SwiGLU activation dynamics",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -1235,7 +1235,7 @@
       "id": "note-foundations-note-060",
       "label": "Positional embeddings: Sinusoidal vs Rotary Position Embedding (RoPE)",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 4,
       "tags": [
@@ -1250,7 +1250,7 @@
       "id": "note-foundations-note-061",
       "label": "Tokenization limitations: Byte-Pair Encoding (BPE) and OOV handling",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -1265,7 +1265,7 @@
       "id": "note-foundations-note-062",
       "label": "Layer normalization placement: Pre-LN vs Post-LN stability tradeoffs",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -1280,7 +1280,7 @@
       "id": "note-foundations-note-063",
       "label": "Loss functions in LLM training: Cross-entropy and perplexity tracking",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 4,
       "tags": [
@@ -1295,7 +1295,7 @@
       "id": "note-foundations-note-064",
       "label": "FlashAttention: GPU SRAM utilization and memory IO reduction",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -1310,7 +1310,7 @@
       "id": "note-foundations-note-065",
       "label": "Maximum sequence length extrapolation and context scaling methods",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -1325,7 +1325,7 @@
       "id": "note-foundations-note-066",
       "label": "Tokenizer vocabulary size impact on representation and training speed",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -1340,7 +1340,7 @@
       "id": "note-foundations-note-067",
       "label": "Transformer self-attention mathematics and QKV dot-product scaling",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -1355,7 +1355,7 @@
       "id": "note-foundations-note-068",
       "label": "Fine-tuning techniques: LoRA rank selection and QLoRA double quantization",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 1,
       "tags": [
@@ -1370,7 +1370,7 @@
       "id": "note-foundations-note-069",
       "label": "Decoding strategies: Top-P, Top-K, Temperature, and Min-P mechanics",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 2,
       "tags": [
@@ -1385,7 +1385,7 @@
       "id": "note-foundations-note-070",
       "label": "Model quantization math: GPTQ, AWQ, and GGUF active weight formats",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 4,
       "tags": [
@@ -1400,7 +1400,7 @@
       "id": "note-foundations-note-071",
       "label": "Gradient descent and backpropagation through attention heads",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 4,
       "tags": [
@@ -1415,7 +1415,7 @@
       "id": "note-foundations-note-072",
       "label": "KV Cache mechanics and GPU memory bandwidth bottlenecks in decoding",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "tier": 3,
       "tags": [
@@ -1430,7 +1430,7 @@
       "id": "note-prompting-apis-note-001",
       "label": "Zero-shot routing prompts for specialized model sub-selection",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -1445,7 +1445,7 @@
       "id": "note-prompting-apis-note-002",
       "label": "Tool calling: JSON schema definitions and forced function selection",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -1460,7 +1460,7 @@
       "id": "note-prompting-apis-note-003",
       "label": "Handling truncated API responses and maximum token limits cleanly",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 3,
       "tags": [
@@ -1475,7 +1475,7 @@
       "id": "note-prompting-apis-note-004",
       "label": "Provider failover logic: Dynamic routing across Groq, Anthropic, and OpenAI",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -1490,7 +1490,7 @@
       "id": "note-prompting-apis-note-005",
       "label": "Multi-modal prompt construction: Interleaved image-text token structures",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 4,
       "tags": [
@@ -1505,7 +1505,7 @@
       "id": "note-prompting-apis-note-006",
       "label": "Context-caching strategies on Anthropic and DeepSeek APIs",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -1520,7 +1520,7 @@
       "id": "note-prompting-apis-note-007",
       "label": "LLM token utilization efficiency: Prefix caching and prompt sharing",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 4,
       "tags": [
@@ -1535,7 +1535,7 @@
       "id": "note-prompting-apis-note-008",
       "label": "API parameter tuning: Frequency vs presence penalty effects",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 4,
       "tags": [
@@ -1550,7 +1550,7 @@
       "id": "note-prompting-apis-note-009",
       "label": "Context window optimization: System prompt trimming and dynamic compression",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 4,
       "tags": [
@@ -1565,7 +1565,7 @@
       "id": "note-prompting-apis-note-010",
       "label": "Function definition guidelines for high-recall tool calling accuracy",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -1580,7 +1580,7 @@
       "id": "note-prompting-apis-note-011",
       "label": "Chain-of-Thought (CoT) elicitation and system instruction isolation",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -1595,7 +1595,7 @@
       "id": "note-prompting-apis-note-012",
       "label": "Rate limiting mitigation: Exponential backoff and jitter algorithms",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -1610,7 +1610,7 @@
       "id": "note-prompting-apis-note-013",
       "label": "Few-shot prompting: Exemplar selection, ordering, and bias mitigation",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -1625,7 +1625,7 @@
       "id": "note-prompting-apis-note-014",
       "label": "Structured outputs: Restricting schema validation at the parser level",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -1640,7 +1640,7 @@
       "id": "note-prompting-apis-note-015",
       "label": "System prompt injection mitigation via XML tags and schema enforcement",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -1655,7 +1655,7 @@
       "id": "note-prompting-apis-note-016",
       "label": "Zero-shot routing prompts for specialized model sub-selection",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 4,
       "tags": [
@@ -1670,7 +1670,7 @@
       "id": "note-prompting-apis-note-017",
       "label": "Tool calling: JSON schema definitions and forced function selection",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -1685,7 +1685,7 @@
       "id": "note-prompting-apis-note-018",
       "label": "Handling truncated API responses and maximum token limits cleanly",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -1700,7 +1700,7 @@
       "id": "note-prompting-apis-note-019",
       "label": "Provider failover logic: Dynamic routing across Groq, Anthropic, and OpenAI",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 3,
       "tags": [
@@ -1715,7 +1715,7 @@
       "id": "note-prompting-apis-note-020",
       "label": "Multi-modal prompt construction: Interleaved image-text token structures",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -1730,7 +1730,7 @@
       "id": "note-prompting-apis-note-021",
       "label": "Context-caching strategies on Anthropic and DeepSeek APIs",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -1745,7 +1745,7 @@
       "id": "note-prompting-apis-note-022",
       "label": "LLM token utilization efficiency: Prefix caching and prompt sharing",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -1760,7 +1760,7 @@
       "id": "note-prompting-apis-note-023",
       "label": "API parameter tuning: Frequency vs presence penalty effects",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -1775,7 +1775,7 @@
       "id": "note-prompting-apis-note-024",
       "label": "Context window optimization: System prompt trimming and dynamic compression",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -1790,7 +1790,7 @@
       "id": "note-prompting-apis-note-025",
       "label": "Function definition guidelines for high-recall tool calling accuracy",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 3,
       "tags": [
@@ -1805,7 +1805,7 @@
       "id": "note-prompting-apis-note-026",
       "label": "Chain-of-Thought (CoT) elicitation and system instruction isolation",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 4,
       "tags": [
@@ -1820,7 +1820,7 @@
       "id": "note-prompting-apis-note-027",
       "label": "Rate limiting mitigation: Exponential backoff and jitter algorithms",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 3,
       "tags": [
@@ -1835,7 +1835,7 @@
       "id": "note-prompting-apis-note-028",
       "label": "Few-shot prompting: Exemplar selection, ordering, and bias mitigation",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -1850,7 +1850,7 @@
       "id": "note-prompting-apis-note-029",
       "label": "Structured outputs: Restricting schema validation at the parser level",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 3,
       "tags": [
@@ -1865,7 +1865,7 @@
       "id": "note-prompting-apis-note-030",
       "label": "System prompt injection mitigation via XML tags and schema enforcement",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 3,
       "tags": [
@@ -1880,7 +1880,7 @@
       "id": "note-prompting-apis-note-031",
       "label": "Zero-shot routing prompts for specialized model sub-selection",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 4,
       "tags": [
@@ -1895,7 +1895,7 @@
       "id": "note-prompting-apis-note-032",
       "label": "Tool calling: JSON schema definitions and forced function selection",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -1910,7 +1910,7 @@
       "id": "note-prompting-apis-note-033",
       "label": "Handling truncated API responses and maximum token limits cleanly",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -1925,7 +1925,7 @@
       "id": "note-prompting-apis-note-034",
       "label": "Provider failover logic: Dynamic routing across Groq, Anthropic, and OpenAI",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -1940,7 +1940,7 @@
       "id": "note-prompting-apis-note-035",
       "label": "Multi-modal prompt construction: Interleaved image-text token structures",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 3,
       "tags": [
@@ -1955,7 +1955,7 @@
       "id": "note-prompting-apis-note-036",
       "label": "Context-caching strategies on Anthropic and DeepSeek APIs",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -1970,7 +1970,7 @@
       "id": "note-prompting-apis-note-037",
       "label": "LLM token utilization efficiency: Prefix caching and prompt sharing",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -1985,7 +1985,7 @@
       "id": "note-prompting-apis-note-038",
       "label": "API parameter tuning: Frequency vs presence penalty effects",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -2000,7 +2000,7 @@
       "id": "note-prompting-apis-note-039",
       "label": "Context window optimization: System prompt trimming and dynamic compression",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 4,
       "tags": [
@@ -2015,7 +2015,7 @@
       "id": "note-prompting-apis-note-040",
       "label": "Function definition guidelines for high-recall tool calling accuracy",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -2030,7 +2030,7 @@
       "id": "note-prompting-apis-note-041",
       "label": "Chain-of-Thought (CoT) elicitation and system instruction isolation",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -2045,7 +2045,7 @@
       "id": "note-prompting-apis-note-042",
       "label": "Rate limiting mitigation: Exponential backoff and jitter algorithms",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -2060,7 +2060,7 @@
       "id": "note-prompting-apis-note-043",
       "label": "Few-shot prompting: Exemplar selection, ordering, and bias mitigation",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -2075,7 +2075,7 @@
       "id": "note-prompting-apis-note-044",
       "label": "Structured outputs: Restricting schema validation at the parser level",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 3,
       "tags": [
@@ -2090,7 +2090,7 @@
       "id": "note-prompting-apis-note-045",
       "label": "System prompt injection mitigation via XML tags and schema enforcement",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -2105,7 +2105,7 @@
       "id": "note-prompting-apis-note-046",
       "label": "Zero-shot routing prompts for specialized model sub-selection",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 3,
       "tags": [
@@ -2120,7 +2120,7 @@
       "id": "note-prompting-apis-note-047",
       "label": "Tool calling: JSON schema definitions and forced function selection",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 3,
       "tags": [
@@ -2135,7 +2135,7 @@
       "id": "note-prompting-apis-note-048",
       "label": "Handling truncated API responses and maximum token limits cleanly",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -2150,7 +2150,7 @@
       "id": "note-prompting-apis-note-049",
       "label": "Provider failover logic: Dynamic routing across Groq, Anthropic, and OpenAI",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -2165,7 +2165,7 @@
       "id": "note-prompting-apis-note-050",
       "label": "Multi-modal prompt construction: Interleaved image-text token structures",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -2180,7 +2180,7 @@
       "id": "note-prompting-apis-note-051",
       "label": "Context-caching strategies on Anthropic and DeepSeek APIs",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -2195,7 +2195,7 @@
       "id": "note-prompting-apis-note-052",
       "label": "LLM token utilization efficiency: Prefix caching and prompt sharing",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 3,
       "tags": [
@@ -2210,7 +2210,7 @@
       "id": "note-prompting-apis-note-053",
       "label": "API parameter tuning: Frequency vs presence penalty effects",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -2225,7 +2225,7 @@
       "id": "note-prompting-apis-note-054",
       "label": "Context window optimization: System prompt trimming and dynamic compression",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 4,
       "tags": [
@@ -2240,7 +2240,7 @@
       "id": "note-prompting-apis-note-055",
       "label": "Function definition guidelines for high-recall tool calling accuracy",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -2255,7 +2255,7 @@
       "id": "note-prompting-apis-note-056",
       "label": "Chain-of-Thought (CoT) elicitation and system instruction isolation",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 2,
       "tags": [
@@ -2270,7 +2270,7 @@
       "id": "note-prompting-apis-note-057",
       "label": "Rate limiting mitigation: Exponential backoff and jitter algorithms",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -2285,7 +2285,7 @@
       "id": "note-prompting-apis-note-058",
       "label": "Few-shot prompting: Exemplar selection, ordering, and bias mitigation",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "tier": 1,
       "tags": [
@@ -2300,7 +2300,7 @@
       "id": "note-rag-retrieval-note-001",
       "label": "Hierarchical Navigable Small World (HNSW) index graph construction parameters",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 3,
       "tags": [
@@ -2315,7 +2315,7 @@
       "id": "note-rag-retrieval-note-002",
       "label": "Parent-child chunking: Storing parents, retrieving children for context",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2330,7 +2330,7 @@
       "id": "note-rag-retrieval-note-003",
       "label": "Lost in the Middle problem: Structuring context to counter position bias",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 3,
       "tags": [
@@ -2345,7 +2345,7 @@
       "id": "note-rag-retrieval-note-004",
       "label": "Chunking strategies: Recursive character split vs semantic sentence split",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -2360,7 +2360,7 @@
       "id": "note-rag-retrieval-note-005",
       "label": "Reranking models: Cross-encoders vs bi-encoders for precision retrieval",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -2375,7 +2375,7 @@
       "id": "note-rag-retrieval-note-006",
       "label": "ColBERT late interaction embeddings and token-level matching mechanics",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 3,
       "tags": [
@@ -2390,7 +2390,7 @@
       "id": "note-rag-retrieval-note-007",
       "label": "Vector database partitioning for multi-tenant enterprise RAG systems",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 3,
       "tags": [
@@ -2405,7 +2405,7 @@
       "id": "note-rag-retrieval-note-008",
       "label": "Query rewriting: Expansion via HyDE (Hypothetical Document Embeddings)",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 4,
       "tags": [
@@ -2420,7 +2420,7 @@
       "id": "note-rag-retrieval-note-009",
       "label": "Retrieval-Augmented Generation evaluation: Faithfulness and Answer Relevance",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 4,
       "tags": [
@@ -2435,7 +2435,7 @@
       "id": "note-rag-retrieval-note-010",
       "label": "Vector embeddings: Cosine similarity vs Inner Product vs L2 distance",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -2450,7 +2450,7 @@
       "id": "note-rag-retrieval-note-011",
       "label": "Metadata filtering: Partitioning vector space before vector scan execution",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2465,7 +2465,7 @@
       "id": "note-rag-retrieval-note-012",
       "label": "Dynamic chunk sizing based on content density and formatting clues",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -2480,7 +2480,7 @@
       "id": "note-rag-retrieval-note-013",
       "label": "Vector compression: Product Quantization (PQ) and Scalar Quantization (SQ)",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2495,7 +2495,7 @@
       "id": "note-rag-retrieval-note-014",
       "label": "Hybrid search: Reciprocal Rank Fusion (RRF) combining BM25 and dense vectors",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -2510,7 +2510,7 @@
       "id": "note-rag-retrieval-note-015",
       "label": "Index maintenance: Incremental updates vs complete index rebuilds",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 4,
       "tags": [
@@ -2525,7 +2525,7 @@
       "id": "note-rag-retrieval-note-016",
       "label": "Hierarchical Navigable Small World (HNSW) index graph construction parameters",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2540,7 +2540,7 @@
       "id": "note-rag-retrieval-note-017",
       "label": "Parent-child chunking: Storing parents, retrieving children for context",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 4,
       "tags": [
@@ -2555,7 +2555,7 @@
       "id": "note-rag-retrieval-note-018",
       "label": "Lost in the Middle problem: Structuring context to counter position bias",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2570,7 +2570,7 @@
       "id": "note-rag-retrieval-note-019",
       "label": "Chunking strategies: Recursive character split vs semantic sentence split",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2585,7 +2585,7 @@
       "id": "note-rag-retrieval-note-020",
       "label": "Reranking models: Cross-encoders vs bi-encoders for precision retrieval",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2600,7 +2600,7 @@
       "id": "note-rag-retrieval-note-021",
       "label": "ColBERT late interaction embeddings and token-level matching mechanics",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -2615,7 +2615,7 @@
       "id": "note-rag-retrieval-note-022",
       "label": "Vector database partitioning for multi-tenant enterprise RAG systems",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -2630,7 +2630,7 @@
       "id": "note-rag-retrieval-note-023",
       "label": "Query rewriting: Expansion via HyDE (Hypothetical Document Embeddings)",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -2645,7 +2645,7 @@
       "id": "note-rag-retrieval-note-024",
       "label": "Retrieval-Augmented Generation evaluation: Faithfulness and Answer Relevance",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -2660,7 +2660,7 @@
       "id": "note-rag-retrieval-note-025",
       "label": "Vector embeddings: Cosine similarity vs Inner Product vs L2 distance",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2675,7 +2675,7 @@
       "id": "note-rag-retrieval-note-026",
       "label": "Metadata filtering: Partitioning vector space before vector scan execution",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -2690,7 +2690,7 @@
       "id": "note-rag-retrieval-note-027",
       "label": "Dynamic chunk sizing based on content density and formatting clues",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2705,7 +2705,7 @@
       "id": "note-rag-retrieval-note-028",
       "label": "Vector compression: Product Quantization (PQ) and Scalar Quantization (SQ)",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 4,
       "tags": [
@@ -2720,7 +2720,7 @@
       "id": "note-rag-retrieval-note-029",
       "label": "Hybrid search: Reciprocal Rank Fusion (RRF) combining BM25 and dense vectors",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -2735,7 +2735,7 @@
       "id": "note-rag-retrieval-note-030",
       "label": "Index maintenance: Incremental updates vs complete index rebuilds",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2750,7 +2750,7 @@
       "id": "note-rag-retrieval-note-031",
       "label": "Hierarchical Navigable Small World (HNSW) index graph construction parameters",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2765,7 +2765,7 @@
       "id": "note-rag-retrieval-note-032",
       "label": "Parent-child chunking: Storing parents, retrieving children for context",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2780,7 +2780,7 @@
       "id": "note-rag-retrieval-note-033",
       "label": "Lost in the Middle problem: Structuring context to counter position bias",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 3,
       "tags": [
@@ -2795,7 +2795,7 @@
       "id": "note-rag-retrieval-note-034",
       "label": "Chunking strategies: Recursive character split vs semantic sentence split",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 3,
       "tags": [
@@ -2810,7 +2810,7 @@
       "id": "note-rag-retrieval-note-035",
       "label": "Reranking models: Cross-encoders vs bi-encoders for precision retrieval",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 4,
       "tags": [
@@ -2825,7 +2825,7 @@
       "id": "note-rag-retrieval-note-036",
       "label": "ColBERT late interaction embeddings and token-level matching mechanics",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2840,7 +2840,7 @@
       "id": "note-rag-retrieval-note-037",
       "label": "Vector database partitioning for multi-tenant enterprise RAG systems",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2855,7 +2855,7 @@
       "id": "note-rag-retrieval-note-038",
       "label": "Query rewriting: Expansion via HyDE (Hypothetical Document Embeddings)",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -2870,7 +2870,7 @@
       "id": "note-rag-retrieval-note-039",
       "label": "Retrieval-Augmented Generation evaluation: Faithfulness and Answer Relevance",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 3,
       "tags": [
@@ -2885,7 +2885,7 @@
       "id": "note-rag-retrieval-note-040",
       "label": "Vector embeddings: Cosine similarity vs Inner Product vs L2 distance",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 3,
       "tags": [
@@ -2900,7 +2900,7 @@
       "id": "note-rag-retrieval-note-041",
       "label": "Metadata filtering: Partitioning vector space before vector scan execution",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 3,
       "tags": [
@@ -2915,7 +2915,7 @@
       "id": "note-rag-retrieval-note-042",
       "label": "Dynamic chunk sizing based on content density and formatting clues",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 3,
       "tags": [
@@ -2930,7 +2930,7 @@
       "id": "note-rag-retrieval-note-043",
       "label": "Vector compression: Product Quantization (PQ) and Scalar Quantization (SQ)",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -2945,7 +2945,7 @@
       "id": "note-rag-retrieval-note-044",
       "label": "Hybrid search: Reciprocal Rank Fusion (RRF) combining BM25 and dense vectors",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -2960,7 +2960,7 @@
       "id": "note-rag-retrieval-note-045",
       "label": "Index maintenance: Incremental updates vs complete index rebuilds",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2975,7 +2975,7 @@
       "id": "note-rag-retrieval-note-046",
       "label": "Hierarchical Navigable Small World (HNSW) index graph construction parameters",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -2990,7 +2990,7 @@
       "id": "note-rag-retrieval-note-047",
       "label": "Parent-child chunking: Storing parents, retrieving children for context",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -3005,7 +3005,7 @@
       "id": "note-rag-retrieval-note-048",
       "label": "Lost in the Middle problem: Structuring context to counter position bias",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 3,
       "tags": [
@@ -3020,7 +3020,7 @@
       "id": "note-rag-retrieval-note-049",
       "label": "Chunking strategies: Recursive character split vs semantic sentence split",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -3035,7 +3035,7 @@
       "id": "note-rag-retrieval-note-050",
       "label": "Reranking models: Cross-encoders vs bi-encoders for precision retrieval",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -3050,7 +3050,7 @@
       "id": "note-rag-retrieval-note-051",
       "label": "ColBERT late interaction embeddings and token-level matching mechanics",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 2,
       "tags": [
@@ -3065,7 +3065,7 @@
       "id": "note-rag-retrieval-note-052",
       "label": "Vector database partitioning for multi-tenant enterprise RAG systems",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 3,
       "tags": [
@@ -3080,7 +3080,7 @@
       "id": "note-rag-retrieval-note-053",
       "label": "Query rewriting: Expansion via HyDE (Hypothetical Document Embeddings)",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -3095,7 +3095,7 @@
       "id": "note-rag-retrieval-note-054",
       "label": "Retrieval-Augmented Generation evaluation: Faithfulness and Answer Relevance",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -3110,7 +3110,7 @@
       "id": "note-rag-retrieval-note-055",
       "label": "Vector embeddings: Cosine similarity vs Inner Product vs L2 distance",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "tier": 1,
       "tags": [
@@ -3125,7 +3125,7 @@
       "id": "note-agents-note-001",
       "label": "Human-in-the-loop triggers: Interrupting state graphs for approval",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 3,
       "tags": [
@@ -3140,7 +3140,7 @@
       "id": "note-agents-note-002",
       "label": "LangGraph state management: Reducer functions and thread checkpoints",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 3,
       "tags": [
@@ -3155,7 +3155,7 @@
       "id": "note-agents-note-003",
       "label": "State transition cycles: Cycle detection and infinite loop guards",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3170,7 +3170,7 @@
       "id": "note-agents-note-004",
       "label": "Memory-injected agent states: Context-aware system state management",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 1,
       "tags": [
@@ -3185,7 +3185,7 @@
       "id": "note-agents-note-005",
       "label": "Task decomposition strategies: Dynamic sub-task list generation",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3200,7 +3200,7 @@
       "id": "note-agents-note-006",
       "label": "Agent routing logic based on semantic search of tool descriptions",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 1,
       "tags": [
@@ -3215,7 +3215,7 @@
       "id": "note-agents-note-007",
       "label": "Token budget limits in long-running agent execution paths",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 1,
       "tags": [
@@ -3230,7 +3230,7 @@
       "id": "note-agents-note-008",
       "label": "Single-agent planning: Self-reflection and correction loops",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 4,
       "tags": [
@@ -3245,7 +3245,7 @@
       "id": "note-agents-note-009",
       "label": "Agent execution trace logging: Visualizing steps in nested graphs",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 4,
       "tags": [
@@ -3260,7 +3260,7 @@
       "id": "note-agents-note-010",
       "label": "Time-to-action constraints: Dynamic timeout tracking in agent loops",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3275,7 +3275,7 @@
       "id": "note-agents-note-011",
       "label": "Agent tool registry: Thread-safe tool execution environments",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3290,7 +3290,7 @@
       "id": "note-agents-note-012",
       "label": "ReAct pattern: Interleaved reasoning and action loops in execution",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 3,
       "tags": [
@@ -3305,7 +3305,7 @@
       "id": "note-agents-note-013",
       "label": "State machine agents vs free-form LLM routing networks",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3320,7 +3320,7 @@
       "id": "note-agents-note-014",
       "label": "Agent state persistence: Database backends for state resumption",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 1,
       "tags": [
@@ -3335,7 +3335,7 @@
       "id": "note-agents-note-015",
       "label": "Exception handling in tool execution and graceful recovery paths",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 4,
       "tags": [
@@ -3350,7 +3350,7 @@
       "id": "note-agents-note-016",
       "label": "Human-in-the-loop triggers: Interrupting state graphs for approval",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 1,
       "tags": [
@@ -3365,7 +3365,7 @@
       "id": "note-agents-note-017",
       "label": "LangGraph state management: Reducer functions and thread checkpoints",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 4,
       "tags": [
@@ -3380,7 +3380,7 @@
       "id": "note-agents-note-018",
       "label": "State transition cycles: Cycle detection and infinite loop guards",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 4,
       "tags": [
@@ -3395,7 +3395,7 @@
       "id": "note-agents-note-019",
       "label": "Memory-injected agent states: Context-aware system state management",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 1,
       "tags": [
@@ -3410,7 +3410,7 @@
       "id": "note-agents-note-020",
       "label": "Task decomposition strategies: Dynamic sub-task list generation",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 1,
       "tags": [
@@ -3425,7 +3425,7 @@
       "id": "note-agents-note-021",
       "label": "Agent routing logic based on semantic search of tool descriptions",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 1,
       "tags": [
@@ -3440,7 +3440,7 @@
       "id": "note-agents-note-022",
       "label": "Token budget limits in long-running agent execution paths",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3455,7 +3455,7 @@
       "id": "note-agents-note-023",
       "label": "Single-agent planning: Self-reflection and correction loops",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3470,7 +3470,7 @@
       "id": "note-agents-note-024",
       "label": "Agent execution trace logging: Visualizing steps in nested graphs",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 1,
       "tags": [
@@ -3485,7 +3485,7 @@
       "id": "note-agents-note-025",
       "label": "Time-to-action constraints: Dynamic timeout tracking in agent loops",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 4,
       "tags": [
@@ -3500,7 +3500,7 @@
       "id": "note-agents-note-026",
       "label": "Agent tool registry: Thread-safe tool execution environments",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3515,7 +3515,7 @@
       "id": "note-agents-note-027",
       "label": "ReAct pattern: Interleaved reasoning and action loops in execution",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3530,7 +3530,7 @@
       "id": "note-agents-note-028",
       "label": "State machine agents vs free-form LLM routing networks",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 3,
       "tags": [
@@ -3545,7 +3545,7 @@
       "id": "note-agents-note-029",
       "label": "Agent state persistence: Database backends for state resumption",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 4,
       "tags": [
@@ -3560,7 +3560,7 @@
       "id": "note-agents-note-030",
       "label": "Exception handling in tool execution and graceful recovery paths",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 3,
       "tags": [
@@ -3575,7 +3575,7 @@
       "id": "note-agents-note-031",
       "label": "Human-in-the-loop triggers: Interrupting state graphs for approval",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 4,
       "tags": [
@@ -3590,7 +3590,7 @@
       "id": "note-agents-note-032",
       "label": "LangGraph state management: Reducer functions and thread checkpoints",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 1,
       "tags": [
@@ -3605,7 +3605,7 @@
       "id": "note-agents-note-033",
       "label": "State transition cycles: Cycle detection and infinite loop guards",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 4,
       "tags": [
@@ -3620,7 +3620,7 @@
       "id": "note-agents-note-034",
       "label": "Memory-injected agent states: Context-aware system state management",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 1,
       "tags": [
@@ -3635,7 +3635,7 @@
       "id": "note-agents-note-035",
       "label": "Task decomposition strategies: Dynamic sub-task list generation",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 4,
       "tags": [
@@ -3650,7 +3650,7 @@
       "id": "note-agents-note-036",
       "label": "Agent routing logic based on semantic search of tool descriptions",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3665,7 +3665,7 @@
       "id": "note-agents-note-037",
       "label": "Token budget limits in long-running agent execution paths",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3680,7 +3680,7 @@
       "id": "note-agents-note-038",
       "label": "Single-agent planning: Self-reflection and correction loops",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3695,7 +3695,7 @@
       "id": "note-agents-note-039",
       "label": "Agent execution trace logging: Visualizing steps in nested graphs",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3710,7 +3710,7 @@
       "id": "note-agents-note-040",
       "label": "Time-to-action constraints: Dynamic timeout tracking in agent loops",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 4,
       "tags": [
@@ -3725,7 +3725,7 @@
       "id": "note-agents-note-041",
       "label": "Agent tool registry: Thread-safe tool execution environments",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3740,7 +3740,7 @@
       "id": "note-agents-note-042",
       "label": "ReAct pattern: Interleaved reasoning and action loops in execution",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 1,
       "tags": [
@@ -3755,7 +3755,7 @@
       "id": "note-agents-note-043",
       "label": "State machine agents vs free-form LLM routing networks",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 4,
       "tags": [
@@ -3770,7 +3770,7 @@
       "id": "note-agents-note-044",
       "label": "Agent state persistence: Database backends for state resumption",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3785,7 +3785,7 @@
       "id": "note-agents-note-045",
       "label": "Exception handling in tool execution and graceful recovery paths",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3800,7 +3800,7 @@
       "id": "note-agents-note-046",
       "label": "Human-in-the-loop triggers: Interrupting state graphs for approval",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 2,
       "tags": [
@@ -3815,7 +3815,7 @@
       "id": "note-agents-note-047",
       "label": "LangGraph state management: Reducer functions and thread checkpoints",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 4,
       "tags": [
@@ -3830,7 +3830,7 @@
       "id": "note-agents-note-048",
       "label": "State transition cycles: Cycle detection and infinite loop guards",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "tier": 1,
       "tags": [
@@ -3845,7 +3845,7 @@
       "id": "note-multi-agent-mcp-note-001",
       "label": "MCP client routing: Distributing requests across remote MCP servers",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -3860,7 +3860,7 @@
       "id": "note-multi-agent-mcp-note-002",
       "label": "Multi-agent consensus algorithms: Voting protocols for collaborative tasks",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -3875,7 +3875,7 @@
       "id": "note-multi-agent-mcp-note-003",
       "label": "MCP tool registration: Dynamically exposing host scripts to LLM clients",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -3890,7 +3890,7 @@
       "id": "note-multi-agent-mcp-note-004",
       "label": "Supervisor pattern: Hierarchical agent routing and dispatch loops",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 2,
       "tags": [
@@ -3905,7 +3905,7 @@
       "id": "note-multi-agent-mcp-note-005",
       "label": "Debugging MCP exchanges: Inspecting JSON-RPC messages and errors",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 4,
       "tags": [
@@ -3920,7 +3920,7 @@
       "id": "note-multi-agent-mcp-note-006",
       "label": "Model Context Protocol (MCP) server-client architecture definition",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 2,
       "tags": [
@@ -3935,7 +3935,7 @@
       "id": "note-multi-agent-mcp-note-007",
       "label": "MCP server security: Sandboxing tools and limiting API token exposure",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 2,
       "tags": [
@@ -3950,7 +3950,7 @@
       "id": "note-multi-agent-mcp-note-008",
       "label": "Resource sharing in MCP: Access controls for local files and database tools",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -3965,7 +3965,7 @@
       "id": "note-multi-agent-mcp-note-009",
       "label": "Choreography vs orchestration in multi-agent team communication",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -3980,7 +3980,7 @@
       "id": "note-multi-agent-mcp-note-010",
       "label": "Multi-agent role definitions: System prompt specialization and constraints",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -3995,7 +3995,7 @@
       "id": "note-multi-agent-mcp-note-011",
       "label": "Agent-to-agent negotiation: Conflict resolution and output alignment",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4010,7 +4010,7 @@
       "id": "note-multi-agent-mcp-note-012",
       "label": "Context handoff mechanics: Minimizing token bloat between sub-agents",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4025,7 +4025,7 @@
       "id": "note-multi-agent-mcp-note-013",
       "label": "Dynamic team creation: Spawning sub-agents for specialized tasks",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 2,
       "tags": [
@@ -4040,7 +4040,7 @@
       "id": "note-multi-agent-mcp-note-014",
       "label": "MCP transport options: SSE vs Standard I/O communication channels",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 2,
       "tags": [
@@ -4055,7 +4055,7 @@
       "id": "note-multi-agent-mcp-note-015",
       "label": "Asynchronous multi-agent messaging: Message queues and pub-sub states",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 2,
       "tags": [
@@ -4070,7 +4070,7 @@
       "id": "note-multi-agent-mcp-note-016",
       "label": "MCP client routing: Distributing requests across remote MCP servers",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4085,7 +4085,7 @@
       "id": "note-multi-agent-mcp-note-017",
       "label": "Multi-agent consensus algorithms: Voting protocols for collaborative tasks",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 4,
       "tags": [
@@ -4100,7 +4100,7 @@
       "id": "note-multi-agent-mcp-note-018",
       "label": "MCP tool registration: Dynamically exposing host scripts to LLM clients",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4115,7 +4115,7 @@
       "id": "note-multi-agent-mcp-note-019",
       "label": "Supervisor pattern: Hierarchical agent routing and dispatch loops",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4130,7 +4130,7 @@
       "id": "note-multi-agent-mcp-note-020",
       "label": "Debugging MCP exchanges: Inspecting JSON-RPC messages and errors",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 4,
       "tags": [
@@ -4145,7 +4145,7 @@
       "id": "note-multi-agent-mcp-note-021",
       "label": "Model Context Protocol (MCP) server-client architecture definition",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 2,
       "tags": [
@@ -4160,7 +4160,7 @@
       "id": "note-multi-agent-mcp-note-022",
       "label": "MCP server security: Sandboxing tools and limiting API token exposure",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 2,
       "tags": [
@@ -4175,7 +4175,7 @@
       "id": "note-multi-agent-mcp-note-023",
       "label": "Resource sharing in MCP: Access controls for local files and database tools",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 4,
       "tags": [
@@ -4190,7 +4190,7 @@
       "id": "note-multi-agent-mcp-note-024",
       "label": "Choreography vs orchestration in multi-agent team communication",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4205,7 +4205,7 @@
       "id": "note-multi-agent-mcp-note-025",
       "label": "Multi-agent role definitions: System prompt specialization and constraints",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 2,
       "tags": [
@@ -4220,7 +4220,7 @@
       "id": "note-multi-agent-mcp-note-026",
       "label": "Agent-to-agent negotiation: Conflict resolution and output alignment",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4235,7 +4235,7 @@
       "id": "note-multi-agent-mcp-note-027",
       "label": "Context handoff mechanics: Minimizing token bloat between sub-agents",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 2,
       "tags": [
@@ -4250,7 +4250,7 @@
       "id": "note-multi-agent-mcp-note-028",
       "label": "Dynamic team creation: Spawning sub-agents for specialized tasks",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 4,
       "tags": [
@@ -4265,7 +4265,7 @@
       "id": "note-multi-agent-mcp-note-029",
       "label": "MCP transport options: SSE vs Standard I/O communication channels",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4280,7 +4280,7 @@
       "id": "note-multi-agent-mcp-note-030",
       "label": "Asynchronous multi-agent messaging: Message queues and pub-sub states",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4295,7 +4295,7 @@
       "id": "note-multi-agent-mcp-note-031",
       "label": "MCP client routing: Distributing requests across remote MCP servers",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4310,7 +4310,7 @@
       "id": "note-multi-agent-mcp-note-032",
       "label": "Multi-agent consensus algorithms: Voting protocols for collaborative tasks",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4325,7 +4325,7 @@
       "id": "note-multi-agent-mcp-note-033",
       "label": "MCP tool registration: Dynamically exposing host scripts to LLM clients",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4340,7 +4340,7 @@
       "id": "note-multi-agent-mcp-note-034",
       "label": "Supervisor pattern: Hierarchical agent routing and dispatch loops",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 2,
       "tags": [
@@ -4355,7 +4355,7 @@
       "id": "note-multi-agent-mcp-note-035",
       "label": "Debugging MCP exchanges: Inspecting JSON-RPC messages and errors",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 3,
       "tags": [
@@ -4370,7 +4370,7 @@
       "id": "note-multi-agent-mcp-note-036",
       "label": "Model Context Protocol (MCP) server-client architecture definition",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4385,7 +4385,7 @@
       "id": "note-multi-agent-mcp-note-037",
       "label": "MCP server security: Sandboxing tools and limiting API token exposure",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 2,
       "tags": [
@@ -4400,7 +4400,7 @@
       "id": "note-multi-agent-mcp-note-038",
       "label": "Resource sharing in MCP: Access controls for local files and database tools",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 3,
       "tags": [
@@ -4415,7 +4415,7 @@
       "id": "note-multi-agent-mcp-note-039",
       "label": "Choreography vs orchestration in multi-agent team communication",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 4,
       "tags": [
@@ -4430,7 +4430,7 @@
       "id": "note-multi-agent-mcp-note-040",
       "label": "Multi-agent role definitions: System prompt specialization and constraints",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4445,7 +4445,7 @@
       "id": "note-multi-agent-mcp-note-041",
       "label": "Agent-to-agent negotiation: Conflict resolution and output alignment",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 2,
       "tags": [
@@ -4460,7 +4460,7 @@
       "id": "note-multi-agent-mcp-note-042",
       "label": "Context handoff mechanics: Minimizing token bloat between sub-agents",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 3,
       "tags": [
@@ -4475,7 +4475,7 @@
       "id": "note-multi-agent-mcp-note-043",
       "label": "Dynamic team creation: Spawning sub-agents for specialized tasks",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 4,
       "tags": [
@@ -4490,7 +4490,7 @@
       "id": "note-multi-agent-mcp-note-044",
       "label": "MCP transport options: SSE vs Standard I/O communication channels",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 3,
       "tags": [
@@ -4505,7 +4505,7 @@
       "id": "note-multi-agent-mcp-note-045",
       "label": "Asynchronous multi-agent messaging: Message queues and pub-sub states",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4520,7 +4520,7 @@
       "id": "note-multi-agent-mcp-note-046",
       "label": "MCP client routing: Distributing requests across remote MCP servers",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4535,7 +4535,7 @@
       "id": "note-multi-agent-mcp-note-047",
       "label": "Multi-agent consensus algorithms: Voting protocols for collaborative tasks",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 2,
       "tags": [
@@ -4550,7 +4550,7 @@
       "id": "note-multi-agent-mcp-note-048",
       "label": "MCP tool registration: Dynamically exposing host scripts to LLM clients",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 4,
       "tags": [
@@ -4565,7 +4565,7 @@
       "id": "note-multi-agent-mcp-note-049",
       "label": "Supervisor pattern: Hierarchical agent routing and dispatch loops",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4580,7 +4580,7 @@
       "id": "note-multi-agent-mcp-note-050",
       "label": "Debugging MCP exchanges: Inspecting JSON-RPC messages and errors",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 4,
       "tags": [
@@ -4595,7 +4595,7 @@
       "id": "note-multi-agent-mcp-note-051",
       "label": "Model Context Protocol (MCP) server-client architecture definition",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4610,7 +4610,7 @@
       "id": "note-multi-agent-mcp-note-052",
       "label": "MCP server security: Sandboxing tools and limiting API token exposure",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 2,
       "tags": [
@@ -4625,7 +4625,7 @@
       "id": "note-multi-agent-mcp-note-053",
       "label": "Resource sharing in MCP: Access controls for local files and database tools",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4640,7 +4640,7 @@
       "id": "note-multi-agent-mcp-note-054",
       "label": "Choreography vs orchestration in multi-agent team communication",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 4,
       "tags": [
@@ -4655,7 +4655,7 @@
       "id": "note-multi-agent-mcp-note-055",
       "label": "Multi-agent role definitions: System prompt specialization and constraints",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4670,7 +4670,7 @@
       "id": "note-multi-agent-mcp-note-056",
       "label": "Agent-to-agent negotiation: Conflict resolution and output alignment",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 4,
       "tags": [
@@ -4685,7 +4685,7 @@
       "id": "note-multi-agent-mcp-note-057",
       "label": "Context handoff mechanics: Minimizing token bloat between sub-agents",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4700,7 +4700,7 @@
       "id": "note-multi-agent-mcp-note-058",
       "label": "Dynamic team creation: Spawning sub-agents for specialized tasks",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 4,
       "tags": [
@@ -4715,7 +4715,7 @@
       "id": "note-multi-agent-mcp-note-059",
       "label": "MCP transport options: SSE vs Standard I/O communication channels",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 1,
       "tags": [
@@ -4730,7 +4730,7 @@
       "id": "note-multi-agent-mcp-note-060",
       "label": "Asynchronous multi-agent messaging: Message queues and pub-sub states",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 3,
       "tags": [
@@ -4745,7 +4745,7 @@
       "id": "note-multi-agent-mcp-note-061",
       "label": "MCP client routing: Distributing requests across remote MCP servers",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 3,
       "tags": [
@@ -4760,7 +4760,7 @@
       "id": "note-multi-agent-mcp-note-062",
       "label": "Multi-agent consensus algorithms: Voting protocols for collaborative tasks",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "tier": 3,
       "tags": [
@@ -4775,7 +4775,7 @@
       "id": "note-memory-knowledge-note-001",
       "label": "Vector-based memory retrieval: Querying historical context with relevance weights",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 1,
       "tags": [
@@ -4790,7 +4790,7 @@
       "id": "note-memory-knowledge-note-002",
       "label": "Memory consolidation: Offline cron jobs updating core user profile notes",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 1,
       "tags": [
@@ -4805,7 +4805,7 @@
       "id": "note-memory-knowledge-note-003",
       "label": "Fact verification: Checking memory updates against established sources",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 1,
       "tags": [
@@ -4820,7 +4820,7 @@
       "id": "note-memory-knowledge-note-004",
       "label": "Entity resolution: Merging duplicate nodes in a knowledge graph",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 1,
       "tags": [
@@ -4835,7 +4835,7 @@
       "id": "note-memory-knowledge-note-005",
       "label": "Hierarchical summarization of knowledge bases for global query responses",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 4,
       "tags": [
@@ -4850,7 +4850,7 @@
       "id": "note-memory-knowledge-note-006",
       "label": "Entity extraction: LLM-based entity and relationship detection from markdown",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 2,
       "tags": [
@@ -4865,7 +4865,7 @@
       "id": "note-memory-knowledge-note-007",
       "label": "Neo4j knowledge graphs: Querying relationships with Cypher templates",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 2,
       "tags": [
@@ -4880,7 +4880,7 @@
       "id": "note-memory-knowledge-note-008",
       "label": "Memory access control: Partitioning personal vs system memory stores",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 3,
       "tags": [
@@ -4895,7 +4895,7 @@
       "id": "note-memory-knowledge-note-009",
       "label": "GraphRAG: Building entity-relation knowledge graphs from unstructured text",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 2,
       "tags": [
@@ -4910,7 +4910,7 @@
       "id": "note-memory-knowledge-note-010",
       "label": "Graph-dense retrieval: Combining vector search with neighborhood traversal",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 1,
       "tags": [
@@ -4925,7 +4925,7 @@
       "id": "note-memory-knowledge-note-011",
       "label": "Episodic memory: Extracting key events and lessons from conversation logs",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 3,
       "tags": [
@@ -4940,7 +4940,7 @@
       "id": "note-memory-knowledge-note-012",
       "label": "Short-term vs long-term memory: Ephemeral thread history vs persistent stores",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 2,
       "tags": [
@@ -4955,7 +4955,7 @@
       "id": "note-memory-knowledge-note-013",
       "label": "Decay functions: Weighting memory retrieval by recency and frequency",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 3,
       "tags": [
@@ -4970,7 +4970,7 @@
       "id": "note-memory-knowledge-note-014",
       "label": "Memory summarization: Rolling compression of chat logs to fit context windows",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 3,
       "tags": [
@@ -4985,7 +4985,7 @@
       "id": "note-memory-knowledge-note-015",
       "label": "Semantic memory: Storing facts and relationships in a vector index",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 2,
       "tags": [
@@ -5000,7 +5000,7 @@
       "id": "note-memory-knowledge-note-016",
       "label": "Vector-based memory retrieval: Querying historical context with relevance weights",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 2,
       "tags": [
@@ -5015,7 +5015,7 @@
       "id": "note-memory-knowledge-note-017",
       "label": "Memory consolidation: Offline cron jobs updating core user profile notes",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 4,
       "tags": [
@@ -5030,7 +5030,7 @@
       "id": "note-memory-knowledge-note-018",
       "label": "Fact verification: Checking memory updates against established sources",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 4,
       "tags": [
@@ -5045,7 +5045,7 @@
       "id": "note-memory-knowledge-note-019",
       "label": "Entity resolution: Merging duplicate nodes in a knowledge graph",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 1,
       "tags": [
@@ -5060,7 +5060,7 @@
       "id": "note-memory-knowledge-note-020",
       "label": "Hierarchical summarization of knowledge bases for global query responses",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 4,
       "tags": [
@@ -5075,7 +5075,7 @@
       "id": "note-memory-knowledge-note-021",
       "label": "Entity extraction: LLM-based entity and relationship detection from markdown",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 4,
       "tags": [
@@ -5090,7 +5090,7 @@
       "id": "note-memory-knowledge-note-022",
       "label": "Neo4j knowledge graphs: Querying relationships with Cypher templates",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 2,
       "tags": [
@@ -5105,7 +5105,7 @@
       "id": "note-memory-knowledge-note-023",
       "label": "Memory access control: Partitioning personal vs system memory stores",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 4,
       "tags": [
@@ -5120,7 +5120,7 @@
       "id": "note-memory-knowledge-note-024",
       "label": "GraphRAG: Building entity-relation knowledge graphs from unstructured text",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 2,
       "tags": [
@@ -5135,7 +5135,7 @@
       "id": "note-memory-knowledge-note-025",
       "label": "Graph-dense retrieval: Combining vector search with neighborhood traversal",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 2,
       "tags": [
@@ -5150,7 +5150,7 @@
       "id": "note-memory-knowledge-note-026",
       "label": "Episodic memory: Extracting key events and lessons from conversation logs",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 2,
       "tags": [
@@ -5165,7 +5165,7 @@
       "id": "note-memory-knowledge-note-027",
       "label": "Short-term vs long-term memory: Ephemeral thread history vs persistent stores",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 2,
       "tags": [
@@ -5180,7 +5180,7 @@
       "id": "note-memory-knowledge-note-028",
       "label": "Decay functions: Weighting memory retrieval by recency and frequency",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 2,
       "tags": [
@@ -5195,7 +5195,7 @@
       "id": "note-memory-knowledge-note-029",
       "label": "Memory summarization: Rolling compression of chat logs to fit context windows",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 3,
       "tags": [
@@ -5210,7 +5210,7 @@
       "id": "note-memory-knowledge-note-030",
       "label": "Semantic memory: Storing facts and relationships in a vector index",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 3,
       "tags": [
@@ -5225,7 +5225,7 @@
       "id": "note-memory-knowledge-note-031",
       "label": "Vector-based memory retrieval: Querying historical context with relevance weights",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 1,
       "tags": [
@@ -5240,7 +5240,7 @@
       "id": "note-memory-knowledge-note-032",
       "label": "Memory consolidation: Offline cron jobs updating core user profile notes",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 2,
       "tags": [
@@ -5255,7 +5255,7 @@
       "id": "note-memory-knowledge-note-033",
       "label": "Fact verification: Checking memory updates against established sources",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 3,
       "tags": [
@@ -5270,7 +5270,7 @@
       "id": "note-memory-knowledge-note-034",
       "label": "Entity resolution: Merging duplicate nodes in a knowledge graph",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 2,
       "tags": [
@@ -5285,7 +5285,7 @@
       "id": "note-memory-knowledge-note-035",
       "label": "Hierarchical summarization of knowledge bases for global query responses",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 3,
       "tags": [
@@ -5300,7 +5300,7 @@
       "id": "note-memory-knowledge-note-036",
       "label": "Entity extraction: LLM-based entity and relationship detection from markdown",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 1,
       "tags": [
@@ -5315,7 +5315,7 @@
       "id": "note-memory-knowledge-note-037",
       "label": "Neo4j knowledge graphs: Querying relationships with Cypher templates",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 4,
       "tags": [
@@ -5330,7 +5330,7 @@
       "id": "note-memory-knowledge-note-038",
       "label": "Memory access control: Partitioning personal vs system memory stores",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 1,
       "tags": [
@@ -5345,7 +5345,7 @@
       "id": "note-memory-knowledge-note-039",
       "label": "GraphRAG: Building entity-relation knowledge graphs from unstructured text",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 1,
       "tags": [
@@ -5360,7 +5360,7 @@
       "id": "note-memory-knowledge-note-040",
       "label": "Graph-dense retrieval: Combining vector search with neighborhood traversal",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 1,
       "tags": [
@@ -5375,7 +5375,7 @@
       "id": "note-memory-knowledge-note-041",
       "label": "Episodic memory: Extracting key events and lessons from conversation logs",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 4,
       "tags": [
@@ -5390,7 +5390,7 @@
       "id": "note-memory-knowledge-note-042",
       "label": "Short-term vs long-term memory: Ephemeral thread history vs persistent stores",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "tier": 1,
       "tags": [
@@ -5405,7 +5405,7 @@
       "id": "note-evals-observability-note-001",
       "label": "Token cost calculation: Tracking input, output, and cached tokens dynamically",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 4,
       "tags": [
@@ -5420,7 +5420,7 @@
       "id": "note-evals-observability-note-002",
       "label": "Golden datasets: Creating high-fidelity benchmarks for agent validation",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 1,
       "tags": [
@@ -5435,7 +5435,7 @@
       "id": "note-evals-observability-note-003",
       "label": "Confidence scoring: Calibration of LLM self-assessed confidence ratings",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 1,
       "tags": [
@@ -5450,7 +5450,7 @@
       "id": "note-evals-observability-note-004",
       "label": "Automated CI/CD evaluations: Running agent tests before code merges",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 1,
       "tags": [
@@ -5465,7 +5465,7 @@
       "id": "note-evals-observability-note-005",
       "label": "A/B testing of prompt iterations: Statistically valid evaluation design",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 1,
       "tags": [
@@ -5480,7 +5480,7 @@
       "id": "note-evals-observability-note-006",
       "label": "Semantic similarity metrics: BERTscore vs cosine embedding distance",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 2,
       "tags": [
@@ -5495,7 +5495,7 @@
       "id": "note-evals-observability-note-007",
       "label": "Detection of hallucination rates using NLI (Natural Language Inference)",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 3,
       "tags": [
@@ -5510,7 +5510,7 @@
       "id": "note-evals-observability-note-008",
       "label": "Cost-efficiency profiling: Tradeoffs between high-end and small-fast models",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 1,
       "tags": [
@@ -5525,7 +5525,7 @@
       "id": "note-evals-observability-note-009",
       "label": "Phoenix and LangSmith tracing: Debugging production trace graphs",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 2,
       "tags": [
@@ -5540,7 +5540,7 @@
       "id": "note-evals-observability-note-010",
       "label": "Evaluating agent behavior: Path accuracy vs final response accuracy",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 1,
       "tags": [
@@ -5555,7 +5555,7 @@
       "id": "note-evals-observability-note-011",
       "label": "Retrieval metrics: Mean Reciprocal Rank (MRR) and NDCG calculations",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 1,
       "tags": [
@@ -5570,7 +5570,7 @@
       "id": "note-evals-observability-note-012",
       "label": "Synthetic data generation for domain-specific benchmark expansion",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 2,
       "tags": [
@@ -5585,7 +5585,7 @@
       "id": "note-evals-observability-note-013",
       "label": "Tracing mechanics: Span ID tracking in nested tool and model calls",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 4,
       "tags": [
@@ -5600,7 +5600,7 @@
       "id": "note-evals-observability-note-014",
       "label": "LLM-as-a-judge: Implementing G-Eval criteria and rubric templates",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 4,
       "tags": [
@@ -5615,7 +5615,7 @@
       "id": "note-evals-observability-note-015",
       "label": "Latency profiling: Measuring token generation time and network overhead",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 1,
       "tags": [
@@ -5630,7 +5630,7 @@
       "id": "note-evals-observability-note-016",
       "label": "Token cost calculation: Tracking input, output, and cached tokens dynamically",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 3,
       "tags": [
@@ -5645,7 +5645,7 @@
       "id": "note-evals-observability-note-017",
       "label": "Golden datasets: Creating high-fidelity benchmarks for agent validation",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 3,
       "tags": [
@@ -5660,7 +5660,7 @@
       "id": "note-evals-observability-note-018",
       "label": "Confidence scoring: Calibration of LLM self-assessed confidence ratings",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 3,
       "tags": [
@@ -5675,7 +5675,7 @@
       "id": "note-evals-observability-note-019",
       "label": "Automated CI/CD evaluations: Running agent tests before code merges",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 4,
       "tags": [
@@ -5690,7 +5690,7 @@
       "id": "note-evals-observability-note-020",
       "label": "A/B testing of prompt iterations: Statistically valid evaluation design",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 4,
       "tags": [
@@ -5705,7 +5705,7 @@
       "id": "note-evals-observability-note-021",
       "label": "Semantic similarity metrics: BERTscore vs cosine embedding distance",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 3,
       "tags": [
@@ -5720,7 +5720,7 @@
       "id": "note-evals-observability-note-022",
       "label": "Detection of hallucination rates using NLI (Natural Language Inference)",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 2,
       "tags": [
@@ -5735,7 +5735,7 @@
       "id": "note-evals-observability-note-023",
       "label": "Cost-efficiency profiling: Tradeoffs between high-end and small-fast models",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 2,
       "tags": [
@@ -5750,7 +5750,7 @@
       "id": "note-evals-observability-note-024",
       "label": "Phoenix and LangSmith tracing: Debugging production trace graphs",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 4,
       "tags": [
@@ -5765,7 +5765,7 @@
       "id": "note-evals-observability-note-025",
       "label": "Evaluating agent behavior: Path accuracy vs final response accuracy",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 2,
       "tags": [
@@ -5780,7 +5780,7 @@
       "id": "note-evals-observability-note-026",
       "label": "Retrieval metrics: Mean Reciprocal Rank (MRR) and NDCG calculations",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 1,
       "tags": [
@@ -5795,7 +5795,7 @@
       "id": "note-evals-observability-note-027",
       "label": "Synthetic data generation for domain-specific benchmark expansion",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 4,
       "tags": [
@@ -5810,7 +5810,7 @@
       "id": "note-evals-observability-note-028",
       "label": "Tracing mechanics: Span ID tracking in nested tool and model calls",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 2,
       "tags": [
@@ -5825,7 +5825,7 @@
       "id": "note-evals-observability-note-029",
       "label": "LLM-as-a-judge: Implementing G-Eval criteria and rubric templates",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 2,
       "tags": [
@@ -5840,7 +5840,7 @@
       "id": "note-evals-observability-note-030",
       "label": "Latency profiling: Measuring token generation time and network overhead",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 1,
       "tags": [
@@ -5855,7 +5855,7 @@
       "id": "note-evals-observability-note-031",
       "label": "Token cost calculation: Tracking input, output, and cached tokens dynamically",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 4,
       "tags": [
@@ -5870,7 +5870,7 @@
       "id": "note-evals-observability-note-032",
       "label": "Golden datasets: Creating high-fidelity benchmarks for agent validation",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 3,
       "tags": [
@@ -5885,7 +5885,7 @@
       "id": "note-evals-observability-note-033",
       "label": "Confidence scoring: Calibration of LLM self-assessed confidence ratings",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 2,
       "tags": [
@@ -5900,7 +5900,7 @@
       "id": "note-evals-observability-note-034",
       "label": "Automated CI/CD evaluations: Running agent tests before code merges",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 1,
       "tags": [
@@ -5915,7 +5915,7 @@
       "id": "note-evals-observability-note-035",
       "label": "A/B testing of prompt iterations: Statistically valid evaluation design",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 1,
       "tags": [
@@ -5930,7 +5930,7 @@
       "id": "note-evals-observability-note-036",
       "label": "Semantic similarity metrics: BERTscore vs cosine embedding distance",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 2,
       "tags": [
@@ -5945,7 +5945,7 @@
       "id": "note-evals-observability-note-037",
       "label": "Detection of hallucination rates using NLI (Natural Language Inference)",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 2,
       "tags": [
@@ -5960,7 +5960,7 @@
       "id": "note-evals-observability-note-038",
       "label": "Cost-efficiency profiling: Tradeoffs between high-end and small-fast models",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "tier": 2,
       "tags": [
@@ -5975,7 +5975,7 @@
       "id": "note-safety-security-note-001",
       "label": "Llama Guard: Filtering toxic input prompts and unsafe model outputs",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 3,
       "tags": [
@@ -5990,7 +5990,7 @@
       "id": "note-safety-security-note-002",
       "label": "Human-in-the-loop (HITL): Triggering verification for high-risk tools",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 3,
       "tags": [
@@ -6005,7 +6005,7 @@
       "id": "note-safety-security-note-003",
       "label": "Abstention criteria: Training models to refuse inputs outside safety guidelines",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 1,
       "tags": [
@@ -6020,7 +6020,7 @@
       "id": "note-safety-security-note-004",
       "label": "Prompt leakage protection: Preventing retrieval of hidden system prompts",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 1,
       "tags": [
@@ -6035,7 +6035,7 @@
       "id": "note-safety-security-note-005",
       "label": "Output validation: Scanning generated code for security vulnerabilities",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 4,
       "tags": [
@@ -6050,7 +6050,7 @@
       "id": "note-safety-security-note-006",
       "label": "Guardrails.ai: Enforcing runtime output constraints and type checking",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 4,
       "tags": [
@@ -6065,7 +6065,7 @@
       "id": "note-safety-security-note-007",
       "label": "OWASP Top 10 for LLMs: Addressing key vulnerability vectors in agents",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 1,
       "tags": [
@@ -6080,7 +6080,7 @@
       "id": "note-safety-security-note-008",
       "label": "Adversarial red-teaming: Automating probe queries for safety testing",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 2,
       "tags": [
@@ -6095,7 +6095,7 @@
       "id": "note-safety-security-note-009",
       "label": "Jailbreak detection: Classifying adversarial system instruction bypasses",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 3,
       "tags": [
@@ -6110,7 +6110,7 @@
       "id": "note-safety-security-note-010",
       "label": "Data leakage prevention: Controlling model access to system memory files",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 1,
       "tags": [
@@ -6125,7 +6125,7 @@
       "id": "note-safety-security-note-011",
       "label": "PII masking: Redacting sensitive data before forwarding to external APIs",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 2,
       "tags": [
@@ -6140,7 +6140,7 @@
       "id": "note-safety-security-note-012",
       "label": "Rate-limit abuse protection: Throttling suspicious agent execution chains",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 2,
       "tags": [
@@ -6155,7 +6155,7 @@
       "id": "note-safety-security-note-013",
       "label": "Prompt injection mitigation: Structural separation of instruction and data",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 3,
       "tags": [
@@ -6170,7 +6170,7 @@
       "id": "note-safety-security-note-014",
       "label": "Audit logging: Recording every tool output and prompt in immutable logs",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 4,
       "tags": [
@@ -6185,7 +6185,7 @@
       "id": "note-safety-security-note-015",
       "label": "Model behavior guardrails: Restricting discussion domains via system prompts",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 3,
       "tags": [
@@ -6200,7 +6200,7 @@
       "id": "note-safety-security-note-016",
       "label": "Llama Guard: Filtering toxic input prompts and unsafe model outputs",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 2,
       "tags": [
@@ -6215,7 +6215,7 @@
       "id": "note-safety-security-note-017",
       "label": "Human-in-the-loop (HITL): Triggering verification for high-risk tools",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 1,
       "tags": [
@@ -6230,7 +6230,7 @@
       "id": "note-safety-security-note-018",
       "label": "Abstention criteria: Training models to refuse inputs outside safety guidelines",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 1,
       "tags": [
@@ -6245,7 +6245,7 @@
       "id": "note-safety-security-note-019",
       "label": "Prompt leakage protection: Preventing retrieval of hidden system prompts",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 3,
       "tags": [
@@ -6260,7 +6260,7 @@
       "id": "note-safety-security-note-020",
       "label": "Output validation: Scanning generated code for security vulnerabilities",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 2,
       "tags": [
@@ -6275,7 +6275,7 @@
       "id": "note-safety-security-note-021",
       "label": "Guardrails.ai: Enforcing runtime output constraints and type checking",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 4,
       "tags": [
@@ -6290,7 +6290,7 @@
       "id": "note-safety-security-note-022",
       "label": "OWASP Top 10 for LLMs: Addressing key vulnerability vectors in agents",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 2,
       "tags": [
@@ -6305,7 +6305,7 @@
       "id": "note-safety-security-note-023",
       "label": "Adversarial red-teaming: Automating probe queries for safety testing",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 1,
       "tags": [
@@ -6320,7 +6320,7 @@
       "id": "note-safety-security-note-024",
       "label": "Jailbreak detection: Classifying adversarial system instruction bypasses",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 2,
       "tags": [
@@ -6335,7 +6335,7 @@
       "id": "note-safety-security-note-025",
       "label": "Data leakage prevention: Controlling model access to system memory files",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 3,
       "tags": [
@@ -6350,7 +6350,7 @@
       "id": "note-safety-security-note-026",
       "label": "PII masking: Redacting sensitive data before forwarding to external APIs",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 2,
       "tags": [
@@ -6365,7 +6365,7 @@
       "id": "note-safety-security-note-027",
       "label": "Rate-limit abuse protection: Throttling suspicious agent execution chains",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 3,
       "tags": [
@@ -6380,7 +6380,7 @@
       "id": "note-safety-security-note-028",
       "label": "Prompt injection mitigation: Structural separation of instruction and data",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 2,
       "tags": [
@@ -6395,7 +6395,7 @@
       "id": "note-safety-security-note-029",
       "label": "Audit logging: Recording every tool output and prompt in immutable logs",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 1,
       "tags": [
@@ -6410,7 +6410,7 @@
       "id": "note-safety-security-note-030",
       "label": "Model behavior guardrails: Restricting discussion domains via system prompts",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 1,
       "tags": [
@@ -6425,7 +6425,7 @@
       "id": "note-safety-security-note-031",
       "label": "Llama Guard: Filtering toxic input prompts and unsafe model outputs",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 2,
       "tags": [
@@ -6440,7 +6440,7 @@
       "id": "note-safety-security-note-032",
       "label": "Human-in-the-loop (HITL): Triggering verification for high-risk tools",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 4,
       "tags": [
@@ -6455,7 +6455,7 @@
       "id": "note-safety-security-note-033",
       "label": "Abstention criteria: Training models to refuse inputs outside safety guidelines",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 2,
       "tags": [
@@ -6470,7 +6470,7 @@
       "id": "note-safety-security-note-034",
       "label": "Prompt leakage protection: Preventing retrieval of hidden system prompts",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 3,
       "tags": [
@@ -6485,7 +6485,7 @@
       "id": "note-safety-security-note-035",
       "label": "Output validation: Scanning generated code for security vulnerabilities",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "tier": 1,
       "tags": [
@@ -6500,7 +6500,7 @@
       "id": "note-production-note-001",
       "label": "Redis cache: Caching frequent model queries and embeddings lookup",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 1,
       "tags": [
@@ -6515,7 +6515,7 @@
       "id": "note-production-note-002",
       "label": "Agent monitoring: Dashboard widgets for costs, latencies, and error rates",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 2,
       "tags": [
@@ -6530,7 +6530,7 @@
       "id": "note-production-note-003",
       "label": "Auto-scaling LLM calls: Concurrency limits and queue depth monitoring",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 2,
       "tags": [
@@ -6545,7 +6545,7 @@
       "id": "note-production-note-004",
       "label": "Database connection pooling for high-concurrency vector database access",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 2,
       "tags": [
@@ -6560,7 +6560,7 @@
       "id": "note-production-note-005",
       "label": "Cost management: Budget capping and resource consumption monitoring",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 3,
       "tags": [
@@ -6575,7 +6575,7 @@
       "id": "note-production-note-006",
       "label": "Production database migrations: Schema updates with pgvector indexes",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 4,
       "tags": [
@@ -6590,7 +6590,7 @@
       "id": "note-production-note-007",
       "label": "FastAPI wrappers: Deploying production agent loops behind HTTP endpoints",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 4,
       "tags": [
@@ -6605,7 +6605,7 @@
       "id": "note-production-note-008",
       "label": "Horizontal scaling of stateless agent execution containers",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 4,
       "tags": [
@@ -6620,7 +6620,7 @@
       "id": "note-production-note-009",
       "label": "Dockerizing agents: Packaging environment, system libraries, and runtimes",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 3,
       "tags": [
@@ -6635,7 +6635,7 @@
       "id": "note-production-note-010",
       "label": "Handling API outages: High-availability setups and local fallback models",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 1,
       "tags": [
@@ -6650,7 +6650,7 @@
       "id": "note-production-note-011",
       "label": "Websocket connections: Real-time agent status and interaction updates",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 3,
       "tags": [
@@ -6665,7 +6665,7 @@
       "id": "note-production-note-012",
       "label": "Stream processing: SSE streaming of partial tokens and trace updates",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 3,
       "tags": [
@@ -6680,7 +6680,7 @@
       "id": "note-production-note-013",
       "label": "PostgreSQL pgvector: Indexing and querying dense embeddings in SQL",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 2,
       "tags": [
@@ -6695,7 +6695,7 @@
       "id": "note-production-note-014",
       "label": "Cold start optimization for serverless agent deployment endpoints",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 2,
       "tags": [
@@ -6710,7 +6710,7 @@
       "id": "note-production-note-015",
       "label": "Asynchronous tasks: Offloading agent runs to Celery or RQ task queues",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 2,
       "tags": [
@@ -6725,7 +6725,7 @@
       "id": "note-production-note-016",
       "label": "Redis cache: Caching frequent model queries and embeddings lookup",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 4,
       "tags": [
@@ -6740,7 +6740,7 @@
       "id": "note-production-note-017",
       "label": "Agent monitoring: Dashboard widgets for costs, latencies, and error rates",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 1,
       "tags": [
@@ -6755,7 +6755,7 @@
       "id": "note-production-note-018",
       "label": "Auto-scaling LLM calls: Concurrency limits and queue depth monitoring",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "tier": 4,
       "tags": [
@@ -6770,7 +6770,7 @@
       "id": "note-frontier-capstone-note-001",
       "label": "Search-augmented reasoning: Training models to search web, code, and documents",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "tier": 3,
       "tags": [
@@ -6785,7 +6785,7 @@
       "id": "note-frontier-capstone-note-002",
       "label": "Multi-modal agents: Joint vision-action models for GUI automation",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "tier": 2,
       "tags": [
@@ -6800,7 +6800,7 @@
       "id": "note-frontier-capstone-note-003",
       "label": "Long-horizon planning benchmarks: Testing agent stability over 100+ steps",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "tier": 4,
       "tags": [
@@ -6815,7 +6815,7 @@
       "id": "note-frontier-capstone-note-004",
       "label": "o1-style reasoning models: Reinforcement learning for long-thought traces",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "tier": 1,
       "tags": [
@@ -6830,7 +6830,7 @@
       "id": "note-frontier-capstone-note-005",
       "label": "Deep reinforcement learning for custom routing and decision agents",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "tier": 3,
       "tags": [
@@ -6845,7 +6845,7 @@
       "id": "note-frontier-capstone-note-006",
       "label": "Reinforcement Learning from AI Feedback (RLAIF) pipeline mechanics",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "tier": 1,
       "tags": [
@@ -6860,7 +6860,7 @@
       "id": "note-frontier-capstone-note-007",
       "label": "Speculative decoding: Using small models to draft tokens for large models",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "tier": 2,
       "tags": [
@@ -6875,7 +6875,7 @@
       "id": "note-frontier-capstone-note-008",
       "label": "Zero-shot tool generation: Compiling custom APIs at run-time for tasks",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "tier": 3,
       "tags": [
@@ -6890,7 +6890,7 @@
       "id": "note-frontier-capstone-note-009",
       "label": "Autonomous skill acquisition: Agent loops writing and saving their own tools",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "tier": 4,
       "tags": [
@@ -6905,7 +6905,7 @@
       "id": "note-frontier-capstone-note-010",
       "label": "State space models (SSM) vs transformers for infinite context sequences",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "tier": 2,
       "tags": [
@@ -6920,7 +6920,7 @@
       "id": "note-frontier-capstone-note-011",
       "label": "Computer-use agents: Action space mapping, screenshot parsing, click grids",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "tier": 1,
       "tags": [
@@ -6935,7 +6935,7 @@
       "id": "note-frontier-capstone-note-012",
       "label": "Real-time Audio API integration: Duplex streaming and low-latency response",
       "type": "feynman",
-      "ring": "knowledge",
+      "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "tier": 2,
       "tags": [
@@ -6950,7 +6950,7 @@
       "id": "note-frontier-capstone-note-013",
       "label": "Neural-symbolic agents: Combining neural models with formal logic solvers",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "tier": 4,
       "tags": [
@@ -6965,7 +6965,7 @@
       "id": "note-frontier-capstone-note-014",
       "label": "Self-evolving codebases: Agents refactoring their own codebase with safety checks",
       "type": "knowledge",
-      "ring": "knowledge",
+      "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "tier": 3,
       "tags": [
@@ -13680,7 +13680,7 @@
     }
   ],
   "metadata": {
-    "generated_at": "2026-07-13T15:50:11.857Z",
+    "generated_at": "2026-07-13T16:01:14.092Z",
     "preview": true,
     "day": 251,
     "label": "Day-251 Vision (PREVIEW — illustrative, not real entries)",
