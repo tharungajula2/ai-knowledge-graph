@@ -47,6 +47,28 @@
       font-family: 'Geist', sans-serif;
       overflow: hidden;
       width: 100vw; height: 100vh;
+      transition: background 1.2s ease;
+    }
+
+    /* Rings mode: deep teal centerpoint radial atmosphere */
+    body.rings-active::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(ellipse 60% 55% at 50% 50%,
+        rgba(42,127,127,0.07) 0%,
+        rgba(7,9,12,0.0) 70%);
+      transition: opacity 1.2s ease;
+    }
+
+    /* Galaxy mode: warm deep-purple nebula atmosphere */
+    body.galaxy-active::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(ellipse 90% 80% at 50% 50%,
+        rgba(100,60,160,0.09) 0%,
+        rgba(180,100,200,0.04) 40%,
+        rgba(7,9,12,0.0) 80%);
+      transition: opacity 1.2s ease;
     }
 
     /* Hex grid background */
@@ -373,8 +395,27 @@
     .node-label { font-size: 8px; fill: var(--muted); pointer-events: none; text-anchor: middle; font-weight: 400; transition: fill 0.2s, font-size 0.2s; }
     .node-label.active { fill: #fff; font-weight: 600; font-size: 9px; }
 
-    .ring-guide { fill: none; stroke: rgba(42,127,127,.16); stroke-width: 0.8px; stroke-dasharray: 3,5; pointer-events: none; }
-    .ring-label { fill: #52647c; font-size: 8px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; pointer-events: none; opacity: 0.75; }
+    .ring-guide { fill: none; stroke-width: 1px; stroke-dasharray: 4,6; pointer-events: none; }
+    .ring-guide-band { pointer-events: none; }
+    .ring-label { font-size: 8.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; pointer-events: none; }
+
+    /* Orbital comet trail: nodes leave a faint motion blur in rings mode */
+    .rings-active .node circle, .rings-active .node polygon {
+      filter: drop-shadow(0 0 1.5px var(--node-glow, #2a7f7f));
+    }
+    .rings-active .node.lit circle, .rings-active .node.lit polygon {
+      filter: drop-shadow(0 0 6px var(--node-glow, #3ee2e2)) drop-shadow(0 0 14px var(--node-glow, #3ee2e2));
+    }
+    .rings-active .node.charging circle, .rings-active .node.charging polygon {
+      filter: drop-shadow(0 0 4px var(--node-glow, #2a7f7f));
+    }
+
+    /* Orbital ring sweep glow — SVG-level animation */
+    @keyframes ring-breathe {
+      0%, 100% { opacity: 0.55; }
+      50% { opacity: 0.9; }
+    }
+    .ring-guide-animated { animation: ring-breathe 6s infinite ease-in-out; }
 
     /* Tooltip */
     #tooltip {
@@ -628,6 +669,14 @@
       <filter id="nebula-blur" x="-200%" y="-200%" width="500%" height="500%">
         <feGaussianBlur stdDeviation="60" />
       </filter>
+      <!-- Ring lane glow (wide blur for ring halos) -->
+      <filter id="ring-glow" x="-100%" y="-100%" width="300%" height="300%">
+        <feGaussianBlur stdDeviation="8" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
       <!-- Premium Neon glow filter for active nodes -->
       <filter id="glow-bright" x="-50%" y="-50%" width="200%" height="200%">
         <feGaussianBlur stdDeviation="4" result="blur" />
@@ -726,6 +775,8 @@ let hoveredNode = null;
 let quadtree = null;
 
 const W = window.innerWidth, H = window.innerHeight;
+// Apply default layout class on load
+document.body.classList.add('rings-active');
 
 // ── Canvas ────────────────────────────────────────────────────────────────────
 const canvasEl = document.getElementById('graph-canvas');
@@ -894,23 +945,95 @@ function renderGraph() {
     assignRingPositions(nodes);
   }
 
-  // ── Ring guides ────────────────────────────────────────────────────────────
+  // ── Ring guides (color-coded per domain) ──────────────────────────────────
   if (layoutMode === 'rings') {
+    document.getElementById('graph-svg').closest('body')?.classList.add('rings-active');
     const rg = G.append('g').attr('class', 'ring-guides').attr('transform', `translate(${W/2},${H/2})`);
+    
+    // Helper to parse hex color into rgba for band fill
+    function hexToRgba(hex, alpha) {
+      const r = parseInt(hex.slice(1,3), 16);
+      const g = parseInt(hex.slice(3,5), 16);
+      const b = parseInt(hex.slice(5,7), 16);
+      return `rgba(${r},${g},${b},${alpha})`;
+    }
+    
     domainsOrdered.forEach((dom, index) => {
       const r = ringRadii[dom];
-      const lbl = `${(index + 1).toString().padStart(2, '0')} ${dom.toUpperCase().replace('-', ' ')}`;
-      rg.append('circle').attr('class', 'ring-guide').attr('r', r);
-      rg.append('text').attr('class', 'ring-label')
-        .attr('x', 0).attr('y', -(r + 7))
-        .attr('text-anchor', 'middle').text(lbl);
+      const color = domainColors[dom] || '#2a7f7f';
+      const lbl = `${(index + 1).toString().padStart(2, '0')} ${dom.toUpperCase().replace(/-/g, ' ')}`;
+
+      // Faint colored band between this ring and the previous
+      const prevR = index === 0 ? 80 : ringRadii[domainsOrdered[index - 1]];
+      const bandWidth = r - prevR;
+      rg.append('circle')
+        .attr('class', 'ring-guide-band')
+        .attr('r', prevR + bandWidth / 2)
+        .attr('fill', 'none')
+        .attr('stroke', hexToRgba(color, 0.04))
+        .attr('stroke-width', bandWidth);
+
+      // The actual ring guide circle (colored + glowing)
+      rg.append('circle')
+        .attr('class', `ring-guide ring-guide-animated`)
+        .attr('r', r)
+        .attr('stroke', color)
+        .attr('stroke-opacity', 0.32)
+        .attr('stroke-dasharray', '4,7')
+        .style('animation-delay', `${index * 0.7}s`);
+
+      // Bright accent tick at the top of each ring
+      rg.append('circle')
+        .attr('r', 2.5)
+        .attr('cx', 0)
+        .attr('cy', -r)
+        .attr('fill', color)
+        .attr('fill-opacity', 0.75)
+        .attr('filter', 'url(#ring-glow)');
+
+      // Ring label (colored, glowing)
+      rg.append('text')
+        .attr('class', 'ring-label')
+        .attr('x', 0)
+        .attr('y', -(r + 9))
+        .attr('text-anchor', 'middle')
+        .attr('fill', color)
+        .attr('fill-opacity', 0.7)
+        .style('text-shadow', `0 0 8px ${color}`)
+        .text(lbl);
     });
-    // Add milestones ring guide too!
+
+    // Milestone ring guide (pink)
     const msR = ringRadii.milestones;
-    rg.append('circle').attr('class', 'ring-guide').attr('r', msR);
-    rg.append('text').attr('class', 'ring-label')
-      .attr('x', 0).attr('y', -(msR + 7))
-      .attr('text-anchor', 'middle').text('FLOATING MILESTONES');
+    const msColor = '#f687b3';
+    const prevR = ringRadii['frontier-capstone'];
+    const bandWidth = msR - prevR;
+    rg.append('circle')
+      .attr('class', 'ring-guide-band')
+      .attr('r', prevR + bandWidth / 2)
+      .attr('fill', 'none')
+      .attr('stroke', hexToRgba(msColor, 0.04))
+      .attr('stroke-width', bandWidth);
+    rg.append('circle')
+      .attr('class', 'ring-guide ring-guide-animated')
+      .attr('r', msR)
+      .attr('stroke', msColor)
+      .attr('stroke-opacity', 0.28)
+      .attr('stroke-dasharray', '4,7')
+      .style('animation-delay', '7s');
+    rg.append('circle')
+      .attr('r', 2.5).attr('cx', 0).attr('cy', -msR)
+      .attr('fill', msColor).attr('fill-opacity', 0.75)
+      .attr('filter', 'url(#ring-glow)');
+    rg.append('text')
+      .attr('class', 'ring-label')
+      .attr('x', 0).attr('y', -(msR + 9))
+      .attr('text-anchor', 'middle')
+      .attr('fill', msColor)
+      .attr('fill-opacity', 0.7)
+      .text('FLOATING MILESTONES');
+  } else {
+    document.getElementById('graph-svg').closest('body')?.classList.remove('rings-active');
   }
 
   // ── Links ─────────────────────────────────────────────────────────────────
@@ -1150,18 +1273,31 @@ function updateNebulae() {
     color: domainColors[domain] || '#2a7f7f'
   }));
 
-  nebGroup.selectAll('circle')
+  // Outer glow layer (large, very soft)
+  nebGroup.selectAll('circle.neb-outer')
     .data(nebData, d => d.domain)
     .join(
-      enter => enter.append('circle')
-        .attr('r', 160)
+      enter => enter.append('circle').attr('class', 'neb-outer')
+        .attr('r', 220)
         .attr('fill', d => d.color)
         .attr('opacity', 0)
         .attr('filter', 'url(#nebula-blur)')
-        .call(enter => enter.transition().duration(1000).attr('opacity', 0.08)),
-      update => update
-        .attr('cx', d => d.x)
-        .attr('cy', d => d.y),
+        .call(enter => enter.transition().duration(1200).attr('opacity', 0.05)),
+      update => update.attr('cx', d => d.x).attr('cy', d => d.y),
+      exit => exit.transition().duration(600).attr('opacity', 0).remove()
+    );
+
+  // Inner core glow (tighter, brighter)
+  nebGroup.selectAll('circle.neb-inner')
+    .data(nebData, d => `inner-${d.domain}`)
+    .join(
+      enter => enter.append('circle').attr('class', 'neb-inner')
+        .attr('r', 80)
+        .attr('fill', d => d.color)
+        .attr('opacity', 0)
+        .attr('filter', 'url(#ring-glow)')
+        .call(enter => enter.transition().duration(1200).attr('opacity', 0.12)),
+      update => update.attr('cx', d => d.x).attr('cy', d => d.y),
       exit => exit.transition().duration(600).attr('opacity', 0).remove()
     );
 }
@@ -1579,6 +1715,8 @@ document.getElementById('btn-rings').addEventListener('click', () => {
   document.getElementById('btn-force').classList.remove('on');
   document.getElementById('ctrl-spring').style.display = 'none';
   document.getElementById('ctrl-spin').style.display = 'flex';
+  document.body.classList.add('rings-active');
+  document.body.classList.remove('galaxy-active');
   simulation.stop();
   if (graphData) renderGraph();
 });
@@ -1588,6 +1726,8 @@ document.getElementById('btn-force').addEventListener('click', () => {
   document.getElementById('btn-rings').classList.remove('on');
   document.getElementById('ctrl-spring').style.display = 'flex';
   document.getElementById('ctrl-spin').style.display = 'none';
+  document.body.classList.remove('rings-active');
+  document.body.classList.add('galaxy-active');
   if (spinAnimId) { cancelAnimationFrame(spinAnimId); spinAnimId = null; }
   if (graphData) renderGraph();
 });
