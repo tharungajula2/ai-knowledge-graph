@@ -437,7 +437,7 @@ function compileCurriculum() {
   const curriculumObj = {
     version: parsed.version,
     updated_at: new Date().toISOString(),
-    marathon: { days: 250, start_date: '2026-07-09' },
+    marathon: { days: parsed.marathon ? parsed.marathon.days || 250 : 250, start_date: parsed.marathon ? parsed.marathon.start_date || null : null },
     nodes: nodes,
     milestones: milestones
   };
@@ -551,6 +551,7 @@ function compileCurriculum() {
     }
   }
   
+  const marathonData = curriculumObj.marathon || {};
   const d3LiveIndex = {
     nodes: d3LiveNodes,
     edges: d3LiveEdges,
@@ -561,7 +562,8 @@ function compileCurriculum() {
       lit_count: nodes.filter(n => n.status === 'lit').length,
       charging_count: nodes.filter(n => n.status === 'charging').length,
       ghost_count: nodes.filter(n => n.status === 'ghost').length,
-      edge_count: d3LiveEdges.length
+      edge_count: d3LiveEdges.length,
+      marathon: { days: marathonData.days || 250, start_date: marathonData.start_date || null }
     }
   };
   fs.writeFileSync(path.join(siteDir, 'brain-index.public.json'), JSON.stringify(d3LiveIndex, null, 2));

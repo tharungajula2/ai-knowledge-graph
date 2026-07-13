@@ -9,7 +9,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VIZIER — AI Engineering Knowledge Brain</title>
-  <meta name="description" content="A self-built, cited, AI engineering knowledge brain — grown one honest node a day for 251 days. Explore the Day-251 vision or the live real entries.">
+  <meta name="description" content="A living knowledge graph of one human mastering AI engineering in public. 200 planned nodes across 10 domains. Explore the 250-day vision or the live real entries.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -213,9 +213,6 @@
     <a href="./feed.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>Feed
     </a>
-    <a href="./capabilities.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Capabilities
-    </a>
     <a href="./about.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>About
     </a>
@@ -223,14 +220,15 @@
 </nav>
 
 <section class="hero">
-  <div class="hero-chip">Built in Public &middot; Day <span id="hero-day">1</span> of 251</div>
+  <div class="hero-chip" id="hero-badge">IGNITION PENDING &middot; 250-DAY MARATHON</div>
   <h1>AI Engineering Brain</h1>
-  <p>A self-built, cited, AI engineering knowledge brain &mdash; grown one honest node a day for 251 days. Every claim is sourced, tiered, and challenged.</p>
-  <div class="hero-day">
-    <strong id="stat-lit">0</strong> learned &middot;
-    <strong id="stat-total">200</strong> nodes &middot;
-    <span id="stat-charging">0</span> charging &middot;
-    plan <span id="stat-version">v1.0.0</span>
+  <p>A living knowledge graph of one human mastering AI engineering in public. 200 planned nodes across 10 domains. Nodes light up only when the learning is real — some take an hour, some take days. The past is locked. The future evolves.</p>
+  <div class="hero-day" id="stats-line">
+    <span id="stat-lit">0</span> / <span id="stat-total">200</span> NODES LIT &middot;
+    <span id="stat-charging">0</span> CHARGING &middot;
+    <span id="stat-day">IGNITION PENDING</span> &middot;
+    HUMAN-GATED &middot;
+    SELF-EVOLVING PLAN
   </div>
   <div class="btn-row">
     <a href="./brain.html" class="btn-primary">
@@ -239,7 +237,7 @@
     </a>
     <a href="./brain.html?mode=preview" class="btn-ghost">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-      See the Day-251 Vision
+      See the 250-Day Vision
     </a>
   </div>
 </section>
@@ -249,8 +247,8 @@
     <svg id="mini-brain-svg"></svg>
     <div class="mini-brain-overlay">
       <div class="mini-brain-label">
-        Preview Mode &nbsp;&bull;&nbsp;
-        <strong>PREVIEW &mdash; illustrative Day-251 vision, not real entries</strong>
+        Vision Mode &nbsp;&bull;&nbsp;
+        <strong>VISION &mdash; 200 nodes arranged in learning sequence</strong>
       </div>
       <a href="./brain.html" class="mini-brain-cta" onclick="event.stopPropagation()">
         Full view
@@ -262,24 +260,24 @@
 
 <section class="vision-section">
   <div style="max-width:1080px;margin:0 auto">
-    <div class="section-label">The System</div>
-    <h2 class="section-title">Four principles, no exceptions</h2>
-    <p class="section-sub">Every node that enters this brain must pass all four gates before it goes public.</p>
+    <div class="section-label">The Node Protocol</div>
+    <h2 class="section-title">How a node earns its light</h2>
+    <p class="section-sub">A node lights only when the learning is genuinely done — not when time is logged, not when a video is watched.</p>
     <div class="cards-grid">
       <div class="card">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <h3>Cited</h3>
-        <p>Every factual claim links to a primary source (paper, codebase, or spec) &mdash; no paraphrasing without provenance.</p>
+        <h3>Feynman Test</h3>
+        <p>A node only lights when its note can explain the concept so simply that a 12-year-old could follow it. No jargon without definition.</p>
       </div>
       <div class="card">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
-        <h3>Tiered</h3>
-        <p>Sources are transparent about evidence strength: Tier 1 specs/papers down to Tier 4 general blogs.</p>
+        <h3>Build nodes run</h3>
+        <p>For build-type nodes, the artifact must actually execute. No screenshot of a working demo &mdash; the code runs or the node stays ghost.</p>
       </div>
       <div class="card">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-        <h3>Challenged</h3>
-        <p>Every note has a mandatory &ldquo;Where this could be wrong&rdquo; section &mdash; no confirmation bias.</p>
+        <h3>Past is locked</h3>
+        <p>Lit nodes are immutable. The completion date is frozen. Streaks are never backfilled. What lit, lit &mdash; the graph is a ledger, not a story.</p>
       </div>
       <div class="card">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6m-6 4h6m-6 4h4"/></svg></div>
@@ -289,7 +287,7 @@
       <div class="card">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
         <h3>Grows in Public</h3>
-        <p>Every published note is visible here, live. Watch the brain catch up to the 251-day vision in real time.</p>
+        <p>Every published note is visible here, live. Watch the brain catch up to the 250-day vision in real time.</p>
       </div>
       <div class="card">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
@@ -303,12 +301,12 @@
 <section class="cap-strip">
   <div class="cap-inner">
     <div class="cap-text">
-      <h3>The real VIZIER agent</h3>
-      <p>Gmail, Calendar, Telegram, grounded research, approval gate &mdash; running locally, shown here.</p>
+      <h3>The Frozen Engine</h3>
+      <p>Inside this repo sleeps a full agentic system (supervisor, RAG, memory, approval gate, injection scanner) &mdash; built agentically, frozen deliberately. A floating milestone called THE RESURRECTION will bring it back online, deployed by my own hands. Until then, it's my textbook.</p>
     </div>
-    <a href="./capabilities.html" class="btn-ghost" style="flex-shrink:0">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      See Capabilities
+    <a href="./about.html#milestones" class="btn-ghost" style="flex-shrink:0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      Learn More
     </a>
   </div>
 </section>
@@ -329,19 +327,16 @@
 
 <footer>
   <div><a href="./index.html" style="color:var(--bright);font-weight:700;font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;">VIZIER</a></div>
-  <div class="footer-honest">Honest limits: three gates (Cited / Tiered / Challenged) + abstention. Never &ldquo;no hallucinations.&rdquo; PREVIEW data is illustrative &mdash; never presented as completed work.</div>
+  <div class="footer-honest">Honest limits: nodes light up only when genuinely learned. Streaks are never backfilled. Ghost nodes are plan v1.0.0 &mdash; shown faintly, never presented as completed work.</div>
   <div class="footer-links">
     <a href="./brain.html">Brain</a>
     <a href="./feed.html">Feed</a>
     <a href="./about.html">About</a>
-    <a href="./capabilities.html">Capabilities</a>
   </div>
 </footer>
 
 <script>
-const START = new Date('2026-07-09');
-const DAY = Math.max(1, Math.floor((new Date() - START) / 86400000) + 1);
-document.getElementById('hero-day').textContent = DAY;
+// Day counter initialized dynamically in the feed loading script below
 
 // Mini brain galaxy
 (function() {
@@ -423,7 +418,7 @@ fetch('brain-index.public.json')
   .then(data => {
     const feedEl = document.getElementById('feed-list');
     if (!data || !data.nodes) {
-      if (feedEl) feedEl.innerHTML = '<p class="feed-empty">No nodes exported yet.</p>';
+      if (feedEl) feedEl.innerHTML = '<p class="feed-empty">Nothing yet. The first node lights soon &mdash; watch this space.</p>';
       return;
     }
     
@@ -433,31 +428,55 @@ fetch('brain-index.public.json')
     const totalCount = meta.node_count ?? 200;
     const chargingCount = meta.charging_count ?? 0;
     const planVer = meta.plan_version ?? '1.0.0';
+    const startDateStr = meta.marathon ? meta.marathon.start_date : null;
 
     document.getElementById('stat-lit').textContent = litCount;
     document.getElementById('stat-total').textContent = totalCount;
     document.getElementById('stat-charging').textContent = chargingCount;
     document.getElementById('stat-version').textContent = 'v' + planVer;
 
-    // Filter to actual notes that are lit or charging
-    const noteNodes = data.nodes.filter(n => n.slug && (n.status === 'lit' || n.status === 'charging') && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone');
-    if (!noteNodes.length) {
-      if (feedEl) feedEl.innerHTML = '<p class="feed-empty">Your first nodes will appear here after you run daily.ps1.</p>';
+    // Calculate day N or ignition pending
+    const badgeEl = document.getElementById('hero-badge');
+    const statsDayEl = document.getElementById('stat-day');
+    
+    if (startDateStr) {
+      const start = new Date(startDateStr);
+      const today = new Date();
+      start.setHours(0,0,0,0);
+      today.setHours(0,0,0,0);
+      const diffTime = today - start;
+      const dayNumber = Math.max(1, Math.floor(diffTime / 86400000) + 1);
+      
+      if (badgeEl) badgeEl.textContent = `BUILT IN PUBLIC · DAY ${dayNumber} OF 250`;
+      if (statsDayEl) statsDayEl.textContent = `DAY ${dayNumber} OF 250`;
+    } else {
+      if (badgeEl) badgeEl.textContent = `IGNITION PENDING · 250-DAY MARATHON`;
+      if (statsDayEl) statsDayEl.textContent = `IGNITION PENDING`;
+    }
+
+    // Filter to genuinely lit nodes
+    const litNodes = data.nodes.filter(n => n.slug && n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone');
+    if (!litNodes.length) {
+      if (feedEl) feedEl.innerHTML = '<p class="feed-empty">Nothing yet. The first node lights soon &mdash; watch this space.</p>';
       return;
     }
-    feedEl.innerHTML = noteNodes.slice(0, 6).map(n => `
+    
+    // Sort by completion date descending
+    litNodes.sort((a, b) => new Date(b.completed || 0) - new Date(a.completed || 0));
+    
+    feedEl.innerHTML = litNodes.slice(0, 6).map(n => `
       <div class="feed-item">
         <a href="notes/${n.slug}.html">${n.label || n.slug}</a>
         <div class="feed-right">
           <span class="tag">${n.domain || 'general'}</span>
-          <span class="feed-date">${n.date ? new Date(n.date).toLocaleDateString() : ''}</span>
+          <span class="feed-date">${n.completed ? new Date(n.completed).toLocaleDateString() : ''}</span>
         </div>
       </div>
     `).join('');
   })
   .catch(() => {
     const feedEl = document.getElementById('feed-list');
-    if (feedEl) feedEl.innerHTML = '<p class="feed-empty">Brain data not yet available.</p>';
+    if (feedEl) feedEl.innerHTML = '<p class="feed-empty">Nothing yet. The first node lights soon &mdash; watch this space.</p>';
   });
 </script>
 </body>

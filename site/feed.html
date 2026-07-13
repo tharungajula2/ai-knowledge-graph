@@ -14,27 +14,41 @@
   <div class="container">
     <header>
       <a href="./index.html" class="brand">VIZIER</a>
-      <div class="day-badge">Day 5 of 251</div>
+      <div class="day-badge" id="day-badge">IGNITION PENDING</div>
     </header>
     <nav>
+      <a href="./index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a>
       <a href="./brain.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain</a>
       <a href="./feed.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg> Feed</a>
-      <a href="./capabilities.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Capabilities</a>
       <a href="./about.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> About</a>
     </nav>
     <main style="margin-top: 20px;">
       <h1>Latest Notes Feed</h1>
-      <p style="color: var(--text-muted); margin-bottom: 30px;">Chronological index of published knowledge nodes. Every entry is cited, tiered, and challenged.</p>
-      <div class="feed-list">
-        <p style="color: var(--text-dark)">No public nodes exported yet.</p>
+      <p style="color: var(--text-muted); margin-bottom: 30px;">Every entry here is a lit node &mdash; genuinely learned, Feynman-tested, locked forever.</p>
+      <div class="feed-list" id="feed-list">
+        <p style="color: var(--text-dark)">Nothing yet. The first node lights soon &mdash; watch this space.</p>
       </div>
     </main>
     <footer style="margin-top: 60px; border-top: 1px solid var(--panel-border); padding-top: 20px; font-size: 0.8rem; color: var(--text-dark);">
       VIZIER &mdash; built in public &mdash;
       <a href="./index.html" style="color: var(--accent-bright);">Home</a> &nbsp;&middot;&nbsp;
-      <a href="./brain.html" style="color: var(--accent-bright);">Brain</a> &nbsp;&middot;&nbsp;
-      <a href="./capabilities.html" style="color: var(--accent-bright);">Capabilities</a>
+      <a href="./brain.html" style="color: var(--accent-bright);">Brain</a>
     </footer>
   </div>
+  <script>
+    // Update day badge from marathon metadata
+    fetch('brain-index.public.json')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && data.metadata && data.metadata.marathon && data.metadata.marathon.start_date) {
+          const start = new Date(data.metadata.marathon.start_date);
+          const today = new Date();
+          start.setHours(0,0,0,0); today.setHours(0,0,0,0);
+          const dayN = Math.max(1, Math.floor((today - start) / 86400000) + 1);
+          const badge = document.getElementById('day-badge');
+          if (badge) badge.textContent = 'DAY ' + dayN + ' OF 250';
+        }
+      }).catch(() => {});
+  </script>
 </body>
 </html>

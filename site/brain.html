@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VIZIER Brain - Interactive AI Engineering Knowledge Graph</title>
-  <meta name="description" content="Explore the VIZIER AI engineering knowledge brain - 500-node Day-251 vision or live real entries. Interactive concentric-ring galaxy with search and domain filtering.">
+  <meta name="description" content="Explore the VIZIER AI engineering knowledge brain — 200 planned nodes across 10 domains. Interactive concentric-ring galaxy with search and domain filtering. VISION shows the full plan; LIVE shows only what's genuinely been learned.">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -603,7 +603,7 @@
   </button>
   <div class="brand-row">
     <div class="brand">VIZIER</div>
-    <div class="day-chip" id="day-chip">Day 1 of 251</div>
+    <div class="day-chip" id="day-chip">IGNITION PENDING</div>
   </div>
 
   <div class="nav-row">
@@ -618,10 +618,6 @@
     <a href="./about.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
       About
-    </a>
-    <a href="./capabilities.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      Capabilities
     </a>
   </div>
 
@@ -838,9 +834,7 @@
 'use strict';
 
 // ── Config ────────────────────────────────────────────────────────────────────
-const START_DATE = new Date('2026-07-09');
-const DAY_NUM = Math.max(1, Math.floor((new Date() - START_DATE) / 86400000) + 1);
-document.getElementById('day-chip').textContent = `Day ${DAY_NUM} of 251`;
+// Day chip is updated after loading brain-index (see loadData)
 
 const LIVE_SRC    = 'brain-index.public.json';
 const PREVIEW_SRC = 'brain-index.preview.json';
@@ -1007,6 +1001,18 @@ function loadData(src) {
     } else {
       badge.textContent = `LIVE`;
       strip.innerHTML = `LIVE — visitors watch one brain wire itself up in real time.`;
+    }
+
+    // Update day chip from marathon metadata
+    const chipEl = document.getElementById('day-chip');
+    if (chipEl && data.metadata && data.metadata.marathon && data.metadata.marathon.start_date) {
+      const start = new Date(data.metadata.marathon.start_date);
+      const today = new Date();
+      start.setHours(0,0,0,0); today.setHours(0,0,0,0);
+      const dayN = Math.max(1, Math.floor((today - start) / 86400000) + 1);
+      chipEl.textContent = `Day ${dayN} of 250`;
+    } else if (chipEl) {
+      chipEl.textContent = 'IGNITION PENDING';
     }
     
     renderGraph();

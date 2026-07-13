@@ -17,7 +17,7 @@ if (!fs.existsSync(assetsDir)) {
 
 // 1. Write site/config.json if not present
 const configPath = path.join(siteDir, 'config.json');
-let siteConfig = { start_date: '2026-07-09', canonical_url: '' };
+let siteConfig = { start_date: null, canonical_url: '' };
 if (fs.existsSync(configPath)) {
   try {
     siteConfig = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
@@ -103,12 +103,7 @@ function simpleMarkdownToHtml(md, domain) {
         finalLines.push('<ul>');
         inList = true;
       }
-      // Highlight Tier levels in source list
-      let itemContent = trimmed.substring(2);
-      if (itemContent.includes('Tier ')) {
-        itemContent = itemContent.replace(/(Tier \d+)/i, '<span class="tier-tag">$1</span>');
-      }
-      finalLines.push(`<li>${itemContent}</li>`);
+      finalLines.push(`<li>${trimmed.substring(2)}</li>`);
     } else {
       if (inList) {
         finalLines.push('</ul>');
@@ -127,11 +122,7 @@ function simpleMarkdownToHtml(md, domain) {
 
   html = finalLines.join('\n');
 
-  // Add reference disclaimer on notes
-  const footerText = 'AI Engineering reference node — verified against primary paper/spec/codebase. Verify before implementing in production.';
-  if (!html.toLowerCase().includes('production')) {
-    html += `\n<div class="clinician-footer">${footerText}</div>`;
-  }
+  // No auto-footer appended — notes carry their own honest limits section
 
   return html;
 }
@@ -450,7 +441,7 @@ function buildSite() {
       <div class="metadata-row" style="margin-top: 4px; margin-bottom: 0;">
         <span class="tag">Domain: ${item.domain}</span>
       </div>
-      <div class="date">Modified: ${item.date.toLocaleDateString()}</div>
+      <div class="date">Completed: ${item.date.toLocaleDateString()}</div>
     </div>
   `).join('\n');
 
@@ -470,28 +461,42 @@ function buildSite() {
   <div class="container">
     <header>
       <a href="./index.html" class="brand">VIZIER</a>
-      <div class="day-badge">Day ${dayNumber} of 251</div>
+      <div class="day-badge" id="day-badge">IGNITION PENDING</div>
     </header>
     <nav>
+      <a href="./index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a>
       <a href="./brain.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain</a>
       <a href="./feed.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg> Feed</a>
-      <a href="./capabilities.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Capabilities</a>
       <a href="./about.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> About</a>
     </nav>
     <main style="margin-top: 20px;">
       <h1>Latest Notes Feed</h1>
-      <p style="color: var(--text-muted); margin-bottom: 30px;">Chronological index of published knowledge nodes. Every entry is cited, tiered, and challenged.</p>
-      <div class="feed-list">
-        ${feedListHtml || '<p style="color: var(--text-dark)">No public nodes exported yet.</p>'}
+      <p style="color: var(--text-muted); margin-bottom: 30px;">Every entry here is a lit node &mdash; genuinely learned, Feynman-tested, locked forever.</p>
+      <div class="feed-list" id="feed-list">
+        ${feedListHtml || '<p style="color: var(--text-dark)">Nothing yet. The first node lights soon &mdash; watch this space.</p>'}
       </div>
     </main>
     <footer style="margin-top: 60px; border-top: 1px solid var(--panel-border); padding-top: 20px; font-size: 0.8rem; color: var(--text-dark);">
       VIZIER &mdash; built in public &mdash;
       <a href="./index.html" style="color: var(--accent-bright);">Home</a> &nbsp;&middot;&nbsp;
-      <a href="./brain.html" style="color: var(--accent-bright);">Brain</a> &nbsp;&middot;&nbsp;
-      <a href="./capabilities.html" style="color: var(--accent-bright);">Capabilities</a>
+      <a href="./brain.html" style="color: var(--accent-bright);">Brain</a>
     </footer>
   </div>
+  <script>
+    // Update day badge from marathon metadata
+    fetch('brain-index.public.json')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && data.metadata && data.metadata.marathon && data.metadata.marathon.start_date) {
+          const start = new Date(data.metadata.marathon.start_date);
+          const today = new Date();
+          start.setHours(0,0,0,0); today.setHours(0,0,0,0);
+          const dayN = Math.max(1, Math.floor((today - start) / 86400000) + 1);
+          const badge = document.getElementById('day-badge');
+          if (badge) badge.textContent = 'DAY ' + dayN + ' OF 250';
+        }
+      }).catch(() => {});
+  </script>
 </body>
 </html>`;
   fs.writeFileSync(path.join(siteDir, 'feed.html'), feedPageHtml);
@@ -503,82 +508,98 @@ function buildSite() {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — VIZIER Living Brain</title>
-  <meta name="description" content="About VIZIER — a self-built, cited, scientific knowledge brain built over 251 days. The three gates, honest limits, and daily protocol.">
+  <meta name="description" content="About VIZIER — a living knowledge graph of one human mastering AI engineering in public. 200 planned nodes across 10 domains over a 250-day marathon.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .legend-box { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 8px; padding: 16px; margin: 20px 0; }
+    .legend-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .legend-item:last-child { margin-bottom: 0; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .dot.ghost { background: #475569; box-shadow: 0 0 8px rgba(71,85,105,0.4); }
+    .dot.charging { background: #f6ad55; box-shadow: 0 0 12px rgba(246,173,85,0.7); animation: pulse 1.8s infinite ease-in-out; }
+    .dot.lit { background: #3ee2e2; box-shadow: 0 0 14px rgba(62,226,226,0.85); }
+    @keyframes pulse { 0%, 100% { opacity: 0.6; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.15); } }
+  </style>
 </head>
 <body>
   <div class="container">
     <header>
       <a href="./index.html" class="brand">VIZIER</a>
-      <div class="day-badge">Day ${dayNumber} of 251</div>
+      <div class="day-badge" id="day-badge">IGNITION PENDING</div>
     </header>
     <nav>
+      <a href="./index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a>
       <a href="./brain.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain</a>
       <a href="./feed.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg> Feed</a>
-      <a href="./capabilities.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Capabilities</a>
       <a href="./about.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> About</a>
     </nav>
     <main style="margin-top: 20px;">
-      <h1>About VIZIER &mdash; A Living Brain</h1>
-      
+      <h1>About VIZIER</h1>
+
       <h2>What is this?</h2>
-      <p>This is a living, public knowledge graph representing a personal knowledge repository built on top of the operational VIZIER agent loop. Over a span of 251 days, one new structured, cited, and challenged knowledge node is published here daily.</p>
-      
-      <h2>The Three Gates of Honesty</h2>
-      <p>Every note published to this brain must pass three validation checkpoints before it is allowed to go live:</p>
-      <ul>
-        <li><strong>Cited</strong>: Every factual claim made must carry a direct link to primary scientific literature.</li>
-        <li><strong>Tiered</strong>: All sources are transparently categorized by evidence strength (Tier 1: Systematic reviews/meta-analyses; Tier 2: RCTs; Tier 3: Secondary explainers; Tier 4: Weak or anecdotal).</li>
-        <li><strong>Challenged</strong>: Every note carries a mandatory, prominent section highlighting limits, conflicting evidence, or potential ways the claims could be incorrect to prevent confirmation bias.</li>
-      </ul>
+      <p>This is a living, public knowledge graph representing a personal mastery roadmap. The graph is built around learning nodes, not just passing days, detailing a 250-day marathon to master frontier AI engineering. 200 planned nodes across 10 domains &mdash; each one a concept, build, or synthesis worth genuinely understanding.</p>
+
+      <h2>The Node Protocol</h2>
+      <p>A node lights up only when its note contains a Feynman explanation that a 12-year-old could follow, and (for build nodes) an artifact that actually runs. Notes are dynamically wikilinked; the knowledge graph automatically rewires nightly based on their relationships.</p>
+
+      <h2>Immutable Past, Fluid Future</h2>
+      <p>Once a node is lit, it is locked forever. Ghost nodes represent planned topics for plan v1.0.0, which can be revised through human-approved replans. Every revision is publicly logged in the repository changelog. Transparency about plan adaptations is a core feature of the system.</p>
+
+      <h2>The Three States</h2>
+      <p>The learning roadmap is tracked across three distinct states:</p>
+      <div class="legend-box">
+        <div class="legend-item">
+          <span class="dot ghost"></span>
+          <span><strong>Ghost:</strong> Planned knowledge node, currently unlit.</span>
+        </div>
+        <div class="legend-item">
+          <span class="dot charging"></span>
+          <span><strong>Charging:</strong> Node is currently in progress, pulsing.</span>
+        </div>
+        <div class="legend-item">
+          <span class="dot lit"></span>
+          <span><strong>Lit:</strong> Note is completed, Feynman-tested, and locked forever.</span>
+        </div>
+      </div>
+
+      <h2 id="milestones">The Frozen Engine</h2>
+      <p>Inside the repository sleeps a complete agentic lab system (including supervisor, memory, RAG, approval gate, and injection scanner)&mdash;built agentically, but deliberately frozen. A floating milestone called <strong>THE RESURRECTION</strong> will bring the system back online, deployed manually. Until then, it serves as the master textbook.</p>
 
       <h2>Honest Limits</h2>
-      <p>The three gates do not eliminate error &mdash; they make uncertainty explicit. &ldquo;No hallucinations&rdquo; is never claimed; calibrated uncertainty is the goal.</p>
-
-      <h2>Safety & Clinical Framing</h2>
-      <p>Any note touching biological systems, gut microbiome, or health domains carries a mandatory clinician disclaimer. The search engines operate under strict abstention policies, refusing to formulate responses when source abstracts are unavailable or empty.</p>
+      <p>Streaks are never backfilled. Charging days are shown honestly as charging. The counter tells the truth. The past is locked &mdash; there is no editing history to make the journey look smoother than it was.</p>
     </main>
     <footer style="margin-top: 60px; border-top: 1px solid var(--panel-border); padding-top: 20px; font-size: 0.8rem; color: var(--text-dark);">
       VIZIER &mdash; built in public &mdash;
       <a href="./index.html" style="color: var(--accent-bright);">Home</a> &nbsp;&middot;&nbsp;
       <a href="./brain.html" style="color: var(--accent-bright);">Brain</a> &nbsp;&middot;&nbsp;
-      <a href="./capabilities.html" style="color: var(--accent-bright);">Capabilities</a>
+      <a href="./feed.html" style="color: var(--accent-bright);">Feed</a>
     </footer>
   </div>
+  <script>
+    // Update day badge from marathon metadata
+    fetch('brain-index.public.json')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && data.metadata && data.metadata.marathon && data.metadata.marathon.start_date) {
+          const start = new Date(data.metadata.marathon.start_date);
+          const today = new Date();
+          start.setHours(0,0,0,0); today.setHours(0,0,0,0);
+          const dayN = Math.max(1, Math.floor((today - start) / 86400000) + 1);
+          const badge = document.getElementById('day-badge');
+          if (badge) badge.textContent = 'DAY ' + dayN + ' OF 250';
+        }
+      }).catch(() => {});
+  </script>
 </body>
 </html>`;
   fs.writeFileSync(path.join(siteDir, 'about.html'), aboutPageHtml);
 
-  // 7. Update brain.html Day counter (if the file was hand-crafted, just leave it)
-  // The showcase brain.html at site/brain.html is the interactive viewer.
-  // site/index.html is the real homepage and must NOT be overwritten by this script.
-  const brainHtmlPath = path.join(siteDir, 'brain.html');
-  if (fs.existsSync(brainHtmlPath)) {
-    let brainHtml = fs.readFileSync(brainHtmlPath, 'utf-8');
-    // Update Day N chip in brain.html
-    brainHtml = brainHtml.replace(
-      /document\.getElementById\('day-chip'\)\.textContent = `Day \d+ of 251`;/,
-      `document.getElementById('day-chip').textContent = \`Day ${dayNumber} of 251\`;`
-    );
-    // No other changes — brain.html owns its own LIVE/PREVIEW logic
-    fs.writeFileSync(brainHtmlPath, brainHtml);
-    console.log('Updated Day counter in site/brain.html.');
-  }
-  // site/index.html is the real homepage — it is NOT touched by this build script.
-  console.log('site/index.html (homepage) left untouched.');
-  // Update feed.html with current day
-  const feedHtmlPath = path.join(siteDir, 'feed.html');
-  if (fs.existsSync(feedHtmlPath)) {
-    let feedHtml = fs.readFileSync(feedHtmlPath, 'utf-8');
-    feedHtml = feedHtml.replace(
-      /document\.getElementById\('day-badge'\)\.textContent = `Day \d+ of 251`;/,
-      `document.getElementById('day-badge').textContent = \`Day ${dayNumber} of 251\`;`
-    );
-    fs.writeFileSync(feedHtmlPath, feedHtml);
-  }
+  // 7. brain.html day chip is now updated client-side from marathon.start_date in brain-index.public.json.
+  //    No static injection needed here.
+  // feed.html day badge is updated client-side from marathon metadata. No static injection.
 
   console.log('--- Static Site Build Completed successfully! ---');
 }
