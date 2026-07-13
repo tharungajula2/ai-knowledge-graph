@@ -1,0 +1,40 @@
+# Local machine-only secrets directory
+_local-secrets/
+
+# Environments and API credentials
+.env*
+
+# Secrets configurations
+backend/secrets/*.json
+
+# Cache directories
+.cache/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Node and package manager dependencies
+node_modules/
+
+# Next.js build output and cache
+.next/
+out/
+build/
+dist/
+
+# Vercel deployment artifacts
+.vercel/
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+.gemini/
+antigravity-ide/

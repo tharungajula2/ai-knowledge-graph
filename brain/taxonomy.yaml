@@ -1,0 +1,31 @@
+domains:
+  - code: health-core
+    name: Health Core
+    description: first-principles physiology, sleep, energy, labs literacy
+  - code: gut
+    name: Gut Health
+    description: microbiome, fiber, fermentation, digestion, gut repair
+  - code: mind-gut
+    name: Mind–Gut Axis
+    description: vagus nerve, stress↔digestion, mood↔microbiome
+  - code: body
+    name: Body & Movement
+    description: strength, mobility, joint-smart training, breath
+  - code: nutrition
+    name: Nutrition
+    description: foods, macros/micros, meal systems, hydration
+  - code: mind
+    name: Mind & Thinking
+    description: critical thinking, mental models, focus, learning
+  - code: communication
+    name: Communication
+    description: articulation, storytelling, pausing, teaching
+  - code: family-os
+    name: Family OS
+    description: reusable family systems & routines (no private data)
+  - code: handyman
+    name: Mr Handyman
+    description: practical home/repair/how-to know-how
+  - code: meta
+    name: Meta / System
+    description: how the brain itself works, skills, routines registry

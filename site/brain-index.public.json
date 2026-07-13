@@ -1,0 +1,152 @@
+{
+  "nodes": [
+    {
+      "id": "center-vizier",
+      "label": "VIZIER",
+      "type": "center",
+      "ring": "center"
+    },
+    {
+      "id": "domain-health-core",
+      "label": "Health Core",
+      "type": "domain",
+      "ring": "knowledge",
+      "domain": "health-core"
+    },
+    {
+      "id": "domain-gut",
+      "label": "Gut Health",
+      "type": "domain",
+      "ring": "knowledge",
+      "domain": "gut"
+    },
+    {
+      "id": "domain-mind-gut",
+      "label": "Mind–Gut Axis",
+      "type": "domain",
+      "ring": "knowledge",
+      "domain": "mind-gut"
+    },
+    {
+      "id": "domain-body",
+      "label": "Body & Movement",
+      "type": "domain",
+      "ring": "knowledge",
+      "domain": "body"
+    },
+    {
+      "id": "domain-nutrition",
+      "label": "Nutrition",
+      "type": "domain",
+      "ring": "knowledge",
+      "domain": "nutrition"
+    },
+    {
+      "id": "domain-mind",
+      "label": "Mind & Thinking",
+      "type": "domain",
+      "ring": "knowledge",
+      "domain": "mind"
+    },
+    {
+      "id": "domain-communication",
+      "label": "Communication",
+      "type": "domain",
+      "ring": "knowledge",
+      "domain": "communication"
+    },
+    {
+      "id": "domain-family-os",
+      "label": "Family OS",
+      "type": "domain",
+      "ring": "knowledge",
+      "domain": "family-os"
+    },
+    {
+      "id": "domain-handyman",
+      "label": "Mr Handyman",
+      "type": "domain",
+      "ring": "knowledge",
+      "domain": "handyman"
+    },
+    {
+      "id": "domain-meta",
+      "label": "Meta / System",
+      "type": "domain",
+      "ring": "knowledge",
+      "domain": "meta"
+    },
+    {
+      "id": "note-why-fiber-feeds-the-gut",
+      "label": "Why fiber feeds the gut",
+      "type": "feynman",
+      "ring": "feynman",
+      "domain": "gut",
+      "confidence": "high",
+      "path": "notes/why-fiber-feeds-the-gut.md",
+      "slug": "why-fiber-feeds-the-gut"
+    }
+  ],
+  "edges": [
+    {
+      "source": "center-vizier",
+      "target": "domain-health-core",
+      "type": "domain-core"
+    },
+    {
+      "source": "center-vizier",
+      "target": "domain-gut",
+      "type": "domain-core"
+    },
+    {
+      "source": "center-vizier",
+      "target": "domain-mind-gut",
+      "type": "domain-core"
+    },
+    {
+      "source": "center-vizier",
+      "target": "domain-body",
+      "type": "domain-core"
+    },
+    {
+      "source": "center-vizier",
+      "target": "domain-nutrition",
+      "type": "domain-core"
+    },
+    {
+      "source": "center-vizier",
+      "target": "domain-mind",
+      "type": "domain-core"
+    },
+    {
+      "source": "center-vizier",
+      "target": "domain-communication",
+      "type": "domain-core"
+    },
+    {
+      "source": "center-vizier",
+      "target": "domain-family-os",
+      "type": "domain-core"
+    },
+    {
+      "source": "center-vizier",
+      "target": "domain-handyman",
+      "type": "domain-core"
+    },
+    {
+      "source": "center-vizier",
+      "target": "domain-meta",
+      "type": "domain-core"
+    },
+    {
+      "source": "domain-gut",
+      "target": "note-why-fiber-feeds-the-gut",
+      "type": "containment"
+    }
+  ],
+  "metadata": {
+    "generated_at": "2026-07-09T05:24:12.055Z",
+    "node_count": 12,
+    "edge_count": 11
+  }
+}

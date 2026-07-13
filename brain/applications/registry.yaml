@@ -1,0 +1,65 @@
+- name: Gmail
+  type: api
+  permissions: [gmail.readonly, gmail.send, gmail.modify]
+  trust_level: high
+  in_use: yes
+
+- name: Calendar
+  type: api
+  permissions: [calendar.readonly, calendar.events]
+  trust_level: high
+  in_use: yes
+
+- name: Drive
+  type: api
+  permissions: [drive.readonly]
+  trust_level: medium
+  in_use: yes
+
+- name: Tasks
+  type: api
+  permissions: [tasks]
+  trust_level: medium
+  in_use: yes
+
+- name: People
+  type: api
+  permissions: [contacts.readonly]
+  trust_level: medium
+  in_use: yes
+
+- name: Telegram
+  type: api
+  permissions: [bot_notifications]
+  trust_level: high
+  in_use: yes
+
+- name: Supabase
+  type: api
+  permissions: [postgres_read, postgres_write, vector_search]
+  trust_level: high
+  in_use: yes
+
+- name: mcp-server
+  type: mcp
+  permissions: [local_filesystem, system_utilities]
+  trust_level: high
+  in_use: yes
+
+- name: Gemini
+  type: api
+  permissions: [llm_inference]
+  trust_level: high
+  in_use: yes
+
+- name: Groq
+  type: api
+  permissions: [llm_inference_fallback]
+  trust_level: high
+  in_use: yes
+
+- name: OpenRouter
+  type: api
+  permissions: [llm_inference_fallback]
+  trust_level: high
+  in_use: yes

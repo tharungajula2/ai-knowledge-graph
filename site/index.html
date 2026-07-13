@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    if (window.location.pathname.endsWith('/site')) {
+      window.location.replace(window.location.pathname + '/');
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIZIER — A Living Brain</title>
+  <meta name="description" content="A self-built, cited, scientific knowledge brain — grown one honest node a day for 251 days. Explore the Day-251 vision or the live real entries.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    :root {
+      --bg:    #07090c;
+      --teal:  #2a7f7f;
+      --bright:#3ee2e2;
+      --text:  #e2e8f0;
+      --muted: #94a3b8;
+      --dark:  #64748b;
+      --border:rgba(42,127,127,0.2);
+      --glow:  rgba(42,127,127,0.35);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Geist', sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(42,127,127,0.06) 1px, transparent 0),
+        linear-gradient(rgba(42,127,127,0.018) 1px, transparent 0),
+        linear-gradient(90deg, rgba(42,127,127,0.018) 1px, transparent 0);
+      background-size: 20px 20px, 40px 40px, 40px 40px;
+      pointer-events: none; z-index: 0;
+    }
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 56px;
+      background: rgba(7,9,12,0.88);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+    }
+    .nav-brand { font-size: .9rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--bright); text-decoration: none; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: .78rem; text-transform: uppercase; letter-spacing: .06em;
+      display: flex; align-items: center; gap: 5px;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--bright); }
+    .nav-links svg { width: 13px; height: 13px; flex-shrink: 0; }
+    section { position: relative; z-index: 1; }
+    /* HERO */
+    .hero {
+      min-height: calc(100vh - 56px);
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; text-align: center;
+      padding: 80px 40px 60px;
+    }
+    .hero-chip {
+      font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em;
+      background: rgba(42,127,127,.15); border: 1px solid rgba(42,127,127,.4);
+      color: var(--bright); padding: 4px 14px; border-radius: 20px;
+      margin-bottom: 28px; display: inline-block;
+    }
+    .hero h1 {
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      font-weight: 700; letter-spacing: -.03em; line-height: 1.12; margin-bottom: 20px;
+      background: linear-gradient(135deg, #3ee2e2 0%, #2a7f7f 60%, #a5d6d6 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero p {
+      font-size: clamp(1rem, 1.8vw, 1.18rem);
+      color: var(--muted); max-width: 600px; margin: 0 auto 36px; line-height: 1.7;
+    }
+    .hero-day {
+      font-size: .78rem; color: var(--dark); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 36px;
+    }
+    .hero-day strong { color: var(--bright); font-weight: 600; }
+    .btn-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+    .btn-primary {
+      padding: 12px 28px; font-size: .85rem; font-weight: 600;
+      background: var(--teal); color: #fff; border: none; border-radius: 8px;
+      cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+      transition: all .2s; font-family: inherit;
+      box-shadow: 0 0 20px rgba(42,127,127,.4);
+    }
+    .btn-primary:hover { background: #1e6060; box-shadow: 0 0 30px rgba(42,127,127,.6); transform: translateY(-1px); }
+    .btn-ghost {
+      padding: 12px 28px; font-size: .85rem; font-weight: 500;
+      background: transparent; color: var(--bright);
+      border: 1px solid rgba(62,226,226,.35); border-radius: 8px;
+      cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+      transition: all .2s; font-family: inherit;
+    }
+    .btn-ghost:hover { background: rgba(62,226,226,.08); transform: translateY(-1px); }
+    .btn-primary svg, .btn-ghost svg { width: 15px; height: 15px; flex-shrink: 0; }
+    /* MINI BRAIN */
+    .mini-brain-section { padding: 40px 40px 0; display: flex; flex-direction: column; align-items: center; }
+    .mini-brain-wrap {
+      width: 100%; max-width: 900px; height: 380px;
+      border-radius: 16px; border: 1px solid var(--border);
+      background: rgba(10,15,20,0.6); overflow: hidden; position: relative;
+      cursor: pointer; transition: border-color .3s;
+    }
+    .mini-brain-wrap:hover { border-color: rgba(62,226,226,.3); }
+    #mini-brain-svg { width: 100%; height: 100%; }
+    .mini-brain-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+      background: linear-gradient(transparent, rgba(7,9,12,.85));
+      display: flex; align-items: flex-end; padding: 16px 20px; justify-content: space-between;
+    }
+    .mini-brain-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+    .mini-brain-label strong { color: #f6ad55; font-size: .65rem; }
+    .mini-brain-cta {
+      font-size: .72rem; color: var(--bright); text-decoration: none;
+      display: flex; align-items: center; gap: 5px; transition: opacity .2s;
+    }
+    .mini-brain-cta:hover { opacity: .75; }
+    .mini-brain-cta svg { width: 12px; height: 12px; }
+    /* VISION CARDS */
+    .vision-section { padding: 80px 40px; }
+    .section-label { font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--teal); margin-bottom: 12px; }
+    .section-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; letter-spacing: -.02em; margin-bottom: 8px; }
+    .section-sub { font-size: .95rem; color: var(--muted); max-width: 540px; margin-bottom: 44px; }
+    .cards-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; max-width: 1080px; margin: 0 auto;
+    }
+    .card {
+      background: rgba(10,15,22,0.7); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+    }
+    .card:hover { border-color: rgba(62,226,226,.3); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,.45); }
+    .card-icon {
+      width: 40px; height: 40px;
+      background: rgba(42,127,127,.15); border: 1px solid rgba(42,127,127,.25);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
+    }
+    .card-icon svg { width: 20px; height: 20px; stroke: var(--bright); }
+    .card h3 { font-size: .95rem; font-weight: 600; margin-bottom: 7px; }
+    .card p { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+    /* CAP STRIP */
+    .cap-strip { padding: 0 40px 80px; }
+    .cap-inner {
+      max-width: 1080px; margin: 0 auto;
+      background: rgba(42,127,127,.08); border: 1px solid rgba(42,127,127,.22);
+      border-radius: 14px; padding: 32px 36px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+    }
+    .cap-text h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 5px; }
+    .cap-text p  { font-size: .83rem; color: var(--muted); }
+    /* FEED */
+    .feed-section { padding: 0 40px 80px; }
+    .feed-inner   { max-width: 760px; margin: 0 auto; }
+    .feed-item {
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      padding: 18px 0;
+      display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;
+    }
+    .feed-item:last-child { border-bottom: none; }
+    .feed-item a  { font-size: .95rem; font-weight: 500; color: var(--text); text-decoration: none; transition: color .2s; }
+    .feed-item a:hover { color: var(--bright); }
+    .feed-right   { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+    .tag { font-size: .63rem; text-transform: uppercase; letter-spacing: .05em; border: 1px solid var(--border); padding: 2px 8px; border-radius: 4px; color: var(--dark); }
+    .feed-date { font-size: .72rem; color: var(--dark); }
+    .feed-empty { font-size: .85rem; color: var(--dark); padding: 24px 0; }
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 36px 40px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+      font-size: .78rem; color: var(--dark); position: relative; z-index: 1;
+    }
+    footer a { color: var(--muted); text-decoration: none; transition: color .2s; }
+    footer a:hover { color: var(--bright); }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-honest { font-size: .72rem; color: var(--dark); font-style: italic; max-width: 420px; }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--bright); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .btn-primary:hover, .btn-ghost:hover, .card:hover { transform: none; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .hero, .vision-section, .cap-strip, .feed-section { padding-left: 20px; padding-right: 20px; }
+      footer { padding: 24px 20px; }
+      .cap-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="./index.html" class="nav-brand">VIZIER</a>
+  <div class="nav-links">
+    <a href="./brain.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg>Brain
+    </a>
+    <a href="./feed.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>Feed
+    </a>
+    <a href="./capabilities.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Capabilities
+    </a>
+    <a href="./about.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>About
+    </a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-chip">Built in Public &middot; Day <span id="hero-day">1</span> of 251</div>
+  <h1>A Living Brain</h1>
+  <p>A self-built, cited, scientific knowledge brain &mdash; grown one honest node a day for 251 days. Every claim is sourced, tiered, and challenged.</p>
+  <div class="hero-day">
+    <strong id="live-count">1</strong> real node &middot;
+    <strong>487</strong> Day-251 vision &middot;
+    Local-first &bull; AI-assisted &bull; Fully private
+  </div>
+  <div class="btn-row">
+    <a href="./brain.html" class="btn-primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3m-3.22-6.78-2.12 2.12M7.34 16.66l-2.12 2.12M17.66 16.66l-2.12-2.12M7.34 7.34 5.22 5.22"/></svg>
+      Explore the Brain
+    </a>
+    <a href="./brain.html?mode=preview" class="btn-ghost">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      See the Day-251 Vision
+    </a>
+  </div>
+</section>
+
+<section class="mini-brain-section">
+  <div class="mini-brain-wrap" id="mini-brain-wrap" onclick="window.location='./brain.html'" role="button" aria-label="Open full brain viewer">
+    <svg id="mini-brain-svg"></svg>
+    <div class="mini-brain-overlay">
+      <div class="mini-brain-label">
+        Preview Mode &nbsp;&bull;&nbsp;
+        <strong>PREVIEW &mdash; illustrative Day-251 vision, not real entries</strong>
+      </div>
+      <a href="./brain.html" class="mini-brain-cta" onclick="event.stopPropagation()">
+        Full view
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="vision-section">
+  <div style="max-width:1080px;margin:0 auto">
+    <div class="section-label">The System</div>
+    <h2 class="section-title">Four principles, no exceptions</h2>
+    <p class="section-sub">Every node that enters this brain must pass all four gates before it goes public.</p>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Cited</h3>
+        <p>Every factual claim links to a primary scientific source &mdash; no paraphrasing without provenance.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+        <h3>Tiered</h3>
+        <p>Sources are transparent about evidence strength: Tier 1 meta-analyses down to Tier 4 commentary.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <h3>Challenged</h3>
+        <p>Every note has a mandatory &ldquo;Where this could be wrong&rdquo; section &mdash; no confirmation bias.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6m-6 4h6m-6 4h4"/></svg></div>
+        <h3>10 Life Domains</h3>
+        <p>Gut, Mind-Gut, Nutrition, Health Core, Mind, Body, Communication, Family OS, Handyman, Meta.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Grows in Public</h3>
+        <p>Every published note is visible here, live. Watch the brain catch up to the 251-day vision in real time.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h3>Local-First</h3>
+        <p>The brain runs fully locally. Private by architecture, shown publicly by choice.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cap-strip">
+  <div class="cap-inner">
+    <div class="cap-text">
+      <h3>The real VIZIER agent</h3>
+      <p>Gmail, Calendar, Telegram, grounded research, approval gate &mdash; running locally, shown here.</p>
+    </div>
+    <a href="./capabilities.html" class="btn-ghost" style="flex-shrink:0">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      See Capabilities
+    </a>
+  </div>
+</section>
+
+<section class="feed-section">
+  <div class="feed-inner">
+    <div class="section-label">Latest Nodes</div>
+    <h2 class="section-title" style="margin-bottom:28px">What shipped recently</h2>
+    <div id="feed-list"><p class="feed-empty">Loading real nodes&hellip;</p></div>
+    <div style="margin-top:24px">
+      <a href="./feed.html" class="btn-ghost" style="display:inline-flex">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+        Full Feed
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div><a href="./index.html" style="color:var(--bright);font-weight:700;font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;">VIZIER</a></div>
+  <div class="footer-honest">Honest limits: three gates (Cited / Tiered / Challenged) + abstention. Never &ldquo;no hallucinations.&rdquo; PREVIEW data is illustrative &mdash; never presented as completed work.</div>
+  <div class="footer-links">
+    <a href="./brain.html">Brain</a>
+    <a href="./feed.html">Feed</a>
+    <a href="./about.html">About</a>
+    <a href="./capabilities.html">Capabilities</a>
+  </div>
+</footer>
+
+<script>
+const START = new Date('2026-07-09');
+const DAY = Math.max(1, Math.floor((new Date() - START) / 86400000) + 1);
+document.getElementById('hero-day').textContent = DAY;
+
+// Mini brain galaxy
+(function() {
+  const wrap = document.getElementById('mini-brain-wrap');
+  const W = wrap.clientWidth || 900;
+  const H = wrap.clientHeight || 380;
+  const CX = W / 2, CY = H / 2;
+  const svg = d3.select('#mini-brain-svg').attr('viewBox', '0 0 ' + W + ' ' + H);
+
+  function lcg(s) {
+    let seed = s >>> 0;
+    return () => { seed = Math.imul(1664525, seed) + 1013904223; return (seed >>> 0) / 4294967296; };
+  }
+  const rand = lcg(42);
+
+  const domColors = ['#68d391','#76e4f7','#f6ad55','#fc8181','#b794f4','#4fd1c5','#fbd38d','#a0aec0','#f687b3','#d69e2e'];
+  const ringR = [0, 55, 120, 185, 240];
+  const ringCounts = [1, 12, 65, 6, 9];
+
+  const nodes = [];
+  for (let ring = 0; ring < ringR.length; ring++) {
+    for (let i = 0; i < ringCounts[ring]; i++) {
+      const angle = (2 * Math.PI * i) / ringCounts[ring];
+      const r = ringR[ring] + (ring > 1 ? (rand() - 0.5) * 38 : 0);
+      const domIdx = Math.floor(rand() * domColors.length);
+      nodes.push({
+        x: CX + r * Math.cos(angle), y: CY + r * Math.sin(angle),
+        r: ring === 0 ? 9 : ring === 1 ? 5 : ring > 3 ? 4.5 : 3.2,
+        fill: ring === 0 ? '#3ee2e2' : ring === 1 ? '#fc8181' : ring === 3 ? '#d4a017' : ring === 4 ? '#a0aec0' : domColors[domIdx],
+        ring, domIdx,
+      });
+    }
+  }
+
+  const edges = [];
+  const inner = nodes.filter(n => n.ring <= 2);
+  for (const n of nodes.filter(n => n.ring > 2)) {
+    const target = inner[Math.floor(rand() * inner.length)];
+    edges.push({ s: n, t: target });
+    if (n.ring === 2 && rand() < 0.28) {
+      const peer = inner.filter(x => x.ring === 2 && x.domIdx !== n.domIdx);
+      if (peer.length) edges.push({ s: n, t: peer[Math.floor(rand() * peer.length)] });
+    }
+  }
+  nodes.filter(n => n.ring === 2).forEach(n => {
+    if (rand() < 0.12) edges.push({ s: n, t: nodes[0] });
+  });
+
+  const g = svg.append('g');
+  g.selectAll('line').data(edges).join('line')
+    .attr('x1', d => d.s.x).attr('y1', d => d.s.y)
+    .attr('x2', d => d.t.x).attr('y2', d => d.t.y)
+    .attr('stroke', '#2a7f7f').attr('stroke-opacity', .22).attr('stroke-width', .8);
+  g.selectAll('circle').data(nodes).join('circle')
+    .attr('cx', d => d.x).attr('cy', d => d.y).attr('r', d => d.r)
+    .attr('fill', d => d.fill).attr('opacity', .88);
+
+  const skillEls = [];
+  g.selectAll('circle').each(function(d) { if (d.ring === 1) skillEls.push(this); });
+  const skillCount = skillEls.length;
+  let angle = 0;
+
+  const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!mq.matches) {
+    (function spin() {
+      angle += 0.002;
+      skillEls.forEach((el, i) => {
+        const a = angle + (2 * Math.PI * i) / skillCount;
+        d3.select(el).attr('cx', CX + 55 * Math.cos(a)).attr('cy', CY + 55 * Math.sin(a));
+      });
+      requestAnimationFrame(spin);
+    })();
+  }
+})();
+
+// Load live feed
+fetch('brain-index.public.json')
+  .then(r => r.ok ? r.json() : null)
+  .then(data => {
+    const feedEl = document.getElementById('feed-list');
+    if (!data || !data.nodes) { feedEl.innerHTML = '<p class="feed-empty">No nodes exported yet.</p>'; return; }
+    const noteNodes = data.nodes.filter(n => n.slug && n.type !== 'center' && n.type !== 'domain');
+    document.getElementById('live-count').textContent = data.metadata?.node_count ?? noteNodes.length;
+    if (!noteNodes.length) { feedEl.innerHTML = '<p class="feed-empty">Your first nodes will appear here after you run daily.ps1.</p>'; return; }
+    feedEl.innerHTML = noteNodes.slice(0, 6).map(n => `
+      <div class="feed-item">
+        <a href="notes/${n.slug}.html">${n.label || n.slug}</a>
+        <div class="feed-right">
+          <span class="tag">${n.domain || 'general'}</span>
+          <span class="feed-date">${n.date ? new Date(n.date).toLocaleDateString() : ''}</span>
+        </div>
+      </div>
+    `).join('');
+  })
+  .catch(() => { document.getElementById('feed-list').innerHTML = '<p class="feed-empty">Brain data not yet available.</p>'; });
+</script>
+</body>
+</html>

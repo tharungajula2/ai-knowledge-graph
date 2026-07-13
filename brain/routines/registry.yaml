@@ -1,0 +1,29 @@
+- name: micro-learning-push
+  schedule: daily
+  status: active
+  what_it_does: Push one formatted daily micro-lesson from the brain to Telegram
+  touches: [telegram, gut]
+
+- name: weekly-review
+  schedule: weekly on Sunday
+  status: active
+  what_it_does: Reflect on audit logs, memories, and task status to outline focuses
+  touches: [telegram, email, calendar]
+
+- name: scan-refresh
+  schedule: after sessions
+  status: active
+  what_it_does: Re-run scan.js to update the graph database index
+  touches: [meta]
+
+- name: oauth-keepalive-reminder
+  schedule: ~7 days
+  status: active
+  what_it_does: Alert user to refresh testing-mode Google OAuth tokens before expiry
+  touches: [telegram, calendar]
+
+- name: morning-briefing
+  schedule: daily morning
+  status: active
+  what_it_does: Aggregate and summarize from multiple sources to deliver morning briefing
+  touches: [telegram, email, calendar]

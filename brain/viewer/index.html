@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIZIER — Brain Graph Visualizer</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- D3 and Marked (Markdown Parser) from CDN -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <style>
+    :root {
+      --bg-color: #0b0f12;
+      --panel-bg: rgba(15, 23, 30, 0.75);
+      --panel-border: rgba(42, 127, 127, 0.25);
+      --accent-teal: #2a7f7f;
+      --accent-teal-glow: rgba(42, 127, 127, 0.4);
+      --accent-bright: #3ee2e2;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --text-dark: #64748b;
+      
+      --color-center: #3ee2e2;
+      --color-domain: #2a7f7f;
+      --color-knowledge: #68d391;
+      --color-feynman: #f6ad55;
+      --color-skill: #fc8181;
+      --color-routine: #b7791f;
+      --color-application: #a0aec0;
+      --color-count: #9f7aea;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Geist', sans-serif;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* Grid Background */
+    #canvas-container {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      background-image: 
+        radial-gradient(circle at 1px 1px, rgba(42, 127, 127, 0.08) 1px, transparent 0),
+        linear-gradient(rgba(42, 127, 127, 0.02) 1px, transparent 0),
+        linear-gradient(90deg, rgba(42, 127, 127, 0.02) 1px, transparent 0);
+      background-size: 20px 20px, 40px 40px, 40px 40px;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Translucent Panels (Glassmorphism) */
+    .glass-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 12px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+      z-index: 10;
+      position: absolute;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Top Left Header & Controls */
+    #control-panel {
+      top: 20px;
+      left: 20px;
+      width: 320px;
+      padding: 20px;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-bright);
+      border-bottom: 1px solid var(--panel-border);
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h1 span {
+      font-size: 0.7rem;
+      background: rgba(42, 127, 127, 0.2);
+      border: 1px solid var(--accent-teal);
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .control-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .btn-toggle-group {
+      display: flex;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 6px;
+      padding: 2px;
+      border: 1px solid rgba(42, 127, 127, 0.15);
+    }
+
+    .btn-toggle {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 6px 10px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s;
+      font-family: inherit;
+      font-weight: 500;
+    }
+
+    .btn-toggle.active {
+      background: var(--accent-teal);
+      color: white;
+      box-shadow: 0 0 10px var(--accent-teal-glow);
+    }
+
+    .slider-input {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.1);
+      outline: none;
+      margin: 8px 0;
+    }
+
+    .slider-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent-bright);
+      cursor: pointer;
+      box-shadow: 0 0 8px var(--accent-teal-glow);
+      transition: transform 0.1s;
+    }
+
+    .slider-input::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    /* Top Right Search Bar */
+    #search-panel {
+      top: 20px;
+      right: 20px;
+      width: 320px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #search-input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--panel-border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: white;
+      font-family: inherit;
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    #search-input:focus {
+      border-color: var(--accent-bright);
+      box-shadow: 0 0 8px rgba(62, 226, 226, 0.2);
+    }
+
+    #search-results {
+      position: absolute;
+      top: 55px;
+      right: 12px;
+      left: 12px;
+      max-height: 240px;
+      overflow-y: auto;
+      background: rgba(10, 16, 22, 0.95);
+      border: 1px solid var(--panel-border);
+      border-radius: 6px;
+      z-index: 15;
+      display: none;
+    }
+
+    .search-item {
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .search-item:hover {
+      background: rgba(42, 127, 127, 0.2);
+      color: var(--accent-bright);
+    }
+
+    .search-item-type {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+
+    /* Right Side Node Inspector */
+    #inspector-panel {
+      top: 20px;
+      right: 20px;
+      width: 420px;
+      height: calc(100vh - 40px);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transform: translateX(460px); /* Off-screen by default */
+      overflow: hidden;
+    }
+
+    #inspector-panel.open {
+      transform: translateX(0);
+    }
+
+    .inspector-header {
+      border-bottom: 1px solid var(--panel-border);
+      padding-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .inspector-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--accent-bright);
+    }
+
+    .inspector-meta {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .meta-tag {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .inspector-body {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 4px;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .inspector-details-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 8px 16px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+      font-size: 0.75rem;
+    }
+
+    .grid-label {
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .grid-value {
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+      word-break: break-all;
+    }
+
+    .inspector-preview {
+      border-top: 1px solid rgba(42, 127, 127, 0.1);
+      padding-top: 16px;
+    }
+
+    .markdown-content h1, 
+    .markdown-content h2, 
+    .markdown-content h3 {
+      color: var(--accent-bright);
+      margin-top: 16px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    
+    .markdown-content h1 { font-size: 1.1rem; border-bottom: 1px dashed var(--panel-border); padding-bottom: 4px; }
+    .markdown-content h2 { font-size: 0.95rem; }
+    .markdown-content h3 { font-size: 0.85rem; }
+    
+    .markdown-content p {
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    .markdown-content ul, 
+    .markdown-content ol {
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
+
+    .markdown-content li {
+      margin-bottom: 4px;
+    }
+
+    .markdown-content code {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      color: #fc8181;
+    }
+
+    .markdown-content pre {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--panel-border);
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 10px 0;
+    }
+
+    .markdown-content pre code {
+      background: transparent;
+      padding: 0;
+      color: var(--text-main);
+    }
+
+    .action-row {
+      display: flex;
+      gap: 10px;
+      margin-top: auto;
+      border-top: 1px solid var(--panel-border);
+      padding-top: 16px;
+    }
+
+    .btn-action {
+      flex: 1;
+      background: rgba(42, 127, 127, 0.15);
+      border: 1px solid var(--panel-border);
+      color: var(--text-main);
+      padding: 8px 16px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-action:hover {
+      background: var(--accent-teal);
+      border-color: var(--accent-bright);
+      color: white;
+      box-shadow: 0 0 10px var(--accent-teal-glow);
+    }
+
+    .btn-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      transition: all 0.2s;
+    }
+
+    .btn-close:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+    }
+
+    /* SVG Elements Styling */
+    .link {
+      stroke: var(--accent-teal);
+      stroke-opacity: 0.18;
+      stroke-width: 1px;
+      transition: stroke-opacity 0.2s, stroke-width 0.2s;
+    }
+
+    .link.wiki-link {
+      stroke: var(--color-feynman);
+      stroke-dasharray: 3, 3;
+      stroke-opacity: 0.35;
+    }
+
+    .link.highlighted {
+      stroke: var(--accent-bright);
+      stroke-opacity: 0.8;
+      stroke-width: 2px;
+    }
+
+    .node {
+      cursor: pointer;
+      transition: r 0.2s cubic-bezier(0.16, 1, 0.3, 1), stroke-width 0.2s;
+    }
+
+    .node:hover {
+      filter: drop-shadow(0 0 8px var(--accent-teal-glow));
+    }
+
+    .node.highlighted {
+      stroke: white !important;
+      stroke-width: 2.5px !important;
+    }
+
+    .node.pulsing {
+      animation: pulse 1.5s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% {
+        stroke-width: 1px;
+        filter: drop-shadow(0 0 2px var(--accent-teal-glow));
+      }
+      100% {
+        stroke-width: 4px;
+        stroke: var(--accent-bright);
+        filter: drop-shadow(0 0 12px rgba(62, 226, 226, 0.8));
+      }
+    }
+
+    .node-label {
+      font-size: 8px;
+      fill: var(--text-muted);
+      pointer-events: none;
+      text-anchor: middle;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+
+    .node-label.active {
+      fill: white;
+      font-weight: 600;
+      font-size: 9px;
+    }
+
+    /* Concentric Rings Visual Guide */
+    .ring-guide {
+      fill: none;
+      stroke: rgba(42, 127, 127, 0.06);
+      stroke-width: 1px;
+      stroke-dasharray: 6, 6;
+      pointer-events: none;
+    }
+
+    .ring-label {
+      fill: var(--text-dark);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    /* Stats summary */
+    .stats-summary {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.75rem;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 10px;
+      border-radius: 6px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+    }
+
+    .stat-row span:last-child {
+      color: var(--accent-bright);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Controls overlay -->
+  <div id="control-panel" class="glass-panel">
+    <h1>Vizier Brain <span>Life-OS</span></h1>
+    
+    <!-- Layout Selection -->
+    <div class="control-group">
+      <div class="control-label">Layout Mode</div>
+      <div class="btn-toggle-group">
+        <button id="btn-layout-rings" class="btn-toggle active">Rings</button>
+        <button id="btn-layout-force" class="btn-toggle">Force</button>
+      </div>
+    </div>
+    
+    <!-- Filter Labels -->
+    <div class="control-group">
+      <div class="control-label">Labels View</div>
+      <div class="btn-toggle-group">
+        <button id="btn-labels-all" class="btn-toggle active">All</button>
+        <button id="btn-labels-smart" class="btn-toggle">Smart</button>
+        <button id="btn-labels-none" class="btn-toggle">None</button>
+      </div>
+    </div>
+
+    <!-- Node size slider -->
+    <div class="control-group">
+      <div class="control-label">
+        <span>Base Node Size</span>
+        <span id="label-val-size">8px</span>
+      </div>
+      <input type="range" id="slider-size" class="slider-input" min="4" max="16" value="8">
+    </div>
+
+    <!-- Link Spring slider (Force directed only) -->
+    <div class="control-group" id="control-spring" style="display: none;">
+      <div class="control-label">
+        <span>Link Distance</span>
+        <span id="label-val-spring">80px</span>
+      </div>
+      <input type="range" id="slider-spring" class="slider-input" min="40" max="250" value="80">
+    </div>
+    
+    <!-- Stats block -->
+    <div class="control-group">
+      <div class="control-label">Brain Stats</div>
+      <div class="stats-summary" id="stats-container">
+        <div class="stat-row"><span>Total Nodes</span><span id="stat-total-nodes">0</span></div>
+        <div class="stat-row"><span>Total Connections</span><span id="stat-total-edges">0</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Panel -->
+  <div id="search-panel" class="glass-panel">
+    <input type="text" id="search-input" placeholder="Search title, tag, domain..." autocomplete="off">
+    <div id="search-results"></div>
+  </div>
+
+  <!-- Inspector Panel -->
+  <div id="inspector-panel" class="glass-panel">
+    <button class="btn-close" id="btn-inspector-close">&times;</button>
+    <div class="inspector-header">
+      <div class="inspector-title" id="node-title">File Title</div>
+      <div class="inspector-meta" id="node-meta">
+        <span class="meta-tag">Domain</span>
+        <span class="meta-tag">Type</span>
+      </div>
+    </div>
+    
+    <div class="inspector-body">
+      <!-- Key attributes grid -->
+      <div class="inspector-details-grid" id="node-details">
+        <!-- populated dynamically -->
+      </div>
+      
+      <!-- Rendered Markdown Preview -->
+      <div class="inspector-preview markdown-content" id="node-preview">
+        <!-- markdown will render here -->
+      </div>
+    </div>
+    
+    <div class="action-row">
+      <button class="btn-action" id="btn-copy-path">Copy Path</button>
+    </div>
+  </div>
+
+  <!-- Main Canvas -->
+  <div id="canvas-container">
+    <canvas id="graph-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; display: none;"></canvas>
+    <svg id="graph-svg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3;"></svg>
+  </div>
+
+  <script>
+    // Global state
+    let graphData = null;
+    let selectedNode = null;
+    let layoutMode = 'rings'; // 'rings' or 'force'
+    let labelsMode = 'all'; // 'all', 'smart', 'none'
+    let baseNodeSize = 8;
+    let linkDistance = 80;
+    
+    // Width and height
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    
+    // Color mapper
+    const colors = {
+      'center': 'var(--color-center)',
+      'domain': 'var(--color-domain)',
+      'knowledge': 'var(--color-knowledge)',
+      'feynman': 'var(--color-feynman)',
+      'skill': 'var(--color-skill)',
+      'routine': 'var(--color-routine)',
+      'application': 'var(--color-application)',
+      'supabase-count': 'var(--color-count)'
+    };
+
+    // Rings specification radii
+    const ringRadii = {
+      'center': 0,
+      'skills': 150,
+      'knowledge': 320,
+      'routines': 480,
+      'applications': 640
+    };
+
+    // Initialize Canvas
+    const canvas = d3.select("#graph-canvas");
+    const ctx = canvas.node().getContext("2d");
+    let currentTransform = d3.zoomIdentity;
+    let hoveredNode = null;
+    let quadtree = null;
+
+    function resizeCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.attr("width", window.innerWidth * dpr)
+            .attr("height", window.innerHeight * dpr);
+      ctx.scale(dpr, dpr);
+      if (graphData && graphData.nodes && graphData.nodes.length > 1500) {
+        drawCanvas();
+      }
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    // Initialize SVG
+    const svg = d3.select("#graph-svg");
+    const mainGroup = svg.append("g").attr("class", "main-group");
+    
+    // Zoom behavior
+    const zoom = d3.zoom()
+      .scaleExtent([0.1, 8])
+      .on("zoom", (event) => {
+        currentTransform = event.transform;
+        mainGroup.attr("transform", event.transform);
+        if (graphData && graphData.nodes && graphData.nodes.length > 1500) {
+          drawCanvas();
+        }
+      });
+      
+    svg.call(zoom);
+    
+    // Position simulation in the center
+    zoom.translateTo(svg, width / 2, height / 2);
+    
+    // Setup force simulation
+    const simulation = d3.forceSimulation()
+      .force("link", d3.forceLink().id(d => d.id).distance(linkDistance))
+      .force("charge", d3.forceManyBody().strength(-200))
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("collision", d3.forceCollide().radius(d => getNodeRadius(d) + 5));
+
+    // Load Data
+    d3.json("../brain-index.json").then(data => {
+      graphData = data;
+      
+      // Update stats UI
+      document.getElementById('stat-total-nodes').innerText = data.metadata ? data.metadata.node_count : data.nodes.length;
+      document.getElementById('stat-total-edges').innerText = data.metadata ? data.metadata.edge_count : data.edges.length;
+      
+      if (data.stats) {
+        const statsBox = document.getElementById('stats-container');
+        // Add domain lines to stats
+        Object.entries(data.stats).forEach(([domain, count]) => {
+          const row = document.createElement('div');
+          row.className = 'stat-row';
+          row.innerHTML = `<span>[${domain}] Notes</span><span>${count}</span>`;
+          statsBox.appendChild(row);
+        });
+      }
+      
+      renderGraph();
+      setupSearch();
+    }).catch(error => {
+      console.error("Error loading brain-index.json:", error);
+      alert("Failed to load brain-index.json. Make sure to run 'node brain/scan.js' first.");
+    });
+
+    // Helper functions for sizes
+    function getNodeRadius(d) {
+      if (d.type === 'center') return baseNodeSize * 2.2;
+      if (d.type === 'domain') return baseNodeSize * 1.6;
+      if (d.type === 'supabase-count') return baseNodeSize * 1.3;
+      return baseNodeSize;
+    }
+
+    let link = d3.select(null);
+    let nodeG = d3.select(null);
+
+    function renderGraph() {
+      // Clear previous nodes/edges
+      mainGroup.selectAll("*").remove();
+
+      const nodes = graphData.nodes;
+      const links = graphData.edges;
+
+      const useCanvas = nodes.length > 1500;
+      if (useCanvas) {
+        d3.select("#graph-canvas").style("display", "block");
+        quadtree = d3.quadtree().x(d => d.x).y(d => d.y).addAll(nodes);
+        drawCanvas();
+      } else {
+        d3.select("#graph-canvas").style("display", "none");
+      }
+
+      // Draw Rings Guides if in Rings mode
+      if (layoutMode === 'rings') {
+        const ringsGroup = mainGroup.append("g").attr("class", "rings-guides");
+        Object.entries(ringRadii).forEach(([ringName, radius]) => {
+          if (radius === 0) return;
+          
+          ringsGroup.append("circle")
+            .attr("cx", width / 2)
+            .attr("cy", height / 2)
+            .attr("r", radius)
+            .attr("class", "ring-guide");
+            
+          ringsGroup.append("text")
+            .attr("x", width / 2)
+            .attr("y", height / 2 - radius - 5)
+            .attr("class", "ring-label")
+            .text(ringName);
+        });
+      }
+
+      if (!useCanvas) {
+        // Draw Links
+        link = mainGroup.append("g")
+          .attr("class", "links")
+          .selectAll("line")
+          .data(links)
+          .join("line")
+          .attr("class", d => `link ${d.type === 'wiki-link' ? 'wiki-link' : ''}`);
+
+        // Draw Nodes Group
+        nodeG = mainGroup.append("g")
+          .attr("class", "nodes")
+          .selectAll("g")
+          .data(nodes)
+          .join("g")
+          .attr("class", "node-group")
+          .on("click", (event, d) => showInspector(d))
+          .call(d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended)
+          );
+
+        // Draw Node Circles
+        nodeG.append("circle")
+          .attr("class", "node")
+          .attr("r", d => getNodeRadius(d))
+          .attr("fill", d => colors[d.type] || 'white')
+          .attr("stroke", "rgba(0,0,0,0.6)")
+          .attr("stroke-width", 1);
+
+        // Draw Labels
+        nodeG.append("text")
+          .attr("class", "node-label")
+          .attr("dy", d => -getNodeRadius(d) - 4)
+          .text(d => d.label);
+      }
+
+      // Update simulation data
+      simulation.nodes(nodes);
+      simulation.force("link").links(links);
+      
+      // Update view properties based on controllers
+      updateLabelsView();
+
+      // Configure Layout Mode positions
+      if (layoutMode === 'rings') {
+        // Group nodes by ring
+        const ringGroups = {};
+        nodes.forEach(n => {
+          const ringName = n.ring || 'knowledge';
+          if (!ringGroups[ringName]) ringGroups[ringName] = [];
+          ringGroups[ringName].push(n);
+        });
+
+        // Compute polar coordinate spots
+        Object.entries(ringGroups).forEach(([ringName, group]) => {
+          const r = ringRadii[ringName] || 320;
+          const count = group.length;
+          group.forEach((node, i) => {
+            const angle = (i * 2 * Math.PI) / count;
+            node.fx = width / 2 + r * Math.cos(angle);
+            node.fy = height / 2 + r * Math.sin(angle);
+          });
+        });
+        
+        // Stop dynamic force engine
+        simulation.alpha(0.2).restart();
+      } else {
+        // Clear fixed coordinates for force floating
+        nodes.forEach(node => {
+          node.fx = null;
+          node.fy = null;
+        });
+        
+        // Re-enable force simulation
+        simulation.alpha(1).restart();
+      }
+
+      // Simulation Ticks
+      simulation.on("tick", () => {
+        const useCanvas = nodes.length > 1500;
+        if (useCanvas) {
+          quadtree = d3.quadtree().x(d => d.x).y(d => d.y).addAll(nodes);
+          drawCanvas();
+        } else {
+          link
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
+
+          nodeG.attr("transform", d => `translate(${d.x},${d.y})`);
+        }
+      });
+    }
+
+    function drawCanvas() {
+      if (!graphData) return;
+      const nodes = graphData.nodes;
+      const links = graphData.edges;
+      
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      
+      ctx.save();
+      ctx.translate(currentTransform.x, currentTransform.y);
+      ctx.scale(currentTransform.k, currentTransform.k);
+      
+      // Draw links
+      ctx.strokeStyle = "rgba(42, 127, 127, 0.15)";
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      for (const link of links) {
+        let sx = 0, sy = 0, tx = 0, ty = 0;
+        if (typeof link.source === 'object') {
+          sx = link.source.x;
+          sy = link.source.y;
+        } else {
+          const sNode = graphData.nodes.find(n => n.id === link.source);
+          if (sNode) { sx = sNode.x; sy = sNode.y; }
+        }
+        if (typeof link.target === 'object') {
+          tx = link.target.x;
+          ty = link.target.y;
+        } else {
+          const tNode = graphData.nodes.find(n => n.id === link.target);
+          if (tNode) { tx = tNode.x; ty = tNode.y; }
+        }
+        ctx.moveTo(sx, sy);
+        ctx.lineTo(tx, ty);
+      }
+      ctx.stroke();
+      
+      // Draw nodes
+      for (const node of nodes) {
+        ctx.beginPath();
+        const r = getNodeRadius(node);
+        ctx.arc(node.x, node.y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = colors[node.type] || '#ffffff';
+        ctx.fill();
+        ctx.lineWidth = 0.5;
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.6)';
+        ctx.stroke();
+        
+        if (selectedNode && selectedNode.id === node.id) {
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, r + 2.5, 0, 2 * Math.PI);
+          ctx.strokeStyle = '#ffffff';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+      }
+      
+      // Draw hover details
+      if (hoveredNode) {
+        const r = getNodeRadius(hoveredNode);
+        ctx.beginPath();
+        ctx.arc(hoveredNode.x, hoveredNode.y, r + 3, 0, 2 * Math.PI);
+        ctx.strokeStyle = 'var(--accent-bright)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 10px Geist, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(hoveredNode.label, hoveredNode.x, hoveredNode.y - r - 6);
+      }
+      
+      ctx.restore();
+    }
+
+    // Setup mouse events for canvas mode
+    svg.on("mousemove", (event) => {
+      if (graphData && graphData.nodes.length > 1500) {
+        const [mx, my] = d3.pointer(event, mainGroup.node());
+        if (quadtree) {
+          const searchRadius = 20 / currentTransform.k;
+          const closest = quadtree.find(mx, my, searchRadius);
+          if (closest !== hoveredNode) {
+            hoveredNode = closest;
+            drawCanvas();
+          }
+        }
+      }
+    });
+
+    svg.on("click", (event) => {
+      // If user clicked directly on the canvas or an empty area, handle it
+      if (event.target === svg.node()) {
+        if (graphData && graphData.nodes.length > 1500) {
+          const [mx, my] = d3.pointer(event, mainGroup.node());
+          if (quadtree) {
+            const searchRadius = 25 / currentTransform.k;
+            const closest = quadtree.find(mx, my, searchRadius);
+            if (closest) {
+              showInspector(closest);
+              drawCanvas();
+            } else {
+              closeInspector();
+              drawCanvas();
+            }
+          }
+        }
+      }
+    });
+
+    // Dragging helper events
+    function dragstarted(event, d) {
+      if (!event.active && layoutMode === 'force') simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+
+    function dragged(event, d) {
+      d.fx = event.x;
+      d.fy = event.y;
+    }
+
+    function dragended(event, d) {
+      if (!event.active && layoutMode === 'force') simulation.alphaTarget(0);
+      if (layoutMode === 'force') {
+        d.fx = null;
+        d.fy = null;
+      }
+    }
+
+    // Label toggle state updates
+    function updateLabelsView() {
+      const labels = mainGroup.selectAll(".node-label");
+      if (labelsMode === 'all') {
+        labels.style("display", "block").classed("active", false);
+      } else if (labelsMode === 'smart') {
+        labels.style("display", d => 
+          (d.type === 'center' || d.type === 'domain' || d.type === 'supabase-count') ? 'block' : 'none'
+        ).classed("active", true);
+      } else {
+        labels.style("display", "none");
+      }
+    }
+
+    // Node Inspector Detail Panel
+    function showInspector(node) {
+      selectedNode = node;
+      
+      // Highlight selected node
+      mainGroup.selectAll(".node").classed("highlighted", false);
+      mainGroup.selectAll(".node").filter(d => d && d.id === node.id).classed("highlighted", true);
+      
+      // Highlight connections
+      mainGroup.selectAll(".link").classed("highlighted", false);
+      mainGroup.selectAll(".link")
+        .filter(d => d && d.source && d.target && (d.source.id === node.id || d.target.id === node.id))
+        .classed("highlighted", true);
+
+      // Open UI sidebar panel
+      const panel = document.getElementById("inspector-panel");
+      panel.classList.add("open");
+
+      // Setup labels
+      document.getElementById("node-title").innerText = node.label;
+      const metaContainer = document.getElementById("node-meta");
+      metaContainer.innerHTML = '';
+      
+      const domainLabel = document.createElement("span");
+      domainLabel.className = "meta-tag";
+      domainLabel.style.borderColor = colors[node.type];
+      domainLabel.innerText = `Domain: ${node.domain || 'none'}`;
+      metaContainer.appendChild(domainLabel);
+
+      const typeLabel = document.createElement("span");
+      typeLabel.className = "meta-tag";
+      typeLabel.innerText = `Type: ${node.type}`;
+      metaContainer.appendChild(typeLabel);
+
+      if (node.note_type) {
+        const noteTypeLabel = document.createElement("span");
+        noteTypeLabel.className = "meta-tag";
+        noteTypeLabel.innerText = `Class: ${node.note_type}`;
+        metaContainer.appendChild(noteTypeLabel);
+      }
+
+      // Details Table
+      const details = document.getElementById("node-details");
+      details.innerHTML = '';
+      
+      const rows = [
+        ['ID/Path', node.id],
+        ['Modified', node.modified ? new Date(node.modified).toLocaleString() : 'N/A'],
+        ['File Size', node.size ? `${node.size} bytes` : 'N/A']
+      ];
+
+      if (node.confidence) {
+        rows.push(['Confidence', node.confidence]);
+      }
+      
+      if (Array.isArray(node.tags) && node.tags.length > 0) {
+        rows.push(['Tags', node.tags.join(', ')]);
+      }
+
+      if (Array.isArray(node.sources) && node.sources.length > 0) {
+        rows.push(['Sources', node.sources.join(', ')]);
+      }
+
+      if (node.schedule) {
+        rows.push(['Schedule', node.schedule]);
+      }
+      if (node.status) {
+        rows.push(['Status', node.status]);
+      }
+      if (node.what_it_does) {
+        rows.push(['Purpose', node.what_it_does]);
+      }
+
+      rows.forEach(([lbl, val]) => {
+        const labelDiv = document.createElement('div');
+        labelDiv.className = 'grid-label';
+        labelDiv.innerText = lbl;
+        
+        const valueDiv = document.createElement('div');
+        valueDiv.className = 'grid-value';
+        valueDiv.innerText = val;
+        
+        details.appendChild(labelDiv);
+        details.appendChild(valueDiv);
+      });
+
+      // Markdown Preview fetch
+      const preview = document.getElementById("node-preview");
+      preview.innerHTML = '<div style="color: var(--text-dark)">Loading preview content...</div>';
+
+      if (node.path) {
+        fetch('../../' + node.path)
+          .then(res => {
+            if (!res.ok) throw new Error("File not found");
+            return res.text();
+          })
+          .then(mdText => {
+            // Strip frontmatter from preview display
+            const cleanMd = mdText.replace(/^---\r?\n[\s\S]*?\r?\n---/, '');
+            preview.innerHTML = marked.parse(cleanMd);
+          })
+          .catch(err => {
+            preview.innerHTML = `<div style="color: var(--color-skill)">Failed to load preview: ${err.message}</div>`;
+          });
+      } else {
+        preview.innerHTML = '<div style="color: var(--text-dark)">No file associated with this virtual node.</div>';
+      }
+    }
+
+    function closeInspector() {
+      selectedNode = null;
+      document.getElementById("inspector-panel").classList.remove("open");
+      mainGroup.selectAll("circle").classed("highlighted", false);
+      mainGroup.selectAll(".link").classed("highlighted", false);
+    }
+
+    // Setup node searching
+    function setupSearch() {
+      const input = document.getElementById("search-input");
+      const resultsContainer = document.getElementById("search-results");
+
+      input.addEventListener("input", () => {
+        const val = input.value.trim().toLowerCase();
+        if (!val) {
+          resultsContainer.style.display = 'none';
+          return;
+        }
+
+        const matches = graphData.nodes.filter(n => 
+          n.label.toLowerCase().includes(val) || 
+          (n.domain && n.domain.toLowerCase().includes(val)) ||
+          (Array.isArray(n.tags) && n.tags.some(t => t.toLowerCase().includes(val)))
+        ).slice(0, 10);
+
+        if (matches.length === 0) {
+          resultsContainer.innerHTML = '<div style="padding: 10px; font-size: 0.75rem; color: var(--text-dark)">No matches found</div>';
+        } else {
+          resultsContainer.innerHTML = matches.map(n => `
+            <div class="search-item" data-id="${n.id}">
+              <span>${n.label}</span>
+              <span class="search-item-type">${n.type}</span>
+            </div>
+          `).join('');
+          
+          // Click handlers on items
+          resultsContainer.querySelectorAll(".search-item").forEach(item => {
+            item.addEventListener("click", () => {
+              const nodeId = item.getAttribute("data-id");
+              const targetNode = graphData.nodes.find(n => n.id === nodeId);
+              if (targetNode) {
+                focusOnNode(targetNode);
+              }
+              resultsContainer.style.display = 'none';
+              input.value = '';
+            });
+          });
+        }
+        resultsContainer.style.display = 'block';
+      });
+
+      // Hide suggestions when clicking outside
+      document.addEventListener("click", (e) => {
+        if (e.target !== input && e.target !== resultsContainer) {
+          resultsContainer.style.display = 'none';
+        }
+      });
+    }
+
+    function focusOnNode(node) {
+      // Zoom and center camera onto node
+      const scale = 1.5;
+      const x = width / 2 - node.x * scale;
+      const y = height / 2 - node.y * scale;
+      
+      svg.transition()
+        .duration(800)
+        .call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(scale));
+        
+      // Add pulsing trigger
+      const element = mainGroup.selectAll(".node").filter(d => d && d.id === node.id);
+      element.classed("pulsing", true);
+      setTimeout(() => element.classed("pulsing", false), 3000);
+      
+      showInspector(node);
+    }
+
+    // UI Event listeners
+    document.getElementById("btn-layout-rings").addEventListener("click", (e) => {
+      document.querySelectorAll(".btn-toggle-group")[0].querySelectorAll(".btn-toggle").forEach(b => b.classList.remove("active"));
+      e.target.classList.add("active");
+      document.getElementById("control-spring").style.display = 'none';
+      layoutMode = 'rings';
+      renderGraph();
+    });
+
+    document.getElementById("btn-layout-force").addEventListener("click", (e) => {
+      document.querySelectorAll(".btn-toggle-group")[0].querySelectorAll(".btn-toggle").forEach(b => b.classList.remove("active"));
+      e.target.classList.add("active");
+      document.getElementById("control-spring").style.display = 'flex';
+      layoutMode = 'force';
+      renderGraph();
+    });
+
+    document.getElementById("btn-labels-all").addEventListener("click", (e) => {
+      document.querySelectorAll(".btn-toggle-group")[1].querySelectorAll(".btn-toggle").forEach(b => b.classList.remove("active"));
+      e.target.classList.add("active");
+      labelsMode = 'all';
+      updateLabelsView();
+    });
+
+    document.getElementById("btn-labels-smart").addEventListener("click", (e) => {
+      document.querySelectorAll(".btn-toggle-group")[1].querySelectorAll(".btn-toggle").forEach(b => b.classList.remove("active"));
+      e.target.classList.add("active");
+      labelsMode = 'smart';
+      updateLabelsView();
+    });
+
+    document.getElementById("btn-labels-none").addEventListener("click", (e) => {
+      document.querySelectorAll(".btn-toggle-group")[1].querySelectorAll(".btn-toggle").forEach(b => b.classList.remove("active"));
+      e.target.classList.add("active");
+      labelsMode = 'none';
+      updateLabelsView();
+    });
+
+    document.getElementById("slider-size").addEventListener("input", (e) => {
+      baseNodeSize = parseInt(e.target.value);
+      document.getElementById("label-val-size").innerText = `${baseNodeSize}px`;
+      mainGroup.selectAll("circle").attr("r", d => getNodeRadius(d));
+      mainGroup.selectAll(".node-label").attr("dy", d => -getNodeRadius(d) - 4);
+      simulation.force("collision").radius(d => getNodeRadius(d) + 5);
+      simulation.alpha(0.1).restart();
+    });
+
+    document.getElementById("slider-spring").addEventListener("input", (e) => {
+      linkDistance = parseInt(e.target.value);
+      document.getElementById("label-val-spring").innerText = `${linkDistance}px`;
+      simulation.force("link").distance(linkDistance);
+      simulation.alpha(0.3).restart();
+    });
+
+    document.getElementById("btn-inspector-close").addEventListener("click", closeInspector);
+
+    document.getElementById("btn-copy-path").addEventListener("click", () => {
+      if (selectedNode && selectedNode.path) {
+        navigator.clipboard.writeText(selectedNode.path).then(() => {
+          const btn = document.getElementById("btn-copy-path");
+          const originalText = btn.innerText;
+          btn.innerText = "Copied!";
+          setTimeout(() => btn.innerText = originalText, 1500);
+        });
+      }
+    });
+
+    // Resize handler
+    window.addEventListener("resize", () => {
+      svg.attr("width", window.innerWidth).attr("height", window.innerHeight);
+    });
+
+  </script>
+</body>
+</html>
