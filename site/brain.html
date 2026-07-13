@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VIZIER Brain Ã¢â‚¬â€ Interactive AI Engineering Knowledge Graph</title>
-  <meta name="description" content="Explore the VIZIER AI engineering knowledge brain Ã¢â‚¬â€ 500-node Day-251 vision or live real entries. Interactive concentric-ring galaxy with search and domain filtering.">
+  <title>VIZIER Brain — Interactive AI Engineering Knowledge Graph</title>
+  <meta name="description" content="Explore the VIZIER AI engineering knowledge brain — 500-node Day-251 vision or live real entries. Interactive concentric-ring galaxy with search and domain filtering.">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -199,7 +199,7 @@
     }
     .tog.on { background: var(--teal); color: #fff; box-shadow: 0 0 10px var(--teal-glow); }
 
-    /* Data Mode toggle Ã¢â‚¬â€ more prominent */
+    /* Data Mode toggle — more prominent */
     .data-mode-group .tog.on { background: #1e5c5c; border: 1px solid var(--bright); }
     .data-mode-group .tog.on[data-mode="preview"] {
       background: rgba(246,173,85,.25); border-color: rgba(246,173,85,.6); color: #f6ad55;
@@ -427,7 +427,7 @@
       filter: drop-shadow(0 0 4px var(--node-glow, #2a7f7f));
     }
 
-    /* Orbital ring sweep glow Ã¢â‚¬â€ SVG-level animation */
+    /* Orbital ring sweep glow — SVG-level animation */
     @keyframes ring-breathe {
       0%, 100% { opacity: 0.55; }
       50% { opacity: 0.9; }
@@ -522,7 +522,7 @@
 
 <!-- VISION badge (top center, always visible when in VISION mode) -->
 <div id="preview-badge" class="glass" role="status" aria-live="polite">
-  VISION Ã¢â‚¬â€ THE LIVING MAP
+  VISION — THE LIVING MAP
 </div>
 
 <!-- Control panel -->
@@ -562,7 +562,7 @@
 
   <!-- Preview info strip -->
   <div id="preview-strip" class="visible">
-    THE LIVING MAP Ã¢â‚¬â€ plan v1.0.0 Ã‚Â· 200 nodes. The past is locked. The future evolves.
+    THE LIVING MAP — plan v1.0.0 · 200 nodes. The past is locked. The future evolves.
   </div>
 
   <!-- LAYOUT -->
@@ -625,8 +625,8 @@
   <div class="ctrl-group">
     <div class="ctrl-label">Brain Stats</div>
     <div class="stats-box" id="stats">
-      <div class="stat-row"><span>Nodes</span><span id="st-nodes">Ã¢â‚¬â€</span></div>
-      <div class="stat-row"><span>Edges</span><span id="st-edges">Ã¢â‚¬â€</span></div>
+      <div class="stat-row"><span>Nodes</span><span id="st-nodes">—</span></div>
+      <div class="stat-row"><span>Edges</span><span id="st-edges">—</span></div>
       <div class="stat-row"><span>FPS</span><span id="st-fps">60</span></div>
     </div>
   </div>
@@ -635,7 +635,7 @@
   <div class="ctrl-group">
     <div class="ctrl-label" id="legend-toggle" style="cursor:pointer;user-select:none;">
       <span>Ring Legend</span>
-      <span id="legend-chevron">â–¾</span>
+      <span id="legend-chevron">▾</span>
     </div>
     <div id="legend-body">
       <div style="font-size:.63rem;color:var(--muted);line-height:1.5;margin-bottom:6px;padding:6px 8px;background:rgba(0,0,0,.2);border-radius:5px;border:1px solid rgba(255,255,255,.04);">
@@ -682,7 +682,7 @@
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
   </button>
   <div class="inspector-header">
-    <div class="insp-title" id="node-title">Ã¢â‚¬â€</div>
+    <div class="insp-title" id="node-title">—</div>
     <div class="insp-meta" id="node-meta"></div>
   </div>
   <div class="insp-body">
@@ -912,11 +912,11 @@ function loadData(src) {
     const strip = document.getElementById('preview-strip');
     
     if (dataMode === 'preview') {
-      badge.textContent = `VISION Ã¢â‚¬â€ THE LIVING MAP`;
-      strip.innerHTML = `THE LIVING MAP Ã¢â‚¬â€ plan v1.0.0 Ã‚Â· ${currNodesCount} nodes. The past is locked. The future evolves.`;
+      badge.textContent = `VISION — THE LIVING MAP`;
+      strip.innerHTML = `THE LIVING MAP — plan v1.0.0 · ${currNodesCount} nodes. The past is locked. The future evolves.`;
     } else {
       badge.textContent = `LIVE`;
-      strip.innerHTML = `LIVE Ã¢â‚¬â€ visitors watch one brain wire itself up in real time.`;
+      strip.innerHTML = `LIVE — visitors watch one brain wire itself up in real time.`;
     }
     
     renderGraph();
@@ -1034,27 +1034,32 @@ function renderGraph() {
         .attr('stroke-dasharray', '4,7')
         .style('animation-delay', `${index * 0.7}s`);
 
-      // Accent tick at 3-o'clock (right side) Ã¢â‚¬â€ avoids domain node at 12-o'clock
+      // Label at 45-deg upper-right so each ring fans out diagonally (unique x AND y)
+      const LABEL_ANGLE = -Math.PI / 4; // 45 degrees above horizontal
+      const tx = (r + 10) * Math.cos(LABEL_ANGLE);
+      const ty = (r + 10) * Math.sin(LABEL_ANGLE);
+
+      // Accent tick at the label angle point
       rg.append('circle')
         .attr('r', 2.5)
-        .attr('cx', r)        // RIGHT side
-        .attr('cy', 0)
+        .attr('cx', tx)
+        .attr('cy', ty)
         .attr('fill', color)
         .attr('fill-opacity', 0.8)
         .attr('filter', 'url(#ring-glow)');
 
-      // Ring label at 3-o'clock right Ã¢â‚¬â€ always horizontal, never overlaps nodes
+      // Ring label just outside the tick — text-anchor start so it reads rightward
       rg.append('text')
         .attr('class', 'ring-label')
-        .attr('x', r + 14)   // outside ring on the right
-        .attr('y', 4)         // vertically centered on ring
+        .attr('x', tx + 8)
+        .attr('y', ty + 3)
         .attr('text-anchor', 'start')
         .attr('fill', color)
-        .attr('fill-opacity', 0.75)
+        .attr('fill-opacity', 0.82)
         .text(lbl);
     });
 
-    // Milestone ring guide (pink) Ã¢â‚¬â€ also at 3-o'clock
+    // Milestone ring (pink) — same 45-deg angle
     const msR = ringRadii.milestones;
     const msColor = '#f687b3';
     const prevR = ringRadii['frontier-capstone'];
@@ -1072,16 +1077,19 @@ function renderGraph() {
       .attr('stroke-opacity', 0.28)
       .attr('stroke-dasharray', '4,7')
       .style('animation-delay', '7s');
+    const LABEL_ANGLE = -Math.PI / 4;
+    const msTx = (msR + 10) * Math.cos(LABEL_ANGLE);
+    const msTy = (msR + 10) * Math.sin(LABEL_ANGLE);
     rg.append('circle')
-      .attr('r', 2.5).attr('cx', msR).attr('cy', 0)
+      .attr('r', 2.5).attr('cx', msTx).attr('cy', msTy)
       .attr('fill', msColor).attr('fill-opacity', 0.8)
       .attr('filter', 'url(#ring-glow)');
     rg.append('text')
       .attr('class', 'ring-label')
-      .attr('x', msR + 14).attr('y', 4)
+      .attr('x', msTx + 8).attr('y', msTy + 3)
       .attr('text-anchor', 'start')
       .attr('fill', msColor)
-      .attr('fill-opacity', 0.75)
+      .attr('fill-opacity', 0.82)
       .text('11 MILESTONES');
   } else {
     document.getElementById('graph-svg').closest('body')?.classList.remove('rings-active');
@@ -1602,7 +1610,7 @@ function openInspector(d) {
   const grid = document.getElementById('node-details');
   const gridItems = [
     ['ID', d.id],
-    ['Ring', d.ring || 'Ã¢â‚¬â€'],
+    ['Ring', d.ring || '—'],
     ['Connections', d._conn || 0],
     d.started ? ['Started', d.started] : null,
     d.completed ? ['Completed', d.completed] : null,
