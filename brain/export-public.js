@@ -14,7 +14,7 @@ if (!fs.existsSync(toolsDir)) {
 }
 
 // 10 domains from taxonomy
-const validDomains = ['health-core', 'gut', 'mind-gut', 'body', 'nutrition', 'mind', 'communication', 'family-os', 'handyman', 'meta'];
+const validDomains = ['foundations', 'prompting-apis', 'rag-retrieval', 'agents', 'multi-agent-mcp', 'memory-knowledge', 'evals-observability', 'safety-security', 'production', 'frontier-capstone'];
 
 // Secret / Leak patterns
 const leakPatterns = [

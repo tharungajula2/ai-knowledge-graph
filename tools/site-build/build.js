@@ -128,13 +128,10 @@ function simpleMarkdownToHtml(md, domain) {
 
   html = finalLines.join('\n');
 
-  // Add clinician footer on health/gut/nutrition notes
-  const healthDomains = ['health-core', 'gut', 'mind-gut', 'body', 'nutrition'];
-  if (healthDomains.includes(domain)) {
-    const footerText = 'Educational summary from cited sources — not medical advice; confirm anything you\'d act on with a qualified clinician.';
-    if (!html.toLowerCase().includes('clinician')) {
-      html += `\n<div class="clinician-footer">${footerText}</div>`;
-    }
+  // Add reference disclaimer on notes
+  const footerText = 'AI Engineering reference node — verified against primary paper/spec/codebase. Verify before implementing in production.';
+  if (!html.toLowerCase().includes('production')) {
+    html += `\n<div class="clinician-footer">${footerText}</div>`;
   }
 
   return html;

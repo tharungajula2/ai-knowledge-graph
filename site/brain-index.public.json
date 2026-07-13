@@ -7,146 +7,131 @@
       "ring": "center"
     },
     {
-      "id": "domain-health-core",
-      "label": "Health Core",
+      "id": "domain-foundations",
+      "label": "Foundations",
       "type": "domain",
       "ring": "knowledge",
-      "domain": "health-core"
+      "domain": "foundations"
     },
     {
-      "id": "domain-gut",
-      "label": "Gut Health",
+      "id": "domain-prompting-apis",
+      "label": "Prompting & APIs",
       "type": "domain",
       "ring": "knowledge",
-      "domain": "gut"
+      "domain": "prompting-apis"
     },
     {
-      "id": "domain-mind-gut",
-      "label": "Mind–Gut Axis",
+      "id": "domain-rag-retrieval",
+      "label": "RAG & Retrieval",
       "type": "domain",
       "ring": "knowledge",
-      "domain": "mind-gut"
+      "domain": "rag-retrieval"
     },
     {
-      "id": "domain-body",
-      "label": "Body & Movement",
+      "id": "domain-agents",
+      "label": "Agents",
       "type": "domain",
       "ring": "knowledge",
-      "domain": "body"
+      "domain": "agents"
     },
     {
-      "id": "domain-nutrition",
-      "label": "Nutrition",
+      "id": "domain-multi-agent-mcp",
+      "label": "Multi-Agent & MCP",
       "type": "domain",
       "ring": "knowledge",
-      "domain": "nutrition"
+      "domain": "multi-agent-mcp"
     },
     {
-      "id": "domain-mind",
-      "label": "Mind & Thinking",
+      "id": "domain-memory-knowledge",
+      "label": "Memory & Knowledge",
       "type": "domain",
       "ring": "knowledge",
-      "domain": "mind"
+      "domain": "memory-knowledge"
     },
     {
-      "id": "domain-communication",
-      "label": "Communication",
+      "id": "domain-evals-observability",
+      "label": "Evals & Observability",
       "type": "domain",
       "ring": "knowledge",
-      "domain": "communication"
+      "domain": "evals-observability"
     },
     {
-      "id": "domain-family-os",
-      "label": "Family OS",
+      "id": "domain-safety-security",
+      "label": "Safety & Security",
       "type": "domain",
       "ring": "knowledge",
-      "domain": "family-os"
+      "domain": "safety-security"
     },
     {
-      "id": "domain-handyman",
-      "label": "Mr Handyman",
+      "id": "domain-production",
+      "label": "Production",
       "type": "domain",
       "ring": "knowledge",
-      "domain": "handyman"
+      "domain": "production"
     },
     {
-      "id": "domain-meta",
-      "label": "Meta / System",
+      "id": "domain-frontier-capstone",
+      "label": "Frontier & Capstone",
       "type": "domain",
       "ring": "knowledge",
-      "domain": "meta"
-    },
-    {
-      "id": "note-why-fiber-feeds-the-gut",
-      "label": "Why fiber feeds the gut",
-      "type": "feynman",
-      "ring": "feynman",
-      "domain": "gut",
-      "confidence": "high",
-      "path": "notes/why-fiber-feeds-the-gut.md",
-      "slug": "why-fiber-feeds-the-gut"
+      "domain": "frontier-capstone"
     }
   ],
   "edges": [
     {
       "source": "center-vizier",
-      "target": "domain-health-core",
+      "target": "domain-foundations",
       "type": "domain-core"
     },
     {
       "source": "center-vizier",
-      "target": "domain-gut",
+      "target": "domain-prompting-apis",
       "type": "domain-core"
     },
     {
       "source": "center-vizier",
-      "target": "domain-mind-gut",
+      "target": "domain-rag-retrieval",
       "type": "domain-core"
     },
     {
       "source": "center-vizier",
-      "target": "domain-body",
+      "target": "domain-agents",
       "type": "domain-core"
     },
     {
       "source": "center-vizier",
-      "target": "domain-nutrition",
+      "target": "domain-multi-agent-mcp",
       "type": "domain-core"
     },
     {
       "source": "center-vizier",
-      "target": "domain-mind",
+      "target": "domain-memory-knowledge",
       "type": "domain-core"
     },
     {
       "source": "center-vizier",
-      "target": "domain-communication",
+      "target": "domain-evals-observability",
       "type": "domain-core"
     },
     {
       "source": "center-vizier",
-      "target": "domain-family-os",
+      "target": "domain-safety-security",
       "type": "domain-core"
     },
     {
       "source": "center-vizier",
-      "target": "domain-handyman",
+      "target": "domain-production",
       "type": "domain-core"
     },
     {
       "source": "center-vizier",
-      "target": "domain-meta",
+      "target": "domain-frontier-capstone",
       "type": "domain-core"
-    },
-    {
-      "source": "domain-gut",
-      "target": "note-why-fiber-feeds-the-gut",
-      "type": "containment"
     }
   ],
   "metadata": {
-    "generated_at": "2026-07-13T08:45:47.228Z",
-    "node_count": 12,
-    "edge_count": 11
+    "generated_at": "2026-07-13T09:01:17.247Z",
+    "node_count": 11,
+    "edge_count": 10
   }
 }

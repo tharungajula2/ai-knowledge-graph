@@ -75,9 +75,15 @@ function runVerification() {
         continue;
       }
       
+      // Clean query parameters, hashes, and ignore template interpolation strings
+      const cleanHref = href.split('?')[0].split('#')[0];
+      if (cleanHref.includes('${') || cleanHref.includes('`')) {
+        continue;
+      }
+      
       // Resolve path relative to the file it was found in
       const fileDir = path.dirname(htmlFile);
-      const targetPath = path.resolve(fileDir, href);
+      const targetPath = path.resolve(fileDir, cleanHref);
       
       // Check if target file exists
       if (!fs.existsSync(targetPath)) {

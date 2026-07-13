@@ -1,6 +1,6 @@
 ---
 title: "Why fiber feeds the gut"
-domain: gut
+domain: foundations
 note_type: feynman
 tags: []
 sources: []

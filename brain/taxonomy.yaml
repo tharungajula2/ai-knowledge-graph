@@ -1,31 +1,31 @@
 domains:
-  - code: health-core
-    name: Health Core
-    description: first-principles physiology, sleep, energy, labs literacy
-  - code: gut
-    name: Gut Health
-    description: microbiome, fiber, fermentation, digestion, gut repair
-  - code: mind-gut
-    name: Mind–Gut Axis
-    description: vagus nerve, stress↔digestion, mood↔microbiome
-  - code: body
-    name: Body & Movement
-    description: strength, mobility, joint-smart training, breath
-  - code: nutrition
-    name: Nutrition
-    description: foods, macros/micros, meal systems, hydration
-  - code: mind
-    name: Mind & Thinking
-    description: critical thinking, mental models, focus, learning
-  - code: communication
-    name: Communication
-    description: articulation, storytelling, pausing, teaching
-  - code: family-os
-    name: Family OS
-    description: reusable family systems & routines (no private data)
-  - code: handyman
-    name: Mr Handyman
-    description: practical home/repair/how-to know-how
-  - code: meta
-    name: Meta / System
-    description: how the brain itself works, skills, routines registry
+  - code: foundations
+    name: Foundations
+    description: how AI & LLMs actually work
+  - code: prompting-apis
+    name: Prompting & APIs
+    description: prompting, LLM APIs, tool calling
+  - code: rag-retrieval
+    name: RAG & Retrieval
+    description: embeddings, vector search, RAG
+  - code: agents
+    name: Agents
+    description: ReAct, LangGraph, single-agent systems
+  - code: multi-agent-mcp
+    name: Multi-Agent & MCP
+    description: orchestration, MCP, agent protocols
+  - code: memory-knowledge
+    name: Memory & Knowledge
+    description: agent memory, knowledge graphs, GraphRAG
+  - code: evals-observability
+    name: Evals & Observability
+    description: golden datasets, LLM-as-judge, tracing
+  - code: safety-security
+    name: Safety & Security
+    description: prompt injection, guardrails, HITL
+  - code: production
+    name: Production
+    description: FastAPI, deployment, databases, ops
+  - code: frontier-capstone
+    name: Frontier & Capstone
+    description: "the moving edge: whatever is frontier WHEN I GET THERE"

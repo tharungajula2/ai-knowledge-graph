@@ -29,7 +29,7 @@ function main() {
   
   if (args.length < 2) {
     console.log('Usage: node brain/new-feynman.js "<title>" <domain>');
-    console.log('Example: node brain/new-feynman.js "Why fiber feeds the gut" gut');
+    console.log('Example: node brain/new-feynman.js "Prompt engineering fundamentals" prompting-apis');
     process.exit(1);
   }
   
