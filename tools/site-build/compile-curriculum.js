@@ -253,6 +253,8 @@ function compileCurriculum() {
 
   for (const node of nodes) {
     const notePath = path.join(repoRoot, 'brain', 'knowledge', node.domain, `${node.id}.md`);
+    node.started = null;
+    node.completed = null;
     let resolvedStatus = 'ghost';
     let rawContent = '';
     
@@ -264,6 +266,8 @@ function compileCurriculum() {
       }
       
       const fm = parseFrontmatter(rawContent);
+      node.started = (fm.started && fm.started !== 'null') ? fm.started : null;
+      node.completed = (fm.completed && fm.completed !== 'null') ? fm.completed : null;
       if (fm.status === 'learned') {
         resolvedStatus = 'lit';
       } else if (fm.status === 'in-progress') {
@@ -487,7 +491,9 @@ function compileCurriculum() {
       status: node.status,
       summary: node.summary,
       backlinks: node.backlinks,
-      slug: node.id
+      slug: node.id,
+      started: node.started,
+      completed: node.completed
     });
     
     // Edge from domain guide to node (containment edge)

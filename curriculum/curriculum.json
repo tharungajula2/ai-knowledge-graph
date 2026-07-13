@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updated_at": "2026-07-13T09:10:34.737Z",
+  "updated_at": "2026-07-13T09:16:45.162Z",
   "marathon": {
     "days": 250,
     "start_date": "2026-07-09"
@@ -16,6 +16,8 @@
       "summary": "AI vs ML vs DL vs GenAI vs Agentic — the family tree.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -31,6 +33,8 @@
         "map-of-ai"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -46,6 +50,8 @@
         "how-machines-learn"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -61,6 +67,8 @@
         "what-is-a-language-model"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -76,6 +84,8 @@
         "tokens"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -91,6 +101,8 @@
         "embeddings-intuition"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -106,6 +118,8 @@
         "attention-transformers"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -121,6 +135,8 @@
         "training-pipeline"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -136,6 +152,8 @@
         "context-windows"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -151,6 +169,8 @@
         "sampling-controls"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -166,6 +186,8 @@
         "hallucination"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -179,6 +201,8 @@
       "summary": "venv, pip, running scripts like a pro.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -194,6 +218,8 @@
         "python-environments"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -209,6 +235,8 @@
         "python-data-shapes"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -224,6 +252,8 @@
         "python-classes-modules"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -239,6 +269,8 @@
         "python-async"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -254,6 +286,8 @@
         "python-typing-pydantic"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -269,6 +303,8 @@
         "git-mastery"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -284,6 +320,8 @@
         "terminal-fluency"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -297,6 +335,8 @@
       "summary": "explain \"how an LLM works\" to a 12-year-old, end to end.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -312,6 +352,8 @@
         "synthesis-foundations"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -327,6 +369,8 @@
         "capstone-foundations"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -342,6 +386,8 @@
         "first-api-call"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -357,6 +403,8 @@
         "roles-and-system-prompts"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -372,6 +420,8 @@
         "prompt-skeleton"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -387,6 +437,8 @@
         "few-shot-prompting"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -402,6 +454,8 @@
         "reasoning-prompts"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -417,6 +471,8 @@
         "structured-output"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -430,6 +486,8 @@
       "summary": "tokens flowing into the terminal, live.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -445,6 +503,8 @@
         "streaming-responses"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -460,6 +520,8 @@
         "errors-retries-backoff"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -475,6 +537,8 @@
         "rate-limits-caching"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -490,6 +554,8 @@
         "study-gateway"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -505,6 +571,8 @@
         "injection-first-look"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -520,6 +588,8 @@
         "multimodal-input"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -535,6 +605,8 @@
         "voice-audio-apis"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -550,6 +622,8 @@
         "long-context-strategies"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -563,6 +637,8 @@
       "summary": "terminal chatbot with in-session memory, streaming, a persona.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -578,6 +654,8 @@
         "build-cli-chatbot"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -593,6 +671,8 @@
         "build-feynman-bot"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -608,6 +688,8 @@
         "synthesis-apis"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -623,6 +705,8 @@
         "capstone-apis"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -638,6 +722,8 @@
         "why-rag"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -653,6 +739,8 @@
         "embeddings-hands-on"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -668,6 +756,8 @@
         "chunking"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -683,6 +773,8 @@
         "vector-databases"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -696,6 +788,8 @@
       "summary": "BM25/tsvector — old magic that still wins.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -711,6 +805,8 @@
         "keyword-fulltext-search"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -726,6 +822,8 @@
         "hybrid-search-rrf"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -742,6 +840,8 @@
         "hallucination"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -757,6 +857,8 @@
         "citations-grounding"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -772,6 +874,8 @@
         "rag-failure-modes"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -787,6 +891,8 @@
         "metadata-filters"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -802,6 +908,8 @@
         "query-rewriting-hyde"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -817,6 +925,8 @@
         "multi-hop-retrieval"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -832,6 +942,8 @@
         "ingestion-pipelines"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -845,6 +957,8 @@
       "summary": "RAG over my own notes, with citations + domain filters — meta and glorious.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -860,6 +974,8 @@
         "build-chat-with-my-brain"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -875,6 +991,8 @@
         "evaluate-brain-chat"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -890,6 +1008,8 @@
         "graphrag-preview"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -905,6 +1025,8 @@
         "semantic-caching"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -920,6 +1042,8 @@
         "synthesis-rag"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -936,6 +1060,8 @@
         "tool-calling"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -951,6 +1077,8 @@
         "what-makes-an-agent"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -966,6 +1094,8 @@
         "react-by-hand"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -981,6 +1111,8 @@
         "designing-tools"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -994,6 +1126,8 @@
       "summary": "the graph mental model.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1009,6 +1143,8 @@
         "langgraph-state"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1024,6 +1160,8 @@
         "langgraph-checkpointers"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1039,6 +1177,8 @@
         "hitl-interrupts"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1054,6 +1194,8 @@
         "plan-and-execute"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1069,6 +1211,8 @@
         "reflection-patterns"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1084,6 +1228,8 @@
         "subgraphs"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1099,6 +1245,8 @@
         "study-supervisor"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1114,6 +1262,8 @@
         "study-specialists"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1127,6 +1277,8 @@
       "summary": "web-search tool + multi-step plans + cited synthesis.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1142,6 +1294,8 @@
         "build-research-agent"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1157,6 +1311,8 @@
         "add-the-gate"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1172,6 +1328,8 @@
         "agent-failure-modes"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1187,6 +1345,8 @@
         "cost-latency-budgets"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1202,6 +1362,8 @@
         "build-node-proposer"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1217,6 +1379,8 @@
         "synthesis-agents"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1232,6 +1396,8 @@
         "capstone-agents"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1247,6 +1413,8 @@
         "when-many-beats-one"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1262,6 +1430,8 @@
         "orchestrator-worker"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1277,6 +1447,8 @@
         "handoffs-routing"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1292,6 +1464,8 @@
         "shared-state-patterns"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1307,6 +1481,8 @@
         "parallel-agents"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1322,6 +1498,8 @@
         "debate-consensus"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1337,6 +1515,8 @@
         "study-gateway"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1353,6 +1533,8 @@
         "designing-tools"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1368,6 +1550,8 @@
         "build-mcp-server"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1383,6 +1567,8 @@
         "mcp-clients"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1398,6 +1584,8 @@
         "mcp-resources-prompts"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1413,6 +1601,8 @@
         "mcp-security"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1426,6 +1616,8 @@
       "summary": "two agents improving a draft in a loop; add a supervisor; measure gain.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1442,6 +1634,8 @@
         "build-chat-with-my-brain"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1457,6 +1651,8 @@
         "build-brain-mcp-server"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1472,6 +1668,8 @@
         "experiment-one-vs-many"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1487,6 +1685,8 @@
         "synthesis-multi-agent"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1502,6 +1702,8 @@
         "capstone-multi-agent"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1517,6 +1719,8 @@
         "memory-taxonomy"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1532,6 +1736,8 @@
         "memory-architectures"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1547,6 +1753,8 @@
         "memory-extraction"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1562,6 +1770,8 @@
         "retrieval-and-decay"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1577,6 +1787,8 @@
         "memory-frameworks"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1592,6 +1804,8 @@
         "compaction-summarization"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1607,6 +1821,8 @@
         "personalization-via-memory"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1620,6 +1836,8 @@
       "summary": "entities, relations, triples.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1635,6 +1853,8 @@
         "knowledge-graphs-101"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1651,6 +1871,8 @@
         "hybrid-search-rrf"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1666,6 +1888,8 @@
         "graphrag-deep"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1681,6 +1905,8 @@
         "temporal-knowledge"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1696,6 +1922,8 @@
         "memory-taxonomy"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1711,6 +1939,8 @@
         "build-memory-layer"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1726,6 +1956,8 @@
         "build-link-suggester-v2"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1741,6 +1973,8 @@
         "build-learning-recall-agent"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1756,6 +1990,8 @@
         "synthesis-memory"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1771,6 +2007,8 @@
         "capstone-memory"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1786,6 +2024,8 @@
         "why-evals-rule"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1801,6 +2041,8 @@
         "build-golden-dataset"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1816,6 +2058,8 @@
         "llm-as-judge"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1831,6 +2075,8 @@
         "judge-bias-pinning"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1846,6 +2092,8 @@
         "trajectory-evals"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1861,6 +2109,8 @@
         "tool-use-metrics"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1876,6 +2126,8 @@
         "eval-frameworks-hands-on"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1891,6 +2143,8 @@
         "prompt-regression-tests"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1904,6 +2158,8 @@
       "summary": "study observability.py; the tracing model.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1919,6 +2175,8 @@
         "tracing-spans"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1934,6 +2192,8 @@
         "reading-traces"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1949,6 +2209,8 @@
         "online-evals"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1964,6 +2226,8 @@
         "ab-testing-prompts"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1977,6 +2241,8 @@
       "summary": "trajectory + judge + regression around the node-proposer, one command.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -1992,6 +2258,8 @@
         "build-eval-harness"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2007,6 +2275,8 @@
         "failure-to-golden-loop"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2022,6 +2292,8 @@
         "error-analysis-practice"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2037,6 +2309,8 @@
         "synthesis-evals"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2052,6 +2326,8 @@
         "capstone-evals"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2068,6 +2344,8 @@
         "injection-first-look"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2083,6 +2361,8 @@
         "direct-injection"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2098,6 +2378,8 @@
         "indirect-injection"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2113,6 +2395,8 @@
         "jailbreaks-redteaming"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2126,6 +2410,8 @@
       "summary": "quarantining untrusted content.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2141,6 +2427,8 @@
         "spotlighting-delimiters"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2156,6 +2444,8 @@
         "lethal-trifecta"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2172,6 +2462,8 @@
         "hitl-interrupts"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2187,6 +2479,8 @@
         "the-approval-gate"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2202,6 +2496,8 @@
         "idempotency-audit-logs"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2217,6 +2513,8 @@
         "guardrails-in-out"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2232,6 +2530,8 @@
         "pii-redaction"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2247,6 +2547,8 @@
         "refusals-content-safety"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2262,6 +2564,8 @@
         "build-golden-dataset"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2277,6 +2581,8 @@
         "build-redteam-my-agent"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2292,6 +2598,8 @@
         "fix-what-broke"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2307,6 +2615,8 @@
         "build-injection-suite"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2322,6 +2632,8 @@
         "responsible-shipping"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2337,6 +2649,8 @@
         "synthesis-safety"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2352,6 +2666,8 @@
         "capstone-safety"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2367,6 +2683,8 @@
         "fastapi-fundamentals"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2382,6 +2700,8 @@
         "sse-streaming"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2397,6 +2717,8 @@
         "schedulers-cron"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2412,6 +2734,8 @@
         "postgres-migrations"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2427,6 +2751,8 @@
         "docker-for-ai"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2442,6 +2768,8 @@
         "deploying-backends"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2455,6 +2783,8 @@
       "summary": "auth, RLS, realtime — the whole platform.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2470,6 +2800,8 @@
         "supabase-deep-dive"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2485,6 +2817,8 @@
         "realtime-subscriptions"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2500,6 +2834,8 @@
         "study-command-center"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2515,6 +2851,8 @@
         "caching-layers"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2530,6 +2868,8 @@
         "queues-pollers"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2546,6 +2886,8 @@
         "tracing-spans"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2559,6 +2901,8 @@
       "summary": "deploy Machine 1 + Machine 2 with my own hands — env, DB, migrations, OAuth, scheduler, gate, dashboard, every subsystem verified. → M1",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2575,6 +2919,8 @@
         "build-node-proposer"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2590,6 +2936,8 @@
         "the-bridge"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2605,6 +2953,8 @@
         "hardening-pass"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2620,6 +2970,8 @@
         "synthesis-production"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2635,6 +2987,8 @@
         "capstone-production"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2650,6 +3004,8 @@
         "local-models"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2665,6 +3021,8 @@
         "fine-tuning-when-why"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2680,6 +3038,8 @@
         "small-distilled-models"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2695,6 +3055,8 @@
         "voice-agents"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2710,6 +3072,8 @@
         "computer-use-agents"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2725,6 +3089,8 @@
         "coding-agents"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2740,6 +3106,8 @@
         "agentic-rag-frontiers"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2755,6 +3123,8 @@
         "reasoning-test-time-compute"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2770,6 +3140,8 @@
         "protocol-futures"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2785,6 +3157,8 @@
         "reading-papers-forever"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2800,6 +3174,8 @@
         "frontier-slot-1"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2815,6 +3191,8 @@
         "frontier-slot-2"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2828,6 +3206,8 @@
       "summary": "spec the unified agent+brain, written by ME. → M5",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2843,6 +3223,8 @@
         "define-vizier-v2"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2858,6 +3240,8 @@
         "build-vizier-v2-core"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2873,6 +3257,8 @@
         "vizier-v2-memory-retrieval"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2888,6 +3274,8 @@
         "vizier-v2-gate-safety"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2903,6 +3291,8 @@
         "vizier-v2-evals-traces"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2916,6 +3306,8 @@
       "summary": "long-form essay — the whole arc.",
       "requires": [],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2931,6 +3323,8 @@
         "the-full-story"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2946,6 +3340,8 @@
         "the-demo-film"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2961,6 +3357,8 @@
         "portfolio-integration"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     },
@@ -2976,6 +3374,8 @@
         "retrospective"
       ],
       "locked": false,
+      "started": null,
+      "completed": null,
       "status": "ghost",
       "backlinks": []
     }

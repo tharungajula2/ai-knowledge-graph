@@ -110,7 +110,9 @@
       "status": "ghost",
       "summary": "AI vs ML vs DL vs GenAI vs Agentic — the family tree.",
       "backlinks": [],
-      "slug": "map-of-ai"
+      "slug": "map-of-ai",
+      "started": null,
+      "completed": null
     },
     {
       "id": "how-machines-learn",
@@ -123,7 +125,9 @@
       "status": "ghost",
       "summary": "weights, loss, gradient descent — pure intuition.",
       "backlinks": [],
-      "slug": "how-machines-learn"
+      "slug": "how-machines-learn",
+      "started": null,
+      "completed": null
     },
     {
       "id": "what-is-a-language-model",
@@ -136,7 +140,9 @@
       "status": "ghost",
       "summary": "next-token prediction, and why that's enough for magic.",
       "backlinks": [],
-      "slug": "what-is-a-language-model"
+      "slug": "what-is-a-language-model",
+      "started": null,
+      "completed": null
     },
     {
       "id": "tokens",
@@ -149,7 +155,9 @@
       "status": "ghost",
       "summary": "play with a real tokenizer; why \"strawberry\" confuses models.",
       "backlinks": [],
-      "slug": "tokens"
+      "slug": "tokens",
+      "started": null,
+      "completed": null
     },
     {
       "id": "embeddings-intuition",
@@ -162,7 +170,9 @@
       "status": "ghost",
       "summary": "meaning as coordinates; nearest-neighbor thinking.",
       "backlinks": [],
-      "slug": "embeddings-intuition"
+      "slug": "embeddings-intuition",
+      "started": null,
+      "completed": null
     },
     {
       "id": "attention-transformers",
@@ -175,7 +185,9 @@
       "status": "ghost",
       "summary": "the \"every word looks at every word\" idea.",
       "backlinks": [],
-      "slug": "attention-transformers"
+      "slug": "attention-transformers",
+      "started": null,
+      "completed": null
     },
     {
       "id": "training-pipeline",
@@ -188,7 +200,9 @@
       "status": "ghost",
       "summary": "the three-stage recipe behind every chatbot.",
       "backlinks": [],
-      "slug": "training-pipeline"
+      "slug": "training-pipeline",
+      "started": null,
+      "completed": null
     },
     {
       "id": "context-windows",
@@ -201,7 +215,9 @@
       "status": "ghost",
       "summary": "the model's short-term memory and what fits.",
       "backlinks": [],
-      "slug": "context-windows"
+      "slug": "context-windows",
+      "started": null,
+      "completed": null
     },
     {
       "id": "sampling-controls",
@@ -214,7 +230,9 @@
       "status": "ghost",
       "summary": "why the same prompt gives different answers.",
       "backlinks": [],
-      "slug": "sampling-controls"
+      "slug": "sampling-controls",
+      "started": null,
+      "completed": null
     },
     {
       "id": "hallucination",
@@ -227,7 +245,9 @@
       "status": "ghost",
       "summary": "why models confidently make things up; grounding preview.",
       "backlinks": [],
-      "slug": "hallucination"
+      "slug": "hallucination",
+      "started": null,
+      "completed": null
     },
     {
       "id": "model-landscape",
@@ -240,7 +260,9 @@
       "status": "ghost",
       "summary": "open vs closed, frontier vs small — as of the day I light this node.",
       "backlinks": [],
-      "slug": "model-landscape"
+      "slug": "model-landscape",
+      "started": null,
+      "completed": null
     },
     {
       "id": "python-environments",
@@ -253,7 +275,9 @@
       "status": "ghost",
       "summary": "venv, pip, running scripts like a pro.",
       "backlinks": [],
-      "slug": "python-environments"
+      "slug": "python-environments",
+      "started": null,
+      "completed": null
     },
     {
       "id": "python-data-shapes",
@@ -266,7 +290,9 @@
       "status": "ghost",
       "summary": "functions, dicts, JSON — the shapes of AI data.",
       "backlinks": [],
-      "slug": "python-data-shapes"
+      "slug": "python-data-shapes",
+      "started": null,
+      "completed": null
     },
     {
       "id": "python-classes-modules",
@@ -279,7 +305,9 @@
       "status": "ghost",
       "summary": "reading real codebases.",
       "backlinks": [],
-      "slug": "python-classes-modules"
+      "slug": "python-classes-modules",
+      "started": null,
+      "completed": null
     },
     {
       "id": "python-async",
@@ -292,7 +320,9 @@
       "status": "ghost",
       "summary": "why AI apps need it; hands-on.",
       "backlinks": [],
-      "slug": "python-async"
+      "slug": "python-async",
+      "started": null,
+      "completed": null
     },
     {
       "id": "python-typing-pydantic",
@@ -305,7 +335,9 @@
       "status": "ghost",
       "summary": "the schema mindset.",
       "backlinks": [],
-      "slug": "python-typing-pydantic"
+      "slug": "python-typing-pydantic",
+      "started": null,
+      "completed": null
     },
     {
       "id": "git-mastery",
@@ -318,7 +350,9 @@
       "status": "ghost",
       "summary": "branches, commits, history — understand my own daily ritual.",
       "backlinks": [],
-      "slug": "git-mastery"
+      "slug": "git-mastery",
+      "started": null,
+      "completed": null
     },
     {
       "id": "terminal-fluency",
@@ -331,7 +365,9 @@
       "status": "ghost",
       "summary": "navigate, pipe, grep — no more fear.",
       "backlinks": [],
-      "slug": "terminal-fluency"
+      "slug": "terminal-fluency",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-token-cost-calculator",
@@ -344,7 +380,9 @@
       "status": "ghost",
       "summary": "count tokens, estimate API cost, write the explainer.",
       "backlinks": [],
-      "slug": "build-token-cost-calculator"
+      "slug": "build-token-cost-calculator",
+      "started": null,
+      "completed": null
     },
     {
       "id": "synthesis-foundations",
@@ -357,7 +395,9 @@
       "status": "ghost",
       "summary": "explain \"how an LLM works\" to a 12-year-old, end to end.",
       "backlinks": [],
-      "slug": "synthesis-foundations"
+      "slug": "synthesis-foundations",
+      "started": null,
+      "completed": null
     },
     {
       "id": "capstone-foundations",
@@ -370,7 +410,9 @@
       "status": "ghost",
       "summary": "mega-note + carousel \"How AI really works\" + replan checkpoint.",
       "backlinks": [],
-      "slug": "capstone-foundations"
+      "slug": "capstone-foundations",
+      "started": null,
+      "completed": null
     },
     {
       "id": "first-api-call",
@@ -383,7 +425,9 @@
       "status": "ghost",
       "summary": "call Gemini from Python; inspect the raw response.",
       "backlinks": [],
-      "slug": "first-api-call"
+      "slug": "first-api-call",
+      "started": null,
+      "completed": null
     },
     {
       "id": "roles-and-system-prompts",
@@ -396,7 +440,9 @@
       "status": "ghost",
       "summary": "who's talking; why system prompts steer everything.",
       "backlinks": [],
-      "slug": "roles-and-system-prompts"
+      "slug": "roles-and-system-prompts",
+      "started": null,
+      "completed": null
     },
     {
       "id": "prompt-skeleton",
@@ -409,7 +455,9 @@
       "status": "ghost",
       "summary": "role + context + task + format — the reusable pattern.",
       "backlinks": [],
-      "slug": "prompt-skeleton"
+      "slug": "prompt-skeleton",
+      "started": null,
+      "completed": null
     },
     {
       "id": "few-shot-prompting",
@@ -422,7 +470,9 @@
       "status": "ghost",
       "summary": "when 3 examples beat 300 words.",
       "backlinks": [],
-      "slug": "few-shot-prompting"
+      "slug": "few-shot-prompting",
+      "started": null,
+      "completed": null
     },
     {
       "id": "reasoning-prompts",
@@ -435,7 +485,9 @@
       "status": "ghost",
       "summary": "chain-of-thought, step-by-step, and their limits.",
       "backlinks": [],
-      "slug": "reasoning-prompts"
+      "slug": "reasoning-prompts",
+      "started": null,
+      "completed": null
     },
     {
       "id": "structured-output",
@@ -448,7 +500,9 @@
       "status": "ghost",
       "summary": "force clean JSON out of a model; parse safely.",
       "backlinks": [],
-      "slug": "structured-output"
+      "slug": "structured-output",
+      "started": null,
+      "completed": null
     },
     {
       "id": "tool-calling",
@@ -461,7 +515,9 @@
       "status": "ghost",
       "summary": "the single most important mechanic in agentic AI.",
       "backlinks": [],
-      "slug": "tool-calling"
+      "slug": "tool-calling",
+      "started": null,
+      "completed": null
     },
     {
       "id": "streaming-responses",
@@ -474,7 +530,9 @@
       "status": "ghost",
       "summary": "tokens flowing into the terminal, live.",
       "backlinks": [],
-      "slug": "streaming-responses"
+      "slug": "streaming-responses",
+      "started": null,
+      "completed": null
     },
     {
       "id": "errors-retries-backoff",
@@ -487,7 +545,9 @@
       "status": "ghost",
       "summary": "API calls that survive failure.",
       "backlinks": [],
-      "slug": "errors-retries-backoff"
+      "slug": "errors-retries-backoff",
+      "started": null,
+      "completed": null
     },
     {
       "id": "rate-limits-caching",
@@ -500,7 +560,9 @@
       "status": "ghost",
       "summary": "why free tiers throttle; how caching saves you.",
       "backlinks": [],
-      "slug": "rate-limits-caching"
+      "slug": "rate-limits-caching",
+      "started": null,
+      "completed": null
     },
     {
       "id": "study-gateway",
@@ -513,7 +575,9 @@
       "status": "ghost",
       "summary": "my own multi-provider fallback gateway, finally readable.",
       "backlinks": [],
-      "slug": "study-gateway"
+      "slug": "study-gateway",
+      "started": null,
+      "completed": null
     },
     {
       "id": "injection-first-look",
@@ -526,7 +590,9 @@
       "status": "ghost",
       "summary": "the attack that shapes everything later.",
       "backlinks": [],
-      "slug": "injection-first-look"
+      "slug": "injection-first-look",
+      "started": null,
+      "completed": null
     },
     {
       "id": "multimodal-input",
@@ -539,7 +605,9 @@
       "status": "ghost",
       "summary": "send an image; extract structured info.",
       "backlinks": [],
-      "slug": "multimodal-input"
+      "slug": "multimodal-input",
+      "started": null,
+      "completed": null
     },
     {
       "id": "voice-audio-apis",
@@ -552,7 +620,9 @@
       "status": "ghost",
       "summary": "speech-to-text and text-to-speech landscape.",
       "backlinks": [],
-      "slug": "voice-audio-apis"
+      "slug": "voice-audio-apis",
+      "started": null,
+      "completed": null
     },
     {
       "id": "long-context-strategies",
@@ -565,7 +635,9 @@
       "status": "ghost",
       "summary": "stuffing vs retrieval vs summarizing.",
       "backlinks": [],
-      "slug": "long-context-strategies"
+      "slug": "long-context-strategies",
+      "started": null,
+      "completed": null
     },
     {
       "id": "prompt-quality",
@@ -578,7 +650,9 @@
       "status": "ghost",
       "summary": "informal evaluation; A/B thinking begins.",
       "backlinks": [],
-      "slug": "prompt-quality"
+      "slug": "prompt-quality",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-cli-chatbot",
@@ -591,7 +665,9 @@
       "status": "ghost",
       "summary": "terminal chatbot with in-session memory, streaming, a persona.",
       "backlinks": [],
-      "slug": "build-cli-chatbot"
+      "slug": "build-cli-chatbot",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-feynman-bot",
@@ -604,7 +680,9 @@
       "status": "ghost",
       "summary": "explains any AI term with an Indian-life analogy — ship it public. → M3",
       "backlinks": [],
-      "slug": "build-feynman-bot"
+      "slug": "build-feynman-bot",
+      "started": null,
+      "completed": null
     },
     {
       "id": "synthesis-apis",
@@ -617,7 +695,9 @@
       "status": "ghost",
       "summary": "the whole call path, explained start to finish.",
       "backlinks": [],
-      "slug": "synthesis-apis"
+      "slug": "synthesis-apis",
+      "started": null,
+      "completed": null
     },
     {
       "id": "capstone-apis",
@@ -630,7 +710,9 @@
       "status": "ghost",
       "summary": "\"I taught a computer to take orders\" + replan checkpoint.",
       "backlinks": [],
-      "slug": "capstone-apis"
+      "slug": "capstone-apis",
+      "started": null,
+      "completed": null
     },
     {
       "id": "why-rag",
@@ -643,7 +725,9 @@
       "status": "ghost",
       "summary": "closed-book vs open-book exams; the grounding solution.",
       "backlinks": [],
-      "slug": "why-rag"
+      "slug": "why-rag",
+      "started": null,
+      "completed": null
     },
     {
       "id": "embeddings-hands-on",
@@ -656,7 +740,9 @@
       "status": "ghost",
       "summary": "embed sentences; cosine similarity by hand.",
       "backlinks": [],
-      "slug": "embeddings-hands-on"
+      "slug": "embeddings-hands-on",
+      "started": null,
+      "completed": null
     },
     {
       "id": "chunking",
@@ -669,7 +755,9 @@
       "status": "ghost",
       "summary": "slicing documents; why overlap matters.",
       "backlinks": [],
-      "slug": "chunking"
+      "slug": "chunking",
+      "started": null,
+      "completed": null
     },
     {
       "id": "vector-databases",
@@ -682,7 +770,9 @@
       "status": "ghost",
       "summary": "what pgvector/HNSW actually do.",
       "backlinks": [],
-      "slug": "vector-databases"
+      "slug": "vector-databases",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-first-rag",
@@ -695,7 +785,9 @@
       "status": "ghost",
       "summary": "ingest → embed → store → retrieve → answer.",
       "backlinks": [],
-      "slug": "build-first-rag"
+      "slug": "build-first-rag",
+      "started": null,
+      "completed": null
     },
     {
       "id": "keyword-fulltext-search",
@@ -708,7 +800,9 @@
       "status": "ghost",
       "summary": "BM25/tsvector — old magic that still wins.",
       "backlinks": [],
-      "slug": "keyword-fulltext-search"
+      "slug": "keyword-fulltext-search",
+      "started": null,
+      "completed": null
     },
     {
       "id": "hybrid-search-rrf",
@@ -721,7 +815,9 @@
       "status": "ghost",
       "summary": "my own retrieve.py — vectors + keywords merged.",
       "backlinks": [],
-      "slug": "hybrid-search-rrf"
+      "slug": "hybrid-search-rrf",
+      "started": null,
+      "completed": null
     },
     {
       "id": "reranking",
@@ -734,7 +830,9 @@
       "status": "ghost",
       "summary": "the second pass that fixes retrieval quality.",
       "backlinks": [],
-      "slug": "reranking"
+      "slug": "reranking",
+      "started": null,
+      "completed": null
     },
     {
       "id": "citations-grounding",
@@ -747,7 +845,9 @@
       "status": "ghost",
       "summary": "every answer points at its source.",
       "backlinks": [],
-      "slug": "citations-grounding"
+      "slug": "citations-grounding",
+      "started": null,
+      "completed": null
     },
     {
       "id": "rag-failure-modes",
@@ -760,7 +860,9 @@
       "status": "ghost",
       "summary": "lost-in-the-middle, bad chunks, stale indexes.",
       "backlinks": [],
-      "slug": "rag-failure-modes"
+      "slug": "rag-failure-modes",
+      "started": null,
+      "completed": null
     },
     {
       "id": "metadata-filters",
@@ -773,7 +875,9 @@
       "status": "ghost",
       "summary": "retrieval with structure — dates, tags, domains.",
       "backlinks": [],
-      "slug": "metadata-filters"
+      "slug": "metadata-filters",
+      "started": null,
+      "completed": null
     },
     {
       "id": "query-rewriting-hyde",
@@ -786,7 +890,9 @@
       "status": "ghost",
       "summary": "fixing bad questions before retrieval.",
       "backlinks": [],
-      "slug": "query-rewriting-hyde"
+      "slug": "query-rewriting-hyde",
+      "started": null,
+      "completed": null
     },
     {
       "id": "multi-hop-retrieval",
@@ -799,7 +905,9 @@
       "status": "ghost",
       "summary": "questions that need two lookups.",
       "backlinks": [],
-      "slug": "multi-hop-retrieval"
+      "slug": "multi-hop-retrieval",
+      "started": null,
+      "completed": null
     },
     {
       "id": "ingestion-pipelines",
@@ -812,7 +920,9 @@
       "status": "ghost",
       "summary": "PDFs and messy HTML → clean chunks.",
       "backlinks": [],
-      "slug": "ingestion-pipelines"
+      "slug": "ingestion-pipelines",
+      "started": null,
+      "completed": null
     },
     {
       "id": "rag-evals-intro",
@@ -825,7 +935,9 @@
       "status": "ghost",
       "summary": "faithfulness & context recall — measuring groundedness.",
       "backlinks": [],
-      "slug": "rag-evals-intro"
+      "slug": "rag-evals-intro",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-chat-with-my-brain",
@@ -838,7 +950,9 @@
       "status": "ghost",
       "summary": "RAG over my own notes, with citations + domain filters — meta and glorious.",
       "backlinks": [],
-      "slug": "build-chat-with-my-brain"
+      "slug": "build-chat-with-my-brain",
+      "started": null,
+      "completed": null
     },
     {
       "id": "evaluate-brain-chat",
@@ -851,7 +965,9 @@
       "status": "ghost",
       "summary": "mini golden set; score faithfulness.",
       "backlinks": [],
-      "slug": "evaluate-brain-chat"
+      "slug": "evaluate-brain-chat",
+      "started": null,
+      "completed": null
     },
     {
       "id": "graphrag-preview",
@@ -864,7 +980,9 @@
       "status": "ghost",
       "summary": "when knowledge is a graph, not a pile.",
       "backlinks": [],
-      "slug": "graphrag-preview"
+      "slug": "graphrag-preview",
+      "started": null,
+      "completed": null
     },
     {
       "id": "semantic-caching",
@@ -877,7 +995,9 @@
       "status": "ghost",
       "summary": "answering repeat questions for free.",
       "backlinks": [],
-      "slug": "semantic-caching"
+      "slug": "semantic-caching",
+      "started": null,
+      "completed": null
     },
     {
       "id": "synthesis-rag",
@@ -890,7 +1010,9 @@
       "status": "ghost",
       "summary": "the full pipeline, one diagram.",
       "backlinks": [],
-      "slug": "synthesis-rag"
+      "slug": "synthesis-rag",
+      "started": null,
+      "completed": null
     },
     {
       "id": "capstone-rag",
@@ -903,7 +1025,9 @@
       "status": "ghost",
       "summary": "\"I gave AI an open book\" + replan checkpoint.",
       "backlinks": [],
-      "slug": "capstone-rag"
+      "slug": "capstone-rag",
+      "started": null,
+      "completed": null
     },
     {
       "id": "what-makes-an-agent",
@@ -916,7 +1040,9 @@
       "status": "ghost",
       "summary": "reason, act, observe, repeat.",
       "backlinks": [],
-      "slug": "what-makes-an-agent"
+      "slug": "what-makes-an-agent",
+      "started": null,
+      "completed": null
     },
     {
       "id": "react-by-hand",
@@ -929,7 +1055,9 @@
       "status": "ghost",
       "summary": "run the loop manually on paper with a real task.",
       "backlinks": [],
-      "slug": "react-by-hand"
+      "slug": "react-by-hand",
+      "started": null,
+      "completed": null
     },
     {
       "id": "designing-tools",
@@ -942,7 +1070,9 @@
       "status": "ghost",
       "summary": "schemas, descriptions, why naming matters.",
       "backlinks": [],
-      "slug": "designing-tools"
+      "slug": "designing-tools",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-agent-from-scratch",
@@ -955,7 +1085,9 @@
       "status": "ghost",
       "summary": "pure-Python loop, no framework.",
       "backlinks": [],
-      "slug": "build-agent-from-scratch"
+      "slug": "build-agent-from-scratch",
+      "started": null,
+      "completed": null
     },
     {
       "id": "langgraph-state",
@@ -968,7 +1100,9 @@
       "status": "ghost",
       "summary": "the graph mental model.",
       "backlinks": [],
-      "slug": "langgraph-state"
+      "slug": "langgraph-state",
+      "started": null,
+      "completed": null
     },
     {
       "id": "langgraph-checkpointers",
@@ -981,7 +1115,9 @@
       "status": "ghost",
       "summary": "pause, resume, survive crashes.",
       "backlinks": [],
-      "slug": "langgraph-checkpointers"
+      "slug": "langgraph-checkpointers",
+      "started": null,
+      "completed": null
     },
     {
       "id": "hitl-interrupts",
@@ -994,7 +1130,9 @@
       "status": "ghost",
       "summary": "an agent that stops and asks permission.",
       "backlinks": [],
-      "slug": "hitl-interrupts"
+      "slug": "hitl-interrupts",
+      "started": null,
+      "completed": null
     },
     {
       "id": "plan-and-execute",
@@ -1007,7 +1145,9 @@
       "status": "ghost",
       "summary": "planners vs reactors.",
       "backlinks": [],
-      "slug": "plan-and-execute"
+      "slug": "plan-and-execute",
+      "started": null,
+      "completed": null
     },
     {
       "id": "reflection-patterns",
@@ -1020,7 +1160,9 @@
       "status": "ghost",
       "summary": "agents that critique themselves.",
       "backlinks": [],
-      "slug": "reflection-patterns"
+      "slug": "reflection-patterns",
+      "started": null,
+      "completed": null
     },
     {
       "id": "subgraphs",
@@ -1033,7 +1175,9 @@
       "status": "ghost",
       "summary": "agents made of agents.",
       "backlinks": [],
-      "slug": "subgraphs"
+      "slug": "subgraphs",
+      "started": null,
+      "completed": null
     },
     {
       "id": "study-supervisor",
@@ -1046,7 +1190,9 @@
       "status": "ghost",
       "summary": "my own supervisor router, understood.",
       "backlinks": [],
-      "slug": "study-supervisor"
+      "slug": "study-supervisor",
+      "started": null,
+      "completed": null
     },
     {
       "id": "study-specialists",
@@ -1059,7 +1205,9 @@
       "status": "ghost",
       "summary": "Scheduler, Scribe, Researcher, Analyst dissected.",
       "backlinks": [],
-      "slug": "study-specialists"
+      "slug": "study-specialists",
+      "started": null,
+      "completed": null
     },
     {
       "id": "scratchpads-working-memory",
@@ -1072,7 +1220,9 @@
       "status": "ghost",
       "summary": "what the agent remembers mid-task.",
       "backlinks": [],
-      "slug": "scratchpads-working-memory"
+      "slug": "scratchpads-working-memory",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-research-agent",
@@ -1085,7 +1235,9 @@
       "status": "ghost",
       "summary": "web-search tool + multi-step plans + cited synthesis.",
       "backlinks": [],
-      "slug": "build-research-agent"
+      "slug": "build-research-agent",
+      "started": null,
+      "completed": null
     },
     {
       "id": "add-the-gate",
@@ -1098,7 +1250,9 @@
       "status": "ghost",
       "summary": "HITL approval before it saves anything.",
       "backlinks": [],
-      "slug": "add-the-gate"
+      "slug": "add-the-gate",
+      "started": null,
+      "completed": null
     },
     {
       "id": "agent-failure-modes",
@@ -1111,7 +1265,9 @@
       "status": "ghost",
       "summary": "infinite loops, tool spam, derailment — and guards.",
       "backlinks": [],
-      "slug": "agent-failure-modes"
+      "slug": "agent-failure-modes",
+      "started": null,
+      "completed": null
     },
     {
       "id": "cost-latency-budgets",
@@ -1124,7 +1280,9 @@
       "status": "ghost",
       "summary": "agents burn tokens; engineer the bill.",
       "backlinks": [],
-      "slug": "cost-latency-budgets"
+      "slug": "cost-latency-budgets",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-node-proposer",
@@ -1137,7 +1295,9 @@
       "status": "ghost",
       "summary": "an agent that proposes brain nodes for my approval — the seed of The Bridge.",
       "backlinks": [],
-      "slug": "build-node-proposer"
+      "slug": "build-node-proposer",
+      "started": null,
+      "completed": null
     },
     {
       "id": "synthesis-agents",
@@ -1150,7 +1310,9 @@
       "status": "ghost",
       "summary": "explained forever.",
       "backlinks": [],
-      "slug": "synthesis-agents"
+      "slug": "synthesis-agents",
+      "started": null,
+      "completed": null
     },
     {
       "id": "capstone-agents",
@@ -1163,7 +1325,9 @@
       "status": "ghost",
       "summary": "milestone mega-post + replan checkpoint.",
       "backlinks": [],
-      "slug": "capstone-agents"
+      "slug": "capstone-agents",
+      "started": null,
+      "completed": null
     },
     {
       "id": "when-many-beats-one",
@@ -1176,7 +1340,9 @@
       "status": "ghost",
       "summary": "honest criteria for multi-agent (and when it's hype).",
       "backlinks": [],
-      "slug": "when-many-beats-one"
+      "slug": "when-many-beats-one",
+      "started": null,
+      "completed": null
     },
     {
       "id": "orchestrator-worker",
@@ -1189,7 +1355,9 @@
       "status": "ghost",
       "summary": "the supervisor pattern, formalized.",
       "backlinks": [],
-      "slug": "orchestrator-worker"
+      "slug": "orchestrator-worker",
+      "started": null,
+      "completed": null
     },
     {
       "id": "handoffs-routing",
@@ -1202,7 +1370,9 @@
       "status": "ghost",
       "summary": "tasks moving between agents cleanly.",
       "backlinks": [],
-      "slug": "handoffs-routing"
+      "slug": "handoffs-routing",
+      "started": null,
+      "completed": null
     },
     {
       "id": "shared-state-patterns",
@@ -1215,7 +1385,9 @@
       "status": "ghost",
       "summary": "scratchpads, blackboards, message passing.",
       "backlinks": [],
-      "slug": "shared-state-patterns"
+      "slug": "shared-state-patterns",
+      "started": null,
+      "completed": null
     },
     {
       "id": "parallel-agents",
@@ -1228,7 +1400,9 @@
       "status": "ghost",
       "summary": "fan-out/fan-in; what's safe to parallelize.",
       "backlinks": [],
-      "slug": "parallel-agents"
+      "slug": "parallel-agents",
+      "started": null,
+      "completed": null
     },
     {
       "id": "debate-consensus",
@@ -1241,7 +1415,9 @@
       "status": "ghost",
       "summary": "agents arguing their way to better answers.",
       "backlinks": [],
-      "slug": "debate-consensus"
+      "slug": "debate-consensus",
+      "started": null,
+      "completed": null
     },
     {
       "id": "token-economics-of-teams",
@@ -1254,7 +1430,9 @@
       "status": "ghost",
       "summary": "multi-agent cost math, honestly.",
       "backlinks": [],
-      "slug": "token-economics-of-teams"
+      "slug": "token-economics-of-teams",
+      "started": null,
+      "completed": null
     },
     {
       "id": "mcp-fundamentals",
@@ -1267,7 +1445,9 @@
       "status": "ghost",
       "summary": "why one protocol won tool connectivity.",
       "backlinks": [],
-      "slug": "mcp-fundamentals"
+      "slug": "mcp-fundamentals",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-mcp-server",
@@ -1280,7 +1460,9 @@
       "status": "ghost",
       "summary": "study vizier_utils_server.py, then extend it.",
       "backlinks": [],
-      "slug": "build-mcp-server"
+      "slug": "build-mcp-server",
+      "started": null,
+      "completed": null
     },
     {
       "id": "mcp-clients",
@@ -1293,7 +1475,9 @@
       "status": "ghost",
       "summary": "connect my server to a client and call it.",
       "backlinks": [],
-      "slug": "mcp-clients"
+      "slug": "mcp-clients",
+      "started": null,
+      "completed": null
     },
     {
       "id": "mcp-resources-prompts",
@@ -1306,7 +1490,9 @@
       "status": "ghost",
       "summary": "beyond tools — the full spec.",
       "backlinks": [],
-      "slug": "mcp-resources-prompts"
+      "slug": "mcp-resources-prompts",
+      "started": null,
+      "completed": null
     },
     {
       "id": "mcp-security",
@@ -1319,7 +1505,9 @@
       "status": "ghost",
       "summary": "tool poisoning, confused deputies — the new attack surface.",
       "backlinks": [],
-      "slug": "mcp-security"
+      "slug": "mcp-security",
+      "started": null,
+      "completed": null
     },
     {
       "id": "protocol-landscape",
@@ -1332,7 +1520,9 @@
       "status": "ghost",
       "summary": "A2A and whatever is current when I light this node.",
       "backlinks": [],
-      "slug": "protocol-landscape"
+      "slug": "protocol-landscape",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-writer-critic",
@@ -1345,7 +1535,9 @@
       "status": "ghost",
       "summary": "two agents improving a draft in a loop; add a supervisor; measure gain.",
       "backlinks": [],
-      "slug": "build-writer-critic"
+      "slug": "build-writer-critic",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-brain-mcp-server",
@@ -1358,7 +1550,9 @@
       "status": "ghost",
       "summary": "expose my brain graph as MCP tools — any AI client can query my learning.",
       "backlinks": [],
-      "slug": "build-brain-mcp-server"
+      "slug": "build-brain-mcp-server",
+      "started": null,
+      "completed": null
     },
     {
       "id": "experiment-one-vs-many",
@@ -1371,7 +1565,9 @@
       "status": "ghost",
       "summary": "same task, single vs multi; publish the honest finding.",
       "backlinks": [],
-      "slug": "experiment-one-vs-many"
+      "slug": "experiment-one-vs-many",
+      "started": null,
+      "completed": null
     },
     {
       "id": "synthesis-multi-agent",
@@ -1384,7 +1580,9 @@
       "status": "ghost",
       "summary": "",
       "backlinks": [],
-      "slug": "synthesis-multi-agent"
+      "slug": "synthesis-multi-agent",
+      "started": null,
+      "completed": null
     },
     {
       "id": "capstone-multi-agent",
@@ -1397,7 +1595,9 @@
       "status": "ghost",
       "summary": "+ replan checkpoint.",
       "backlinks": [],
-      "slug": "capstone-multi-agent"
+      "slug": "capstone-multi-agent",
+      "started": null,
+      "completed": null
     },
     {
       "id": "memory-taxonomy",
@@ -1410,7 +1610,9 @@
       "status": "ghost",
       "summary": "semantic/episodic/procedural — study my own memories table.",
       "backlinks": [],
-      "slug": "memory-taxonomy"
+      "slug": "memory-taxonomy",
+      "started": null,
+      "completed": null
     },
     {
       "id": "memory-architectures",
@@ -1423,7 +1625,9 @@
       "status": "ghost",
       "summary": "context vs store; the memory stack.",
       "backlinks": [],
-      "slug": "memory-architectures"
+      "slug": "memory-architectures",
+      "started": null,
+      "completed": null
     },
     {
       "id": "memory-extraction",
@@ -1436,7 +1640,9 @@
       "status": "ghost",
       "summary": "conversations → durable facts.",
       "backlinks": [],
-      "slug": "memory-extraction"
+      "slug": "memory-extraction",
+      "started": null,
+      "completed": null
     },
     {
       "id": "retrieval-and-decay",
@@ -1449,7 +1655,9 @@
       "status": "ghost",
       "summary": "importance, recency, forgetting on purpose.",
       "backlinks": [],
-      "slug": "retrieval-and-decay"
+      "slug": "retrieval-and-decay",
+      "started": null,
+      "completed": null
     },
     {
       "id": "memory-frameworks",
@@ -1462,7 +1670,9 @@
       "status": "ghost",
       "summary": "the current landscape when I light this node.",
       "backlinks": [],
-      "slug": "memory-frameworks"
+      "slug": "memory-frameworks",
+      "started": null,
+      "completed": null
     },
     {
       "id": "compaction-summarization",
@@ -1475,7 +1685,9 @@
       "status": "ghost",
       "summary": "keeping memory small and sharp.",
       "backlinks": [],
-      "slug": "compaction-summarization"
+      "slug": "compaction-summarization",
+      "started": null,
+      "completed": null
     },
     {
       "id": "personalization-via-memory",
@@ -1488,7 +1700,9 @@
       "status": "ghost",
       "summary": "assistants that actually know you.",
       "backlinks": [],
-      "slug": "personalization-via-memory"
+      "slug": "personalization-via-memory",
+      "started": null,
+      "completed": null
     },
     {
       "id": "privacy-in-memory",
@@ -1501,7 +1715,9 @@
       "status": "ghost",
       "summary": "what should never be remembered.",
       "backlinks": [],
-      "slug": "privacy-in-memory"
+      "slug": "privacy-in-memory",
+      "started": null,
+      "completed": null
     },
     {
       "id": "knowledge-graphs-101",
@@ -1514,7 +1730,9 @@
       "status": "ghost",
       "summary": "entities, relations, triples.",
       "backlinks": [],
-      "slug": "knowledge-graphs-101"
+      "slug": "knowledge-graphs-101",
+      "started": null,
+      "completed": null
     },
     {
       "id": "entity-extraction",
@@ -1527,7 +1745,9 @@
       "status": "ghost",
       "summary": "LLM pulls entities/relations from my notes.",
       "backlinks": [],
-      "slug": "entity-extraction"
+      "slug": "entity-extraction",
+      "started": null,
+      "completed": null
     },
     {
       "id": "graphrag-deep",
@@ -1540,7 +1760,9 @@
       "status": "ghost",
       "summary": "community summaries, graph-aware retrieval.",
       "backlinks": [],
-      "slug": "graphrag-deep"
+      "slug": "graphrag-deep",
+      "started": null,
+      "completed": null
     },
     {
       "id": "temporal-knowledge",
@@ -1553,7 +1775,9 @@
       "status": "ghost",
       "summary": "facts that change over time.",
       "backlinks": [],
-      "slug": "temporal-knowledge"
+      "slug": "temporal-knowledge",
+      "started": null,
+      "completed": null
     },
     {
       "id": "brain-as-knowledge-graph",
@@ -1566,7 +1790,9 @@
       "status": "ghost",
       "summary": "map my graph to a real KG schema.",
       "backlinks": [],
-      "slug": "brain-as-knowledge-graph"
+      "slug": "brain-as-knowledge-graph",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-memory-layer",
@@ -1579,7 +1805,9 @@
       "status": "ghost",
       "summary": "long-term memory bolted onto my research agent — extraction, retrieval, importance.",
       "backlinks": [],
-      "slug": "build-memory-layer"
+      "slug": "build-memory-layer",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-link-suggester-v2",
@@ -1592,7 +1820,9 @@
       "status": "ghost",
       "summary": "entity-aware edge proposals for the brain, still human-approved.",
       "backlinks": [],
-      "slug": "build-link-suggester-v2"
+      "slug": "build-link-suggester-v2",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-learning-recall-agent",
@@ -1605,7 +1835,9 @@
       "status": "ghost",
       "summary": "ask my brain about any period; grounded, node-cited answers.",
       "backlinks": [],
-      "slug": "build-learning-recall-agent"
+      "slug": "build-learning-recall-agent",
+      "started": null,
+      "completed": null
     },
     {
       "id": "synthesis-memory",
@@ -1618,7 +1850,9 @@
       "status": "ghost",
       "summary": "",
       "backlinks": [],
-      "slug": "synthesis-memory"
+      "slug": "synthesis-memory",
+      "started": null,
+      "completed": null
     },
     {
       "id": "capstone-memory",
@@ -1631,7 +1865,9 @@
       "status": "ghost",
       "summary": "\"I built an AI that remembers\" + replan checkpoint.",
       "backlinks": [],
-      "slug": "capstone-memory"
+      "slug": "capstone-memory",
+      "started": null,
+      "completed": null
     },
     {
       "id": "why-evals-rule",
@@ -1644,7 +1880,9 @@
       "status": "ghost",
       "summary": "you can't improve what you can't measure.",
       "backlinks": [],
-      "slug": "why-evals-rule"
+      "slug": "why-evals-rule",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-golden-dataset",
@@ -1657,7 +1895,9 @@
       "status": "ghost",
       "summary": "20 golden cases for my research agent.",
       "backlinks": [],
-      "slug": "build-golden-dataset"
+      "slug": "build-golden-dataset",
+      "started": null,
+      "completed": null
     },
     {
       "id": "llm-as-judge",
@@ -1670,7 +1910,9 @@
       "status": "ghost",
       "summary": "study my own evals.py; judging with rubrics.",
       "backlinks": [],
-      "slug": "llm-as-judge"
+      "slug": "llm-as-judge",
+      "started": null,
+      "completed": null
     },
     {
       "id": "judge-bias-pinning",
@@ -1683,7 +1925,9 @@
       "status": "ghost",
       "summary": "when the judge is wrong; version-pin the judge.",
       "backlinks": [],
-      "slug": "judge-bias-pinning"
+      "slug": "judge-bias-pinning",
+      "started": null,
+      "completed": null
     },
     {
       "id": "trajectory-evals",
@@ -1696,7 +1940,9 @@
       "status": "ghost",
       "summary": "scoring the path, not just the answer.",
       "backlinks": [],
-      "slug": "trajectory-evals"
+      "slug": "trajectory-evals",
+      "started": null,
+      "completed": null
     },
     {
       "id": "tool-use-metrics",
@@ -1709,7 +1955,9 @@
       "status": "ghost",
       "summary": "right tool, right args, right time.",
       "backlinks": [],
-      "slug": "tool-use-metrics"
+      "slug": "tool-use-metrics",
+      "started": null,
+      "completed": null
     },
     {
       "id": "eval-frameworks-hands-on",
@@ -1722,7 +1970,9 @@
       "status": "ghost",
       "summary": "run current frameworks on my brain-chat.",
       "backlinks": [],
-      "slug": "eval-frameworks-hands-on"
+      "slug": "eval-frameworks-hands-on",
+      "started": null,
+      "completed": null
     },
     {
       "id": "prompt-regression-tests",
@@ -1735,7 +1985,9 @@
       "status": "ghost",
       "summary": "freeze behavior; catch silent breakage.",
       "backlinks": [],
-      "slug": "prompt-regression-tests"
+      "slug": "prompt-regression-tests",
+      "started": null,
+      "completed": null
     },
     {
       "id": "ci-gates-for-ai",
@@ -1748,7 +2000,9 @@
       "status": "ghost",
       "summary": "evals as merge blockers.",
       "backlinks": [],
-      "slug": "ci-gates-for-ai"
+      "slug": "ci-gates-for-ai",
+      "started": null,
+      "completed": null
     },
     {
       "id": "tracing-spans",
@@ -1761,7 +2015,9 @@
       "status": "ghost",
       "summary": "study observability.py; the tracing model.",
       "backlinks": [],
-      "slug": "tracing-spans"
+      "slug": "tracing-spans",
+      "started": null,
+      "completed": null
     },
     {
       "id": "reading-traces",
@@ -1774,7 +2030,9 @@
       "status": "ghost",
       "summary": "debug a real agent failure from its trace.",
       "backlinks": [],
-      "slug": "reading-traces"
+      "slug": "reading-traces",
+      "started": null,
+      "completed": null
     },
     {
       "id": "online-evals",
@@ -1787,7 +2045,9 @@
       "status": "ghost",
       "summary": "scoring production traffic continuously.",
       "backlinks": [],
-      "slug": "online-evals"
+      "slug": "online-evals",
+      "started": null,
+      "completed": null
     },
     {
       "id": "ab-testing-prompts",
@@ -1800,7 +2060,9 @@
       "status": "ghost",
       "summary": "shipping prompt changes like features.",
       "backlinks": [],
-      "slug": "ab-testing-prompts"
+      "slug": "ab-testing-prompts",
+      "started": null,
+      "completed": null
     },
     {
       "id": "cost-latency-dashboards",
@@ -1813,7 +2075,9 @@
       "status": "ghost",
       "summary": "see the money and the milliseconds.",
       "backlinks": [],
-      "slug": "cost-latency-dashboards"
+      "slug": "cost-latency-dashboards",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-eval-harness",
@@ -1826,7 +2090,9 @@
       "status": "ghost",
       "summary": "trajectory + judge + regression around the node-proposer, one command.",
       "backlinks": [],
-      "slug": "build-eval-harness"
+      "slug": "build-eval-harness",
+      "started": null,
+      "completed": null
     },
     {
       "id": "failure-to-golden-loop",
@@ -1839,7 +2105,9 @@
       "status": "ghost",
       "summary": "every bug becomes a permanent test.",
       "backlinks": [],
-      "slug": "failure-to-golden-loop"
+      "slug": "failure-to-golden-loop",
+      "started": null,
+      "completed": null
     },
     {
       "id": "error-analysis-practice",
@@ -1852,7 +2120,9 @@
       "status": "ghost",
       "summary": "categorize 20 failures; find the pattern.",
       "backlinks": [],
-      "slug": "error-analysis-practice"
+      "slug": "error-analysis-practice",
+      "started": null,
+      "completed": null
     },
     {
       "id": "synthesis-evals",
@@ -1865,7 +2135,9 @@
       "status": "ghost",
       "summary": "the full EDD loop, internalized.",
       "backlinks": [],
-      "slug": "synthesis-evals"
+      "slug": "synthesis-evals",
+      "started": null,
+      "completed": null
     },
     {
       "id": "capstone-evals",
@@ -1878,7 +2150,9 @@
       "status": "ghost",
       "summary": "\"How I test software that's never the same twice\" + replan checkpoint.",
       "backlinks": [],
-      "slug": "capstone-evals"
+      "slug": "capstone-evals",
+      "started": null,
+      "completed": null
     },
     {
       "id": "agent-threat-model",
@@ -1891,7 +2165,9 @@
       "status": "ghost",
       "summary": "everything that can go wrong with an agent, mapped.",
       "backlinks": [],
-      "slug": "agent-threat-model"
+      "slug": "agent-threat-model",
+      "started": null,
+      "completed": null
     },
     {
       "id": "direct-injection",
@@ -1904,7 +2180,9 @@
       "status": "ghost",
       "summary": "attacks in the user's own message.",
       "backlinks": [],
-      "slug": "direct-injection"
+      "slug": "direct-injection",
+      "started": null,
+      "completed": null
     },
     {
       "id": "indirect-injection",
@@ -1917,7 +2195,9 @@
       "status": "ghost",
       "summary": "study my own scanner.py — poisoned emails & pages.",
       "backlinks": [],
-      "slug": "indirect-injection"
+      "slug": "indirect-injection",
+      "started": null,
+      "completed": null
     },
     {
       "id": "jailbreaks-redteaming",
@@ -1930,7 +2210,9 @@
       "status": "ghost",
       "summary": "thinking like the attacker.",
       "backlinks": [],
-      "slug": "jailbreaks-redteaming"
+      "slug": "jailbreaks-redteaming",
+      "started": null,
+      "completed": null
     },
     {
       "id": "supply-chain-risks",
@@ -1943,7 +2225,9 @@
       "status": "ghost",
       "summary": "poisoned packages, models, and MCP servers.",
       "backlinks": [],
-      "slug": "supply-chain-risks"
+      "slug": "supply-chain-risks",
+      "started": null,
+      "completed": null
     },
     {
       "id": "spotlighting-delimiters",
@@ -1956,7 +2240,9 @@
       "status": "ghost",
       "summary": "quarantining untrusted content.",
       "backlinks": [],
-      "slug": "spotlighting-delimiters"
+      "slug": "spotlighting-delimiters",
+      "started": null,
+      "completed": null
     },
     {
       "id": "lethal-trifecta",
@@ -1969,7 +2255,9 @@
       "status": "ghost",
       "summary": "private data + untrusted input + exfil paths.",
       "backlinks": [],
-      "slug": "lethal-trifecta"
+      "slug": "lethal-trifecta",
+      "started": null,
+      "completed": null
     },
     {
       "id": "least-privilege-tools",
@@ -1982,7 +2270,9 @@
       "status": "ghost",
       "summary": "capabilities, not keys to everything.",
       "backlinks": [],
-      "slug": "least-privilege-tools"
+      "slug": "least-privilege-tools",
+      "started": null,
+      "completed": null
     },
     {
       "id": "the-approval-gate",
@@ -1995,7 +2285,9 @@
       "status": "ghost",
       "summary": "study proposer.py — my own HITL gate, understood.",
       "backlinks": [],
-      "slug": "the-approval-gate"
+      "slug": "the-approval-gate",
+      "started": null,
+      "completed": null
     },
     {
       "id": "idempotency-audit-logs",
@@ -2008,7 +2300,9 @@
       "status": "ghost",
       "summary": "study audit.py; actions that can't double-fire.",
       "backlinks": [],
-      "slug": "idempotency-audit-logs"
+      "slug": "idempotency-audit-logs",
+      "started": null,
+      "completed": null
     },
     {
       "id": "guardrails-in-out",
@@ -2021,7 +2315,9 @@
       "status": "ghost",
       "summary": "input scanning, output enforcement.",
       "backlinks": [],
-      "slug": "guardrails-in-out"
+      "slug": "guardrails-in-out",
+      "started": null,
+      "completed": null
     },
     {
       "id": "pii-redaction",
@@ -2034,7 +2330,9 @@
       "status": "ghost",
       "summary": "scrub personal data before the model sees it.",
       "backlinks": [],
-      "slug": "pii-redaction"
+      "slug": "pii-redaction",
+      "started": null,
+      "completed": null
     },
     {
       "id": "refusals-content-safety",
@@ -2047,7 +2345,9 @@
       "status": "ghost",
       "summary": "designing what my system won't do.",
       "backlinks": [],
-      "slug": "refusals-content-safety"
+      "slug": "refusals-content-safety",
+      "started": null,
+      "completed": null
     },
     {
       "id": "sandboxing-isolation",
@@ -2060,7 +2360,9 @@
       "status": "ghost",
       "summary": "blast-radius thinking for tools.",
       "backlinks": [],
-      "slug": "sandboxing-isolation"
+      "slug": "sandboxing-isolation",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-redteam-my-agent",
@@ -2073,7 +2375,9 @@
       "status": "ghost",
       "summary": "attack my own agent with injection payloads.",
       "backlinks": [],
-      "slug": "build-redteam-my-agent"
+      "slug": "build-redteam-my-agent",
+      "started": null,
+      "completed": null
     },
     {
       "id": "fix-what-broke",
@@ -2086,7 +2390,9 @@
       "status": "ghost",
       "summary": "patch the holes; document each fix.",
       "backlinks": [],
-      "slug": "fix-what-broke"
+      "slug": "fix-what-broke",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-injection-suite",
@@ -2099,7 +2405,9 @@
       "status": "ghost",
       "summary": "permanent attack suite + CI; zero-exfil gate.",
       "backlinks": [],
-      "slug": "build-injection-suite"
+      "slug": "build-injection-suite",
+      "started": null,
+      "completed": null
     },
     {
       "id": "responsible-shipping",
@@ -2112,7 +2420,9 @@
       "status": "ghost",
       "summary": "what you owe the public when you deploy AI.",
       "backlinks": [],
-      "slug": "responsible-shipping"
+      "slug": "responsible-shipping",
+      "started": null,
+      "completed": null
     },
     {
       "id": "synthesis-safety",
@@ -2125,7 +2435,9 @@
       "status": "ghost",
       "summary": "the layered diagram.",
       "backlinks": [],
-      "slug": "synthesis-safety"
+      "slug": "synthesis-safety",
+      "started": null,
+      "completed": null
     },
     {
       "id": "capstone-safety",
@@ -2138,7 +2450,9 @@
       "status": "ghost",
       "summary": "\"I attacked my own AI. Here's what I learned\" + replan checkpoint.",
       "backlinks": [],
-      "slug": "capstone-safety"
+      "slug": "capstone-safety",
+      "started": null,
+      "completed": null
     },
     {
       "id": "fastapi-fundamentals",
@@ -2151,7 +2465,9 @@
       "status": "ghost",
       "summary": "study main.py; routes, models, dependency injection.",
       "backlinks": [],
-      "slug": "fastapi-fundamentals"
+      "slug": "fastapi-fundamentals",
+      "started": null,
+      "completed": null
     },
     {
       "id": "sse-streaming",
@@ -2164,7 +2480,9 @@
       "status": "ghost",
       "summary": "how tokens travel from server to screen.",
       "backlinks": [],
-      "slug": "sse-streaming"
+      "slug": "sse-streaming",
+      "started": null,
+      "completed": null
     },
     {
       "id": "schedulers-cron",
@@ -2177,7 +2495,9 @@
       "status": "ghost",
       "summary": "study scheduler.py; the morning-briefing machinery.",
       "backlinks": [],
-      "slug": "schedulers-cron"
+      "slug": "schedulers-cron",
+      "started": null,
+      "completed": null
     },
     {
       "id": "postgres-migrations",
@@ -2190,7 +2510,9 @@
       "status": "ghost",
       "summary": "study migrations/ 001–023; schema evolution.",
       "backlinks": [],
-      "slug": "postgres-migrations"
+      "slug": "postgres-migrations",
+      "started": null,
+      "completed": null
     },
     {
       "id": "docker-for-ai",
@@ -2203,7 +2525,9 @@
       "status": "ghost",
       "summary": "containerize a small service myself.",
       "backlinks": [],
-      "slug": "docker-for-ai"
+      "slug": "docker-for-ai",
+      "started": null,
+      "completed": null
     },
     {
       "id": "deploying-backends",
@@ -2216,7 +2540,9 @@
       "status": "ghost",
       "summary": "current hosting options and tradeoffs when I light this node.",
       "backlinks": [],
-      "slug": "deploying-backends"
+      "slug": "deploying-backends",
+      "started": null,
+      "completed": null
     },
     {
       "id": "secrets-done-right",
@@ -2229,7 +2555,9 @@
       "status": "ghost",
       "summary": "env, vaults, rotation — never again in a repo.",
       "backlinks": [],
-      "slug": "secrets-done-right"
+      "slug": "secrets-done-right",
+      "started": null,
+      "completed": null
     },
     {
       "id": "supabase-deep-dive",
@@ -2242,7 +2570,9 @@
       "status": "ghost",
       "summary": "auth, RLS, realtime — the whole platform.",
       "backlinks": [],
-      "slug": "supabase-deep-dive"
+      "slug": "supabase-deep-dive",
+      "started": null,
+      "completed": null
     },
     {
       "id": "realtime-subscriptions",
@@ -2255,7 +2585,9 @@
       "status": "ghost",
       "summary": "live UI updates from Postgres changes.",
       "backlinks": [],
-      "slug": "realtime-subscriptions"
+      "slug": "realtime-subscriptions",
+      "started": null,
+      "completed": null
     },
     {
       "id": "study-command-center",
@@ -2268,7 +2600,9 @@
       "status": "ghost",
       "summary": "study agent-lab/web — Next.js for AI dashboards.",
       "backlinks": [],
-      "slug": "study-command-center"
+      "slug": "study-command-center",
+      "started": null,
+      "completed": null
     },
     {
       "id": "caching-layers",
@@ -2281,7 +2615,9 @@
       "status": "ghost",
       "summary": "response cache, semantic cache, CDN.",
       "backlinks": [],
-      "slug": "caching-layers"
+      "slug": "caching-layers",
+      "started": null,
+      "completed": null
     },
     {
       "id": "queues-pollers",
@@ -2294,7 +2630,9 @@
       "status": "ghost",
       "summary": "study the approval poller; async job patterns.",
       "backlinks": [],
-      "slug": "queues-pollers"
+      "slug": "queues-pollers",
+      "started": null,
+      "completed": null
     },
     {
       "id": "webhooks-telegram",
@@ -2307,7 +2645,9 @@
       "status": "ghost",
       "summary": "wire a real notification path.",
       "backlinks": [],
-      "slug": "webhooks-telegram"
+      "slug": "webhooks-telegram",
+      "started": null,
+      "completed": null
     },
     {
       "id": "monitoring-alerting",
@@ -2320,7 +2660,9 @@
       "status": "ghost",
       "summary": "knowing it broke before users do.",
       "backlinks": [],
-      "slug": "monitoring-alerting"
+      "slug": "monitoring-alerting",
+      "started": null,
+      "completed": null
     },
     {
       "id": "resurrection",
@@ -2333,7 +2675,9 @@
       "status": "ghost",
       "summary": "deploy Machine 1 + Machine 2 with my own hands — env, DB, migrations, OAuth, scheduler, gate, dashboard, every subsystem verified. → M1",
       "backlinks": [],
-      "slug": "resurrection"
+      "slug": "resurrection",
+      "started": null,
+      "completed": null
     },
     {
       "id": "the-bridge",
@@ -2346,7 +2690,9 @@
       "status": "ghost",
       "summary": "the deployed agent proposes brain nodes through its own approval gate — agent + brain, one nervous system. → M2",
       "backlinks": [],
-      "slug": "the-bridge"
+      "slug": "the-bridge",
+      "started": null,
+      "completed": null
     },
     {
       "id": "hardening-pass",
@@ -2359,7 +2705,9 @@
       "status": "ghost",
       "summary": "load, cost caps, failure drills.",
       "backlinks": [],
-      "slug": "hardening-pass"
+      "slug": "hardening-pass",
+      "started": null,
+      "completed": null
     },
     {
       "id": "synthesis-production",
@@ -2372,7 +2720,9 @@
       "status": "ghost",
       "summary": "the full system, mine now.",
       "backlinks": [],
-      "slug": "synthesis-production"
+      "slug": "synthesis-production",
+      "started": null,
+      "completed": null
     },
     {
       "id": "capstone-production",
@@ -2385,7 +2735,9 @@
       "status": "ghost",
       "summary": "\"The AI built it. I understood it. I run it.\" + replan checkpoint.",
       "backlinks": [],
-      "slug": "capstone-production"
+      "slug": "capstone-production",
+      "started": null,
+      "completed": null
     },
     {
       "id": "local-models",
@@ -2398,7 +2750,9 @@
       "status": "ghost",
       "summary": "run a model on my own laptop.",
       "backlinks": [],
-      "slug": "local-models"
+      "slug": "local-models",
+      "started": null,
+      "completed": null
     },
     {
       "id": "fine-tuning-when-why",
@@ -2411,7 +2765,9 @@
       "status": "ghost",
       "summary": "adapter concepts; the buy-vs-tune decision.",
       "backlinks": [],
-      "slug": "fine-tuning-when-why"
+      "slug": "fine-tuning-when-why",
+      "started": null,
+      "completed": null
     },
     {
       "id": "small-distilled-models",
@@ -2424,7 +2780,9 @@
       "status": "ghost",
       "summary": "why tiny models are eating the edge.",
       "backlinks": [],
-      "slug": "small-distilled-models"
+      "slug": "small-distilled-models",
+      "started": null,
+      "completed": null
     },
     {
       "id": "voice-agents",
@@ -2437,7 +2795,9 @@
       "status": "ghost",
       "summary": "realtime speech loops; latency budgets.",
       "backlinks": [],
-      "slug": "voice-agents"
+      "slug": "voice-agents",
+      "started": null,
+      "completed": null
     },
     {
       "id": "computer-use-agents",
@@ -2450,7 +2810,9 @@
       "status": "ghost",
       "summary": "agents that click and type.",
       "backlinks": [],
-      "slug": "computer-use-agents"
+      "slug": "computer-use-agents",
+      "started": null,
+      "completed": null
     },
     {
       "id": "coding-agents",
@@ -2463,7 +2825,9 @@
       "status": "ghost",
       "summary": "how the tools that built VIZIER actually work.",
       "backlinks": [],
-      "slug": "coding-agents"
+      "slug": "coding-agents",
+      "started": null,
+      "completed": null
     },
     {
       "id": "agentic-rag-frontiers",
@@ -2476,7 +2840,9 @@
       "status": "ghost",
       "summary": "retrieval as a tool inside the loop.",
       "backlinks": [],
-      "slug": "agentic-rag-frontiers"
+      "slug": "agentic-rag-frontiers",
+      "started": null,
+      "completed": null
     },
     {
       "id": "reasoning-test-time-compute",
@@ -2489,7 +2855,9 @@
       "status": "ghost",
       "summary": "models that think longer, not just bigger.",
       "backlinks": [],
-      "slug": "reasoning-test-time-compute"
+      "slug": "reasoning-test-time-compute",
+      "started": null,
+      "completed": null
     },
     {
       "id": "protocol-futures",
@@ -2502,7 +2870,9 @@
       "status": "ghost",
       "summary": "where MCP/A2A and successors are heading — live view.",
       "backlinks": [],
-      "slug": "protocol-futures"
+      "slug": "protocol-futures",
+      "started": null,
+      "completed": null
     },
     {
       "id": "reading-papers-forever",
@@ -2515,7 +2885,9 @@
       "status": "ghost",
       "summary": "a personal system to stay frontier after the marathon.",
       "backlinks": [],
-      "slug": "reading-papers-forever"
+      "slug": "reading-papers-forever",
+      "started": null,
+      "completed": null
     },
     {
       "id": "frontier-slot-1",
@@ -2528,7 +2900,9 @@
       "status": "ghost",
       "summary": "reserved — regenerated from frontier-scan on arrival.",
       "backlinks": [],
-      "slug": "frontier-slot-1"
+      "slug": "frontier-slot-1",
+      "started": null,
+      "completed": null
     },
     {
       "id": "frontier-slot-2",
@@ -2541,7 +2915,9 @@
       "status": "ghost",
       "summary": "reserved — regenerated from frontier-scan on arrival.",
       "backlinks": [],
-      "slug": "frontier-slot-2"
+      "slug": "frontier-slot-2",
+      "started": null,
+      "completed": null
     },
     {
       "id": "frontier-slot-3",
@@ -2554,7 +2930,9 @@
       "status": "ghost",
       "summary": "reserved — regenerated from frontier-scan on arrival.",
       "backlinks": [],
-      "slug": "frontier-slot-3"
+      "slug": "frontier-slot-3",
+      "started": null,
+      "completed": null
     },
     {
       "id": "define-vizier-v2",
@@ -2567,7 +2945,9 @@
       "status": "ghost",
       "summary": "spec the unified agent+brain, written by ME. → M5",
       "backlinks": [],
-      "slug": "define-vizier-v2"
+      "slug": "define-vizier-v2",
+      "started": null,
+      "completed": null
     },
     {
       "id": "build-vizier-v2-core",
@@ -2580,7 +2960,9 @@
       "status": "ghost",
       "summary": "",
       "backlinks": [],
-      "slug": "build-vizier-v2-core"
+      "slug": "build-vizier-v2-core",
+      "started": null,
+      "completed": null
     },
     {
       "id": "vizier-v2-memory-retrieval",
@@ -2593,7 +2975,9 @@
       "status": "ghost",
       "summary": "",
       "backlinks": [],
-      "slug": "vizier-v2-memory-retrieval"
+      "slug": "vizier-v2-memory-retrieval",
+      "started": null,
+      "completed": null
     },
     {
       "id": "vizier-v2-gate-safety",
@@ -2606,7 +2990,9 @@
       "status": "ghost",
       "summary": "",
       "backlinks": [],
-      "slug": "vizier-v2-gate-safety"
+      "slug": "vizier-v2-gate-safety",
+      "started": null,
+      "completed": null
     },
     {
       "id": "vizier-v2-evals-traces",
@@ -2619,7 +3005,9 @@
       "status": "ghost",
       "summary": "",
       "backlinks": [],
-      "slug": "vizier-v2-evals-traces"
+      "slug": "vizier-v2-evals-traces",
+      "started": null,
+      "completed": null
     },
     {
       "id": "vizier-v2-redteam-ship",
@@ -2632,7 +3020,9 @@
       "status": "ghost",
       "summary": "golden gate, then deploy.",
       "backlinks": [],
-      "slug": "vizier-v2-redteam-ship"
+      "slug": "vizier-v2-redteam-ship",
+      "started": null,
+      "completed": null
     },
     {
       "id": "the-full-story",
@@ -2645,7 +3035,9 @@
       "status": "ghost",
       "summary": "long-form essay — the whole arc.",
       "backlinks": [],
-      "slug": "the-full-story"
+      "slug": "the-full-story",
+      "started": null,
+      "completed": null
     },
     {
       "id": "the-demo-film",
@@ -2658,7 +3050,9 @@
       "status": "ghost",
       "summary": "record the cinematic brain tour + system walkthrough.",
       "backlinks": [],
-      "slug": "the-demo-film"
+      "slug": "the-demo-film",
+      "started": null,
+      "completed": null
     },
     {
       "id": "portfolio-integration",
@@ -2671,7 +3065,9 @@
       "status": "ghost",
       "summary": "VIZIER takes its throne on tharungajula.vercel.app.",
       "backlinks": [],
-      "slug": "portfolio-integration"
+      "slug": "portfolio-integration",
+      "started": null,
+      "completed": null
     },
     {
       "id": "retrospective",
@@ -2684,7 +3080,9 @@
       "status": "ghost",
       "summary": "what actually changed in me; honest lessons.",
       "backlinks": [],
-      "slug": "retrospective"
+      "slug": "retrospective",
+      "started": null,
+      "completed": null
     },
     {
       "id": "graduation",
@@ -2697,7 +3095,9 @@
       "status": "ghost",
       "summary": "the graph is lit. Publish the mega-post. Begin again.",
       "backlinks": [],
-      "slug": "graduation"
+      "slug": "graduation",
+      "started": null,
+      "completed": null
     },
     {
       "id": "M1",
@@ -4794,7 +5194,7 @@
     }
   ],
   "metadata": {
-    "generated_at": "2026-07-13T09:10:34.740Z",
+    "generated_at": "2026-07-13T09:16:45.170Z",
     "node_count": 216,
     "edge_count": 405
   }

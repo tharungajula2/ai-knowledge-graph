@@ -289,7 +289,12 @@
     .node.lit { opacity: 1.0; }
     .node.lit circle, .node.lit polygon { stroke: #fff; stroke-width: 1.5px; filter: url(#glow-bright); }
     .node.charging circle, .node.charging polygon { animation: pulse 1.8s infinite alternate; }
-    .node.pulsing circle, .node.pulsing polygon { animation: pulse 1.5s infinite alternate; }
+    .node.touched-today circle, .node.touched-today polygon { animation: today-pulse 1.2s infinite alternate !important; }
+
+    @keyframes today-pulse {
+      0%   { stroke-width: 1.8px; stroke: #63b3ed; filter: drop-shadow(0 0 2px rgba(99, 179, 237, 0.5)); }
+      100% { stroke-width: 4px; stroke: #fff; filter: drop-shadow(0 0 12px rgba(99, 179, 237, 0.95)) url(#glow-bright); }
+    }
 
     @keyframes pulse {
       0%   { stroke-width: 1.2px; filter: url(#glow-teal); }
@@ -705,6 +710,18 @@ function loadData(src) {
     
     renderGraph();
     setupSearch();
+
+    // Check query param for node
+    const params = new URLSearchParams(window.location.search);
+    const nodeId = params.get('node');
+    if (nodeId && graphData) {
+      const node = graphData.nodes.find(n => n.id === nodeId);
+      if (node) {
+        setTimeout(() => {
+          onNodeClick({ stopPropagation: () => {} }, node);
+        }, 100);
+      }
+    }
   }).catch(err => {
     console.error('Failed to load', src, err);
   });
@@ -835,7 +852,12 @@ function getBrandIconPath(label) {
     .selectAll('.node')
     .data(nodes, d => d.id)
     .join('g')
-    .attr('class', d => `node ${d.type} ${d.status || 'ghost'}`)
+    .attr('class', d => {
+      const dDate = new Date();
+      const todayStr = `${dDate.getFullYear()}-${String(dDate.getMonth() + 1).padStart(2, '0')}-${String(dDate.getDate()).padStart(2, '0')}`;
+      const isTouchedToday = d.completed === todayStr || (d.started === todayStr && (d.status === 'charging' || d.status === 'lit'));
+      return `node ${d.type} ${d.status || 'ghost'} ${isTouchedToday ? 'touched-today' : ''}`;
+    })
     .on('mouseover', onNodeHover)
     .on('mouseout',  onNodeOut)
     .on('click',     onNodeClick);
@@ -1110,6 +1132,11 @@ function onNodeClick(event, d) {
   // Pulse
   nodeSel.classed('pulsing', false);
   nodeSel.filter(n => n.id === d.id).classed('pulsing', true);
+
+  // Update query parameter for deep links
+  const url = new URL(window.location);
+  url.searchParams.set('node', d.id);
+  window.history.replaceState({}, '', url);
 }
 
 svg.on('click', () => {
@@ -1117,6 +1144,11 @@ svg.on('click', () => {
   document.getElementById('insp').classList.remove('open');
   selectedNode = null;
   clearHighlight();
+
+  // Clear query parameter
+  const url = new URL(window.location);
+  url.searchParams.delete('node');
+  window.history.replaceState({}, '', url);
 });
 
 function openInspector(d) {
