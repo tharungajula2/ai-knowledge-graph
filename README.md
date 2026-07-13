@@ -1,11 +1,11 @@
 # VIZIER 🧠
 
-VIZIER is a living, public 250-day scientific second brain of health, biology, and systems-level learning notes. Rather than a generic reactive chatbot, it is built as a highly structured personal knowledge graph that grows by one node per day.
+VIZIER is a versioned, evolving, and public 250-day interactive knowledge brain dedicated exclusively to **Mastering AI Engineering**. Rather than a generic reactive chatbot, it is built as a highly structured personal knowledge graph that grows by one node per day, tracing a rigorous path from deep foundations to the frontier edge.
 
 Every published note is subjected to VIZIER's **Three Gates of Honesty** to ensure rigorous, evidence-based learning:
-1. **Cited**: Every factual claim link directly to primary scientific literature (PubMed, PMC, etc.).
-2. **Tiered**: Sources are categorized by evidence quality (e.g. *Tier 1* for systematic reviews/meta-analyses, *Tier 2* for randomized controlled trials).
-3. **Challenged**: Every note contains a mandatory section highlighting counter-arguments, caveats, or limits to prevent confirmation bias.
+1. **Cited**: Every factual claim links directly to primary sources, specifications, or core research papers.
+2. **Tiered**: Sources are categorized by evidence quality (e.g., *Tier 1* for primary model specs/peer-reviewed papers, *Tier 2* for official developer documentation, *Tier 3* for secondary explainers).
+3. **Challenged**: Every note contains a mandatory section highlighting limits, trade-offs, or potential ways the claims could be incorrect to prevent confirmation bias.
 
 ---
 
@@ -15,12 +15,12 @@ The workspace is organized to prioritize learning first, keeping operational sys
 
 ```text
 vizier-ai/
-├── brain/               # The heart: markdown learning notes (one file per node)
-├── curriculum/          # Living node-graph syllabus and roadmap
+├── brain/               # The heart: markdown learning notes grouped by domain
+├── curriculum/          # Living node-graph syllabus (VIZIER_MASTERY_GRAPH.md & curriculum.json)
 ├── site/                # Public D3 visualizer frontend (deployed to Vercel)
-├── posts/               # LinkedIn content and writing archives
-├── tools/               # Build pipelines, indexers, and self-review scripts
-├── docs/                # Consolidated system specifications, reports, and runbooks
+├── posts/               # Content archives and LinkedIn/Twitter draft posts
+├── tools/               # Build pipelines, indexers, AI replanning and scan scripts
+├── docs/                # System specifications, deployment guides, and daily runbooks
 ├── agent-lab/           # The frozen agentic engine (FastAPI, LangGraph, etc.)
 └── _local-secrets/      # Gitignored local credentials, API tokens, and configurations
 ```
@@ -43,39 +43,30 @@ npm install
 
 ### 2. Configure Local Secrets
 Keep all secrets isolated outside the source code tree. Set up the `_local-secrets/` structure:
-1. Create a `_local-secrets/backend/` directory.
-2. Create `_local-secrets/backend/.env` containing your private credentials (e.g. Supabase, Telegram keys):
+1. Create a `_local-secrets/.env` file containing your private API credentials:
    ```ini
-   SUPABASE_URL="https://your-project.supabase.co"
-   SUPABASE_SERVICE_ROLE_KEY="your-key-here"
-   TELEGRAM_BOT_TOKEN="your-token"
-   TELEGRAM_CHAT_ID="your-chat-id"
+   GEMINI_API_KEY="your-gemini-key-here"
    ```
 
-### 3. Run the D3 Visualizer Locally
-To view the living brain visualization on your local machine:
-```bash
-# Start a simple HTTP server in the site directory
-npx http-server site
-# Open http://localhost:8080 in your browser
-```
-
-### 4. Run Build and Validation Scripts
+### 3. Run Build and Validation Scripts
 Run the compiler scripts to scan your markdown notes, calculate network connections, and compile static web assets:
 ```bash
-# Scan local markdown brain notes, validate headers, and query Supabase counts
-node brain/scan.js
-
-# Build notes, generate feed, and render markdown files to HTML pages
-node tools/site-build/build.js
+# Compile nodes, generate feed, and render markdown files to HTML pages
+npm run build-brain
 
 # Regenerate the D3 visualizer preview json representation
 node tools/site-build/gen-preview-brain.js
 ```
 
-### 5. Send Telegram Micro-Lessons
-VIZIER schedules daily pushes of Feynman learning notes to a Telegram channel:
+### 4. Run the Visualizer Locally
+To view the visualizer locally:
 ```bash
-# Deterministically select and push the next unseen micro-lesson
-node brain/push-micro-lesson.js
+# Start a simple HTTP server in the root or site directory
+python -m http.server 8000
+# Open http://localhost:8000/site/brain.html in your browser
 ```
+
+---
+
+## 🛠️ The Operational Runbook
+For complete instructions on daily learning, content pipeline schedules, and automated curriculum replanning, see [docs/DAILY_RITUAL.md](docs/DAILY_RITUAL.md). For hosting instructions, see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).

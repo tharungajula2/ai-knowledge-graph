@@ -61,7 +61,29 @@
       background-size: 20px 20px, 40px 40px, 40px 40px;
     }
 
-    #canvas-container svg { width: 100%; height: 100%; display: block; }
+    #starfield {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0; pointer-events: none; overflow: hidden;
+      background: radial-gradient(circle at center, #0b111a 0%, #07090c 100%);
+    }
+
+    #vignette {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 4; pointer-events: none;
+      background: radial-gradient(circle at center, transparent 40%, rgba(7, 9, 12, 0.85) 100%);
+    }
+
+    .star {
+      position: absolute; background: #fff; border-radius: 50%;
+      animation: star-twinkle var(--twinkle-duration, 4s) infinite ease-in-out;
+    }
+
+    @keyframes star-twinkle {
+      0%, 100% { opacity: var(--star-min-opacity, 0.1); }
+      50% { opacity: var(--star-max-opacity, 0.7); }
+    }
+
+    #canvas-container svg { width: 100%; height: 100%; display: block; position: relative; z-index: 3; }
 
     /* Glass panels */
     .glass {
@@ -275,20 +297,72 @@
 
     /* SVG elements */
     .link { stroke: var(--teal); stroke-opacity: .16; stroke-width: 1px; transition: stroke-opacity .2s,stroke-width .2s; }
-    .link.wiki-link { stroke: var(--c-feynman); stroke-dasharray: 4,4; stroke-opacity: .32; }
+    .link.wiki-link {
+      stroke: #ff9f43;
+      stroke-dasharray: 5,4;
+      stroke-opacity: 0.45;
+      animation: dash-flow 18s linear infinite;
+    }
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -120; }
+    }
+    .link.lit-lit {
+      stroke: var(--bright);
+      stroke-opacity: 0.55;
+      stroke-width: 1.4px;
+      animation: edge-pulse 3.5s infinite ease-in-out;
+    }
+    @keyframes edge-pulse {
+      0%, 100% { stroke-opacity: 0.35; stroke-width: 1.1px; }
+      50% { stroke-opacity: 0.75; stroke-width: 2.0px; }
+    }
+    .link.ghost-edge {
+      stroke-width: 0.5px;
+      stroke-opacity: 0.05;
+    }
     .link.highlighted { stroke: var(--bright); stroke-opacity: .85; stroke-width: 2px; }
     .link.dimmed { stroke-opacity: .04; }
 
-    .node { cursor: pointer; transition: opacity .2s; }
-    .node circle, .node polygon { transition: stroke-width .18s, stroke .18s; }
-    .node:hover circle, .node:hover polygon { stroke: #fff; filter: url(#glow-bright); }
+    .node { cursor: pointer; transition: opacity .3s, transform 0.3s ease; }
+    .node-content {
+      transform-origin: center;
+      transform-box: fill-box;
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease;
+    }
+    .node circle, .node polygon { transition: stroke-width .22s, stroke .22s, filter .22s; }
+    
+    .node:hover circle, .node:hover polygon { stroke: #fff !important; filter: drop-shadow(0 0 10px var(--node-glow, #fff)) !important; }
     .node.highlighted circle, .node.highlighted polygon { stroke: var(--bright) !important; stroke-width: 2.2px !important; filter: url(#glow-bright); }
-    .node.dimmed { opacity: .18; }
-    .node.ghost { opacity: 0.22; }
-    .node.charging { opacity: 0.85; }
+    .node.dimmed { opacity: .12; }
+    
+    /* Cinematic states */
+    .node.ghost { opacity: 0.15; }
+    .node.ghost circle, .node.ghost polygon { stroke: rgba(255,255,255,0.06); stroke-width: 0.8px; filter: none !important; }
+    
+    .node.charging { opacity: 0.65; }
+    .node.charging circle, .node.charging polygon {
+      animation: heartbeat 2.5s infinite ease-in-out;
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(0.93); opacity: 0.45; filter: drop-shadow(0 0 1px var(--node-glow, var(--bright))); }
+      50% { transform: scale(1.07); opacity: 0.8; filter: drop-shadow(0 0 7px var(--node-glow, var(--bright))); }
+    }
+    
     .node.lit { opacity: 1.0; }
-    .node.lit circle, .node.lit polygon { stroke: #fff; stroke-width: 1.5px; filter: url(#glow-bright); }
-    .node.charging circle, .node.charging polygon { animation: pulse 1.8s infinite alternate; }
+    .node.lit circle, .node.lit polygon {
+      stroke: #fff;
+      stroke-width: 1.5px;
+      filter: drop-shadow(0 0 7px var(--node-glow, var(--bright)));
+    }
+    
+    .node.milestone polygon {
+      animation: milestone-breath 3s infinite ease-in-out;
+    }
+    @keyframes milestone-breath {
+      0%, 100% { filter: drop-shadow(0 0 2px rgba(246, 135, 179, 0.35)); stroke-width: 1.8px; }
+      50% { filter: drop-shadow(0 0 9px rgba(246, 135, 179, 0.9)); stroke-width: 2.8px; }
+    }
+    
     .node.touched-today circle, .node.touched-today polygon { animation: today-pulse 1.2s infinite alternate !important; }
 
     @keyframes today-pulse {
@@ -296,16 +370,11 @@
       100% { stroke-width: 4px; stroke: #fff; filter: drop-shadow(0 0 12px rgba(99, 179, 237, 0.95)) url(#glow-bright); }
     }
 
-    @keyframes pulse {
-      0%   { stroke-width: 1.2px; filter: url(#glow-teal); }
-      100% { stroke-width: 3.5px; stroke: var(--bright); filter: url(#glow-bright); }
-    }
-
-    .node-label { font-size: 8px; fill: var(--muted); pointer-events: none; text-anchor: middle; font-weight: 400; }
+    .node-label { font-size: 8px; fill: var(--muted); pointer-events: none; text-anchor: middle; font-weight: 400; transition: fill 0.2s, font-size 0.2s; }
     .node-label.active { fill: #fff; font-weight: 600; font-size: 9px; }
 
-    .ring-guide { fill: none; stroke: rgba(42,127,127,.22); stroke-width: 0.8px; stroke-dasharray: 3,5; pointer-events: none; }
-    .ring-label { fill: #64748b; font-size: 8.5px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; pointer-events: none; opacity: 0.85; }
+    .ring-guide { fill: none; stroke: rgba(42,127,127,.16); stroke-width: 0.8px; stroke-dasharray: 3,5; pointer-events: none; }
+    .ring-label { fill: #52647c; font-size: 8px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; pointer-events: none; opacity: 0.75; }
 
     /* Tooltip */
     #tooltip {
@@ -314,6 +383,7 @@
       border-radius: 8px; padding: 10px 14px; font-size: .76rem;
       color: var(--text); z-index: 100; display: none; max-width: 280px;
       box-shadow: 0 4px 16px rgba(0,0,0,.6);
+      backdrop-filter: blur(8px);
     }
     #tooltip .tt-title { font-weight: 600; color: var(--bright); margin-bottom: 5px; line-height: 1.4; }
     #tooltip .tt-row { color: var(--muted); font-size: .68rem; margin-top: 2px; }
@@ -444,10 +514,16 @@
       <button class="tog on" id="btn-rings">Rings</button>
       <button class="tog" id="btn-force">Galaxy</button>
     </div>
-    <button id="btn-reset-view" class="btn-act" style="margin-top: 5px; height: 32px; padding: 4px 10px; font-size: 0.7rem;">
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-      Reset View
-    </button>
+    <div style="display: flex; gap: 8px; margin-top: 5px;">
+      <button id="btn-reset-view" class="btn-act" style="flex: 1; margin: 0; height: 32px; padding: 4px 8px; font-size: 0.7rem;">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        Reset View
+      </button>
+      <button id="btn-tour" class="btn-act" style="flex: 1; margin: 0; height: 32px; padding: 4px 8px; font-size: 0.7rem; background: rgba(246,135,179,0.12); border-color: rgba(246,135,179,0.3); color: #f687b3;">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        TOUR
+      </button>
+    </div>
   </div>
 
   <!-- RING SPIN (rings mode only) -->
@@ -493,6 +569,7 @@
     <div class="stats-box" id="stats">
       <div class="stat-row"><span>Nodes</span><span id="st-nodes">—</span></div>
       <div class="stat-row"><span>Edges</span><span id="st-edges">—</span></div>
+      <div class="stat-row"><span>FPS</span><span id="st-fps">60</span></div>
     </div>
   </div>
 </div>
@@ -517,6 +594,8 @@
   </div>
   <div class="insp-body">
     <div class="details-grid" id="node-details"></div>
+    <div id="node-reqs"></div>
+    <div id="node-backlinks"></div>
     <div class="insp-preview md" id="node-preview"></div>
   </div>
   <div class="action-row">
@@ -540,9 +619,15 @@
 </div>
 
 <div id="canvas-container">
+  <div id="starfield"></div>
+  <div id="vignette"></div>
   <canvas id="graph-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2;display:none;"></canvas>
   <svg id="graph-svg" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:3;">
     <defs>
+      <!-- Nebula blur filter -->
+      <filter id="nebula-blur" x="-200%" y="-200%" width="500%" height="500%">
+        <feGaussianBlur stdDeviation="60" />
+      </filter>
       <!-- Premium Neon glow filter for active nodes -->
       <filter id="glow-bright" x="-50%" y="-50%" width="200%" height="200%">
         <feGaussianBlur stdDeviation="4" result="blur" />
@@ -561,6 +646,8 @@
         </feMerge>
       </filter>
     </defs>
+    <!-- Background layer for domain nebulae -->
+    <g class="nebulae-layer"></g>
   </svg>
 </div>
 
@@ -660,32 +747,53 @@ const svg = d3.select('#graph-svg');
 const G   = svg.append('g').attr('class', 'root');
 
 const zoom = d3.zoom()
-  .scaleExtent([0.06, 10])
+  .scaleExtent([0.1, 4.0]) // sane zoom limits
   .on('zoom', ev => {
     currentTransform = ev.transform;
     G.attr('transform', ev.transform);
     if (graphData && graphData.nodes.length > 1500) drawCanvas();
+    
+    // Parallax starfield shift
+    const starfield = document.getElementById('starfield');
+    if (starfield) {
+      const px = -ev.transform.x * 0.12;
+      const py = -ev.transform.y * 0.12;
+      starfield.style.backgroundPosition = `${px}px ${py}px`;
+    }
   });
 svg.call(zoom);
 zoom.translateTo(svg, W / 2, H / 2);
 
 const simulation = d3.forceSimulation()
   .force('link',      d3.forceLink().id(d => d.id).distance(linkDistance))
-  .force('charge',    d3.forceManyBody().strength(-280))
+  .force('charge',    d3.forceManyBody().strength(-150)) // gentler force settle (no chaotic jitter)
   .force('center',    d3.forceCenter(W / 2, H / 2))
-  .force('collision', d3.forceCollide().radius(d => getR(d) + 4));
+  .force('collision', d3.forceCollide().radius(d => getR(d) + 5))
+  .velocityDecay(0.6); // gentle force settle (damping to reduce jitter)
 
 function getR(d) {
-  if (d.type === 'center')      return baseNodeSize * 2.2;
-  if (d.type === 'domain')      return baseNodeSize * 1.5;
-  if (d.type === 'milestone')   return baseNodeSize * 1.4;
-  if (d.type === 'capstone')    return baseNodeSize * 1.1;
-  if (d.type === 'synthesis')   return baseNodeSize * 0.95;
-  if (d.type === 'deep-dive')   return baseNodeSize * 0.9;
-  if (d.type === 'build')       return baseNodeSize * 0.85;
-  if (d.type === 'concept')     return baseNodeSize * 0.8;
-  if (d.type === 'frontier')    return baseNodeSize * 0.9;
-  return baseNodeSize * 0.8;
+  let sizeMultiplier = 1.0;
+  if (layoutMode === 'rings') {
+    const ringOrder = ['center', ...domainsOrdered, 'milestones'];
+    const ringIndex = ringOrder.indexOf(d.ring || 'foundations');
+    if (ringIndex !== -1) {
+      // inner rings feel closer -> scale is larger (e.g. foundations (index 1) has scale 1.22, milestones (index 11) has scale 0.87)
+      sizeMultiplier = 1.25 - (ringIndex * 0.035);
+    }
+  }
+  
+  let baseR = baseNodeSize * 0.8;
+  if (d.type === 'center')      baseR = baseNodeSize * 2.2;
+  else if (d.type === 'domain')      baseR = baseNodeSize * 1.5;
+  else if (d.type === 'milestone')   baseR = baseNodeSize * 1.4;
+  else if (d.type === 'capstone')    baseR = baseNodeSize * 1.15;
+  else if (d.type === 'synthesis')   baseR = baseNodeSize * 1.0;
+  else if (d.type === 'deep-dive')   baseR = baseNodeSize * 0.95;
+  else if (d.type === 'build')       baseR = baseNodeSize * 0.9;
+  else if (d.type === 'concept')     baseR = baseNodeSize * 0.85;
+  else if (d.type === 'frontier')    baseR = baseNodeSize * 0.95;
+  
+  return baseR * sizeMultiplier;
 }
 
 // ── Load data ─────────────────────────────────────────────────────────────────
@@ -710,6 +818,7 @@ function loadData(src) {
     
     renderGraph();
     setupSearch();
+    initStarfield();
 
     // Check query param for node
     const params = new URLSearchParams(window.location.search);
@@ -809,8 +918,19 @@ function renderGraph() {
     .selectAll('line')
     .data(edges)
     .join('line')
-    .attr('class', d => `link${d.type === 'wiki-link' ? ' wiki-link' : ''}`)
-    .attr('stroke', d => d.type === 'wiki-link' ? '#f6ad55' : '#2a7f7f');
+    .attr('class', d => {
+      const srcNode = nodes.find(n => n.id === (d.source.id ?? d.source));
+      const tgtNode = nodes.find(n => n.id === (d.target.id ?? d.target));
+      const isLitLit = srcNode && tgtNode && srcNode.status === 'lit' && tgtNode.status === 'lit';
+      const isGhostEdge = (srcNode && srcNode.status === 'ghost') || (tgtNode && tgtNode.status === 'ghost');
+      
+      let classes = 'link';
+      if (d.type === 'wiki-link') classes += ' wiki-link';
+      else if (isLitLit) classes += ' lit-lit';
+      else if (isGhostEdge) classes += ' ghost-edge';
+      return classes;
+    })
+    .attr('stroke', d => d.type === 'wiki-link' ? '#ff9f43' : '#2a7f7f');
 
 function getBrandIconPath(label) {
   const lbl = label.toLowerCase();
@@ -858,12 +978,14 @@ function getBrandIconPath(label) {
       const isTouchedToday = d.completed === todayStr || (d.started === todayStr && (d.status === 'charging' || d.status === 'lit'));
       return `node ${d.type} ${d.status || 'ghost'} ${isTouchedToday ? 'touched-today' : ''}`;
     })
+    .style('--node-glow', d => nodeColor(d)) // Set domain color as glow CSS variable
     .on('mouseover', onNodeHover)
     .on('mouseout',  onNodeOut)
     .on('click',     onNodeClick);
 
   nodeSel.each(function(d) {
     const el = d3.select(this);
+    const content = el.append('g').attr('class', 'node-content');
     const r = getR(d);
     const color = nodeColor(d);
 
@@ -873,33 +995,33 @@ function getBrandIconPath(label) {
       const hy = hexRadius * 0.5;
       const points = `0,-${hexRadius} ${hx},-${hy} ${hx},${hy} 0,${hexRadius} -${hx},${hy} -${hx},-${hy}`;
       
-      el.append('polygon')
+      content.append('polygon')
         .attr('points', points)
         .attr('fill', 'rgba(10, 15, 22, 0.9)')
         .attr('stroke', color)
         .attr('stroke-width', 2.0);
     } else if (d.type === 'capstone') {
-      el.append('circle')
+      content.append('circle')
         .attr('r', r)
         .attr('fill', 'none')
         .attr('stroke', color)
         .attr('stroke-width', 1.8);
-      el.append('circle')
+      content.append('circle')
         .attr('r', r * 0.6)
         .attr('fill', color)
         .attr('stroke', 'none');
     } else if (d.type === 'domain') {
-      el.append('circle')
+      content.append('circle')
         .attr('r', r)
         .attr('fill', 'none')
         .attr('stroke', color)
         .attr('stroke-width', 1.8);
-      el.append('circle')
+      content.append('circle')
         .attr('r', r * 0.4)
         .attr('fill', color)
         .attr('stroke', 'none');
     } else {
-      el.append('circle')
+      content.append('circle')
         .attr('r', r)
         .attr('fill', color)
         .attr('stroke', d.type === 'center' ? 'rgba(62,226,226,.4)' : 'rgba(255,255,255,.15)')
@@ -919,14 +1041,129 @@ function getBrandIconPath(label) {
   if (layoutMode === 'rings') {
     positionRings();
     startRingSpin();
+    // Clear nebulae when switching to rings
+    updateNebulae();
   } else {
     runForce(nodes, edges);
   }
+
+  // Live ignition load animation for lit nodes
+  runIgnitionAnimation();
 }
 
 function truncLabel(label, type) {
   if (type === 'center' || type === 'domain') return label;
   return label.length > 22 ? label.slice(0, 20) + '…' : label;
+}
+
+// ── Visual Elevation Helpers ──────────────────────────────────────────────────
+let frameCount = 0;
+let lastFpsUpdate = 0;
+function updateFps(timestamp) {
+  frameCount++;
+  if (!lastFpsUpdate) lastFpsUpdate = timestamp;
+  if (timestamp - lastFpsUpdate >= 1000) {
+    const fps = Math.round((frameCount * 1000) / (timestamp - lastFpsUpdate));
+    const fpsEl = document.getElementById('st-fps');
+    if (fpsEl) fpsEl.textContent = fps;
+    frameCount = 0;
+    lastFpsUpdate = timestamp;
+  }
+}
+
+function initStarfield() {
+  const container = document.getElementById('starfield');
+  if (!container) return;
+  container.innerHTML = '';
+  const starCount = 130;
+  for (let i = 0; i < starCount; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 1.6 + 0.5;
+    const top = Math.random() * 100;
+    const left = Math.random() * 100;
+    const duration = Math.random() * 5 + 3;
+    const minOpacity = Math.random() * 0.15;
+    const maxOpacity = Math.random() * 0.5 + 0.3;
+    star.style.width = `${size}px`;
+    star.style.height = `${size}px`;
+    star.style.top = `${top}%`;
+    star.style.left = `${left}%`;
+    star.style.setProperty('--twinkle-duration', `${duration}s`);
+    star.style.setProperty('--star-min-opacity', minOpacity);
+    star.style.setProperty('--star-max-opacity', maxOpacity);
+    container.appendChild(star);
+  }
+}
+
+function runIgnitionAnimation() {
+  const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (isReduced) return;
+
+  const litNodes = graphData.nodes.filter(n => n.status === 'lit' && n.completed);
+  litNodes.sort((a, b) => new Date(a.completed) - new Date(b.completed));
+
+  nodeSel.each(function(d) {
+    if (d.status === 'lit' && d.type !== 'center' && d.type !== 'domain') {
+      const litIndex = litNodes.findIndex(n => n.id === d.id);
+      if (litIndex !== -1) {
+        const delay = (litIndex / Math.max(1, litNodes.length)) * 2200;
+        const content = d3.select(this).select('.node-content');
+        content
+          .style('opacity', 0)
+          .style('transform', 'scale(0.1)')
+          .transition()
+          .delay(delay)
+          .duration(550)
+          .ease(d3.easeBackOut)
+          .style('opacity', 1)
+          .style('transform', 'scale(1)');
+      }
+    }
+  });
+}
+
+function updateNebulae() {
+  const nebGroup = G.select('.nebulae-layer');
+  if (nebGroup.empty()) return;
+  
+  if (layoutMode !== 'force' || !graphData) {
+    nebGroup.selectAll('*').remove();
+    return;
+  }
+
+  // Compute centroid per domain
+  const centroids = {};
+  graphData.nodes.forEach(n => {
+    if (n.domain && n.type !== 'center' && n.x !== undefined && n.y !== undefined) {
+      if (!centroids[n.domain]) centroids[n.domain] = { sumX: 0, sumY: 0, count: 0 };
+      centroids[n.domain].sumX += n.x;
+      centroids[n.domain].sumY += n.y;
+      centroids[n.domain].count++;
+    }
+  });
+
+  const nebData = Object.entries(centroids).map(([domain, data]) => ({
+    domain,
+    x: data.sumX / data.count,
+    y: data.sumY / data.count,
+    color: domainColors[domain] || '#2a7f7f'
+  }));
+
+  nebGroup.selectAll('circle')
+    .data(nebData, d => d.domain)
+    .join(
+      enter => enter.append('circle')
+        .attr('r', 160)
+        .attr('fill', d => d.color)
+        .attr('opacity', 0)
+        .attr('filter', 'url(#nebula-blur)')
+        .call(enter => enter.transition().duration(1000).attr('opacity', 0.08)),
+      update => update
+        .attr('cx', d => d.x)
+        .attr('cy', d => d.y),
+      exit => exit.transition().duration(600).attr('opacity', 0).remove()
+    );
 }
 
 // ── RINGS positioning ─────────────────────────────────────────────────────────
@@ -1006,15 +1243,21 @@ function positionRings() {
 function startRingSpin() {
   if (spinSpeed === 0) return;
   const cx = W / 2, cy = H / 2;
+  const ringOrder = ['center', ...domainsOrdered, 'milestones'];
 
-  function tick() {
-    ringSpin += spinSpeed * 0.0003; // slow rotation
+  function tick(timestamp) {
+    updateFps(timestamp);
+    ringSpin += spinSpeed * 0.0003; // slow rotation base
 
-    // Only rotate milestone nodes
     nodeSel.each(function(d) {
       if (d.fx === undefined || d.ring === 'center') return;
-      if (d.ring === 'milestones') {
-        const baseAngle = d._angle + ringSpin;
+      const ringIndex = ringOrder.indexOf(d.ring || 'foundations');
+      if (ringIndex !== -1) {
+        const direction = (ringIndex % 2 === 0) ? 1 : -1;
+        // slightly different speed multiplier for each ring
+        const speedMult = 1.0 + (ringIndex * 0.05);
+        const offset = ringSpin * direction * speedMult;
+        const baseAngle = d._angle + offset;
         d.x = cx + d._radius * Math.cos(baseAngle);
         d.y = cy + d._radius * Math.sin(baseAngle);
       }
@@ -1025,7 +1268,6 @@ function startRingSpin() {
   spinAnimId = requestAnimationFrame(tick);
 }
 
-// ── FORCE layout ──────────────────────────────────────────────────────────────
 function runForce(nodes, edges) {
   // Unfix positions
   nodes.forEach(n => { n.fx = null; n.fy = null; });
@@ -1034,11 +1276,13 @@ function runForce(nodes, edges) {
   simulation.alpha(1).restart();
 
   simulation.on('tick', () => {
+    updateFps(performance.now());
     linkSel
       .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
       .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
     nodeSel.attr('transform', d => `translate(${d.x},${d.y})`);
     labelSel.attr('x', d => d.x).attr('y', d => d.y);
+    updateNebulae();
   });
 }
 
@@ -1154,27 +1398,116 @@ svg.on('click', () => {
 function openInspector(d) {
   const insp = document.getElementById('insp');
   document.getElementById('node-title').textContent = d.label;
+  
+  // Render Meta Tags with upgraded styling (badge chips)
   const meta = document.getElementById('node-meta');
-  meta.innerHTML = [d.domain, d.type, d.tier ? `Tier ${d.tier}` : '', d.date || '']
-    .filter(Boolean).map(t => `<span class="mtag">${t}</span>`).join('');
+  const chips = [
+    d.domain ? `Domain: ${d.domain}` : '',
+    d.cluster ? `Cluster: ${d.cluster}` : '',
+    d.type ? `Type: ${d.type}` : '',
+    d.size ? `Size: ${d.size}` : '',
+    d.status ? `Status: ${d.status}` : '',
+    d.plan_version ? `Plan: v${d.plan_version}` : ''
+  ].filter(Boolean);
+  meta.innerHTML = chips.map(t => `<span class="mtag">${t}</span>`).join('');
+  
+  // Detailed metadata grid
   const grid = document.getElementById('node-details');
-  grid.innerHTML = [
-    ['ID',    d.id],
-    ['Ring',  d.ring || '—'],
+  const gridItems = [
+    ['ID', d.id],
+    ['Ring', d.ring || '—'],
     ['Connections', d._conn || 0],
-    d.tags   ? ['Tags',  d.tags.join(', ')] : null,
-    d.status ? ['Status', d.status] : null,
-    d.trustLevel ? ['Trust', d.trustLevel] : null,
-    d.date   ? ['Date',  d.date] : null,
-  ].filter(Boolean).map(([k, v]) =>
+    d.started ? ['Started', d.started] : null,
+    d.completed ? ['Completed', d.completed] : null,
+    d.tags && d.tags.length ? ['Tags', d.tags.join(', ')] : null
+  ].filter(Boolean);
+  grid.innerHTML = gridItems.map(([k, v]) =>
     `<span class="gl">${k}</span><span class="gv">${v}</span>`
   ).join('');
 
+  // ── Prerequisites List ──────────────────────────────────────────────────
+  const reqsDiv = document.getElementById('node-reqs');
+  if (reqsDiv) {
+    reqsDiv.innerHTML = '';
+    const reqs = d.requires || [];
+    if (reqs.length > 0) {
+      const title = document.createElement('h4');
+      title.innerText = 'Prerequisites';
+      reqsDiv.appendChild(title);
+      
+      const list = document.createElement('div');
+      list.className = 'nav-list';
+      reqs.forEach(reqId => {
+        const reqNode = graphData?.nodes.find(n => n.id === reqId);
+        if (reqNode) {
+          const item = document.createElement('button');
+          item.className = 'nav-item';
+          item.innerText = reqNode.label;
+          item.addEventListener('click', (e) => {
+            onNodeClick(e, reqNode);
+          });
+          list.appendChild(item);
+        }
+      });
+      reqsDiv.appendChild(list);
+    }
+  }
+
+  // ── Backlinks List ──────────────────────────────────────────────────────
+  const backsDiv = document.getElementById('node-backlinks');
+  if (backsDiv) {
+    backsDiv.innerHTML = '';
+    // Find all nodes that require the current node
+    const requiredBy = graphData?.nodes.filter(n => n.requires && n.requires.includes(d.id)) || [];
+    // Find wiki-links that target this node
+    const wikiLinkedBy = graphData?.edges
+      .filter(e => e.type === 'wiki-link' && (e.target.id ?? e.target) === d.id)
+      .map(e => graphData.nodes.find(n => n.id === (e.source.id ?? e.source)))
+      .filter(Boolean) || [];
+
+    // Unique combined list of referencing nodes
+    const allBacklinks = Array.from(new Map([...requiredBy, ...wikiLinkedBy].map(n => [n.id, n])).values());
+
+    if (allBacklinks.length > 0) {
+      const title = document.createElement('h4');
+      title.innerText = 'Backlinks';
+      backsDiv.appendChild(title);
+      
+      const list = document.createElement('div');
+      list.className = 'nav-list';
+      allBacklinks.forEach(bNode => {
+        const item = document.createElement('button');
+        item.className = 'nav-item';
+        item.innerText = bNode.label;
+        item.addEventListener('click', (e) => {
+          onNodeClick(e, bNode);
+        });
+        list.appendChild(item);
+      });
+      backsDiv.appendChild(list);
+    }
+  }
+
+  // Fetch note content preview
   document.getElementById('node-preview').innerHTML = '';
-  if (d.slug) {
-    fetch(`notes/${d.slug}.md`)
+  // Check both slug and id for note fetch
+  const fetchTarget = d.slug || d.id;
+  if (fetchTarget) {
+    fetch(`notes/${fetchTarget}.md`)
       .then(r => r.ok ? r.text() : null)
-      .then(md => { if (md) document.getElementById('node-preview').innerHTML = marked.parse(md); })
+      .then(md => {
+        if (md) {
+          // Strip frontmatter from markdown before displaying in preview panel
+          let cleanMd = md;
+          if (md.startsWith('---')) {
+            const nextIdx = md.indexOf('---', 3);
+            if (nextIdx !== -1) {
+              cleanMd = md.substring(nextIdx + 3).trim();
+            }
+          }
+          document.getElementById('node-preview').innerHTML = marked.parse(cleanMd);
+        }
+      })
       .catch(() => {});
   }
   insp.classList.add('open');
@@ -1346,6 +1679,83 @@ slSpring.addEventListener('input', () => {
   document.getElementById('lbl-spring').textContent = linkDistance + 'px';
   if (simulation) simulation.force('link').distance(linkDistance).alphaTarget(0.3).restart();
   setTimeout(() => simulation.alphaTarget(0), 2000);
+});
+
+// TOUR Mode Cinematic Fly-by
+let isTourRunning = false;
+function runTour() {
+  if (isTourRunning) return;
+  isTourRunning = true;
+  
+  const tourBtn = document.getElementById('btn-tour');
+  if (tourBtn) {
+    tourBtn.classList.add('on');
+    tourBtn.innerHTML = `
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      PLAYING
+    `;
+  }
+
+  // Chainable cinematic camera path
+  // Stage 1: Wide-angle overview
+  svg.transition().duration(4000).ease(d3.easeCubicInOut)
+    .call(zoom.transform, d3.zoomIdentity.translate(W/2 - (W/2)*0.35, H/2 - (H/2)*0.35).scale(0.35))
+    .transition().delay(1000).duration(5000).ease(d3.easeCubicInOut)
+    // Stage 2: Dive to Ring 1 Foundations
+    .on('start', () => {
+      const fNode = graphData?.nodes.find(n => n.ring === 'foundations' || n.domain === 'foundations');
+      if (fNode) {
+        const tx = fNode.x || W/2;
+        const ty = fNode.y || H/2;
+        svg.transition().duration(5000).ease(d3.easeCubicInOut)
+          .call(zoom.transform, d3.zoomIdentity.translate(W/2 - tx*1.65, H/2 - ty*1.65).scale(1.65));
+      }
+    })
+    .transition().delay(5000).duration(5000).ease(d3.easeCubicInOut)
+    // Stage 3: Orbit sweep to RAG-retrieval
+    .on('start', () => {
+      const targetNode = graphData?.nodes.find(n => n.ring === 'rag-retrieval' || n.domain === 'rag-retrieval');
+      if (targetNode) {
+        const tx = targetNode.x || W/2;
+        const ty = targetNode.y || H/2;
+        svg.transition().duration(5000).ease(d3.easeCubicInOut)
+          .call(zoom.transform, d3.zoomIdentity.translate(W/2 - tx*1.45, H/2 - ty*1.45).scale(1.45));
+      }
+    })
+    .transition().delay(5000).duration(3500).ease(d3.easeCubicInOut)
+    // Stage 4: Pull back to home position
+    .on('start', () => {
+      svg.transition().duration(3500).ease(d3.easeCubicInOut)
+        .call(zoom.transform, d3.zoomIdentity)
+        .on('end', () => {
+          isTourRunning = false;
+          if (tourBtn) {
+            tourBtn.classList.remove('on');
+            tourBtn.innerHTML = `
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              TOUR
+            `;
+          }
+        });
+    });
+}
+
+const btnTour = document.getElementById('btn-tour');
+if (btnTour) {
+  btnTour.addEventListener('click', runTour);
+}
+
+// ESC Key handler to close inspector
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const insp = document.getElementById('insp');
+    if (insp && insp.classList.contains('open')) {
+      insp.classList.remove('open');
+      document.getElementById('search-panel').style.display = 'flex';
+      nodeSel.classed('pulsing', false);
+      selectedNode = null;
+    }
+  }
 });
 </script>
 </body>
