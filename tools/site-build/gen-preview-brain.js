@@ -281,7 +281,7 @@ nodes.push({ id: 'center-vizier', label: 'VIZIER', type: 'center', ring: 'center
 
 // Domain nodes
 for (const d of DOMAINS) {
-  nodes.push({ id: `domain-${d.id}`, label: d.label, type: 'domain', ring: 'knowledge', domain: d.id, color: d.color });
+  nodes.push({ id: `domain-${d.id}`, label: d.label, type: 'domain', ring: d.id, domain: d.id, color: d.color });
   edges.push({ source: 'center-vizier', target: `domain-${d.id}`, type: 'domain-core' });
 }
 

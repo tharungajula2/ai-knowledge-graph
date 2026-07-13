@@ -850,7 +850,10 @@ const ringRadii = {
   'safety-security': 680,
   production: 760,
   'frontier-capstone': 840,
-  milestones: 920
+  milestones: 920,
+  skills: 1000,
+  routines: 1080,
+  applications: 1160
 };
 
 const domainsOrdered = [
@@ -1490,17 +1493,21 @@ function assignRingPositions(nodes) {
     });
   });
 
-  // Place milestones on outermost ring
-  const msNodes = byRing.milestones || [];
-  msNodes.forEach((n, i) => {
-    const radius = ringRadii.milestones;
-    const angle = (2 * Math.PI * i) / msNodes.length;
-    n.x = cx + radius * Math.cos(angle);
-    n.y = cy + radius * Math.sin(angle);
-    n.fx = n.x;
-    n.fy = n.y;
-    n._angle = angle;
-    n._radius = radius;
+  // Place milestones, skills, routines, and applications on outer rings
+  const outerRings = ['milestones', 'skills', 'routines', 'applications'];
+  outerRings.forEach(r => {
+    const rNodes = byRing[r] || [];
+    if (rNodes.length === 0) return;
+    const radius = ringRadii[r] || 920;
+    rNodes.forEach((n, i) => {
+      const angle = (2 * Math.PI * i) / rNodes.length;
+      n.x = cx + radius * Math.cos(angle);
+      n.y = cy + radius * Math.sin(angle);
+      n.fx = n.x;
+      n.fy = n.y;
+      n._angle = angle;
+      n._radius = radius;
+    });
   });
 }
 
@@ -1550,7 +1557,7 @@ function positionRings() {
 function startRingSpin() {
   if (spinSpeed === 0) return;
   const cx = W / 2, cy = H / 2;
-  const ringOrder = ['center', ...domainsOrdered, 'milestones'];
+  const ringOrder = ['center', ...domainsOrdered, 'milestones', 'skills', 'routines', 'applications'];
 
   function tick(timestamp) {
     updateFps(timestamp);

@@ -10,7 +10,7 @@
       "id": "domain-foundations",
       "label": "Foundations",
       "type": "domain",
-      "ring": "knowledge",
+      "ring": "foundations",
       "domain": "foundations",
       "color": "#3ee2e2"
     },
@@ -18,7 +18,7 @@
       "id": "domain-prompting-apis",
       "label": "Prompting & APIs",
       "type": "domain",
-      "ring": "knowledge",
+      "ring": "prompting-apis",
       "domain": "prompting-apis",
       "color": "#2a7f7f"
     },
@@ -26,7 +26,7 @@
       "id": "domain-rag-retrieval",
       "label": "RAG & Retrieval",
       "type": "domain",
-      "ring": "knowledge",
+      "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "color": "#4fd1c5"
     },
@@ -34,7 +34,7 @@
       "id": "domain-agents",
       "label": "Agents",
       "type": "domain",
-      "ring": "knowledge",
+      "ring": "agents",
       "domain": "agents",
       "color": "#76e4f7"
     },
@@ -42,7 +42,7 @@
       "id": "domain-multi-agent-mcp",
       "label": "Multi-Agent & MCP",
       "type": "domain",
-      "ring": "knowledge",
+      "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "color": "#b794f4"
     },
@@ -50,7 +50,7 @@
       "id": "domain-memory-knowledge",
       "label": "Memory & Knowledge",
       "type": "domain",
-      "ring": "knowledge",
+      "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "color": "#68d391"
     },
@@ -58,7 +58,7 @@
       "id": "domain-evals-observability",
       "label": "Evals & Obs",
       "type": "domain",
-      "ring": "knowledge",
+      "ring": "evals-observability",
       "domain": "evals-observability",
       "color": "#fc8181"
     },
@@ -66,7 +66,7 @@
       "id": "domain-safety-security",
       "label": "Safety & Security",
       "type": "domain",
-      "ring": "knowledge",
+      "ring": "safety-security",
       "domain": "safety-security",
       "color": "#fbd38d"
     },
@@ -74,7 +74,7 @@
       "id": "domain-production",
       "label": "Production",
       "type": "domain",
-      "ring": "knowledge",
+      "ring": "production",
       "domain": "production",
       "color": "#f6ad55"
     },
@@ -82,7 +82,7 @@
       "id": "domain-frontier-capstone",
       "label": "Frontier & Capstone",
       "type": "domain",
-      "ring": "knowledge",
+      "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "color": "#f687b3"
     },
@@ -13680,7 +13680,7 @@
     }
   ],
   "metadata": {
-    "generated_at": "2026-07-13T16:01:14.092Z",
+    "generated_at": "2026-07-13T16:23:59.258Z",
     "preview": true,
     "day": 251,
     "label": "Day-251 Vision (PREVIEW — illustrative, not real entries)",
