@@ -136,6 +136,20 @@ function finishNode(note) {
   console.log(`\n🎉 Node marked as completed (learned) and lit today (${today}):`);
   console.log(`   - Title: ${note.title}`);
   console.log(`   - File: ${path.relative(repoRoot, note.path)}`);
+
+  console.log('\n🤖 Running link suggestion engine...');
+  try {
+    execSync(`node "${path.join(repoRoot, 'tools', 'suggest-links.js')}" "${note.id}"`, { stdio: 'inherit' });
+  } catch (err) {
+    console.error('Error running suggest-links:', err.message);
+  }
+
+  console.log('\n🤖 Generating social content drafts...');
+  try {
+    execSync(`node "${path.join(repoRoot, 'tools', 'draft-post.js')}" "${note.id}"`, { stdio: 'inherit' });
+  } catch (err) {
+    console.error('Error running draft-post:', err.message);
+  }
   
   console.log('\n🔄 Rebuilding brain database...');
   try {
