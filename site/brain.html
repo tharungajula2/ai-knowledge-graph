@@ -169,11 +169,11 @@
     }
 
     .nav-row {
-      display: flex; gap: 14px; font-size: .72rem; text-transform: uppercase; letter-spacing: .04em;
+      display: flex; flex-wrap: wrap; gap: 8px 14px; font-size: .72rem; text-transform: uppercase; letter-spacing: .04em;
     }
     .nav-row a {
       color: var(--bright); text-decoration: none; display: flex; align-items: center; gap: 5px;
-      transition: opacity .2s;
+      transition: opacity .2s; white-space: nowrap;
     }
     .nav-row a:hover { opacity: .75; }
     .nav-row a svg { width: 12px; height: 12px; }
@@ -826,6 +826,10 @@ let spinAnimId = null;
 let hoveredNode = null;
 let quadtree = null;
 
+let linkSel = d3.select(null);
+let nodeSel = d3.select(null);
+let labelSel = d3.select(null);
+
 const W = window.innerWidth, H = window.innerHeight;
 // Apply default layout class on load
 document.body.classList.add('rings-active');
@@ -972,10 +976,6 @@ document.getElementById('btn-live').addEventListener('click', () => setDataMode(
 document.getElementById('btn-preview').addEventListener('click', () => setDataMode('preview'));
 
 // ── Render ─────────────────────────────────────────────────────────────────────
-let linkSel = d3.select(null);
-let nodeSel = d3.select(null);
-let labelSel = d3.select(null);
-
 function renderGraph() {
   G.selectAll('*').remove();
   if (spinAnimId) { cancelAnimationFrame(spinAnimId); spinAnimId = null; }
