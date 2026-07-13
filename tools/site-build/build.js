@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const { compileCurriculum } = require('./compile-curriculum.js');
-// Note: gen-preview-brain.js can be run separately: node tools/site-build/gen-preview-brain.js
 
 const repoRoot = path.join(__dirname, '../..');
 const siteDir = path.join(repoRoot, 'site');
@@ -570,7 +569,6 @@ function buildSite() {
   }
   // site/index.html is the real homepage — it is NOT touched by this build script.
   console.log('site/index.html (homepage) left untouched.');
-  console.log('Run: node tools/site-build/gen-preview-brain.js  to regenerate preview brain.');
   // Update feed.html with current day
   const feedHtmlPath = path.join(siteDir, 'feed.html');
   if (fs.existsSync(feedHtmlPath)) {

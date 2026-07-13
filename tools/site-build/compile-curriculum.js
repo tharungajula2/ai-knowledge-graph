@@ -556,33 +556,20 @@ function compileCurriculum() {
     edges: d3LiveEdges,
     metadata: {
       generated_at: new Date().toISOString(),
-      node_count: d3LiveNodes.length,
+      plan_version: parsed.version,
+      node_count: nodes.length, // exactly 200 plan nodes
+      lit_count: nodes.filter(n => n.status === 'lit').length,
+      charging_count: nodes.filter(n => n.status === 'charging').length,
+      ghost_count: nodes.filter(n => n.status === 'ghost').length,
       edge_count: d3LiveEdges.length
     }
   };
   fs.writeFileSync(path.join(siteDir, 'brain-index.public.json'), JSON.stringify(d3LiveIndex, null, 2));
   console.log(`Saved site/brain-index.public.json (${d3LiveNodes.length} nodes, ${d3LiveEdges.length} edges).`);
   
-  // 9. Generate D3 index JSON for VISION mode (site/brain-index.preview.json)
-  const d3PreviewNodes = d3LiveNodes.map(n => {
-    // Clone and force status to ghost for everything except center and domain guides
-    if (n.type === 'center' || n.type === 'domain') {
-      return { ...n };
-    }
-    return { ...n, status: 'ghost' };
-  });
-  
-  const d3PreviewIndex = {
-    nodes: d3PreviewNodes,
-    edges: d3LiveEdges,
-    metadata: {
-      generated_at: new Date().toISOString(),
-      node_count: d3PreviewNodes.length,
-      edge_count: d3LiveEdges.length
-    }
-  };
-  fs.writeFileSync(path.join(siteDir, 'brain-index.preview.json'), JSON.stringify(d3PreviewIndex, null, 2));
-  console.log(`Saved site/brain-index.preview.json (${d3PreviewNodes.length} nodes, ${d3LiveEdges.length} edges).`);
+  // Save identical copy to brain-index.preview.json to satisfy references, keeping them in sync
+  fs.writeFileSync(path.join(siteDir, 'brain-index.preview.json'), JSON.stringify(d3LiveIndex, null, 2));
+  console.log(`Saved site/brain-index.preview.json (${d3LiveNodes.length} nodes, ${d3LiveEdges.length} edges).`);
   
   return filesToExport;
 }

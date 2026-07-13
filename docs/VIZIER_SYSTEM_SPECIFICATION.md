@@ -702,8 +702,7 @@ The frontend portal contains an interactive, Canvas-based knowledge graph detail
 - **D3.js Implementation:** Uses HTML Canvas context for rendering up to 1,500 nodes efficiently, with SVG overlays for links, boundaries, and active highlights.
 
 ### 6.2 Seed/Build Processes
-- **Preview Brain Generator (`tools/site-build/gen-preview-brain.js`):** Creates a static preview database containing exactly 487 illustrative nodes and 1,331 semantic connections using a deterministic seeded Linear Congruential Generator (LCG) ruleset.
-- **Build Engine (`tools/site-build/build.js`):** Resolves relative wiki links, wipes emojis, updates date trackers, and packages datasets for site distribution.
+- **Unified Build Engine (`tools/site-build/build.js`):** Compiles the master curriculum node graph from `curriculum.json` and local markdown notes, resolving relative wiki links, wiping emojis, updating date trackers, and packaging identical datasets with 200 plan nodes for both VISION and LIVE mode distribution.
 
 ---
 

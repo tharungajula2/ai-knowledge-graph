@@ -375,10 +375,19 @@
     .node.dimmed { opacity: .12; }
     
     /* Cinematic states */
-    .node.ghost { opacity: 0.15; }
-    .node.ghost circle, .node.ghost polygon { stroke: rgba(255,255,255,0.06); stroke-width: 0.8px; filter: none !important; }
-    
-    .node.charging { opacity: 0.65; }
+    /* Live mode (ghosts faint) */
+    body.live-mode .node.ghost { opacity: 0.12; }
+    body.live-mode .node.ghost circle, body.live-mode .node.ghost polygon { stroke: rgba(255,255,255,0.06); stroke-width: 0.8px; filter: none !important; }
+    body.live-mode .node.charging { opacity: 0.65; }
+    body.live-mode .node.lit { opacity: 1.0; }
+
+    /* Vision mode (all visible) */
+    body.vision-mode .node.ghost { opacity: 0.65; }
+    body.vision-mode .node.ghost circle, body.vision-mode .node.ghost polygon { stroke: rgba(255,255,255,0.25); stroke-width: 1.0px; filter: none !important; }
+    body.vision-mode .node.charging { opacity: 0.85; }
+    body.vision-mode .node.lit { opacity: 1.0; }
+
+    /* Common node animations */
     .node.charging circle, .node.charging polygon {
       animation: heartbeat 2.5s infinite ease-in-out;
     }
@@ -386,8 +395,6 @@
       0%, 100% { transform: scale(0.93); opacity: 0.45; filter: drop-shadow(0 0 1px var(--node-glow, var(--bright))); }
       50% { transform: scale(1.07); opacity: 0.8; filter: drop-shadow(0 0 7px var(--node-glow, var(--bright))); }
     }
-    
-    .node.lit { opacity: 1.0; }
     .node.lit circle, .node.lit polygon {
       stroke: #fff;
       stroke-width: 1.5px;
@@ -577,7 +584,7 @@
     }
   </style>
 </head>
-<body>
+<body class="vision-mode">
 
 <!-- Mobile Menu Button (Visible on mobile only) -->
 <button id="mobile-menu-btn" class="glass" aria-label="Toggle Controls Menu">
@@ -1036,16 +1043,20 @@ function setDataMode(mode, reload = true) {
   const btnPrev = document.getElementById('btn-preview');
 
   if (mode === 'preview') {
-    badge.classList.add('visible');
-    strip.classList.add('visible');
-    btnPrev.classList.add('on');
-    btnLive.classList.remove('on');
+    document.body.classList.add('vision-mode');
+    document.body.classList.remove('live-mode');
+    if (badge) badge.classList.add('visible');
+    if (strip) strip.classList.add('visible');
+    if (btnPrev) btnPrev.classList.add('on');
+    if (btnLive) btnLive.classList.remove('on');
     if (reload) loadData(PREVIEW_SRC);
   } else {
-    badge.classList.remove('visible');
-    strip.classList.remove('visible');
-    btnLive.classList.add('on');
-    btnPrev.classList.remove('on');
+    document.body.classList.add('live-mode');
+    document.body.classList.remove('vision-mode');
+    if (badge) badge.classList.remove('visible');
+    if (strip) strip.classList.remove('visible');
+    if (btnLive) btnLive.classList.add('on');
+    if (btnPrev) btnPrev.classList.remove('on');
     if (reload) loadData(LIVE_SRC);
   }
 }

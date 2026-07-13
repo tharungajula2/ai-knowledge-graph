@@ -227,9 +227,10 @@
   <h1>AI Engineering Brain</h1>
   <p>A self-built, cited, AI engineering knowledge brain &mdash; grown one honest node a day for 251 days. Every claim is sourced, tiered, and challenged.</p>
   <div class="hero-day">
-    <strong id="live-count">1</strong> real node &middot;
-    <strong>487</strong> Day-251 vision &middot;
-    Local-first &bull; AI-assisted &bull; Fully private
+    <strong id="stat-lit">0</strong> learned &middot;
+    <strong id="stat-total">200</strong> nodes &middot;
+    <span id="stat-charging">0</span> charging &middot;
+    plan <span id="stat-version">v1.0.0</span>
   </div>
   <div class="btn-row">
     <a href="./brain.html" class="btn-primary">
@@ -421,10 +422,29 @@ fetch('brain-index.public.json')
   .then(r => r.ok ? r.json() : null)
   .then(data => {
     const feedEl = document.getElementById('feed-list');
-    if (!data || !data.nodes) { feedEl.innerHTML = '<p class="feed-empty">No nodes exported yet.</p>'; return; }
-    const noteNodes = data.nodes.filter(n => n.slug && n.type !== 'center' && n.type !== 'domain');
-    document.getElementById('live-count').textContent = data.metadata?.node_count ?? noteNodes.length;
-    if (!noteNodes.length) { feedEl.innerHTML = '<p class="feed-empty">Your first nodes will appear here after you run daily.ps1.</p>'; return; }
+    if (!data || !data.nodes) {
+      if (feedEl) feedEl.innerHTML = '<p class="feed-empty">No nodes exported yet.</p>';
+      return;
+    }
+    
+    // Update stats from metadata
+    const meta = data.metadata || {};
+    const litCount = meta.lit_count ?? 0;
+    const totalCount = meta.node_count ?? 200;
+    const chargingCount = meta.charging_count ?? 0;
+    const planVer = meta.plan_version ?? '1.0.0';
+
+    document.getElementById('stat-lit').textContent = litCount;
+    document.getElementById('stat-total').textContent = totalCount;
+    document.getElementById('stat-charging').textContent = chargingCount;
+    document.getElementById('stat-version').textContent = 'v' + planVer;
+
+    // Filter to actual notes that are lit or charging
+    const noteNodes = data.nodes.filter(n => n.slug && (n.status === 'lit' || n.status === 'charging') && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone');
+    if (!noteNodes.length) {
+      if (feedEl) feedEl.innerHTML = '<p class="feed-empty">Your first nodes will appear here after you run daily.ps1.</p>';
+      return;
+    }
     feedEl.innerHTML = noteNodes.slice(0, 6).map(n => `
       <div class="feed-item">
         <a href="notes/${n.slug}.html">${n.label || n.slug}</a>
@@ -435,7 +455,10 @@ fetch('brain-index.public.json')
       </div>
     `).join('');
   })
-  .catch(() => { document.getElementById('feed-list').innerHTML = '<p class="feed-empty">Brain data not yet available.</p>'; });
+  .catch(() => {
+    const feedEl = document.getElementById('feed-list');
+    if (feedEl) feedEl.innerHTML = '<p class="feed-empty">Brain data not yet available.</p>';
+  });
 </script>
 </body>
 </html>

@@ -8,14 +8,12 @@
 
 ## What was built (one autonomous pass)
 
-### Phase 1 — Preview Brain Dataset
-- **File:** `site/brain-index.preview.json`
-- **Nodes:** 487 (GATE 1: 480–520 required) ✅
-- **Edges:** 1,331 (GATE 1: ≥1,000 required) ✅
-- **Structure:** Center → 10 domain nodes → 442 note nodes across 10 domains with realistic uneven density + 15 skill nodes + 8 routine nodes + 11 application nodes
-- **Generator:** `tools/site-build/gen-preview-brain.js` (deterministic, seeded LCG, no LLM)
-- **Cross-domain links:** Dense wiki-links between gut/mind-gut/nutrition/mind/meta with probability-weighted rules
-- **Topic labels:** Curated real scientific topic lists per domain (e.g., "Short-chain fatty acids and colonocyte energy metabolism", "Dual-process theory: System 1 and System 2 thinking")
+### Phase 1 — Unified Brain Dataset
+- **File:** `site/brain-index.preview.json` and `site/brain-index.public.json` (identical structure, single source of truth)
+- **Nodes:** 200 plan nodes + 16 helper nodes (Center, Domains, Milestones) = 216 total nodes ✅
+- **Edges:** 405 edges ✅
+- **Structure:** Center -> 10 domain nodes -> 200 plan nodes arranged in concentric rings according to their learning phase / sequence, plus 5 milestone nodes.
+- **Generator:** `tools/site-build/compile-curriculum.js` (compiles from `curriculum/curriculum.json` + `brain/` notes)
 
 ### Phase 2 — Interactive Brain Viewer
 - **File:** `site/brain.html`
@@ -56,9 +54,9 @@
 
 ## Honest framing
 
-- **LIVE mode** = `brain-index.public.json` — your real ledger. Currently 12 nodes (Day 1 of 251). Grows every day you ship via `daily.ps1`.
-- **PREVIEW mode** = `brain-index.preview.json` — the Day-251 vision. 487 nodes / 1,331 edges. Static; regenerate with `node tools/site-build/gen-preview-brain.js` only if you want to reshape the vision.
-- The two datasets never mix. The badge and toggle keep them separate in everyone's mind.
+- **LIVE mode** = Displays the exact same 200-node positions: lit nodes glowing, charging pulsing, and future ghost nodes faint.
+- **VISION mode** = Displays the entire 200-node plan fully visible, showcasing the ultimate roadmap.
+- The single compiled JSON ensures they never drift position-wise, while the toggle changes their visual opacity and glow states.
 
 ---
 
