@@ -41,3 +41,6 @@ Thumbs.db
 .idea/
 .gemini/
 antigravity-ide/
+
+# Vizier owner's manual
+VIZIER_OWNERS_MANUAL.md
