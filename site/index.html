@@ -253,7 +253,7 @@
     </a>
     <a href="./brain.html?mode=preview" class="btn-ghost">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-      See the Full Vision
+      See the Full Map
     </a>
   </div>
 </section>
@@ -343,7 +343,7 @@
 
 <footer>
   <div><a href="./index.html" style="color:var(--bright);font-weight:700;font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;">VIZIER</a></div>
-  <div class="footer-honest">Honest limits: nodes light up only when genuinely learned. Streaks are never backfilled. Ghost nodes are plan v1.0.0 &mdash; shown faintly, never presented as completed work.</div>
+  <div class="footer-honest">Honest limits: nodes light up only when genuinely learned. Ghost nodes are plan v1.0.0 &mdash; shown faintly, never presented as completed work. Lit nodes are locked forever.</div>
   <div class="footer-links">
     <a href="./brain.html">Brain</a>
     <a href="./feed.html">Feed</a>
@@ -450,10 +450,18 @@ fetch('brain-index.public.json')
     const verEl = document.getElementById('stat-version');
     if (verEl) verEl.textContent = 'v' + planVer;
 
-    // Update universe badge
+    // Update universe badge and handle complete state
     const badgeEl = document.getElementById('hero-badge');
     if (badgeEl && meta.universe) {
-      badgeEl.textContent = `${meta.universe.title.toUpperCase()} · ${meta.universe.status.toUpperCase()}`;
+      if (litCount === totalCount || meta.universe.status === 'complete') {
+        badgeEl.textContent = `UNIVERSE 01 · COMPLETE`;
+        const sublineEl = document.querySelector('.hero p');
+        if (sublineEl) {
+          sublineEl.innerHTML = `Universe 01 is fully lit — 200/200 nodes, archived forever. Universe 02 is loading. <a href="./about.html#universes" style="color: var(--bright); text-decoration: underline; font-weight: 500;">View archive</a>`;
+        }
+      } else {
+        badgeEl.textContent = `${meta.universe.title.split(' — ')[0].toUpperCase()} · ${meta.universe.codename.toUpperCase()}`;
+      }
     }
 
     // Filter to genuinely lit nodes

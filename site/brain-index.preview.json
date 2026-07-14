@@ -2883,7 +2883,7 @@
       "domain": "frontier-capstone",
       "size": "S",
       "status": "ghost",
-      "summary": "a personal system to stay frontier after the marathon.",
+      "summary": "a personal system to stay frontier forever.",
       "backlinks": [],
       "slug": "reading-papers-forever",
       "started": null,
@@ -5194,7 +5194,7 @@
     }
   ],
   "metadata": {
-    "generated_at": "2026-07-14T05:32:39.121Z",
+    "generated_at": "2026-07-14T05:38:55.234Z",
     "plan_version": "1.0.0",
     "node_count": 200,
     "lit_count": 0,

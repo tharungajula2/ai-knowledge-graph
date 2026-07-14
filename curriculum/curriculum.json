@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updated_at": "2026-07-14T05:32:39.119Z",
+  "updated_at": "2026-07-14T05:38:55.232Z",
   "universe": {
     "number": 1,
     "codename": "AI ENGINEERING",
@@ -3139,7 +3139,7 @@
       "cluster": "The Moving Edge (baseline guesses — expect replans)",
       "type": "concept",
       "size": "S",
-      "summary": "a personal system to stay frontier after the marathon.",
+      "summary": "a personal system to stay frontier forever.",
       "requires": [
         "protocol-futures"
       ],

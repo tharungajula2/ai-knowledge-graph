@@ -330,7 +330,7 @@ frontier cluster from a fresh frontier-scan before I enter it.*
 - agentic-rag-frontiers — Agentic RAG Frontiers (concept · S): retrieval as a tool inside the loop.
 - reasoning-test-time-compute — Reasoning & Test-Time Compute (concept · S): models that think longer, not just bigger.
 - protocol-futures — Protocol Futures (frontier · S): where MCP/A2A and successors are heading — live view.
-- reading-papers-forever — Reading Papers Forever (concept · S): a personal system to stay frontier after the marathon.
+- reading-papers-forever — Reading Papers Forever (concept · S): a personal system to stay frontier forever.
 - frontier-slot-1 — Frontier Slot α (frontier · M): reserved — regenerated from frontier-scan on arrival.
 - frontier-slot-2 — Frontier Slot β (frontier · M): reserved — regenerated from frontier-scan on arrival.
 - frontier-slot-3 — Frontier Slot γ (frontier · M): reserved — regenerated from frontier-scan on arrival.

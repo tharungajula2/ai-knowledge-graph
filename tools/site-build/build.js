@@ -371,7 +371,16 @@ function buildSite() {
     fs.writeFileSync(configPath, JSON.stringify(siteConfig, null, 2));
   } catch (e) {}
 
-  const universeBadgeText = `${universeObj.title} · ${universeObj.status.toUpperCase()}`;
+  let universeBadgeText = `UNIVERSE 01 · AI ENGINEERING`;
+  if (universeObj) {
+    if (universeObj.status === 'complete') {
+      universeBadgeText = `UNIVERSE 01 · COMPLETE`;
+    } else {
+      const titlePart = universeObj.title.split(' — ')[0].toUpperCase();
+      const codePart = universeObj.codename.toUpperCase();
+      universeBadgeText = `${titlePart} · ${codePart}`;
+    }
+  }
   
   // HTML Template Wrapper
   function wrapHtml(title, canonicalUrl, contentHtml) {
@@ -391,7 +400,7 @@ function buildSite() {
   <div class="container">
     <header>
       <a href="../index.html" class="brand">VIZIER</a>
-      <div class="day-badge">${universeBadgeText}</div>
+      <div class="day-badge" id="day-badge">${universeBadgeText}</div>
     </header>
     <nav>
       <a href="../brain.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain</a>
@@ -403,6 +412,25 @@ function buildSite() {
       ${contentHtml}
     </main>
   </div>
+  <script>
+    fetch('../brain-index.public.json')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && data.metadata && data.metadata.universe) {
+          const u = data.metadata.universe;
+          const badge = document.getElementById('day-badge');
+          if (badge) {
+            const litCount = data.nodes ? data.nodes.filter(n => n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length : 0;
+            const totalCount = data.metadata.node_count ?? 200;
+            if (u.status === 'complete' || litCount === totalCount) {
+              badge.textContent = 'UNIVERSE 01 · COMPLETE';
+            } else {
+              badge.textContent = u.title.split(' — ')[0].toUpperCase() + ' · ' + u.codename.toUpperCase();
+            }
+          }
+        }
+      }).catch(() => {});
+  </script>
 </body>
 </html>`;
   }
@@ -496,7 +524,6 @@ function buildSite() {
   <div class="container">
     <header>
       <a href="./index.html" class="brand">VIZIER</a>
-      <div class="day-badge" id="day-badge">${universeBadgeText}</div>
     </header>
     <nav>
       <a href="./index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a>
@@ -517,18 +544,6 @@ function buildSite() {
       <a href="./brain.html" style="color: var(--accent-bright);">Brain</a>
     </footer>
   </div>
-  <script>
-    // Update universe badge from metadata
-    fetch('brain-index.public.json')
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (data && data.metadata && data.metadata.universe) {
-          const u = data.metadata.universe;
-          const badge = document.getElementById('day-badge');
-          if (badge) badge.textContent = u.title + ' · ' + u.status.toUpperCase();
-        }
-      }).catch(() => {});
-  </script>
 </body>
 </html>`;
   fs.writeFileSync(path.join(siteDir, 'feed.html'), feedPageHtml);
@@ -578,7 +593,7 @@ function buildSite() {
       <h1>About VIZIER</h1>
 
       <h2>What is this?</h2>
-      <p>This is a living, public knowledge graph representing a personal mastery roadmap. The graph is built around learning universes and node-based progress, tracking the journey to master frontier AI engineering. 200 planned nodes across 10 domains &mdash; each one a concept, build, or synthesis worth genuinely understanding.</p>
+      <p>A living, public knowledge graph — a personal mastery roadmap built around learning NODES, not days. Universe 01 covers frontier AI engineering: 200 planned nodes across 10 domains, each a concept, build, or synthesis worth genuinely understanding. Some nodes take an hour; some take days. Progress is measured in light, not time.</p>
 
       <h2>The Node Protocol</h2>
       <p>A node lights up only when its note contains a Feynman explanation that a 12-year-old could follow, and (for build nodes) an artifact that actually runs. Notes are dynamically wikilinked; the knowledge graph automatically rewires nightly based on their relationships.</p>
@@ -603,11 +618,14 @@ function buildSite() {
         </div>
       </div>
 
+      <h2 id="universes">Universes</h2>
+      <p>VIZIER is a generational engine. Each complete mastery graph is a Universe. This is UNIVERSE 01 — AI ENGINEERING. When its final node lights, Universe 01 is archived forever — every note, every lock, every changelog entry preserved read-only — and Universe 02 begins with a fresh graph. The field moves at exponential speed; the machine is built to begin again.</p>
+
       <h2 id="milestones">The Frozen Engine</h2>
       <p>Inside the repository sleeps a complete agentic lab system (including supervisor, memory, RAG, approval gate, and injection scanner)&mdash;built agentically, but deliberately frozen. A floating milestone called <strong>THE RESURRECTION</strong> will bring the system back online, deployed manually. Until then, it serves as the master textbook.</p>
 
       <h2>Honest Limits</h2>
-      <p>Charging days are shown honestly as charging. The past is locked &mdash; there is no editing history to make the journey look smoother than it was.</p>
+      <p>Charging nodes are shown honestly as charging. Lit nodes are locked — there is no editing history to make the journey look smoother than it was. Ghost nodes are a plan, and plans change: every revision is logged publicly.</p>
     </main>
     <footer style="margin-top: 60px; border-top: 1px solid var(--panel-border); padding-top: 20px; font-size: 0.8rem; color: var(--text-dark);">
       VIZIER &mdash; built in public &mdash;
@@ -624,7 +642,15 @@ function buildSite() {
         if (data && data.metadata && data.metadata.universe) {
           const u = data.metadata.universe;
           const badge = document.getElementById('day-badge');
-          if (badge) badge.textContent = u.title + ' · ' + u.status.toUpperCase();
+          if (badge) {
+            const litCount = data.nodes ? data.nodes.filter(n => n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length : 0;
+            const totalCount = data.metadata.node_count ?? 200;
+            if (u.status === 'complete' || litCount === totalCount) {
+              badge.textContent = 'UNIVERSE 01 · COMPLETE';
+            } else {
+              badge.textContent = u.title.split(' — ')[0].toUpperCase() + ' · ' + u.codename.toUpperCase();
+            }
+          }
         }
       }).catch(() => {});
   </script>

@@ -530,6 +530,13 @@
     }
     .ring-guide-animated { animation: ring-breathe 6s infinite ease-in-out; }
 
+    body.universe-complete .ring-guide-milestones {
+      stroke: #d4af37 !important;
+      stroke-width: 2.5px !important;
+      stroke-opacity: 0.9 !important;
+      filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.8)) !important;
+    }
+
     /* Tooltip */
     #tooltip {
       position: fixed; pointer-events: none;
@@ -635,7 +642,7 @@
   </button>
   <div class="brand-row">
     <div class="brand">VIZIER</div>
-    <div class="day-chip" id="day-chip">UNIVERSE 01 · ACTIVE</div>
+    <div class="day-chip" id="day-chip">UNIVERSE 01</div>
   </div>
 
   <div class="nav-row">
@@ -664,7 +671,7 @@
 
   <!-- Preview info strip -->
   <div id="preview-strip" class="visible">
-    THE LIVING MAP — plan v1.0.0 · 200 nodes. The past is locked. The future evolves.
+    THE LIVING MAP — Universe 01 · plan v1.0.0 · 200 nodes. The past is locked. The future evolves.
   </div>
 
   <!-- LAYOUT -->
@@ -831,7 +838,7 @@
 ">
   <div style="font-size:2rem;margin-bottom:12px;">🌑</div>
   <div style="color:#3ee2e2;font-weight:700;font-size:1rem;letter-spacing:.06em;margin-bottom:8px;">The brain is dark — for now.</div>
-  <div style="color:#94a3b8;font-size:.82rem;line-height:1.6;">200 nodes await. Day 1 is coming.<br>Switch to VISION to see the full plan.</div>
+  <div style="color:#94a3b8;font-size:.82rem;line-height:1.6;">200 nodes await. Ignition is pending.<br>Switch to VISION to see the full plan.</div>
   <button id="live-empty-dismiss" style="
     margin-top:18px; pointer-events:all; background:rgba(42,127,127,.15);
     border:1px solid rgba(62,226,226,.3); color:#3ee2e2; padding:6px 18px;
@@ -1047,9 +1054,19 @@ function loadData(src) {
     const badge = document.getElementById('preview-badge');
     const strip = document.getElementById('preview-strip');
     
+    const litCount = data.nodes.filter(n => n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length;
+    const totalCount = data.metadata ? (data.metadata.node_count ?? 200) : 200;
+    const isUniverseComplete = litCount === totalCount || (data.metadata && data.metadata.universe && data.metadata.universe.status === 'complete');
+
+    if (isUniverseComplete) {
+      document.body.classList.add('universe-complete');
+    } else {
+      document.body.classList.remove('universe-complete');
+    }
+
     if (dataMode === 'preview') {
       badge.textContent = `VISION — THE LIVING MAP`;
-      strip.innerHTML = `THE LIVING MAP — plan v1.0.0 · ${currNodesCount} nodes. The past is locked. The future evolves.`;
+      strip.innerHTML = `THE LIVING MAP — Universe 01 · plan v1.0.0 · ${currNodesCount} nodes. The past is locked. The future evolves.`;
     } else {
       badge.textContent = `LIVE`;
       strip.innerHTML = `LIVE — visitors watch one brain wire itself up in real time.`;
@@ -1059,7 +1076,11 @@ function loadData(src) {
     const chipEl = document.getElementById('day-chip');
     if (chipEl && data.metadata && data.metadata.universe) {
       const u = data.metadata.universe;
-      chipEl.textContent = `${u.title} · ${u.status.toUpperCase()}`;
+      if (isUniverseComplete) {
+        chipEl.textContent = `UNIVERSE 01 · COMPLETE`;
+      } else {
+        chipEl.textContent = `${u.title.split(' — ')[0].toUpperCase()}`;
+      }
     }
     
     renderGraph();
