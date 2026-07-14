@@ -55,6 +55,6 @@ Follow these instructions to connect your private GitHub repository to Vercel:
 Every time you push to the `main` branch:
 1. Vercel automatically runs a new build.
 2. It parses `curriculum/VIZIER_MASTERY_GRAPH.md` and your current notes inside `brain/knowledge/`.
-3. It compiles the latest graph JSON files dynamically and updates the active Day counter.
+3. It compiles the latest graph JSON files dynamically and updates the active universe statistics.
 4. The live map is updated instantly.
-5. Simply running the local `npm run day:close` script (which auto-pushes to GitHub) will update the public website daily.
+5. Simply running the local `npm run sync` script (which auto-pushes to GitHub) will update the public website.

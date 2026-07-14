@@ -12,7 +12,7 @@ Every single day, follow this exact sequence to maintain momentum and sync state
 graph TD
     A[Start Day] --> B[Run next-node]
     B -->|Pick or Continue| C[Learn, Build & Code]
-    C --> D[Write markdown note in brain/notes/]
+    C --> D[Write markdown note in brain/knowledge/]
     D -->|Add wikilinks| E[Run finish-node]
     E --> F[Run sync]
     F --> G[End Day]
@@ -24,7 +24,7 @@ graph TD
    npm run next-node
    ```
    * Choose to continue charging your active node, or select one of the top 3 ghost candidate nodes to start charging.
-   * This automatically creates or opens the markdown note `brain/notes/<node-id>.md` populated with the required frontmatter and sections.
+   * This automatically creates or opens the markdown note `brain/knowledge/<domain>/<node-id>.md` populated with the required frontmatter and sections.
 
 2. **Learn & Build**:
    * Research the topic against primary papers, specifications, or codebases.
