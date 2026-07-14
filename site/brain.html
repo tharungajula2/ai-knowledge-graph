@@ -3,8 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VIZIER Brain - Interactive AI Engineering Knowledge Graph</title>
-  <meta name="description" content="Explore the VIZIER AI engineering knowledge brain — 200 planned nodes across 10 domains. Interactive concentric-ring galaxy with search and domain filtering. VISION shows the full plan; LIVE shows only what's genuinely been learned.">
+  <title>VIZIER Brain — AI Engineering Knowledge Graph</title>
+  <meta name="description" content="A living knowledge graph of one human mastering AI engineering in public. 200 planned nodes across 10 domains. Nodes light up only when the learning is real.">  
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="VIZIER — AI Engineering Brain">
+  <meta property="og:description" content="A living knowledge graph of one human mastering AI engineering in public. 200 planned nodes across 10 domains. Nodes light up only when the learning is real.">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="brain.html">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VIZIER — AI Engineering Brain">
+  <meta name="twitter:description" content="A living knowledge graph of one human mastering AI engineering in public. 200 planned nodes · 10 domains · 250-day marathon.">
+  <meta name="twitter:image" content="assets/og-image.png">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -416,6 +434,15 @@
       100% { stroke-width: 4px; stroke: #fff; filter: drop-shadow(0 0 12px rgba(99, 179, 237, 0.95)) url(#glow-bright); }
     }
 
+    /* START HERE glow — first ghost node, amber invitation */
+    .node.start-here circle {
+      animation: start-here-pulse 2s infinite ease-in-out !important;
+    }
+    @keyframes start-here-pulse {
+      0%, 100% { filter: drop-shadow(0 0 3px rgba(246,173,85,0.5)); stroke: rgba(246,173,85,0.5); stroke-width: 1.5px; }
+      50% { filter: drop-shadow(0 0 14px rgba(246,173,85,1.0)); stroke: #f6ad55; stroke-width: 3px; }
+    }
+
     .node-label {
       font-size: 8px;
       fill: var(--muted);
@@ -568,19 +595,24 @@
       
       #insp {
         position: fixed; top: auto; bottom: 0; right: 0; left: 0;
-        width: 100%; height: 50vh;
+        width: 100%; height: 60vh; max-height: 80vh;
         border-radius: 20px 20px 0 0;
         border-left: none; border-top: 2px solid rgba(62,226,226,0.25);
         transform: translateY(100%);
         transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         z-index: 120;
+        overflow-y: auto;
       }
       #insp.open { transform: translateY(0); }
       .insp-title { padding-right: 28px; }
+      .action-row { flex-wrap: wrap; }
       
       #preview-badge {
         font-size: .62rem; padding: 4px 8px; top: 72px; left: 50%; transform: translateX(-50%);
       }
+
+      /* START HERE label always readable on mobile */
+      .start-here-label { font-size: 7px !important; }
     }
   </style>
 </head>
@@ -770,9 +802,9 @@
     <div class="insp-preview md" id="node-preview"></div>
   </div>
   <div class="action-row">
-    <button class="btn-act" id="btn-copy">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-      Copy
+    <button class="btn-act" id="btn-copy" title="Copy deep-link to this node">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      <span id="btn-copy-label">Copy Link</span>
     </button>
     <button class="btn-act" id="btn-view">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -787,6 +819,26 @@
   <div class="tt-row" id="tt-domain"></div>
   <div class="tt-row" id="tt-type"></div>
   <div class="tt-row" id="tt-conn"></div>
+</div>
+
+<!-- Empty-state LIVE overlay (shown when live mode has zero lit nodes) -->
+<div id="live-empty-state" style="
+  display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  z-index:50; text-align:center; pointer-events:none;
+  background:rgba(7,9,12,0.72); border:1px solid rgba(62,226,226,0.2);
+  border-radius:16px; padding:32px 40px; backdrop-filter:blur(16px);
+  max-width:340px; width:calc(100% - 48px);
+">
+  <div style="font-size:2rem;margin-bottom:12px;">🌑</div>
+  <div style="color:#3ee2e2;font-weight:700;font-size:1rem;letter-spacing:.06em;margin-bottom:8px;">The brain is dark — for now.</div>
+  <div style="color:#94a3b8;font-size:.82rem;line-height:1.6;">200 nodes await. Day 1 is coming.<br>Switch to VISION to see the full plan.</div>
+  <button id="live-empty-dismiss" style="
+    margin-top:18px; pointer-events:all; background:rgba(42,127,127,.15);
+    border:1px solid rgba(62,226,226,.3); color:#3ee2e2; padding:6px 18px;
+    border-radius:6px; font-size:.75rem; font-weight:600; cursor:pointer;
+    font-family:inherit; letter-spacing:.04em;
+    transition:all .18s;
+  ">Dismiss</button>
 </div>
 
 <div id="canvas-container">
@@ -1018,6 +1070,13 @@ function loadData(src) {
     renderGraph();
     setupSearch();
     initStarfield();
+
+    // Empty-state: show overlay in LIVE mode if no lit nodes
+    const liveEmpty = document.getElementById('live-empty-state');
+    if (liveEmpty) {
+      const litCount = data.nodes.filter(n => n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length;
+      liveEmpty.style.display = (dataMode === 'live' && litCount === 0) ? 'block' : 'none';
+    }
 
     // Check query param for node
     const params = new URLSearchParams(window.location.search);
@@ -1320,6 +1379,7 @@ function getBrandIconPath(label) {
 
   if (layoutMode === 'rings') {
     positionRings();
+    buildSpinCache(nodes);
     startRingSpin();
     // Clear nebulae when switching to rings
     updateNebulae();
@@ -1330,6 +1390,7 @@ function getBrandIconPath(label) {
   // Live ignition load animation for lit nodes
   runIgnitionAnimation();
   updateLabels();
+  applyStartHereGlow();
 }
 
 function truncLabel(label, type) {
@@ -1571,29 +1632,68 @@ function positionRings() {
     .attr('y2', d => (d.target.y ?? 0));
 }
 
+// Pre-cached trig for ring spin (avoids repeated Math.cos/sin per-frame per-node)
+let _spinNodes = [];
+let _lastLabelUpdateZoom = -1;
+
+function buildSpinCache(nodes) {
+  const ringOrder = ['center', ...domainsOrdered, 'milestones', 'skills', 'routines', 'applications'];
+  _spinNodes = nodes
+    .filter(n => n._angle !== undefined && n.ring !== 'center')
+    .map(n => {
+      const ri = ringOrder.indexOf(n.ring || 'foundations');
+      return {
+        d: n,
+        dir: (ri % 2 === 0) ? 1 : -1,
+        speedMult: 1.0 + (ri * 0.05)
+      };
+    });
+}
+
 function startRingSpin() {
   if (spinSpeed === 0) return;
   const cx = W / 2, cy = H / 2;
-  const ringOrder = ['center', ...domainsOrdered, 'milestones', 'skills', 'routines', 'applications'];
 
   function tick(timestamp) {
-    updateFps(timestamp);
-    ringSpin += spinSpeed * 0.0003; // slow rotation base
+    // Pause when tab is hidden to save CPU
+    if (document.hidden) {
+      spinAnimId = requestAnimationFrame(tick);
+      return;
+    }
 
-    nodeSel.each(function(d) {
-      if (d.fx === undefined || d.ring === 'center') return;
-      const ringIndex = ringOrder.indexOf(d.ring || 'foundations');
-      if (ringIndex !== -1) {
-        const direction = (ringIndex % 2 === 0) ? 1 : -1;
-        // slightly different speed multiplier for each ring
-        const speedMult = 1.0 + (ringIndex * 0.05);
-        const offset = ringSpin * direction * speedMult;
-        const baseAngle = d._angle + offset;
-        d.x = cx + d._radius * Math.cos(baseAngle);
-        d.y = cy + d._radius * Math.sin(baseAngle);
-      }
-    });
-    positionRings();
+    updateFps(timestamp);
+    ringSpin += spinSpeed * 0.0003;
+
+    // Use pre-cached node list — no per-frame .indexOf() or .each()
+    for (let i = 0; i < _spinNodes.length; i++) {
+      const { d, dir, speedMult } = _spinNodes[i];
+      const angle = d._angle + ringSpin * dir * speedMult;
+      d.x = cx + d._radius * Math.cos(angle);
+      d.y = cy + d._radius * Math.sin(angle);
+    }
+
+    // Batch DOM update: single attr call on cached selections
+    nodeSel.attr('transform', d => `translate(${d.x},${d.y})`);
+    labelSel
+      .attr('x', d => {
+        if (d.type === 'center') return d.x;
+        const dx = d.x - cx, dy = d.y - cy;
+        const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+        return d.x + (getR(d) + 10) * (dx / dist);
+      })
+      .attr('y', d => {
+        if (d.type === 'center') return d.y;
+        const dx = d.x - cx, dy = d.y - cy;
+        const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+        return d.y + (getR(d) + 10) * (dy / dist);
+      });
+
+    linkSel
+      .attr('x1', d => d.source.x ?? 0)
+      .attr('y1', d => d.source.y ?? 0)
+      .attr('x2', d => d.target.x ?? 0)
+      .attr('y2', d => d.target.y ?? 0);
+
     spinAnimId = requestAnimationFrame(tick);
   }
   spinAnimId = requestAnimationFrame(tick);
@@ -1883,7 +1983,25 @@ function openInspector(d) {
 document.getElementById('btn-close').addEventListener('click', closeInspector);
 
 document.getElementById('btn-copy').addEventListener('click', () => {
-  if (selectedNode) navigator.clipboard?.writeText(selectedNode.id || selectedNode.label);
+  if (!selectedNode) return;
+  const url = new URL(window.location.href);
+  url.searchParams.set('node', selectedNode.id);
+  const deepLink = url.toString();
+  const label = document.getElementById('btn-copy-label');
+  navigator.clipboard?.writeText(deepLink).then(() => {
+    if (label) { label.textContent = '✓ Copied!'; }
+    setTimeout(() => { if (label) label.textContent = 'Copy Link'; }, 2200);
+  }).catch(() => {
+    // Fallback for non-HTTPS
+    const ta = document.createElement('textarea');
+    ta.value = deepLink;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    if (label) { label.textContent = '✓ Copied!'; }
+    setTimeout(() => { if (label) label.textContent = 'Copy Link'; }, 2200);
+  });
 });
 
 document.getElementById('btn-view').addEventListener('click', () => {
@@ -2184,6 +2302,51 @@ document.querySelectorAll('.leg-row[data-domain]').forEach(row => {
     if (graphData) highlightDomain(row.dataset.domain);
   });
   row.addEventListener('mouseleave', () => clearHighlight());
+});
+
+// ── START HERE glow (map-of-ai ghost node) ────────────────────────────────────
+function applyStartHereGlow() {
+  if (!graphData) return;
+  const startNode = graphData.nodes.find(n => n.id === 'map-of-ai');
+  if (!startNode || startNode.status === 'lit') return; // disappears once lit
+
+  // Add CSS class and START HERE label
+  const startNodeG = nodeSel.filter(n => n.id === 'map-of-ai');
+  startNodeG.classed('start-here', true);
+
+  // Add a persistent START HERE text label inside the node group
+  const existing = startNodeG.select('.start-here-label');
+  if (!existing.empty()) return;
+  startNodeG.append('text')
+    .attr('class', 'start-here-label')
+    .attr('x', 0)
+    .attr('y', -getR(startNode) - 14)
+    .attr('text-anchor', 'middle')
+    .attr('fill', '#f6ad55')
+    .attr('font-size', '8px')
+    .attr('font-weight', '700')
+    .attr('letter-spacing', '0.1em')
+    .attr('pointer-events', 'none')
+    .attr('paint-order', 'stroke fill')
+    .attr('stroke', '#07090c')
+    .attr('stroke-width', '3px')
+    .text('▶ START HERE');
+}
+
+// Dismiss live empty state
+const dismissBtn = document.getElementById('live-empty-dismiss');
+if (dismissBtn) {
+  dismissBtn.addEventListener('click', () => {
+    const overlay = document.getElementById('live-empty-state');
+    if (overlay) overlay.style.display = 'none';
+  });
+}
+
+// Pause ring spin when tab becomes hidden; resume on visibility
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && layoutMode === 'rings' && spinSpeed > 0 && !spinAnimId) {
+    startRingSpin();
+  }
 });
 </script>
 </body>
