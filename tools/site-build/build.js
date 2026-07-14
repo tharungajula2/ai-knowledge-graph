@@ -524,6 +524,7 @@ function buildSite() {
   <div class="container">
     <header>
       <a href="./index.html" class="brand">VIZIER</a>
+      <div class="day-badge" id="day-badge">${universeBadgeText}</div>
     </header>
     <nav>
       <a href="./index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a>
@@ -544,6 +545,25 @@ function buildSite() {
       <a href="./brain.html" style="color: var(--accent-bright);">Brain</a>
     </footer>
   </div>
+  <script>
+    fetch('brain-index.public.json')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && data.metadata && data.metadata.universe) {
+          const u = data.metadata.universe;
+          const badge = document.getElementById('day-badge');
+          if (badge) {
+            const litCount = data.nodes ? data.nodes.filter(n => n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length : 0;
+            const totalCount = data.metadata.node_count ?? 200;
+            if (u.status === 'complete' || litCount === totalCount) {
+              badge.textContent = 'UNIVERSE 01 · COMPLETE';
+            } else {
+              badge.textContent = u.title.split(' — ')[0].toUpperCase() + ' · ' + u.codename.toUpperCase();
+            }
+          }
+        }
+      }).catch(() => {});
+  </script>
 </body>
 </html>`;
   fs.writeFileSync(path.join(siteDir, 'feed.html'), feedPageHtml);

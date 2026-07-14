@@ -642,7 +642,7 @@
   </button>
   <div class="brand-row">
     <div class="brand">VIZIER</div>
-    <div class="day-chip" id="day-chip">UNIVERSE 01</div>
+    <div class="day-chip" id="day-chip">UNIVERSE 01 · AI ENGINEERING</div>
   </div>
 
   <div class="nav-row">
@@ -1079,7 +1079,7 @@ function loadData(src) {
       if (isUniverseComplete) {
         chipEl.textContent = `UNIVERSE 01 · COMPLETE`;
       } else {
-        chipEl.textContent = `${u.title.split(' — ')[0].toUpperCase()}`;
+        chipEl.textContent = `${u.title.split(' — ')[0].toUpperCase()} · ${u.codename.toUpperCase()}`;
       }
     }
     

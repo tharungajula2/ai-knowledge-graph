@@ -27,12 +27,12 @@ field moves. **Mastery = finishing a LIVING graph, not a frozen list.** God-leve
 2. A lit node is immutable — tooling must refuse to alter it.
 3. A node isn't lit until its note has a Feynman explanation (and, for build nodes, an
    artifact that runs).
-4. Notes use [[wikilinks]] freely; the daily rebuild rewires edges and backlinks — the
+4. Notes use [[wikilinks]] freely; the rebuild rewires edges and backlinks — the
    organic connections I notice are as important as the planned ones.
-5. `day:close` runs every single day of the marathon, lit node or not. Charging is real work.
+5. `sync` runs regularly, lit node or not. Charging is real work.
 6. Replans need a written reason in the changelog. Never replan from restlessness.
 7. `frontier` nodes are explicit placeholders — regenerated from a fresh frontier-scan
-   when I approach them, so they always reflect the field AS IT IS, not as it was on day 1.
+   when I approach them, so they always reflect the field AS IT IS, not as it was at inception.
 
 **Node line format (for the parser):**
 `- id — Title (type · size): summary` — type ∈ concept | build | deep-dive | synthesis |
