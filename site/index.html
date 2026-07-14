@@ -245,7 +245,7 @@
     <span id="stat-charging">0</span> CHARGING &middot;
     <span id="stat-day">IGNITION PENDING</span> &middot;
     HUMAN-GATED &middot;
-    SELF-EVOLVING PLAN
+    SELF-EVOLVING PLAN (<span id="stat-version">v1.0.0</span>)
   </div>
   <div class="btn-row">
     <a href="./brain.html" class="btn-primary">
@@ -450,7 +450,8 @@ fetch('brain-index.public.json')
     document.getElementById('stat-lit').textContent = litCount;
     document.getElementById('stat-total').textContent = totalCount;
     document.getElementById('stat-charging').textContent = chargingCount;
-    document.getElementById('stat-version').textContent = 'v' + planVer;
+    const verEl = document.getElementById('stat-version');
+    if (verEl) verEl.textContent = 'v' + planVer;
 
     // Calculate day N or ignition pending
     const badgeEl = document.getElementById('hero-badge');

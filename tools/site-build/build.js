@@ -343,6 +343,46 @@ function buildSite() {
   
   // Call exporter first to verify and get files list
   const filesToExport = compileCurriculum();
+
+  // Load marathon start_date and days from curriculum.json
+  const curriculumPath = path.join(repoRoot, 'curriculum/curriculum.json');
+  let marathonStartDate = null;
+  let marathonDays = 250;
+  if (fs.existsSync(curriculumPath)) {
+    try {
+      const curriculumData = JSON.parse(fs.readFileSync(curriculumPath, 'utf-8'));
+      marathonStartDate = curriculumData.marathon ? curriculumData.marathon.start_date : null;
+      marathonDays = curriculumData.marathon ? curriculumData.marathon.days || 250 : 250;
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  // Sync to config.json
+  try {
+    const configPath = path.join(siteDir, 'config.json');
+    let siteConfig = { start_date: marathonStartDate, canonical_url: '' };
+    if (fs.existsSync(configPath)) {
+      try {
+        const existing = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+        siteConfig.canonical_url = existing.canonical_url || '';
+      } catch (e) {}
+    }
+    siteConfig.start_date = marathonStartDate;
+    fs.writeFileSync(configPath, JSON.stringify(siteConfig, null, 2));
+  } catch (e) {}
+
+  let dayBadgeText = 'IGNITION PENDING';
+  if (marathonStartDate) {
+    const start = new Date(marathonStartDate);
+    const today = new Date();
+    start.setHours(0,0,0,0); today.setHours(0,0,0,0);
+    const diffTime = today - start;
+    const dayN = Math.max(1, Math.floor(diffTime / 86400000) + 1);
+    dayBadgeText = `DAY ${dayN} OF ${marathonDays}`;
+  } else {
+    dayBadgeText = `IGNITION PENDING · ${marathonDays}-DAY MARATHON`;
+  }
   
   // HTML Template Wrapper
   function wrapHtml(title, canonicalUrl, contentHtml) {
@@ -362,7 +402,7 @@ function buildSite() {
   <div class="container">
     <header>
       <a href="../index.html" class="brand">VIZIER</a>
-      <div class="day-badge">Day ${dayNumber} of 251</div>
+      <div class="day-badge">${dayBadgeText}</div>
     </header>
     <nav>
       <a href="../brain.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain</a>
@@ -467,7 +507,7 @@ function buildSite() {
   <div class="container">
     <header>
       <a href="./index.html" class="brand">VIZIER</a>
-      <div class="day-badge" id="day-badge">IGNITION PENDING</div>
+      <div class="day-badge" id="day-badge">${dayBadgeText}</div>
     </header>
     <nav>
       <a href="./index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a>
@@ -540,7 +580,7 @@ function buildSite() {
   <div class="container">
     <header>
       <a href="./index.html" class="brand">VIZIER</a>
-      <div class="day-badge" id="day-badge">IGNITION PENDING</div>
+      <div class="day-badge" id="day-badge">${dayBadgeText}</div>
     </header>
     <nav>
       <a href="./index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a>
