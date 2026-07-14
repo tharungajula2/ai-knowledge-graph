@@ -1,11 +1,11 @@
 # VIZIER — THE MASTERY GRAPH (v1.0.0)
-### 200 nodes. 10 domains. One 250-day marathon. The past is locked. The future evolves.
+### 200 nodes. 10 domains. The past is locked. The future evolves.
 
 ---
 
 ## HOW THIS GRAPH WORKS (the whole philosophy — read first)
 
-**NODES, NOT DAYS.** The marathon is 250 days of showing up — the graph doesn't care
+**NODES, NOT CALENDARS.** The graph doesn't care
 which day a node falls on. Some nodes take an hour; some take four days. Finishing three
 nodes on a Saturday and zero on a busy Tuesday are both healthy. Progress is asymmetric
 by nature; the brain displays it honestly with three states: **ghost** (planned) →
@@ -16,7 +16,7 @@ nodes** because that's what full-anatomy coverage honestly requires today: every
 senior AI engineer must own — foundations, APIs, retrieval, agents, protocols, memory,
 evaluation, security, production, and the frontier — at Feynman depth, with real builds
 (~60 build nodes), deep-dives into my own frozen agent system (~15 🔩 nodes), and hard
-capstones. 200 over 250 days is deliberate breathing room: L-nodes get multiple days,
+capstones. 200 nodes is deliberate: L-nodes get multiple days,
 S-nodes can double up, and life happens. But 200 is the *starting* count, not a
 contract — `replan` and `frontier-scan` will add, deepen, and swap ghost nodes as the
 field moves. **Mastery = finishing a LIVING graph, not a frozen list.** God-level isn't

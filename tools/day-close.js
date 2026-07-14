@@ -40,7 +40,7 @@ function getDayNumber(startDateStr) {
 
 function run() {
   console.log('\n==================================================');
-  console.log('            VIZIER DAILY RITUAL: CLOSURE          ');
+  console.log('            VIZIER SYNC & DEPLOYMENT              ');
   console.log('==================================================\n');
 
   // 1. Run build-brain
@@ -82,26 +82,29 @@ function run() {
     scan(knowledgeDir);
   }
 
-  // Read config.json to get start date for Day N
-  let startDateStr = '2026-07-09';
-  if (fs.existsSync(configPath)) {
+  // Read curriculum.json to get start date for Day N from the active universe
+  const curriculumPath = path.join(repoRoot, 'curriculum', 'curriculum.json');
+  let startDateStr = null;
+  let universeNum = 1;
+  if (fs.existsSync(curriculumPath)) {
     try {
-      const cfg = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
-      if (cfg.start_date) {
-        startDateStr = cfg.start_date;
+      const curData = JSON.parse(fs.readFileSync(curriculumPath, 'utf-8'));
+      if (curData.universe) {
+        startDateStr = curData.universe.started;
+        universeNum = curData.universe.number || 1;
       }
     } catch (e) {}
   }
-  const dayNum = getDayNumber(startDateStr);
+  const dayNum = startDateStr ? getDayNumber(startDateStr) : 'ignition';
 
   // 3. Determine Commit Message
   let commitMessage = '';
   if (litToday) {
     commitMessage = `learn(${litToday.id}): ${litToday.title}`;
   } else if (chargingNodes.length > 0) {
-    commitMessage = `progress(day-${dayNum}): daily work on ${chargingNodes[0]}`;
+    commitMessage = `progress(u${universeNum}-day-${dayNum}): daily work on ${chargingNodes[0]}`;
   } else {
-    commitMessage = `progress(day-${dayNum}): daily work`;
+    commitMessage = `progress(u${universeNum}-day-${dayNum}): daily work`;
   }
 
   console.log(`📝 Calculated commit message: "${commitMessage}"`);

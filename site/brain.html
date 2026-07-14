@@ -21,7 +21,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="VIZIER — AI Engineering Brain">
-  <meta name="twitter:description" content="A living knowledge graph of one human mastering AI engineering in public. 200 planned nodes · 10 domains · 250-day marathon.">
+  <meta name="twitter:description" content="A living knowledge graph of one human mastering AI engineering in public. 200 planned nodes · 10 domains · Universe 01.">
   <meta name="twitter:image" content="assets/og-image.png">
 
   <!-- Fonts -->
@@ -635,7 +635,7 @@
   </button>
   <div class="brand-row">
     <div class="brand">VIZIER</div>
-    <div class="day-chip" id="day-chip">IGNITION PENDING</div>
+    <div class="day-chip" id="day-chip">UNIVERSE 01 · ACTIVE</div>
   </div>
 
   <div class="nav-row">
@@ -1055,16 +1055,11 @@ function loadData(src) {
       strip.innerHTML = `LIVE — visitors watch one brain wire itself up in real time.`;
     }
 
-    // Update day chip from marathon metadata
+    // Update universe chip from metadata
     const chipEl = document.getElementById('day-chip');
-    if (chipEl && data.metadata && data.metadata.marathon && data.metadata.marathon.start_date) {
-      const start = new Date(data.metadata.marathon.start_date);
-      const today = new Date();
-      start.setHours(0,0,0,0); today.setHours(0,0,0,0);
-      const dayN = Math.max(1, Math.floor((today - start) / 86400000) + 1);
-      chipEl.textContent = `Day ${dayN} of 250`;
-    } else if (chipEl) {
-      chipEl.textContent = 'IGNITION PENDING';
+    if (chipEl && data.metadata && data.metadata.universe) {
+      const u = data.metadata.universe;
+      chipEl.textContent = `${u.title} · ${u.status.toUpperCase()}`;
     }
     
     renderGraph();

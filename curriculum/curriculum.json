@@ -1,9 +1,13 @@
 {
   "version": "1.0.0",
-  "updated_at": "2026-07-14T05:09:56.344Z",
-  "marathon": {
-    "days": 250,
-    "start_date": null
+  "updated_at": "2026-07-14T05:32:05.954Z",
+  "universe": {
+    "number": 1,
+    "codename": "AI ENGINEERING",
+    "title": "Universe 01 — AI Engineering Mastery",
+    "status": "active",
+    "started": null,
+    "completed": null
   },
   "nodes": [
     {

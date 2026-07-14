@@ -1,6 +1,6 @@
-# VIZIER Daily Ritual & Runbook
+# VIZIER Sync Ritual & Runbook
 
-This document is the operational heart of the VIZIER project. It defines the daily protocol, content pipeline, evolutionary logic, and non-negotiable rules for mastering AI engineering over the 251-day marathon.
+This document is the operational heart of the VIZIER project. It defines the daily protocol, content pipeline, evolutionary logic, and non-negotiable rules for mastering AI engineering.
 
 ---
 
@@ -14,7 +14,7 @@ graph TD
     B -->|Pick or Continue| C[Learn, Build & Code]
     C --> D[Write markdown note in brain/notes/]
     D -->|Add wikilinks| E[Run finish-node]
-    E --> F[Run day:close]
+    E --> F[Run sync]
     F --> G[End Day]
 ```
 
@@ -39,12 +39,12 @@ graph TD
    * This changes the note status to `learned`, writes completion dates, and automatically locks the node's metadata locally in `curriculum/.locked/<node-id>.json`.
    * *Note: Multiple node finishes in one day are normal; zero finishes is also normal.*
 
-4. **Close the Day**:
-   **ALWAYS** run this command at the end of the day, even on charging-only days where zero nodes were finished:
+4. **Sync State**:
+   **ALWAYS** run this command at the end of the day or after significant work, even on charging-only days where zero nodes were finished:
    ```bash
-   npm run day:close
+   npm run sync
    ```
-   * This is the absolute heartbeat of the brain. It rebuilds the static files, increments the Day counter, commits the changes, and pushes to `main` on GitHub, triggering the public Vercel deploy.
+   * This is the absolute heartbeat of the brain. It rebuilds the static files, calculates universe statistics, commits the changes, and pushes to `main` on GitHub, triggering the public Vercel deploy.
 
 ---
 
@@ -88,10 +88,10 @@ The curriculum graph is not static; it evolves with the AI engineering field and
 
 ## 4. THE NON-NEGOTIABLE RULES
 
-* **Show Up Daily**: The daily run of `npm run day:close` is the heartbeat of this project. Skipping days breaks the chain.
+* **Show Up Daily**: The run of `npm run sync` is the heartbeat of this project. Skipping days breaks the chain.
 * **Charging Days Count**: A day spent struggling to understand a complex paper without lighting a node is a real, successful day. Do not rush or force completions.
 * **Mandatory Feynman Explanation**: The Feynman explanation section ("Explain like I am 12") must be fully filled out and readable before running `npm run finish-node`.
 * **Absolute Honesty**: Never backfill notes or dates dishonestly. The system is designed to show true progress.
 * **VISION vs. LIVE**:
-  * **VISION** mode (the preview graph) shares the dream—it shows the entire 251-day roadmap of where you are going.
-  * **LIVE** mode (the default graph) shares the proof—it shows only the nodes you have actually lit and built.
+  * **VISION** mode (the preview graph) shares the plan—it shows the entire universe roadmap of where you are going.
+  * **LIVE** mode (the default graph) shares the proof—it shows only the nodes you have actually lit and built, with charging nodes pulsing.

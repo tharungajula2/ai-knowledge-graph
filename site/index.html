@@ -9,7 +9,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VIZIER — AI Engineering Knowledge Brain</title>
-  <meta name="description" content="A living knowledge graph of one human mastering AI engineering in public. 200 planned nodes across 10 domains. Explore the 250-day vision or the live real entries.">
+  <meta name="description" content="A living knowledge graph of one human mastering AI engineering in public. 200 planned nodes across 10 domains. Explore the full vision or the live real entries.">
   
   <!-- Favicon -->
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -25,7 +25,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="VIZIER — AI Engineering Brain">
-  <meta name="twitter:description" content="A living knowledge graph of one human mastering AI engineering in public. 200 planned nodes · 10 domains · 250-day marathon.">
+  <meta name="twitter:description" content="A living knowledge graph of one human mastering AI engineering in public. 200 planned nodes · 10 domains · Universe 01.">
   <meta name="twitter:image" content="assets/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -237,13 +237,12 @@
 </nav>
 
 <section class="hero">
-  <div class="hero-chip" id="hero-badge">IGNITION PENDING &middot; 250-DAY MARATHON</div>
+  <div class="hero-chip" id="hero-badge">UNIVERSE 01 &middot; ACTIVE</div>
   <h1>AI Engineering Brain</h1>
   <p>A living knowledge graph of one human mastering AI engineering in public. 200 planned nodes across 10 domains. Nodes light up only when the learning is real — some take an hour, some take days. The past is locked. The future evolves.</p>
   <div class="hero-day" id="stats-line">
     <span id="stat-lit">0</span> / <span id="stat-total">200</span> NODES LIT &middot;
     <span id="stat-charging">0</span> CHARGING &middot;
-    <span id="stat-day">IGNITION PENDING</span> &middot;
     HUMAN-GATED &middot;
     SELF-EVOLVING PLAN (<span id="stat-version">v1.0.0</span>)
   </div>
@@ -254,7 +253,7 @@
     </a>
     <a href="./brain.html?mode=preview" class="btn-ghost">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-      See the 250-Day Vision
+      See the Full Vision
     </a>
   </div>
 </section>
@@ -304,7 +303,7 @@
       <div class="card">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
         <h3>Grows in Public</h3>
-        <p>Every published note is visible here, live. Watch the brain catch up to the 250-day vision in real time.</p>
+        <p>Every published note is visible here, live. Watch the active universe evolve and wire itself in real time.</p>
       </div>
       <div class="card">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
@@ -445,31 +444,16 @@ fetch('brain-index.public.json')
     const totalCount = meta.node_count ?? 200;
     const chargingCount = meta.charging_count ?? 0;
     const planVer = meta.plan_version ?? '1.0.0';
-    const startDateStr = meta.marathon ? meta.marathon.start_date : null;
-
     document.getElementById('stat-lit').textContent = litCount;
     document.getElementById('stat-total').textContent = totalCount;
     document.getElementById('stat-charging').textContent = chargingCount;
     const verEl = document.getElementById('stat-version');
     if (verEl) verEl.textContent = 'v' + planVer;
 
-    // Calculate day N or ignition pending
+    // Update universe badge
     const badgeEl = document.getElementById('hero-badge');
-    const statsDayEl = document.getElementById('stat-day');
-    
-    if (startDateStr) {
-      const start = new Date(startDateStr);
-      const today = new Date();
-      start.setHours(0,0,0,0);
-      today.setHours(0,0,0,0);
-      const diffTime = today - start;
-      const dayNumber = Math.max(1, Math.floor(diffTime / 86400000) + 1);
-      
-      if (badgeEl) badgeEl.textContent = `BUILT IN PUBLIC · DAY ${dayNumber} OF 250`;
-      if (statsDayEl) statsDayEl.textContent = `DAY ${dayNumber} OF 250`;
-    } else {
-      if (badgeEl) badgeEl.textContent = `IGNITION PENDING · 250-DAY MARATHON`;
-      if (statsDayEl) statsDayEl.textContent = `IGNITION PENDING`;
+    if (badgeEl && meta.universe) {
+      badgeEl.textContent = `${meta.universe.title.toUpperCase()} · ${meta.universe.status.toUpperCase()}`;
     }
 
     // Filter to genuinely lit nodes

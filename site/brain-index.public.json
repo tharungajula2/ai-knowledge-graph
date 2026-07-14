@@ -5194,16 +5194,20 @@
     }
   ],
   "metadata": {
-    "generated_at": "2026-07-14T05:09:56.346Z",
+    "generated_at": "2026-07-14T05:32:05.956Z",
     "plan_version": "1.0.0",
     "node_count": 200,
     "lit_count": 0,
     "charging_count": 0,
     "ghost_count": 200,
     "edge_count": 405,
-    "marathon": {
-      "days": 250,
-      "start_date": null
+    "universe": {
+      "number": 1,
+      "codename": "AI ENGINEERING",
+      "title": "Universe 01 — AI Engineering Mastery",
+      "status": "active",
+      "started": null,
+      "completed": null
     }
   }
 }

@@ -7,7 +7,7 @@
   <meta name="description" content="Chronological index of published knowledge nodes from the VIZIER living brain.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <meta property="og:title" content="VIZIER — Latest Notes">
-  <meta property="og:description" content="Published knowledge nodes from the 250-day AI engineering marathon.">
+  <meta property="og:description" content="Published knowledge nodes from the VIZIER AI engineering universe.">
   <meta property="og:image" content="assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="assets/og-image.png">
@@ -20,7 +20,7 @@
   <div class="container">
     <header>
       <a href="./index.html" class="brand">VIZIER</a>
-      <div class="day-badge" id="day-badge">IGNITION PENDING · 250-DAY MARATHON</div>
+      <div class="day-badge" id="day-badge">Universe 01 — AI Engineering Mastery · ACTIVE</div>
     </header>
     <nav>
       <a href="./index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a>
@@ -42,17 +42,14 @@
     </footer>
   </div>
   <script>
-    // Update day badge from marathon metadata
+    // Update universe badge from metadata
     fetch('brain-index.public.json')
       .then(r => r.ok ? r.json() : null)
       .then(data => {
-        if (data && data.metadata && data.metadata.marathon && data.metadata.marathon.start_date) {
-          const start = new Date(data.metadata.marathon.start_date);
-          const today = new Date();
-          start.setHours(0,0,0,0); today.setHours(0,0,0,0);
-          const dayN = Math.max(1, Math.floor((today - start) / 86400000) + 1);
+        if (data && data.metadata && data.metadata.universe) {
+          const u = data.metadata.universe;
           const badge = document.getElementById('day-badge');
-          if (badge) badge.textContent = 'DAY ' + dayN + ' OF 250';
+          if (badge) badge.textContent = u.title + ' · ' + u.status.toUpperCase();
         }
       }).catch(() => {});
   </script>

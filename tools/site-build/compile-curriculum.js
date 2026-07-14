@@ -434,14 +434,53 @@ function compileCurriculum() {
   }
   
   // 7. Write curriculum/curriculum.json (Mastery Graph JSON)
+  let activeUniverse = {
+    number: 1,
+    codename: "AI ENGINEERING",
+    title: "Universe 01 — AI Engineering Mastery",
+    status: "active",
+    started: null,
+    completed: null
+  };
+  
+  const curJsonPath = path.join(curriculumDir, 'curriculum.json');
+  if (fs.existsSync(curJsonPath)) {
+    try {
+      const existingCur = JSON.parse(fs.readFileSync(curJsonPath, 'utf-8'));
+      if (existingCur.universe) {
+        activeUniverse = { ...activeUniverse, ...existingCur.universe };
+      }
+    } catch (e) {}
+  }
+
+  const litNodesList = nodes.filter(n => n.status === 'lit' && n.completed);
+  if (litNodesList.length > 0) {
+    const completedDates = litNodesList.map(n => n.completed).sort();
+    activeUniverse.started = completedDates[0];
+  } else {
+    activeUniverse.started = null;
+  }
+
+  const totalPlannedNodes = nodes.length;
+  const litPlannedCount = nodes.filter(n => n.status === 'lit').length;
+  
+  if (litPlannedCount === totalPlannedNodes) {
+    activeUniverse.status = "complete";
+    const completedDates = litNodesList.map(n => n.completed).sort();
+    activeUniverse.completed = completedDates[completedDates.length - 1];
+  } else {
+    activeUniverse.status = "active";
+    activeUniverse.completed = null;
+  }
+
   const curriculumObj = {
     version: parsed.version,
     updated_at: new Date().toISOString(),
-    marathon: { days: parsed.marathon ? parsed.marathon.days || 250 : 250, start_date: parsed.marathon ? parsed.marathon.start_date || null : null },
+    universe: activeUniverse,
     nodes: nodes,
     milestones: milestones
   };
-  fs.writeFileSync(path.join(curriculumDir, 'curriculum.json'), JSON.stringify(curriculumObj, null, 2));
+  fs.writeFileSync(curJsonPath, JSON.stringify(curriculumObj, null, 2));
   console.log(`Saved curriculum.json (Version ${parsed.version}, 200 nodes, 5 milestones).`);
   
   // 8. Generate D3 index JSON for LIVE mode (site/brain-index.public.json)
@@ -551,7 +590,6 @@ function compileCurriculum() {
     }
   }
   
-  const marathonData = curriculumObj.marathon || {};
   const d3LiveIndex = {
     nodes: d3LiveNodes,
     edges: d3LiveEdges,
@@ -563,7 +601,7 @@ function compileCurriculum() {
       charging_count: nodes.filter(n => n.status === 'charging').length,
       ghost_count: nodes.filter(n => n.status === 'ghost').length,
       edge_count: d3LiveEdges.length,
-      marathon: { days: marathonData.days || 250, start_date: marathonData.start_date || null }
+      universe: activeUniverse
     }
   };
   fs.writeFileSync(path.join(siteDir, 'brain-index.public.json'), JSON.stringify(d3LiveIndex, null, 2));

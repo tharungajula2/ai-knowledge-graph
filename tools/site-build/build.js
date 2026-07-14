@@ -344,45 +344,34 @@ function buildSite() {
   // Call exporter first to verify and get files list
   const filesToExport = compileCurriculum();
 
-  // Load marathon start_date and days from curriculum.json
+  // Load universe metadata from curriculum.json
   const curriculumPath = path.join(repoRoot, 'curriculum/curriculum.json');
-  let marathonStartDate = null;
-  let marathonDays = 250;
+  let universeObj = { number: 1, codename: "AI ENGINEERING", title: "Universe 01 — AI Engineering Mastery", status: "active", started: null, completed: null };
   if (fs.existsSync(curriculumPath)) {
     try {
       const curriculumData = JSON.parse(fs.readFileSync(curriculumPath, 'utf-8'));
-      marathonStartDate = curriculumData.marathon ? curriculumData.marathon.start_date : null;
-      marathonDays = curriculumData.marathon ? curriculumData.marathon.days || 250 : 250;
+      if (curriculumData.universe) {
+        universeObj = curriculumData.universe;
+      }
     } catch (e) {
       // ignore
     }
   }
 
-  // Sync to config.json
+  // Sync to config.json (keep only canonical_url, no public start_date)
   try {
     const configPath = path.join(siteDir, 'config.json');
-    let siteConfig = { start_date: marathonStartDate, canonical_url: '' };
+    let siteConfig = { canonical_url: '' };
     if (fs.existsSync(configPath)) {
       try {
         const existing = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
         siteConfig.canonical_url = existing.canonical_url || '';
       } catch (e) {}
     }
-    siteConfig.start_date = marathonStartDate;
     fs.writeFileSync(configPath, JSON.stringify(siteConfig, null, 2));
   } catch (e) {}
 
-  let dayBadgeText = 'IGNITION PENDING';
-  if (marathonStartDate) {
-    const start = new Date(marathonStartDate);
-    const today = new Date();
-    start.setHours(0,0,0,0); today.setHours(0,0,0,0);
-    const diffTime = today - start;
-    const dayN = Math.max(1, Math.floor(diffTime / 86400000) + 1);
-    dayBadgeText = `DAY ${dayN} OF ${marathonDays}`;
-  } else {
-    dayBadgeText = `IGNITION PENDING · ${marathonDays}-DAY MARATHON`;
-  }
+  const universeBadgeText = `${universeObj.title} · ${universeObj.status.toUpperCase()}`;
   
   // HTML Template Wrapper
   function wrapHtml(title, canonicalUrl, contentHtml) {
@@ -402,7 +391,7 @@ function buildSite() {
   <div class="container">
     <header>
       <a href="../index.html" class="brand">VIZIER</a>
-      <div class="day-badge">${dayBadgeText}</div>
+      <div class="day-badge">${universeBadgeText}</div>
     </header>
     <nav>
       <a href="../brain.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain</a>
@@ -494,7 +483,7 @@ function buildSite() {
   <meta name="description" content="Chronological index of published knowledge nodes from the VIZIER living brain.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <meta property="og:title" content="VIZIER — Latest Notes">
-  <meta property="og:description" content="Published knowledge nodes from the 250-day AI engineering marathon.">
+  <meta property="og:description" content="Published knowledge nodes from the VIZIER AI engineering universe.">
   <meta property="og:image" content="assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="assets/og-image.png">
@@ -507,7 +496,7 @@ function buildSite() {
   <div class="container">
     <header>
       <a href="./index.html" class="brand">VIZIER</a>
-      <div class="day-badge" id="day-badge">${dayBadgeText}</div>
+      <div class="day-badge" id="day-badge">${universeBadgeText}</div>
     </header>
     <nav>
       <a href="./index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a>
@@ -529,17 +518,14 @@ function buildSite() {
     </footer>
   </div>
   <script>
-    // Update day badge from marathon metadata
+    // Update universe badge from metadata
     fetch('brain-index.public.json')
       .then(r => r.ok ? r.json() : null)
       .then(data => {
-        if (data && data.metadata && data.metadata.marathon && data.metadata.marathon.start_date) {
-          const start = new Date(data.metadata.marathon.start_date);
-          const today = new Date();
-          start.setHours(0,0,0,0); today.setHours(0,0,0,0);
-          const dayN = Math.max(1, Math.floor((today - start) / 86400000) + 1);
+        if (data && data.metadata && data.metadata.universe) {
+          const u = data.metadata.universe;
           const badge = document.getElementById('day-badge');
-          if (badge) badge.textContent = 'DAY ' + dayN + ' OF 250';
+          if (badge) badge.textContent = u.title + ' · ' + u.status.toUpperCase();
         }
       }).catch(() => {});
   </script>
@@ -554,10 +540,10 @@ function buildSite() {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — VIZIER Living Brain</title>
-  <meta name="description" content="About VIZIER — a living knowledge graph of one human mastering AI engineering in public. 200 planned nodes across 10 domains over a 250-day marathon.">
+  <meta name="description" content="About VIZIER — a living knowledge graph of one human mastering AI engineering in public. 200 planned nodes across 10 domains.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <meta property="og:title" content="VIZIER — About the Brain">
-  <meta property="og:description" content="200 planned nodes across 10 domains over a 250-day marathon. The past is locked. The future evolves.">
+  <meta property="og:description" content="200 planned nodes across 10 domains. The past is locked. The future evolves.">
   <meta property="og:image" content="assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="assets/og-image.png">
@@ -580,7 +566,7 @@ function buildSite() {
   <div class="container">
     <header>
       <a href="./index.html" class="brand">VIZIER</a>
-      <div class="day-badge" id="day-badge">${dayBadgeText}</div>
+      <div class="day-badge" id="day-badge">${universeBadgeText}</div>
     </header>
     <nav>
       <a href="./index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a>
@@ -592,7 +578,7 @@ function buildSite() {
       <h1>About VIZIER</h1>
 
       <h2>What is this?</h2>
-      <p>This is a living, public knowledge graph representing a personal mastery roadmap. The graph is built around learning nodes, not just passing days, detailing a 250-day marathon to master frontier AI engineering. 200 planned nodes across 10 domains &mdash; each one a concept, build, or synthesis worth genuinely understanding.</p>
+      <p>This is a living, public knowledge graph representing a personal mastery roadmap. The graph is built around learning universes and node-based progress, tracking the journey to master frontier AI engineering. 200 planned nodes across 10 domains &mdash; each one a concept, build, or synthesis worth genuinely understanding.</p>
 
       <h2>The Node Protocol</h2>
       <p>A node lights up only when its note contains a Feynman explanation that a 12-year-old could follow, and (for build nodes) an artifact that actually runs. Notes are dynamically wikilinked; the knowledge graph automatically rewires nightly based on their relationships.</p>
@@ -621,7 +607,7 @@ function buildSite() {
       <p>Inside the repository sleeps a complete agentic lab system (including supervisor, memory, RAG, approval gate, and injection scanner)&mdash;built agentically, but deliberately frozen. A floating milestone called <strong>THE RESURRECTION</strong> will bring the system back online, deployed manually. Until then, it serves as the master textbook.</p>
 
       <h2>Honest Limits</h2>
-      <p>Streaks are never backfilled. Charging days are shown honestly as charging. The counter tells the truth. The past is locked &mdash; there is no editing history to make the journey look smoother than it was.</p>
+      <p>Charging days are shown honestly as charging. The past is locked &mdash; there is no editing history to make the journey look smoother than it was.</p>
     </main>
     <footer style="margin-top: 60px; border-top: 1px solid var(--panel-border); padding-top: 20px; font-size: 0.8rem; color: var(--text-dark);">
       VIZIER &mdash; built in public &mdash;
@@ -631,17 +617,14 @@ function buildSite() {
     </footer>
   </div>
   <script>
-    // Update day badge from marathon metadata
+    // Update universe badge from metadata
     fetch('brain-index.public.json')
       .then(r => r.ok ? r.json() : null)
       .then(data => {
-        if (data && data.metadata && data.metadata.marathon && data.metadata.marathon.start_date) {
-          const start = new Date(data.metadata.marathon.start_date);
-          const today = new Date();
-          start.setHours(0,0,0,0); today.setHours(0,0,0,0);
-          const dayN = Math.max(1, Math.floor((today - start) / 86400000) + 1);
+        if (data && data.metadata && data.metadata.universe) {
+          const u = data.metadata.universe;
           const badge = document.getElementById('day-badge');
-          if (badge) badge.textContent = 'DAY ' + dayN + ' OF 250';
+          if (badge) badge.textContent = u.title + ' · ' + u.status.toUpperCase();
         }
       }).catch(() => {});
   </script>
