@@ -403,10 +403,7 @@ function buildSite() {
       <div class="day-badge" id="day-badge">${universeBadgeText}</div>
     </header>
     <nav>
-      <a href="../brain.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain</a>
-      <a href="../feed.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg> Feed</a>
-      <a href="../capabilities.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Capabilities</a>
-      <a href="../about.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> About</a>
+      <a href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain</a>
     </nav>
     <main style="margin-top: 20px;">
       ${contentHtml}
@@ -460,7 +457,7 @@ function buildSite() {
       noteMeta.title || noteSlug,
       siteConfig.canonical_url ? `${siteConfig.canonical_url}/notes/${noteSlug}.html` : '',
       `
-      <a href="../brain.html" class="back-btn">
+      <a href="../index.html" class="back-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-right:4px;"><polyline points="15 18 9 12 15 6"/></svg>
         Back to Brain
       </a>
@@ -487,200 +484,6 @@ function buildSite() {
       date: new Date(dateStr)
     });
   }
-
-  // 5. Generate Feed Page (feed.html)
-  // Sort newest first
-  feedItems.sort((a, b) => b.date - a.date);
-  
-  const feedListHtml = feedItems.map(item => `
-    <div class="feed-item">
-      <a href="notes/${item.slug}.html">${item.title}</a>
-      <div class="metadata-row" style="margin-top: 4px; margin-bottom: 0;">
-        <span class="tag">Domain: ${item.domain}</span>
-      </div>
-      <div class="date">Completed: ${item.date.toLocaleDateString()}</div>
-    </div>
-  `).join('\n');
-
-  const feedPageHtml = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Latest Feed — VIZIER Living Brain</title>
-  <meta name="description" content="Chronological index of published knowledge nodes from the VIZIER living brain.">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <meta property="og:title" content="VIZIER — Latest Notes">
-  <meta property="og:description" content="Published knowledge nodes from the VIZIER AI engineering universe.">
-  <meta property="og:image" content="assets/og-image.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="assets/og-image.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css">
-</head>
-<body>
-  <div class="container">
-    <header>
-      <a href="./index.html" class="brand">VIZIER</a>
-      <div class="day-badge" id="day-badge">${universeBadgeText}</div>
-    </header>
-    <nav>
-      <a href="./index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a>
-      <a href="./brain.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain</a>
-      <a href="./feed.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg> Feed</a>
-      <a href="./about.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> About</a>
-    </nav>
-    <main style="margin-top: 20px;">
-      <h1>Latest Notes Feed</h1>
-      <p style="color: var(--text-muted); margin-bottom: 30px;">Every entry here is a lit node &mdash; genuinely learned, Feynman-tested, locked forever.</p>
-      <div class="feed-list" id="feed-list">
-        ${feedListHtml || '<p style="color: var(--text-dark)">Nothing yet. The first node lights soon &mdash; watch this space.</p>'}
-      </div>
-    </main>
-    <footer style="margin-top: 60px; border-top: 1px solid var(--panel-border); padding-top: 20px; font-size: 0.8rem; color: var(--text-dark);">
-      VIZIER &mdash; built in public &mdash;
-      <a href="./index.html" style="color: var(--accent-bright);">Home</a> &nbsp;&middot;&nbsp;
-      <a href="./brain.html" style="color: var(--accent-bright);">Brain</a>
-    </footer>
-  </div>
-  <script>
-    fetch('brain-index.public.json')
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (data && data.metadata && data.metadata.universe) {
-          const u = data.metadata.universe;
-          const badge = document.getElementById('day-badge');
-          if (badge) {
-            const litCount = data.nodes ? data.nodes.filter(n => n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length : 0;
-            const totalCount = data.metadata.node_count ?? 228;
-            if (u.status === 'complete' || litCount === totalCount) {
-              badge.textContent = 'UNIVERSE 01 · COMPLETE';
-            } else {
-              badge.textContent = u.title.split(' — ')[0].toUpperCase() + ' · ' + u.codename.toUpperCase();
-            }
-          }
-        }
-      }).catch(() => {});
-  </script>
-</body>
-</html>`;
-  fs.writeFileSync(path.join(siteDir, 'feed.html'), feedPageHtml);
-
-  // 6. Generate About Page (about.html)
-  const aboutPageHtml = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About — VIZIER Living Brain</title>
-  <meta name="description" content="About VIZIER — a living knowledge graph of one human mastering AI engineering in public. 228 planned nodes across 10 domains.">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <meta property="og:title" content="VIZIER — About the Brain">
-  <meta property="og:description" content="228 planned nodes across 10 domains. The past is locked. The future evolves.">
-  <meta property="og:image" content="assets/og-image.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="assets/og-image.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css">
-  <style>
-    .legend-box { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 8px; padding: 16px; margin: 20px 0; }
-    .legend-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-    .legend-item:last-child { margin-bottom: 0; }
-    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-    .dot.ghost { background: #475569; box-shadow: 0 0 8px rgba(71,85,105,0.4); }
-    .dot.charging { background: #f6ad55; box-shadow: 0 0 12px rgba(246,173,85,0.7); animation: pulse 1.8s infinite ease-in-out; }
-    .dot.lit { background: #3ee2e2; box-shadow: 0 0 14px rgba(62,226,226,0.85); }
-    @keyframes pulse { 0%, 100% { opacity: 0.6; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.15); } }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header>
-      <a href="./index.html" class="brand">VIZIER</a>
-      <div class="day-badge" id="day-badge">${universeBadgeText}</div>
-    </header>
-    <nav>
-      <a href="./index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a>
-      <a href="./brain.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain</a>
-      <a href="./feed.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg> Feed</a>
-      <a href="./about.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> About</a>
-    </nav>
-    <main style="margin-top: 20px;">
-      <h1>About VIZIER</h1>
-
-      <h2>What is this?</h2>
-      <p>A living, public knowledge graph — a personal mastery roadmap built around learning NODES, not days. Universe 01 covers frontier AI engineering: 228 planned nodes across 10 domains, each a concept, build, or synthesis worth genuinely understanding. Some nodes take an hour; some take days. Progress is measured in light, not time.</p>
-
-      <h2>The Node Protocol</h2>
-      <p>A node lights up only when its note contains a Feynman explanation that a 12-year-old could follow, and (for build nodes) an artifact that actually runs. Notes are dynamically wikilinked; the knowledge graph automatically rewires nightly based on their relationships.</p>
-
-      <h2>Immutable Past, Fluid Future</h2>
-      <p>Once a node is lit, it is locked forever. Ghost nodes represent planned topics for plan v1.0.0, which can be revised through human-approved replans. Every revision is publicly logged in the repository changelog. Transparency about plan adaptations is a core feature of the system.</p>
-
-      <h2>The Three States</h2>
-      <p>The learning roadmap is tracked across three distinct states:</p>
-      <div class="legend-box">
-        <div class="legend-item">
-          <span class="dot ghost"></span>
-          <span><strong>Ghost:</strong> Planned knowledge node, currently unlit.</span>
-        </div>
-        <div class="legend-item">
-          <span class="dot charging"></span>
-          <span><strong>Charging:</strong> Node is currently in progress, pulsing.</span>
-        </div>
-        <div class="legend-item">
-          <span class="dot lit"></span>
-          <span><strong>Lit:</strong> Note is completed, Feynman-tested, and locked forever.</span>
-        </div>
-      </div>
-
-      <h2 id="universes">Universes</h2>
-      <p>VIZIER is a generational engine. Each complete mastery graph is a Universe. This is UNIVERSE 01 — AI ENGINEERING. When its final node lights, Universe 01 is archived forever — every note, every lock, every changelog entry preserved read-only — and Universe 02 begins with a fresh graph. The field moves at exponential speed; the machine is built to begin again.</p>
-
-      <h2 id="milestones">The Frozen Engine</h2>
-      <p>Inside the repository sleeps a complete agentic lab system (including supervisor, memory, RAG, approval gate, and injection scanner)&mdash;built agentically, but deliberately frozen. A floating milestone called <strong>THE RESURRECTION</strong> will bring the system back online, deployed manually. Until then, it serves as the master textbook.</p>
-
-      <h2>Honest Limits</h2>
-      <p>Charging nodes are shown honestly as charging. Lit nodes are locked — there is no editing history to make the journey look smoother than it was. Ghost nodes are a plan, and plans change: every revision is logged publicly.</p>
-    </main>
-    <footer style="margin-top: 60px; border-top: 1px solid var(--panel-border); padding-top: 20px; font-size: 0.8rem; color: var(--text-dark);">
-      VIZIER &mdash; built in public &mdash;
-      <a href="./index.html" style="color: var(--accent-bright);">Home</a> &nbsp;&middot;&nbsp;
-      <a href="./brain.html" style="color: var(--accent-bright);">Brain</a> &nbsp;&middot;&nbsp;
-      <a href="./feed.html" style="color: var(--accent-bright);">Feed</a>
-    </footer>
-  </div>
-  <script>
-    // Update universe badge from metadata
-    fetch('brain-index.public.json')
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (data && data.metadata && data.metadata.universe) {
-          const u = data.metadata.universe;
-          const badge = document.getElementById('day-badge');
-          if (badge) {
-            const litCount = data.nodes ? data.nodes.filter(n => n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length : 0;
-            const totalCount = data.metadata.node_count ?? 228;
-            if (u.status === 'complete' || litCount === totalCount) {
-              badge.textContent = 'UNIVERSE 01 · COMPLETE';
-            } else {
-              badge.textContent = u.title.split(' — ')[0].toUpperCase() + ' · ' + u.codename.toUpperCase();
-            }
-          }
-        }
-      }).catch(() => {});
-  </script>
-</body>
-</html>`;
-  fs.writeFileSync(path.join(siteDir, 'about.html'), aboutPageHtml);
-
-  // 7. brain.html day chip is now updated client-side from marathon.start_date in brain-index.public.json.
-  //    No static injection needed here.
-  // feed.html day badge is updated client-side from marathon metadata. No static injection.
 
   console.log('--- Static Site Build Completed successfully! ---');
 }

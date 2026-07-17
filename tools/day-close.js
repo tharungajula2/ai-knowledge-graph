@@ -125,8 +125,8 @@ function run() {
     }
 
     console.log('git push...');
-    execSync('git push origin main', { stdio: 'inherit' });
-    console.log('🚀 Pushed to origin main successfully.\n');
+    execSync('git push origin brain-only', { stdio: 'inherit' });
+    console.log('🚀 Pushed to origin brain-only successfully.\n');
   } catch (err) {
     console.error('❌ Error during Git actions:', err.message);
     process.exit(1);

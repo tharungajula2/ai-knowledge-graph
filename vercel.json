@@ -1,5 +1,18 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build-brain",
-  "outputDirectory": "site"
+  "outputDirectory": "site",
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/brain",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/brain.html",
+      "destination": "/",
+      "permanent": true
+    }
+  ]
 }

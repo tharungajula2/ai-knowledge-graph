@@ -5,18 +5,17 @@ This guide outlines the steps to deploy the **VIZIER Living Brain** public site 
 ---
 
 ## 1. Architecture & Privacy Architecture
-* **Private Source Repository**: The root repository containing `agent-lab/`, raw notes, tools, and scripts remains private.
+* **Private Source Repository**: The root repository containing raw notes, tools, and scripts remains private.
 * **Public Static Deployment**: Vercel compiles the project on push, but **only serves the contents of the `site/` folder** as static output. 
 * **Zero Secrets in Build**: All Gemini API keys, local secrets, and environment configurations are stored in local files (`_local-secrets/.env`) and are **not** committed to GitHub or Vercel.
 
 ---
 
 ## 2. Configuration Setup
-The project contains a root `vercel.json` file which instructs Vercel how to build and serve the project:
-* **Build Command**: `npm run build-brain && node tools/site-build/gen-preview-brain.js`
+* **Build Command**: `npm run build-brain`
 * **Output Directory**: `site`
 
-By pointing the output directory exclusively to `site`, Vercel completely ignores `agent-lab/` and other source directories, guaranteeing they are never deployed or exposed.
+By pointing the output directory exclusively to `site`, Vercel completely ignores other source directories, guaranteeing they are never deployed or exposed.
 
 ---
 
@@ -37,9 +36,9 @@ Follow these instructions to connect your private GitHub repository to Vercel:
    * **Framework Preset**: Choose **Other**.
    * **Root Directory**: Keep it as the workspace root (`./`). Do **not** set it to `site/` because the build commands need to run from the root where `package.json` resides.
    * **Build and Development Settings**:
-     * Vercel will automatically read `vercel.json` and populate the **Build Command** as `npm run build-brain && node tools/site-build/gen-preview-brain.js` and the **Output Directory** as `site`.
+     * Vercel will automatically read `vercel.json` and populate the **Build Command** as `npm run build-brain` and the **Output Directory** as `site`.
      * If they do not appear, expand the section and override them manually:
-       * **Build Command**: `npm run build-brain && node tools/site-build/gen-preview-brain.js`
+       * **Build Command**: `npm run build-brain`
        * **Output Directory**: `site`
        * **Install Command**: Leave empty or keep default `npm install`.
 

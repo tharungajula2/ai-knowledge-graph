@@ -20,7 +20,6 @@ vizier-ai/
 ├── posts/               # Content archives and LinkedIn/Twitter draft posts
 ├── tools/               # Build pipelines, indexers, AI replanning and scan scripts
 ├── docs/                # System specifications, deployment guides, and daily runbooks
-├── agent-lab/           # The frozen agentic engine (FastAPI, LangGraph, etc.)
 └── _local-secrets/      # Gitignored local credentials, API tokens, and configurations
 ```
 
@@ -50,7 +49,7 @@ Keep all secrets isolated outside the source code tree. Set up the `_local-secre
 ### 3. Run Build and Validation Scripts
 Run the compiler scripts to scan your markdown notes, calculate network connections, and compile static web assets:
 ```bash
-# Compile nodes, generate feed, and render markdown files to HTML pages
+# Compile nodes, update visualizer index, and render markdown files to HTML pages
 npm run build-brain
 ```
 
@@ -59,7 +58,7 @@ To view the visualizer locally:
 ```bash
 # Start a simple HTTP server in the root or site directory
 python -m http.server 8000
-# Open http://localhost:8000/site/brain.html in your browser
+# Open http://localhost:8000/site/index.html in your browser
 ```
 
 ---

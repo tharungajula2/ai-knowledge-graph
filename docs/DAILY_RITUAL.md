@@ -28,7 +28,7 @@ graph TD
 
 2. **Learn & Build**:
    * Research the topic against primary papers, specifications, or codebases.
-   * Attempt a local script, prompt template, or integration within `agent-lab/`.
+   * Attempt a local script, prompt template, or build project in your workspace.
    * Keep the note open and document your findings, thoughts, and lessons. Drop double-bracket `[[wikilinks]]` as you discover connections.
 
 3. **Verify & Complete**:
@@ -58,7 +58,7 @@ The content loop handles sharing your journey with the world.
   1. **Carousel**: Slide decks explaining complex mechanisms step-by-step.
   2. **Text**: Deep-dive text posts containing code blocks and theoretical breakdowns.
   3. **Infographic**: High-fidelity architectural diagrams or flowcharts.
-  4. **Video**: Quick walkthroughs or screenshares demonstrating a working prototype from `agent-lab/`.
+  4. **Video**: Quick walkthroughs or screenshares demonstrating a working prototype.
 * **Sunday Batch Session**: Use Sunday to review the week's notes, batch-generate posts for the upcoming week, and schedule the pipeline.
 
 ---
