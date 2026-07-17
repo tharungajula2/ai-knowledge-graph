@@ -134,9 +134,9 @@ Ultimately, Vizier provides an honest ledger of learning progress alongside a se
 * **Replan**: Execute `npm run replan` to interactively modify ghost nodes using LLM suggestions on approved prompts, updating `curriculum/curriculum.json` and `CHANGELOG.md`.
 * **Capstone checkpoints**: Every domain's final capstone requires evaluating progress and performing a replan before moving to the next ring.
 
-## 16. The Full 200-Node Curriculum Map
+## 16. The Full 228-Node Curriculum Map
 
-### DOMAIN 01 — FOUNDATIONS · ring: `foundations` · 21 nodes
+### DOMAIN 01 — FOUNDATIONS · ring: `foundations` · 24 nodes
 *How AI actually works, plus the engineer's floor everything stands on.*
 
 #### Cluster: How AI Works
@@ -151,6 +151,8 @@ Ultimately, Vizier provides an honest ledger of learning progress alongside a se
 * **sampling-controls** — Temperature & Top-p (concept · S): why the same prompt gives different answers.
 * **hallucination** — Hallucination (concept · S): why models confidently make things up; grounding preview.
 * **model-landscape** — The Current Model Landscape (frontier · S): open vs closed, frontier vs small — as of the day I light this node.
+* **classical-ml-fundamentals** — Classical ML Fundamentals (concept · M): Train/test splits, overfitting/regularization, precision/recall/F1, and confusion matrices.
+* **nlp-transformer-lineage** — NLP Lineage to Transformers (concept · M): From TF-IDF, Word2Vec, and RNNs/LSTMs to self-attention; the architectural lineage that enabled LLMs.
 
 #### Cluster: The Engineer's Floor
 * **python-environments** — Environments & Packages (build · S): venv, pip, running scripts like a pro.
@@ -160,12 +162,12 @@ Ultimately, Vizier provides an honest ledger of learning progress alongside a se
 * **python-typing-pydantic** — Types & Pydantic (build · S): the schema mindset.
 * **git-mastery** — Git Mastery (build · S): branches, commits, history — understand my own daily ritual.
 * **terminal-fluency** — Terminal Fluency (build · S): navigate, pipe, grep — no more fear.
+* **python-craft-professional** — Build: Professional Python Craft (build · M): Build a modular package using typing conventions, unit tests with pytest, execution profiling, and metadata packaging; verify with test passes.
 * **build-token-cost-calculator** — Build: Token & Cost Calculator (build · M): count tokens, estimate API cost, write the explainer.
 
 #### Cluster: Consolidation
 * **synthesis-foundations** — Synthesis: The Foundations Map (synthesis · S): explain "how an LLM works" to a 12-year-old, end to end.
 * **capstone-foundations** — 🏁 Capstone: Foundations (capstone · M): mega-note + carousel "How AI really works" + replan checkpoint.
-
 ### DOMAIN 02 — PROMPTING & LLM APIs · ring: `prompting-apis` · 20 nodes
 *Talk to models like an engineer: APIs, structure, tools, reliability.*
 
@@ -195,19 +197,20 @@ Ultimately, Vizier provides an honest ledger of learning progress alongside a se
 * **synthesis-apis** — Synthesis: The API Layer (synthesis · S): the whole call path, explained start to finish.
 * **capstone-apis** — 🏁 Capstone: APIs (capstone · M): "I taught a computer to take orders" + replan checkpoint.
 
-### DOMAIN 03 — RAG & RETRIEVAL · ring: `rag-retrieval` · 21 nodes
+### DOMAIN 03 — RAG & RETRIEVAL · ring: `rag-retrieval` · 22 nodes
 *Ground models in real knowledge: embeddings, vector search, citations.*
 
 #### Cluster: Retrieval Fundamentals
 * **why-rag** — Why RAG Exists (concept · S): closed-book vs open-book exams; the grounding solution.
 * **embeddings-hands-on** — Embeddings Hands-on (build · S): embed sentences; cosine similarity by hand.
-* **chunking** — Chunking (concept · S): slicing documents; why overlap matters.
-* **vector-databases** — Vector Databases (concept · M): what pgvector/HNSW actually do.
+* **chunking** — Chunking (concept · S): slicing documents, sliding window strategies, semantic chunking, and hierarchical document splitters.
+* **vector-databases** — Vector Databases (concept · M): what pgvector, HNSW graph structures, and IVF index partitioning actually do.
 * **build-first-rag** — Build: First RAG Pipeline (build · M): ingest → embed → store → retrieve → answer.
 
 #### Cluster: Retrieval, Seriously
 * **keyword-fulltext-search** — Keyword & Full-Text Search (concept · S): BM25/tsvector — old magic that still wins.
 * **build-hybrid-search** — Build: Hybrid Search & RRF (build · M): Build a hybrid retrieval system merging semantic vector results (using cosine similarity/pgvector) with keyword full-text matches, re-ranked using Reciprocal Rank Fusion (RRF); verify against test search queries.
+* **build-vector-db-benchmark** — Build: Vector Database Benchmark (build · M): Build a benchmarking script comparing pgvector, local FAISS-style indices, and embedded Chroma-style stores on a corpus, measuring recall@k and latency; verify with comparative performance reports.
 * **reranking** — Reranking (concept · S): the second pass that fixes retrieval quality.
 * **citations-grounding** — Citations & Grounding (build · S): every answer points at its source.
 * **rag-failure-modes** — RAG Failure Modes (concept · S): lost-in-the-middle, bad chunks, stale indexes.
@@ -220,11 +223,10 @@ Ultimately, Vizier provides an honest ledger of learning progress alongside a se
 #### Cluster: RAG on My Own Brain
 * **build-chat-with-my-brain** — Build: Chat With My Brain (build · L): RAG over my own notes, with citations + domain filters — meta and glorious.
 * **evaluate-brain-chat** — Build: Evaluate It (build · M): mini golden set; score faithfulness.
-* **graphrag-preview** — GraphRAG Preview (concept · S): when knowledge is a graph, not a pile.
+* **graphrag-preview** — GraphRAG Preview (concept · S): when knowledge is a graph, not a pile, leveraging community summaries, entity linking, and hierarchical relationship indexing.
 * **semantic-caching** — Semantic Caching (concept · S): answering repeat questions for free.
 * **synthesis-rag** — Synthesis: The Retrieval Story (synthesis · S): the full pipeline, one diagram.
 * **capstone-rag** — 🏁 Capstone: Retrieval (capstone · M): "I gave AI an open book" + replan checkpoint.
-
 ### DOMAIN 04 — AGENTS · ring: `agents` · 20 nodes
 *From chatbot to agent: loops, tools, state, LangGraph.*
 
@@ -310,7 +312,7 @@ Ultimately, Vizier provides an honest ledger of learning progress alongside a se
 * **synthesis-memory** — Synthesis: The Memory Stack (synthesis · S).
 * **capstone-memory** — 🏁 Capstone: Memory (capstone · M): "I built an AI that remembers" + replan checkpoint.
 
-### DOMAIN 07 — EVALS & OBSERVABILITY · ring: `evals-observability` · 19 nodes
+### DOMAIN 07 — EVALS & OBSERVABILITY · ring: `evals-observability` · 22 nodes
 *The senior-engineer superpower: measuring non-deterministic systems.*
 
 #### Cluster: Measuring Quality
@@ -323,6 +325,11 @@ Ultimately, Vizier provides an honest ledger of learning progress alongside a se
 * **eval-frameworks-hands-on** — Eval Frameworks Hands-on (build · M): run current frameworks on my brain-chat.
 * **prompt-regression-tests** — Prompt Regression Tests (build · S): freeze behavior; catch silent breakage.
 * **ci-gates-for-ai** — CI Gates for AI (concept · S): evals as merge blockers.
+
+#### Cluster: MLOps & Model Lifecycle
+* **build-experiment-tracker** — Build: Experiment Tracker & Registry (build · M): Build an experiment tracker integration using MLflow on a free workspace to train a classifier, log hyperparameters/metrics, register the model artifact, and execute batch inference; verify with registered model runs.
+* **data-versioning-reproducibility** — Data Versioning & Reproducibility (concept · S): Data versioning basics, git-for-data, reproducibility standards, and writing model cards.
+* **model-serving-patterns** — Model Serving & Latency Tradeoffs (concept · S): Batch inference vs real-time REST endpoints vs token streaming; latency, cost, and resource tradeoffs.
 
 #### Cluster: Seeing Inside
 * **build-tracing-instrumentation** — Build: Tracing & Instrumentation (build · M): Build a tracing integration that tracks agent executions, span latency, and nested subgraphs using open telemetry SDKs/Langfuse; verify by generating nested run traces.
@@ -337,7 +344,6 @@ Ultimately, Vizier provides an honest ledger of learning progress alongside a se
 * **error-analysis-practice** — Error Analysis Practice (build · S): categorize 20 failures; find the pattern.
 * **synthesis-evals** — Synthesis: Eval-Driven Development (synthesis · S): the full EDD loop, internalized.
 * **capstone-evals** — 🏁 Capstone: Evals (capstone · M): "How I test software that's never the same twice" + replan checkpoint.
-
 ### DOMAIN 08 — SAFETY & SECURITY · ring: `safety-security` · 20 nodes
 *Building agents that can't be turned against you.*
 
@@ -367,7 +373,7 @@ Ultimately, Vizier provides an honest ledger of learning progress alongside a se
 * **synthesis-safety** — Synthesis: Defense in Depth (synthesis · S): the layered diagram.
 * **capstone-safety** — 🏁 Capstone: Safety (capstone · M): "I attacked my own AI. Here's what I learned" + replan checkpoint.
 
-### DOMAIN 09 — PRODUCTION · ring: `production` · 22 nodes
+### DOMAIN 09 — PRODUCTION · ring: `production` · 38 nodes
 *Take systems to the real world. Home ring of RESURRECTION and THE BRIDGE — both pull-forwardable any time.*
 
 #### Cluster: The Backend Craft
@@ -377,7 +383,6 @@ Ultimately, Vizier provides an honest ledger of learning progress alongside a se
 * **build-migration-runner** — Build: Migration Runner & Pool (build · M): Build a schema migration runner that connects to PostgreSQL, manages transaction safety, runs sequential SQL migrations, and exposes database pooling; verify with a clean database reset.
 * **docker-for-ai** — Docker for AI Services (build · M): containerize a small service myself.
 * **deploying-backends** — Deploying Backends (frontier · S): current hosting options and tradeoffs when I light this node.
-* **secrets-done-right** — Secrets Done Right (concept · S): env, vaults, rotation — never again in a repo.
 * **google-oauth-flow** — Build: Google OAuth Integration (build · M): Build a Google OAuth2 client with flow initialization, token storage/rotation, and local redirection handlers; verify with a web authentication login.
 * **gmail-calendar-read** — Build: Gmail & Calendar Reader (build · M): Build services that read from Gmail and Calendar APIs, parse MIME message details, format queries, and sanitize untrusted content markers; verify by listing recent inbox items.
 
@@ -391,19 +396,39 @@ Ultimately, Vizier provides an honest ledger of learning progress alongside a se
 * **monitoring-alerting** — Monitoring & Alerting (concept · S): knowing it broke before users do.
 * **build-demo-mode** — Build: Credential-Free Demo Mode (build · S): Design and build a credential-free mock/simulator mode for the dashboard and backend APIs to run safely without live keys; verify by running local tests.
 
+#### Cluster: Cloud & Deployment Ops
+* **cloud-fundamentals** — Cloud Fundamentals (concept · S): Cloud accounts, projects, regions, IAM roles, and setting up budget/billing alerts from day zero.
+* **compute-choices** — Serverless, VMs & Kubernetes (concept · S): Serverless containers vs virtual machines vs managed Kubernetes clusters; structural trade-offs.
+* **build-container-deployment** — Build: Manual Container Deployment (build · M): Build a Docker image, push it to a registry, and manually deploy it to a serverless container service (e.g., Cloud Run); verify with curl endpoint test.
+* **kubernetes-essentials** — Kubernetes Essentials (concept · M): Pods, deployments, services, ingress controllers, and horizontal pod autoscalers; understanding k8s orchestration conceptually.
+* **cicd-fundamentals** — CI/CD Pipeline Fundamentals (concept · S): Pipeline execution, runner containers, trigger events, and automated stage routing.
+* **build-github-actions-pipeline** — Build: GitHub Actions Pipeline (build · M): Write and run a GitHub Actions YAML workflow that lints Python code, executes pytest runs, builds a container image, and deploys it to staging; verify with commit triggers.
+* **secrets-cost-engineering** — Build: Secrets & Cost Engineering (build · M): Implement secure storage via secrets managers and write utility scripts calculating LLM token cost metrics with strict budget capping; verify with mock budgets.
+* **static-sites-cdns** — Static Sites & CDNs (concept · S): Object storage buckets, CDN caching behavior, and edge routing for high-performance static sites.
+
+#### Cluster: Enterprise Architecture & Scale
+* **multi-tenancy-design** — Multi-tenancy & Tenant Isolation (concept · M): Tenant isolation strategies, Row Level Security (RLS) policies, and per-tenant rate/resource limits.
+* **build-async-workers** — Build: Background Queues & Workers (build · M): Build a background task worker loop using Redis/Celery to run long-running agent execution tasks asynchronously; verify with mock task status polling.
+* **rate-limiting-logs** — Build: API Rate Limiter & Structured Logging (build · M): Build API rate-limiting middleware and a structured JSON logging pipeline that outputs trace-correlated metrics; verify with concurrency bursts.
+* **observability-slos** — Observability & SLOs (concept · S): Metrics, logs, traces, and Service Level Objectives (SLOs) in production systems.
+* **authn-vs-authz** — AuthN vs AuthZ & API Keys (concept · S): Authentication vs Authorization, JWT validation, custom API key tables, and credential authorization roles.
+* **build-load-testing** — Build: API Load Testing (build · M): Write a load testing suite using Locust/k6 to simulate concurrent users accessing agent endpoints and analyze latency spikes; verify with simulated load runs.
+* **caching-layer-depth** — Caching Layers & Vector Cache (concept · S): Multi-tier caching including HTTP response cache, semantic vector cache, and database query pooling.
+* **failure-drills-rollbacks** — Failure Drills & Rollback Protocols (concept · S): Chaos engineering drills, automated rollback protocols, and database migration backup strategy.
+* **compliance-responsible-ai** — Compliance, PII & Responsible AI (concept · S): PII masking compliance, data retention limits, append-only security logs, and responsible-AI org policies.
+
 #### Cluster: The Resurrection
-* **resurrection** — 🔥 Build: RESURRECTION (build · L): deploy Machine 1 + Machine 2 with my own hands — env, DB, migrations, OAuth, scheduler, gate, dashboard, every subsystem verified. -> M1
-* **the-bridge** — 🔥 Build: THE BRIDGE (build · L): the deployed agent proposes brain nodes through its own approval gate — agent + brain, one nervous system. -> M2
+* **resurrection** — 🔥 Build: RESURRECTION (build · L): deploy Machine 1 + Machine 2 with my own hands — env, DB, migrations, OAuth, scheduler, gate, dashboard, every subsystem verified. → M1
+* **the-bridge** — 🔥 Build: THE BRIDGE (build · L): the deployed agent proposes brain nodes through its own approval gate — agent + brain, one nervous system. → M2
 * **hardening-pass** — Build: Hardening Pass (build · M): load, cost caps, failure drills.
 * **synthesis-production** — Synthesis: The Production Diagram (synthesis · S): the full system, mine now.
 * **capstone-production** — 🏁 Capstone: Production (capstone · M): "The AI built it. I understood it. I run it." + replan checkpoint.
-
-### DOMAIN 10 — FRONTIER & CAPSTONE · ring: `frontier-capstone` · 21 nodes
-*THE MOST FLUID RING BY DESIGN — the capstone-production replan checkpoint rewrites the frontier cluster from a fresh frontier-scan before I enter it.*
+### DOMAIN 10 — FRONTIER & CAPSTONE · ring: `frontier-capstone` · 24 nodes
+*THE MOST FLUID RING BY DESIGN — the capstone-production replan checkpoint rewrites the
+frontier cluster from a fresh frontier-scan before I enter it.*
 
 #### Cluster: The Moving Edge (baseline guesses — expect replans)
 * **local-models** — Local Models (build · M): run a model on my own laptop.
-* **fine-tuning-when-why** — Fine-Tuning: When & Why (concept · M): adapter concepts; the buy-vs-tune decision.
 * **small-distilled-models** — Small & Distilled Models (concept · S): why tiny models are eating the edge.
 * **voice-agents** — Voice Agents (concept · M): realtime speech loops; latency budgets.
 * **computer-use-agents** — Computer-Use & Browser Agents (concept · M): agents that click and type.
@@ -413,13 +438,19 @@ Ultimately, Vizier provides an honest ledger of learning progress alongside a se
 * **protocol-futures** — Protocol Futures (frontier · S): where MCP/A2A and successors are heading — live view.
 * **reading-papers-forever** — Reading Papers Forever (concept · S): a personal system to stay frontier forever.
 
+#### Cluster: Fine-Tuning & Model Adaptation
+* **prompt-vs-rag-vs-tune** — Prompting vs RAG vs Fine-Tuning (concept · S): The buy-vs-tune decision matrix; when context injection beats model tuning and vice-versa.
+* **lora-qlora-concepts** — LoRA & QLoRA Concepts (concept · M): Parameter-efficient fine-tuning, LoRA weight adapters, quantization (NF4/FP4), and why a free T4 GPU is enough.
+* **build-qlora-finetune** — Build: QLoRA Fine-Tune (build · L): Build a script to fine-tune a small open model (e.g. Llama-3-8B/Qwen-2.5-Coder) using QLoRA on a custom ~300 pair dataset, hand-review samples, evaluate on a 50-pair held-out set, and compile a before/after eval table artifact; verify with training loss metrics.
+* **preference-tuning-distillation** — Alignment & Distillation (concept · M): DPO, RLHF, reward models, model distillation techniques, and evaluating tuned model alignment.
+
 #### Cluster: VIZIER v2 — The Final Masterpiece
-* **define-vizier-v2** — Define VIZIER v2 (capstone · M): spec the unified agent+brain, written by ME. -> M5
-* **build-vizier-v2-core** — Build: v2 Core Loop (build · L).
-* **vizier-v2-memory-retrieval** — Build: v2 Memory + Retrieval (build · L).
-* **vizier-v2-gate-safety** — Build: v2 Gate + Safety (build · M).
-* **vizier-v2-evals-traces** — Build: v2 Evals + Traces (build · M).
-* **vizier-v2-redteam-ship** — Build: v2 Red-Team & Ship (build · M): golden gate, then deploy.
+* **define-vizier-v2** — Define VIZIER v2 (capstone · M): spec the unified agent+brain rebuilt from scratch by ME, mapped back to the modules that taught it. → M5
+* **build-vizier-v2-core** — Build: v2 Core ReAct Loop (build · L): Rebuild the ReAct execution framework and graph-based supervisor from scratch (taught by build-agent-from-scratch & build-supervisor).
+* **vizier-v2-memory-retrieval** — Build: v2 Memory & RAG (build · L): Integrate long-term memory extraction and hybrid vector retrieval (taught by build-memory-layer & build-hybrid-search).
+* **vizier-v2-gate-safety** — Build: v2 Gate & Security (build · M): Connect the human-in-the-loop proposal queue and injection overlap scanner (taught by build-proposal-gate & build-overlap-scanner).
+* **vizier-v2-evals-traces** — Build: v2 Evals & Tracing (build · M): Implement LLM-as-a-judge regression testing and observability span tracing (taught by build-eval-judge & build-tracing-instrumentation).
+* **vizier-v2-redteam-ship** — Build: v2 Deploy & Ship (build · M): Package, containerize, container-deploy, and establish CI/CD for the entire system (taught by build-github-actions-pipeline & build-container-deployment).
 
 #### Cluster: Graduation
 * **the-full-story** — The Full Story (synthesis · M): long-form essay — the whole arc.
@@ -427,11 +458,10 @@ Ultimately, Vizier provides an honest ledger of learning progress alongside a se
 * **portfolio-integration** — Portfolio Integration (build · M): VIZIER takes its throne on tharungajula.vercel.app.
 * **retrospective** — Retrospective (synthesis · S): what actually changed in me; honest lessons.
 * **graduation** — 🏆 GRADUATION (capstone · S): the graph is lit. Publish the mega-post. Begin again.
-
 ## 17. Cross-Domain Edge Wiring
-* **study-gateway** → `mcp-fundamentals`
-* **hybrid-search-rrf** → `graphrag-deep`
-* **hitl-interrupts** → `the-approval-gate`
+* **build-gateway** → `mcp-fundamentals`
+* **build-hybrid-search** → `graphrag-deep`
+* **hitl-interrupts** → `build-proposal-gate`
 * **designing-tools** → `build-mcp-server`
 * **build-golden-dataset** → `build-redteam-my-agent`
 * **hallucination** → `citations-grounding`
@@ -439,8 +469,16 @@ Ultimately, Vizier provides an honest ledger of learning progress alongside a se
 * **injection-first-look** → `direct-injection`
 * **tool-calling** → `what-makes-an-agent`
 * **build-chat-with-my-brain** → `build-brain-mcp-server`
-* **memory-taxonomy** → `build-memory-layer`
-* **tracing-spans** → `monitoring-alerting`
+* **build-memory-taxonomy** → `build-memory-layer`
+* **build-tracing-instrumentation** → `monitoring-alerting`
+* **build-supervisor** → `build-vizier-v2-core`
+* **build-specialists** → `build-vizier-v2-core`
+* **build-mcp-bridge** → `build-vizier-v2-core`
+* **build-proposal-gate** → `vizier-v2-gate-safety`
+* **build-overlap-scanner** → `vizier-v2-gate-safety`
+* **build-eval-judge** → `vizier-v2-evals-traces`
+* **build-tracing-instrumentation** → `vizier-v2-evals-traces`
+* **build-fastapi-backend** → `vizier-v2-redteam-ship`
 * **Domain Capstone Progression**: Each domain's capstone connects to the next domain's first node.
 * **Milestone Anchors**: Every milestone points to its baseline node.
 

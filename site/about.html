@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — VIZIER Living Brain</title>
-  <meta name="description" content="About VIZIER — a living knowledge graph of one human mastering AI engineering in public. 202 planned nodes across 10 domains.">
+  <meta name="description" content="About VIZIER — a living knowledge graph of one human mastering AI engineering in public. 228 planned nodes across 10 domains.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <meta property="og:title" content="VIZIER — About the Brain">
-  <meta property="og:description" content="202 planned nodes across 10 domains. The past is locked. The future evolves.">
+  <meta property="og:description" content="228 planned nodes across 10 domains. The past is locked. The future evolves.">
   <meta property="og:image" content="assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="assets/og-image.png">
@@ -42,7 +42,7 @@
       <h1>About VIZIER</h1>
 
       <h2>What is this?</h2>
-      <p>A living, public knowledge graph — a personal mastery roadmap built around learning NODES, not days. Universe 01 covers frontier AI engineering: 202 planned nodes across 10 domains, each a concept, build, or synthesis worth genuinely understanding. Some nodes take an hour; some take days. Progress is measured in light, not time.</p>
+      <p>A living, public knowledge graph — a personal mastery roadmap built around learning NODES, not days. Universe 01 covers frontier AI engineering: 228 planned nodes across 10 domains, each a concept, build, or synthesis worth genuinely understanding. Some nodes take an hour; some take days. Progress is measured in light, not time.</p>
 
       <h2>The Node Protocol</h2>
       <p>A node lights up only when its note contains a Feynman explanation that a 12-year-old could follow, and (for build nodes) an artifact that actually runs. Notes are dynamically wikilinked; the knowledge graph automatically rewires nightly based on their relationships.</p>
@@ -93,7 +93,7 @@
           const badge = document.getElementById('day-badge');
           if (badge) {
             const litCount = data.nodes ? data.nodes.filter(n => n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length : 0;
-            const totalCount = data.metadata.node_count ?? 202;
+            const totalCount = data.metadata.node_count ?? 228;
             if (u.status === 'complete' || litCount === totalCount) {
               badge.textContent = 'UNIVERSE 01 · COMPLETE';
             } else {

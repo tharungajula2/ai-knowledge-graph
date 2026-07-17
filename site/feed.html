@@ -58,7 +58,7 @@
           const badge = document.getElementById('day-badge');
           if (badge) {
             const litCount = data.nodes ? data.nodes.filter(n => n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length : 0;
-            const totalCount = data.metadata.node_count ?? 202;
+            const totalCount = data.metadata.node_count ?? 228;
             if (u.status === 'complete' || litCount === totalCount) {
               badge.textContent = 'UNIVERSE 01 · COMPLETE';
             } else {

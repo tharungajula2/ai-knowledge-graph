@@ -265,6 +265,36 @@
       "completed": null
     },
     {
+      "id": "classical-ml-fundamentals",
+      "label": "Classical ML Fundamentals",
+      "title": "Classical ML Fundamentals",
+      "type": "concept",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Train/test splits, overfitting/regularization, precision/recall/F1, and confusion matrices.",
+      "backlinks": [],
+      "slug": "classical-ml-fundamentals",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "nlp-transformer-lineage",
+      "label": "NLP Lineage to Transformers",
+      "title": "NLP Lineage to Transformers",
+      "type": "concept",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "M",
+      "status": "ghost",
+      "summary": "From TF-IDF, Word2Vec, and RNNs/LSTMs to self-attention; the architectural lineage that enabled LLMs.",
+      "backlinks": [],
+      "slug": "nlp-transformer-lineage",
+      "started": null,
+      "completed": null
+    },
+    {
       "id": "python-environments",
       "label": "Environments & Packages",
       "title": "Environments & Packages",
@@ -366,6 +396,21 @@
       "summary": "navigate, pipe, grep — no more fear.",
       "backlinks": [],
       "slug": "terminal-fluency",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "python-craft-professional",
+      "label": "Build: Professional Python Craft",
+      "title": "Build: Professional Python Craft",
+      "type": "build",
+      "ring": "foundations",
+      "domain": "foundations",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Build a modular package using typing conventions, unit tests with pytest, execution profiling, and metadata packaging; verify with test passes.",
+      "backlinks": [],
+      "slug": "python-craft-professional",
       "started": null,
       "completed": null
     },
@@ -753,7 +798,7 @@
       "domain": "rag-retrieval",
       "size": "S",
       "status": "ghost",
-      "summary": "slicing documents; why overlap matters.",
+      "summary": "slicing documents, sliding window strategies, semantic chunking, and hierarchical document splitters.",
       "backlinks": [],
       "slug": "chunking",
       "started": null,
@@ -768,7 +813,7 @@
       "domain": "rag-retrieval",
       "size": "M",
       "status": "ghost",
-      "summary": "what pgvector/HNSW actually do.",
+      "summary": "what pgvector, HNSW graph structures, and IVF index partitioning actually do.",
       "backlinks": [],
       "slug": "vector-databases",
       "started": null,
@@ -816,6 +861,21 @@
       "summary": "Build a hybrid retrieval system merging semantic vector results (using cosine similarity/pgvector) with keyword full-text matches, re-ranked using Reciprocal Rank Fusion (RRF); verify against test search queries.",
       "backlinks": [],
       "slug": "build-hybrid-search",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "build-vector-db-benchmark",
+      "label": "Build: Vector Database Benchmark",
+      "title": "Build: Vector Database Benchmark",
+      "type": "build",
+      "ring": "rag-retrieval",
+      "domain": "rag-retrieval",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Build a benchmarking script comparing pgvector, local FAISS-style indices, and embedded Chroma-style stores on a corpus, measuring recall@k and latency; verify with comparative performance reports.",
+      "backlinks": [],
+      "slug": "build-vector-db-benchmark",
       "started": null,
       "completed": null
     },
@@ -978,7 +1038,7 @@
       "domain": "rag-retrieval",
       "size": "S",
       "status": "ghost",
-      "summary": "when knowledge is a graph, not a pile.",
+      "summary": "when knowledge is a graph, not a pile, leveraging community summaries, entity linking, and hierarchical relationship indexing.",
       "backlinks": [],
       "slug": "graphrag-preview",
       "started": null,
@@ -2035,6 +2095,51 @@
       "completed": null
     },
     {
+      "id": "build-experiment-tracker",
+      "label": "Build: Experiment Tracker & Registry",
+      "title": "Build: Experiment Tracker & Registry",
+      "type": "build",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Build an experiment tracker integration using MLflow on a free workspace to train a classifier, log hyperparameters/metrics, register the model artifact, and execute batch inference; verify with registered model runs.",
+      "backlinks": [],
+      "slug": "build-experiment-tracker",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "data-versioning-reproducibility",
+      "label": "Data Versioning & Reproducibility",
+      "title": "Data Versioning & Reproducibility",
+      "type": "concept",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "S",
+      "status": "ghost",
+      "summary": "Data versioning basics, git-for-data, reproducibility standards, and writing model cards.",
+      "backlinks": [],
+      "slug": "data-versioning-reproducibility",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "model-serving-patterns",
+      "label": "Model Serving & Latency Tradeoffs",
+      "title": "Model Serving & Latency Tradeoffs",
+      "type": "concept",
+      "ring": "evals-observability",
+      "domain": "evals-observability",
+      "size": "S",
+      "status": "ghost",
+      "summary": "Batch inference vs real-time REST endpoints vs token streaming; latency, cost, and resource tradeoffs.",
+      "backlinks": [],
+      "slug": "model-serving-patterns",
+      "started": null,
+      "completed": null
+    },
+    {
       "id": "build-tracing-instrumentation",
       "label": "Build: Tracing & Instrumentation",
       "title": "Build: Tracing & Instrumentation",
@@ -2575,21 +2680,6 @@
       "completed": null
     },
     {
-      "id": "secrets-done-right",
-      "label": "Secrets Done Right",
-      "title": "Secrets Done Right",
-      "type": "concept",
-      "ring": "production",
-      "domain": "production",
-      "size": "S",
-      "status": "ghost",
-      "summary": "env, vaults, rotation — never again in a repo.",
-      "backlinks": [],
-      "slug": "secrets-done-right",
-      "started": null,
-      "completed": null
-    },
-    {
       "id": "google-oauth-flow",
       "label": "Build: Google OAuth Integration",
       "title": "Build: Google OAuth Integration",
@@ -2740,6 +2830,261 @@
       "completed": null
     },
     {
+      "id": "cloud-fundamentals",
+      "label": "Cloud Fundamentals",
+      "title": "Cloud Fundamentals",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "Cloud accounts, projects, regions, IAM roles, and setting up budget/billing alerts from day zero.",
+      "backlinks": [],
+      "slug": "cloud-fundamentals",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "compute-choices",
+      "label": "Serverless, VMs & Kubernetes",
+      "title": "Serverless, VMs & Kubernetes",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "Serverless containers vs virtual machines vs managed Kubernetes clusters; structural trade-offs.",
+      "backlinks": [],
+      "slug": "compute-choices",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "build-container-deployment",
+      "label": "Build: Manual Container Deployment",
+      "title": "Build: Manual Container Deployment",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Build a Docker image, push it to a registry, and manually deploy it to a serverless container service (e.g., Cloud Run); verify with curl endpoint test.",
+      "backlinks": [],
+      "slug": "build-container-deployment",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "kubernetes-essentials",
+      "label": "Kubernetes Essentials",
+      "title": "Kubernetes Essentials",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Pods, deployments, services, ingress controllers, and horizontal pod autoscalers; understanding k8s orchestration conceptually.",
+      "backlinks": [],
+      "slug": "kubernetes-essentials",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "cicd-fundamentals",
+      "label": "CI/CD Pipeline Fundamentals",
+      "title": "CI/CD Pipeline Fundamentals",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "Pipeline execution, runner containers, trigger events, and automated stage routing.",
+      "backlinks": [],
+      "slug": "cicd-fundamentals",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "build-github-actions-pipeline",
+      "label": "Build: GitHub Actions Pipeline",
+      "title": "Build: GitHub Actions Pipeline",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Write and run a GitHub Actions YAML workflow that lints Python code, executes pytest runs, builds a container image, and deploys it to staging; verify with commit triggers.",
+      "backlinks": [],
+      "slug": "build-github-actions-pipeline",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "secrets-cost-engineering",
+      "label": "Build: Secrets & Cost Engineering",
+      "title": "Build: Secrets & Cost Engineering",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Implement secure storage via secrets managers and write utility scripts calculating LLM token cost metrics with strict budget capping; verify with mock budgets.",
+      "backlinks": [],
+      "slug": "secrets-cost-engineering",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "static-sites-cdns",
+      "label": "Static Sites & CDNs",
+      "title": "Static Sites & CDNs",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "Object storage buckets, CDN caching behavior, and edge routing for high-performance static sites.",
+      "backlinks": [],
+      "slug": "static-sites-cdns",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "multi-tenancy-design",
+      "label": "Multi-tenancy & Tenant Isolation",
+      "title": "Multi-tenancy & Tenant Isolation",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Tenant isolation strategies, Row Level Security (RLS) policies, and per-tenant rate/resource limits.",
+      "backlinks": [],
+      "slug": "multi-tenancy-design",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "build-async-workers",
+      "label": "Build: Background Queues & Workers",
+      "title": "Build: Background Queues & Workers",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Build a background task worker loop using Redis/Celery to run long-running agent execution tasks asynchronously; verify with mock task status polling.",
+      "backlinks": [],
+      "slug": "build-async-workers",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "rate-limiting-logs",
+      "label": "Build: API Rate Limiter & Structured Logging",
+      "title": "Build: API Rate Limiter & Structured Logging",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Build API rate-limiting middleware and a structured JSON logging pipeline that outputs trace-correlated metrics; verify with concurrency bursts.",
+      "backlinks": [],
+      "slug": "rate-limiting-logs",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "observability-slos",
+      "label": "Observability & SLOs",
+      "title": "Observability & SLOs",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "Metrics, logs, traces, and Service Level Objectives (SLOs) in production systems.",
+      "backlinks": [],
+      "slug": "observability-slos",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "authn-vs-authz",
+      "label": "AuthN vs AuthZ & API Keys",
+      "title": "AuthN vs AuthZ & API Keys",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "Authentication vs Authorization, JWT validation, custom API key tables, and credential authorization roles.",
+      "backlinks": [],
+      "slug": "authn-vs-authz",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "build-load-testing",
+      "label": "Build: API Load Testing",
+      "title": "Build: API Load Testing",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Write a load testing suite using Locust/k6 to simulate concurrent users accessing agent endpoints and analyze latency spikes; verify with simulated load runs.",
+      "backlinks": [],
+      "slug": "build-load-testing",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "caching-layer-depth",
+      "label": "Caching Layers & Vector Cache",
+      "title": "Caching Layers & Vector Cache",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "Multi-tier caching including HTTP response cache, semantic vector cache, and database query pooling.",
+      "backlinks": [],
+      "slug": "caching-layer-depth",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "failure-drills-rollbacks",
+      "label": "Failure Drills & Rollback Protocols",
+      "title": "Failure Drills & Rollback Protocols",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "Chaos engineering drills, automated rollback protocols, and database migration backup strategy.",
+      "backlinks": [],
+      "slug": "failure-drills-rollbacks",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "compliance-responsible-ai",
+      "label": "Compliance, PII & Responsible AI",
+      "title": "Compliance, PII & Responsible AI",
+      "type": "concept",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "PII masking compliance, data retention limits, append-only security logs, and responsible-AI org policies.",
+      "backlinks": [],
+      "slug": "compliance-responsible-ai",
+      "started": null,
+      "completed": null
+    },
+    {
       "id": "resurrection",
       "label": "🔥 Build: RESURRECTION",
       "title": "🔥 Build: RESURRECTION",
@@ -2826,21 +3171,6 @@
       "summary": "run a model on my own laptop.",
       "backlinks": [],
       "slug": "local-models",
-      "started": null,
-      "completed": null
-    },
-    {
-      "id": "fine-tuning-when-why",
-      "label": "Fine-Tuning: When & Why",
-      "title": "Fine-Tuning: When & Why",
-      "type": "concept",
-      "ring": "frontier-capstone",
-      "domain": "frontier-capstone",
-      "size": "M",
-      "status": "ghost",
-      "summary": "adapter concepts; the buy-vs-tune decision.",
-      "backlinks": [],
-      "slug": "fine-tuning-when-why",
       "started": null,
       "completed": null
     },
@@ -2965,6 +3295,66 @@
       "completed": null
     },
     {
+      "id": "prompt-vs-rag-vs-tune",
+      "label": "Prompting vs RAG vs Fine-Tuning",
+      "title": "Prompting vs RAG vs Fine-Tuning",
+      "type": "concept",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "S",
+      "status": "ghost",
+      "summary": "The buy-vs-tune decision matrix; when context injection beats model tuning and vice-versa.",
+      "backlinks": [],
+      "slug": "prompt-vs-rag-vs-tune",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "lora-qlora-concepts",
+      "label": "LoRA & QLoRA Concepts",
+      "title": "LoRA & QLoRA Concepts",
+      "type": "concept",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Parameter-efficient fine-tuning, LoRA weight adapters, quantization (NF4/FP4), and why a free T4 GPU is enough.",
+      "backlinks": [],
+      "slug": "lora-qlora-concepts",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "build-qlora-finetune",
+      "label": "Build: QLoRA Fine-Tune",
+      "title": "Build: QLoRA Fine-Tune",
+      "type": "build",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "L",
+      "status": "ghost",
+      "summary": "Build a script to fine-tune a small open model (e.g. Llama-3-8B/Qwen-2.5-Coder) using QLoRA on a custom ~300 pair dataset, hand-review samples, evaluate on a 50-pair held-out set, and compile a before/after eval table artifact; verify with training loss metrics.",
+      "backlinks": [],
+      "slug": "build-qlora-finetune",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "preference-tuning-distillation",
+      "label": "Alignment & Distillation",
+      "title": "Alignment & Distillation",
+      "type": "concept",
+      "ring": "frontier-capstone",
+      "domain": "frontier-capstone",
+      "size": "M",
+      "status": "ghost",
+      "summary": "DPO, RLHF, reward models, model distillation techniques, and evaluating tuned model alignment.",
+      "backlinks": [],
+      "slug": "preference-tuning-distillation",
+      "started": null,
+      "completed": null
+    },
+    {
       "id": "define-vizier-v2",
       "label": "Define VIZIER v2",
       "title": "Define VIZIER v2",
@@ -2973,7 +3363,7 @@
       "domain": "frontier-capstone",
       "size": "M",
       "status": "ghost",
-      "summary": "spec the unified agent+brain, written by ME. → M5",
+      "summary": "spec the unified agent+brain rebuilt from scratch by ME, mapped back to the modules that taught it. → M5",
       "backlinks": [],
       "slug": "define-vizier-v2",
       "started": null,
@@ -2981,14 +3371,14 @@
     },
     {
       "id": "build-vizier-v2-core",
-      "label": "Build: v2 Core Loop",
-      "title": "Build: v2 Core Loop",
+      "label": "Build: v2 Core ReAct Loop",
+      "title": "Build: v2 Core ReAct Loop",
       "type": "build",
       "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "size": "L",
       "status": "ghost",
-      "summary": "",
+      "summary": "Rebuild the ReAct execution framework and graph-based supervisor from scratch (taught by build-agent-from-scratch & build-supervisor).",
       "backlinks": [],
       "slug": "build-vizier-v2-core",
       "started": null,
@@ -2996,14 +3386,14 @@
     },
     {
       "id": "vizier-v2-memory-retrieval",
-      "label": "Build: v2 Memory + Retrieval",
-      "title": "Build: v2 Memory + Retrieval",
+      "label": "Build: v2 Memory & RAG",
+      "title": "Build: v2 Memory & RAG",
       "type": "build",
       "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "size": "L",
       "status": "ghost",
-      "summary": "",
+      "summary": "Integrate long-term memory extraction and hybrid vector retrieval (taught by build-memory-layer & build-hybrid-search).",
       "backlinks": [],
       "slug": "vizier-v2-memory-retrieval",
       "started": null,
@@ -3011,14 +3401,14 @@
     },
     {
       "id": "vizier-v2-gate-safety",
-      "label": "Build: v2 Gate + Safety",
-      "title": "Build: v2 Gate + Safety",
+      "label": "Build: v2 Gate & Security",
+      "title": "Build: v2 Gate & Security",
       "type": "build",
       "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "size": "M",
       "status": "ghost",
-      "summary": "",
+      "summary": "Connect the human-in-the-loop proposal queue and injection overlap scanner (taught by build-proposal-gate & build-overlap-scanner).",
       "backlinks": [],
       "slug": "vizier-v2-gate-safety",
       "started": null,
@@ -3026,14 +3416,14 @@
     },
     {
       "id": "vizier-v2-evals-traces",
-      "label": "Build: v2 Evals + Traces",
-      "title": "Build: v2 Evals + Traces",
+      "label": "Build: v2 Evals & Tracing",
+      "title": "Build: v2 Evals & Tracing",
       "type": "build",
       "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "size": "M",
       "status": "ghost",
-      "summary": "",
+      "summary": "Implement LLM-as-a-judge regression testing and observability span tracing (taught by build-eval-judge & build-tracing-instrumentation).",
       "backlinks": [],
       "slug": "vizier-v2-evals-traces",
       "started": null,
@@ -3041,14 +3431,14 @@
     },
     {
       "id": "vizier-v2-redteam-ship",
-      "label": "Build: v2 Red-Team & Ship",
-      "title": "Build: v2 Red-Team & Ship",
+      "label": "Build: v2 Deploy & Ship",
+      "title": "Build: v2 Deploy & Ship",
       "type": "build",
       "ring": "frontier-capstone",
       "domain": "frontier-capstone",
       "size": "M",
       "status": "ghost",
-      "summary": "golden gate, then deploy.",
+      "summary": "Package, containerize, container-deploy, and establish CI/CD for the entire system (taught by build-github-actions-pipeline & build-container-deployment).",
       "backlinks": [],
       "slug": "vizier-v2-redteam-ship",
       "started": null,
@@ -3354,6 +3744,26 @@
     },
     {
       "source": "domain-foundations",
+      "target": "classical-ml-fundamentals",
+      "type": "containment"
+    },
+    {
+      "source": "model-landscape",
+      "target": "classical-ml-fundamentals",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "nlp-transformer-lineage",
+      "type": "containment"
+    },
+    {
+      "source": "classical-ml-fundamentals",
+      "target": "nlp-transformer-lineage",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
       "target": "python-environments",
       "type": "containment"
     },
@@ -3419,11 +3829,21 @@
     },
     {
       "source": "domain-foundations",
-      "target": "build-token-cost-calculator",
+      "target": "python-craft-professional",
       "type": "containment"
     },
     {
       "source": "terminal-fluency",
+      "target": "python-craft-professional",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-foundations",
+      "target": "build-token-cost-calculator",
+      "type": "containment"
+    },
+    {
+      "source": "python-craft-professional",
       "target": "build-token-cost-calculator",
       "type": "dependency"
     },
@@ -3699,11 +4119,21 @@
     },
     {
       "source": "domain-rag-retrieval",
-      "target": "reranking",
+      "target": "build-vector-db-benchmark",
       "type": "containment"
     },
     {
       "source": "build-hybrid-search",
+      "target": "build-vector-db-benchmark",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-rag-retrieval",
+      "target": "reranking",
+      "type": "containment"
+    },
+    {
+      "source": "build-vector-db-benchmark",
       "target": "reranking",
       "type": "dependency"
     },
@@ -4509,6 +4939,31 @@
     },
     {
       "source": "domain-evals-observability",
+      "target": "build-experiment-tracker",
+      "type": "containment"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "data-versioning-reproducibility",
+      "type": "containment"
+    },
+    {
+      "source": "build-experiment-tracker",
+      "target": "data-versioning-reproducibility",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
+      "target": "model-serving-patterns",
+      "type": "containment"
+    },
+    {
+      "source": "data-versioning-reproducibility",
+      "target": "model-serving-patterns",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-evals-observability",
       "target": "build-tracing-instrumentation",
       "type": "containment"
     },
@@ -4864,21 +5319,11 @@
     },
     {
       "source": "domain-production",
-      "target": "secrets-done-right",
-      "type": "containment"
-    },
-    {
-      "source": "deploying-backends",
-      "target": "secrets-done-right",
-      "type": "dependency"
-    },
-    {
-      "source": "domain-production",
       "target": "google-oauth-flow",
       "type": "containment"
     },
     {
-      "source": "secrets-done-right",
+      "source": "deploying-backends",
       "target": "google-oauth-flow",
       "type": "dependency"
     },
@@ -4974,6 +5419,166 @@
     },
     {
       "source": "domain-production",
+      "target": "cloud-fundamentals",
+      "type": "containment"
+    },
+    {
+      "source": "domain-production",
+      "target": "compute-choices",
+      "type": "containment"
+    },
+    {
+      "source": "cloud-fundamentals",
+      "target": "compute-choices",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "build-container-deployment",
+      "type": "containment"
+    },
+    {
+      "source": "compute-choices",
+      "target": "build-container-deployment",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "kubernetes-essentials",
+      "type": "containment"
+    },
+    {
+      "source": "build-container-deployment",
+      "target": "kubernetes-essentials",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "cicd-fundamentals",
+      "type": "containment"
+    },
+    {
+      "source": "kubernetes-essentials",
+      "target": "cicd-fundamentals",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "build-github-actions-pipeline",
+      "type": "containment"
+    },
+    {
+      "source": "cicd-fundamentals",
+      "target": "build-github-actions-pipeline",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "secrets-cost-engineering",
+      "type": "containment"
+    },
+    {
+      "source": "build-github-actions-pipeline",
+      "target": "secrets-cost-engineering",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "static-sites-cdns",
+      "type": "containment"
+    },
+    {
+      "source": "secrets-cost-engineering",
+      "target": "static-sites-cdns",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "multi-tenancy-design",
+      "type": "containment"
+    },
+    {
+      "source": "domain-production",
+      "target": "build-async-workers",
+      "type": "containment"
+    },
+    {
+      "source": "multi-tenancy-design",
+      "target": "build-async-workers",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "rate-limiting-logs",
+      "type": "containment"
+    },
+    {
+      "source": "build-async-workers",
+      "target": "rate-limiting-logs",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "observability-slos",
+      "type": "containment"
+    },
+    {
+      "source": "rate-limiting-logs",
+      "target": "observability-slos",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "authn-vs-authz",
+      "type": "containment"
+    },
+    {
+      "source": "observability-slos",
+      "target": "authn-vs-authz",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "build-load-testing",
+      "type": "containment"
+    },
+    {
+      "source": "authn-vs-authz",
+      "target": "build-load-testing",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "caching-layer-depth",
+      "type": "containment"
+    },
+    {
+      "source": "build-load-testing",
+      "target": "caching-layer-depth",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "failure-drills-rollbacks",
+      "type": "containment"
+    },
+    {
+      "source": "caching-layer-depth",
+      "target": "failure-drills-rollbacks",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "compliance-responsible-ai",
+      "type": "containment"
+    },
+    {
+      "source": "failure-drills-rollbacks",
+      "target": "compliance-responsible-ai",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
       "target": "resurrection",
       "type": "containment"
     },
@@ -5034,21 +5639,11 @@
     },
     {
       "source": "domain-frontier-capstone",
-      "target": "fine-tuning-when-why",
-      "type": "containment"
-    },
-    {
-      "source": "local-models",
-      "target": "fine-tuning-when-why",
-      "type": "dependency"
-    },
-    {
-      "source": "domain-frontier-capstone",
       "target": "small-distilled-models",
       "type": "containment"
     },
     {
-      "source": "fine-tuning-when-why",
+      "source": "local-models",
       "target": "small-distilled-models",
       "type": "dependency"
     },
@@ -5124,6 +5719,41 @@
     },
     {
       "source": "domain-frontier-capstone",
+      "target": "prompt-vs-rag-vs-tune",
+      "type": "containment"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "lora-qlora-concepts",
+      "type": "containment"
+    },
+    {
+      "source": "prompt-vs-rag-vs-tune",
+      "target": "lora-qlora-concepts",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "build-qlora-finetune",
+      "type": "containment"
+    },
+    {
+      "source": "lora-qlora-concepts",
+      "target": "build-qlora-finetune",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
+      "target": "preference-tuning-distillation",
+      "type": "containment"
+    },
+    {
+      "source": "build-qlora-finetune",
+      "target": "preference-tuning-distillation",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-frontier-capstone",
       "target": "define-vizier-v2",
       "type": "containment"
     },
@@ -5134,6 +5764,21 @@
     },
     {
       "source": "define-vizier-v2",
+      "target": "build-vizier-v2-core",
+      "type": "dependency"
+    },
+    {
+      "source": "build-supervisor",
+      "target": "build-vizier-v2-core",
+      "type": "dependency"
+    },
+    {
+      "source": "build-specialists",
+      "target": "build-vizier-v2-core",
+      "type": "dependency"
+    },
+    {
+      "source": "build-mcp-bridge",
       "target": "build-vizier-v2-core",
       "type": "dependency"
     },
@@ -5158,6 +5803,16 @@
       "type": "dependency"
     },
     {
+      "source": "build-proposal-gate",
+      "target": "vizier-v2-gate-safety",
+      "type": "dependency"
+    },
+    {
+      "source": "build-overlap-scanner",
+      "target": "vizier-v2-gate-safety",
+      "type": "dependency"
+    },
+    {
       "source": "domain-frontier-capstone",
       "target": "vizier-v2-evals-traces",
       "type": "containment"
@@ -5168,12 +5823,27 @@
       "type": "dependency"
     },
     {
+      "source": "build-eval-judge",
+      "target": "vizier-v2-evals-traces",
+      "type": "dependency"
+    },
+    {
+      "source": "build-tracing-instrumentation",
+      "target": "vizier-v2-evals-traces",
+      "type": "dependency"
+    },
+    {
       "source": "domain-frontier-capstone",
       "target": "vizier-v2-redteam-ship",
       "type": "containment"
     },
     {
       "source": "vizier-v2-evals-traces",
+      "target": "vizier-v2-redteam-ship",
+      "type": "dependency"
+    },
+    {
+      "source": "build-fastapi-backend",
       "target": "vizier-v2-redteam-ship",
       "type": "dependency"
     },
@@ -5244,13 +5914,13 @@
     }
   ],
   "metadata": {
-    "generated_at": "2026-07-17T18:14:40.335Z",
+    "generated_at": "2026-07-17T18:21:36.046Z",
     "plan_version": "1.0.0",
-    "node_count": 202,
+    "node_count": 228,
     "lit_count": 0,
     "charging_count": 1,
-    "ghost_count": 201,
-    "edge_count": 409,
+    "ghost_count": 227,
+    "edge_count": 465,
     "universe": {
       "number": 1,
       "codename": "AI ENGINEERING",
