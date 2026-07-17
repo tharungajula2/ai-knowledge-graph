@@ -56,10 +56,10 @@ npm run build-brain
 ### 4. Run the Visualizer Locally
 To view the visualizer locally:
 ```bash
-# Start a simple HTTP server in the root or site directory
-python -m http.server 8000
-# Open http://localhost:8000/site/index.html in your browser
+# Start the local web server serving the interactive site
+npm run serve
 ```
+Open **`http://localhost:8080`** in your browser.
 
 ---
 

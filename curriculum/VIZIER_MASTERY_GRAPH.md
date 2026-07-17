@@ -203,7 +203,7 @@ into `agent-lab/`. Cluster headers group nodes; clusters imply sequence edges.
 - build-writer-critic — Build: Writer + Critic (build · M): two agents improving a draft in a loop; add a supervisor; measure gain.
 - build-brain-mcp-server — Build: Brain MCP Server (build · L): expose my brain graph as MCP tools — any AI client can query my learning.
 - experiment-one-vs-many — Experiment: One vs Many (build · M): same task, single vs multi; publish the honest finding.
-- synthesis-multi-agent — Synthesis: The Connected-Agents Map (synthesis · S).
+- synthesis-multi-agent — Synthesis: The Connected-Agents Map (synthesis · S): review and architecture map of multi-agent communication and routing protocols.
 - capstone-multi-agent — 🏁 Capstone: Multi-Agent (capstone · M): + replan checkpoint.
 
 ## DOMAIN 06 — MEMORY & KNOWLEDGE · ring: `memory-knowledge` · 19 nodes
@@ -231,7 +231,7 @@ into `agent-lab/`. Cluster headers group nodes; clusters imply sequence edges.
 - build-link-suggester-v2 — Build: Link-Suggester v2 (build · M): entity-aware edge proposals for the brain, still human-approved.
 - build-brain-reviewer — Build: Self-Critical Graph Reviewer (build · M): Build a self-review script that parses note links, identifies sparse domains, and prompts LLMs to suggest new entity connections and honesty checks; verify with local note files.
 - build-learning-recall-agent — Build: "What Did I Learn?" Agent (build · M): ask my brain about any period; grounded, node-cited answers.
-- synthesis-memory — Synthesis: The Memory Stack (synthesis · S).
+- synthesis-memory — Synthesis: The Memory Stack (synthesis · S): deep-dive review and architecture diagram of the full multi-tier agent memory stack.
 - capstone-memory — 🏁 Capstone: Memory (capstone · M): "I built an AI that remembers" + replan checkpoint.
 
 ## DOMAIN 07 — EVALS & OBSERVABILITY · ring: `evals-observability` · 22 nodes

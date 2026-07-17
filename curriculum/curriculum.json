@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updated_at": "2026-07-17T18:36:55.370Z",
+  "updated_at": "2026-07-17T18:54:13.540Z",
   "universe": {
     "number": 1,
     "codename": "AI ENGINEERING",
@@ -8,6 +8,15 @@
     "status": "active",
     "started": null,
     "completed": null
+  },
+  "metadata": {
+    "node_count": 228,
+    "lit_nodes": 0,
+    "total_xp": 0,
+    "streak": {
+      "current": 1,
+      "best": 1
+    }
   },
   "nodes": [
     {
@@ -39,8 +48,13 @@
       "locked": false,
       "started": null,
       "completed": null,
-      "status": "ghost",
-      "backlinks": []
+      "status": "charging",
+      "backlinks": [
+        {
+          "id": "map-of-ai",
+          "title": "The Map of AI"
+        }
+      ]
     },
     {
       "id": "what-is-a-language-model",
@@ -57,7 +71,16 @@
       "started": null,
       "completed": null,
       "status": "ghost",
-      "backlinks": []
+      "backlinks": [
+        {
+          "id": "map-of-ai",
+          "title": "The Map of AI"
+        },
+        {
+          "id": "how-machines-learn",
+          "title": "How Machines Learn"
+        }
+      ]
     },
     {
       "id": "tokens",
@@ -1752,7 +1775,7 @@
       "cluster": "Team Builds",
       "type": "synthesis",
       "size": "S",
-      "summary": "",
+      "summary": "review and architecture map of multi-agent communication and routing protocols.",
       "requires": [
         "experiment-one-vs-many"
       ],
@@ -2074,7 +2097,7 @@
       "cluster": "Memory Builds",
       "type": "synthesis",
       "size": "S",
-      "summary": "",
+      "summary": "deep-dive review and architecture diagram of the full multi-tier agent memory stack.",
       "requires": [
         "build-learning-recall-agent"
       ],

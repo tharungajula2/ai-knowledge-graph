@@ -50,7 +50,24 @@ function updateFrontmatter(content, todayStr) {
   }
   
   // Reconstruct file content
-  return content.replace(/^---\r?\n[\s\S]*?\r?\n---/, `---\n${fmContent.trim()}\n---`);
+  let newContent = content.replace(/^---\r?\n[\s\S]*?\r?\n---/, `---\n${fmContent.trim()}\n---`);
+
+  // Now update ## Status log section in body if present
+  const statusLogMatch = newContent.match(/##\s*Status\s*log\s*([\s\S]*?)(?:##|$)/i);
+  if (statusLogMatch) {
+    const originalSection = statusLogMatch[0];
+    let updatedSection = originalSection;
+    if (originalSection.match(/-\s*Finished:\s*/i)) {
+      updatedSection = originalSection.replace(/(-\s*Finished:\s*)([^\r\n]*)/i, `$1${todayStr}`);
+    } else if (originalSection.match(/-\s*Completed:\s*/i)) {
+      updatedSection = originalSection.replace(/(-\s*Completed:\s*)([^\r\n]*)/i, `$1${todayStr}`);
+    } else {
+      updatedSection = originalSection.trim() + `\n- Finished: ${todayStr}\n`;
+    }
+    newContent = newContent.replace(originalSection, updatedSection);
+  }
+
+  return newContent;
 }
 
 function run() {

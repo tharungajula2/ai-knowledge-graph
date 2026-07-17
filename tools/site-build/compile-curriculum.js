@@ -218,6 +218,32 @@ function parseMilestone(block, milestones) {
   }
 }
 
+function parseStatusLog(content) {
+  let started = null;
+  let finished = null;
+  const match = content.match(/##\s*Status\s*log\s*([\s\S]*?)(?:##|$)/i);
+  if (match) {
+    const lines = match[1].split('\n');
+    for (let line of lines) {
+      const startedMatch = line.match(/-\s*Started:\s*([^\r\n]+)/i);
+      const finishedMatch = line.match(/-\s*(Finished|Completed):\s*([^\r\n]+)/i);
+      if (startedMatch) {
+        const val = startedMatch[1].trim();
+        if (val && val.toLowerCase() !== 'null' && val.toLowerCase() !== 'yyyy-mm-dd') {
+          started = val;
+        }
+      }
+      if (finishedMatch) {
+        const val = finishedMatch[2].trim();
+        if (val && val.toLowerCase() !== 'null' && val.toLowerCase() !== 'yyyy-mm-dd') {
+          finished = val;
+        }
+      }
+    }
+  }
+  return { started, finished };
+}
+
 function compileCurriculum() {
   console.log('=== Compiling Curriculum Node Graph ===');
   
@@ -252,7 +278,13 @@ function compileCurriculum() {
   const nodeWikilinks = {};
 
   for (const node of nodes) {
-    const notePath = path.join(repoRoot, 'brain', 'knowledge', node.domain, `${node.id}.md`);
+    let notePath = path.join(repoRoot, 'brain', 'knowledge', node.domain, `${node.id}.md`);
+    if (!fs.existsSync(notePath)) {
+      const fallbackPath = path.join(repoRoot, 'notes', `${node.id}.md`);
+      if (fs.existsSync(fallbackPath)) {
+        notePath = fallbackPath;
+      }
+    }
     node.started = null;
     node.completed = null;
     let resolvedStatus = 'ghost';
@@ -266,14 +298,17 @@ function compileCurriculum() {
       }
       
       const fm = parseFrontmatter(rawContent);
-      node.started = (fm.started && fm.started !== 'null') ? fm.started : null;
-      node.completed = (fm.completed && fm.completed !== 'null') ? fm.completed : null;
-      if (fm.status === 'learned') {
+      const bodyStatus = parseStatusLog(rawContent);
+      
+      const startedDate = fm.started || bodyStatus.started;
+      const finishedDate = fm.completed || fm.finished || bodyStatus.finished;
+      
+      node.started = (startedDate && startedDate !== 'null') ? startedDate : null;
+      node.completed = (finishedDate && finishedDate !== 'null') ? finishedDate : null;
+      
+      if (node.completed || fm.status === 'learned') {
         resolvedStatus = 'lit';
-      } else if (fm.status === 'in-progress') {
-        resolvedStatus = 'charging';
       } else {
-        // default note present to charging
         resolvedStatus = 'charging';
       }
       
@@ -473,10 +508,94 @@ function compileCurriculum() {
     activeUniverse.completed = null;
   }
 
+  const { execSync } = require('child_process');
+  let currentStreak = 0;
+  let bestStreak = 0;
+  try {
+    const logOutput = execSync('git log --pretty=format:"%ad|%s" --date=short').toString().trim();
+    const commits = logOutput.split('\n').map(line => {
+      const parts = line.split('|');
+      return {
+        date: parts[0],
+        message: parts[1] || ''
+      };
+    });
+
+    const activeDates = new Set();
+    commits.forEach(c => {
+      if (c.message.startsWith('learn(') || c.message.startsWith('progress(') || c.message.startsWith('feat(daily):')) {
+        activeDates.add(c.date);
+      }
+    });
+
+    const sortedDates = Array.from(activeDates).sort();
+    if (sortedDates.length > 0) {
+      let currentSeq = 0;
+      let prevDateObj = null;
+      const streaks = [];
+      
+      for (const dateStr of sortedDates) {
+        const currentDateObj = new Date(dateStr + 'T00:00:00');
+        if (!prevDateObj) {
+          currentSeq = 1;
+        } else {
+          const diffTime = Math.abs(currentDateObj - prevDateObj);
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          if (diffDays === 1) {
+            currentSeq++;
+          } else if (diffDays > 1) {
+            streaks.push(currentSeq);
+            currentSeq = 1;
+          }
+        }
+        prevDateObj = currentDateObj;
+      }
+      streaks.push(currentSeq);
+      bestStreak = Math.max(...streaks, 0);
+
+      const today = new Date();
+      const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
+
+      if (activeDates.has(todayStr) || activeDates.has(yesterdayStr)) {
+        let traceDate = activeDates.has(todayStr) ? today : yesterday;
+        while (true) {
+          const traceStr = `${traceDate.getFullYear()}-${String(traceDate.getMonth() + 1).padStart(2, '0')}-${String(traceDate.getDate()).padStart(2, '0')}`;
+          if (activeDates.has(traceStr)) {
+            currentStreak++;
+            traceDate.setDate(traceDate.getDate() - 1);
+          } else {
+            break;
+          }
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('⚠️ Could not calculate streaks from git log:', err.message);
+  }
+
+  const totalXP = nodes
+    .filter(n => n.status === 'lit')
+    .reduce((sum, n) => {
+      if (n.type === 'capstone') return sum + 100;
+      if (n.size === 'S') return sum + 10;
+      if (n.size === 'M') return sum + 25;
+      if (n.size === 'L') return sum + 50;
+      return sum + 10;
+    }, 0);
+
   const curriculumObj = {
     version: parsed.version,
     updated_at: new Date().toISOString(),
     universe: activeUniverse,
+    metadata: {
+      node_count: nodes.length,
+      lit_nodes: litPlannedCount,
+      total_xp: totalXP,
+      streak: { current: currentStreak, best: bestStreak }
+    },
     nodes: nodes,
     milestones: milestones
   };
@@ -526,6 +645,7 @@ function compileCurriculum() {
       type: node.type,
       ring: node.domain,
       domain: node.domain,
+      cluster: node.cluster,
       size: node.size,
       status: node.status,
       summary: node.summary,
@@ -601,7 +721,9 @@ function compileCurriculum() {
       charging_count: nodes.filter(n => n.status === 'charging').length,
       ghost_count: nodes.filter(n => n.status === 'ghost').length,
       edge_count: d3LiveEdges.length,
-      universe: activeUniverse
+      universe: activeUniverse,
+      total_xp: totalXP,
+      streak: { current: currentStreak, best: bestStreak }
     }
   };
   fs.writeFileSync(path.join(siteDir, 'brain-index.public.json'), JSON.stringify(d3LiveIndex, null, 2));

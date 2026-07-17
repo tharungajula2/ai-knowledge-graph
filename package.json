@@ -6,6 +6,7 @@
     "next-node": "node tools/next-node.js",
     "finish-node": "node tools/finish-node.js",
     "build-brain": "node tools/site-build/build.js",
+    "serve": "npx -y http-server site -p 8080",
     "sync": "node tools/day-close.js",
     "day:close": "node tools/day-close.js",
     "new-universe": "node tools/new-universe.js",

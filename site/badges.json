@@ -1,0 +1,96 @@
+[
+  {
+    "id": "first-light",
+    "title": "First Light",
+    "description": "Light your first curriculum node to initiate the brain.",
+    "icon": "⚡"
+  },
+  {
+    "id": "ring-foundations",
+    "title": "Ring Closed: Foundations",
+    "description": "Complete all nodes in Domain 01: Foundations.",
+    "icon": "⭕",
+    "domain": "foundations"
+  },
+  {
+    "id": "ring-prompting-apis",
+    "title": "Ring Closed: Prompting & APIs",
+    "description": "Complete all nodes in Domain 02: Prompting & APIs.",
+    "icon": "⭕",
+    "domain": "prompting-apis"
+  },
+  {
+    "id": "ring-rag-retrieval",
+    "title": "Ring Closed: RAG & Retrieval",
+    "description": "Complete all nodes in Domain 03: RAG & Retrieval.",
+    "icon": "⭕",
+    "domain": "rag-retrieval"
+  },
+  {
+    "id": "ring-agents",
+    "title": "Ring Closed: Agents",
+    "description": "Complete all nodes in Domain 04: Agents.",
+    "icon": "⭕",
+    "domain": "agents"
+  },
+  {
+    "id": "ring-multi-agent-mcp",
+    "title": "Ring Closed: Multi-Agent & MCP",
+    "description": "Complete all nodes in Domain 05: Multi-Agent & MCP.",
+    "icon": "⭕",
+    "domain": "multi-agent-mcp"
+  },
+  {
+    "id": "ring-memory-knowledge",
+    "title": "Ring Closed: Memory & Knowledge",
+    "description": "Complete all nodes in Domain 06: Memory & Knowledge.",
+    "icon": "⭕",
+    "domain": "memory-knowledge"
+  },
+  {
+    "id": "ring-evals-observability",
+    "title": "Ring Closed: Evals & Observability",
+    "description": "Complete all nodes in Domain 07: Evals & Observability.",
+    "icon": "⭕",
+    "domain": "evals-observability"
+  },
+  {
+    "id": "ring-safety-security",
+    "title": "Ring Closed: Safety & Security",
+    "description": "Complete all nodes in Domain 08: Safety & Security.",
+    "icon": "⭕",
+    "domain": "safety-security"
+  },
+  {
+    "id": "ring-production",
+    "title": "Ring Closed: Production",
+    "description": "Complete all nodes in Domain 09: Production.",
+    "icon": "⭕",
+    "domain": "production"
+  },
+  {
+    "id": "ring-frontier-capstone",
+    "title": "Ring Closed: Frontier & Capstone",
+    "description": "Complete all nodes in Domain 10: Frontier & Capstone.",
+    "icon": "⭕",
+    "domain": "frontier-capstone"
+  },
+  {
+    "id": "century",
+    "title": "Century",
+    "description": "Achieve 100 lit nodes across the curriculum.",
+    "icon": "💯"
+  },
+  {
+    "id": "the-rebuild",
+    "title": "The Rebuild",
+    "description": "Light the VIZIER v2 capstone node (vizier-v2-redteam-ship).",
+    "icon": "🛠️"
+  },
+  {
+    "id": "graduation",
+    "title": "Graduation",
+    "description": "Light the final graduation node of the curriculum.",
+    "icon": "🏆"
+  }
+]
