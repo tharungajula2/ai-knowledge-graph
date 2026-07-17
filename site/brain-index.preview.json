@@ -107,11 +107,11 @@
       "ring": "foundations",
       "domain": "foundations",
       "size": "S",
-      "status": "ghost",
+      "status": "charging",
       "summary": "AI vs ML vs DL vs GenAI vs Agentic — the family tree.",
       "backlinks": [],
       "slug": "map-of-ai",
-      "started": null,
+      "started": "2026-07-14",
       "completed": null
     },
     {
@@ -5194,12 +5194,12 @@
     }
   ],
   "metadata": {
-    "generated_at": "2026-07-14T06:05:05.435Z",
+    "generated_at": "2026-07-17T17:41:44.510Z",
     "plan_version": "1.0.0",
     "node_count": 200,
     "lit_count": 0,
-    "charging_count": 0,
-    "ghost_count": 200,
+    "charging_count": 1,
+    "ghost_count": 199,
     "edge_count": 405,
     "universe": {
       "number": 1,

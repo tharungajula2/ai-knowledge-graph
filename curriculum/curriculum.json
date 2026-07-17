@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updated_at": "2026-07-14T06:05:05.433Z",
+  "updated_at": "2026-07-17T17:41:44.508Z",
   "universe": {
     "number": 1,
     "codename": "AI ENGINEERING",
@@ -20,9 +20,9 @@
       "summary": "AI vs ML vs DL vs GenAI vs Agentic — the family tree.",
       "requires": [],
       "locked": false,
-      "started": null,
+      "started": "2026-07-14",
       "completed": null,
-      "status": "ghost",
+      "status": "charging",
       "backlinks": []
     },
     {

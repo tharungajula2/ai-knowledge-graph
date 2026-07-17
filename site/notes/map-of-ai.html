@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Map of AI — VIZIER Living Brain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="../index.html" class="brand">VIZIER</a>
+      <div class="day-badge" id="day-badge">UNIVERSE 01 · AI ENGINEERING</div>
+    </header>
+    <nav>
+      <a href="../brain.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain</a>
+      <a href="../feed.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg> Feed</a>
+      <a href="../capabilities.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Capabilities</a>
+      <a href="../about.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> About</a>
+    </nav>
+    <main style="margin-top: 20px;">
+      
+      <a href="../brain.html" class="back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-right:4px;"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Brain
+      </a>
+      <article>
+        <h1>The Map of AI</h1>
+        <div class="metadata-row">
+          <span class="tag">Domain: foundations</span>
+          <span class="tag">Confidence: high</span>
+          <span class="tag">Class: note</span>
+        </div>
+        <div class="note-body">
+          
+
+<p># What I learned</p>
+
+<p># Feynman explanation (to a 12-year-old)</p>
+
+<p># What I built / tried</p>
+
+<p># Aha moment</p>
+
+<p># Frontier check (anything new in the field worth a replan?)</p>
+
+<p># Wikilinks I noticed</p>
+
+        </div>
+      </article>
+      
+    </main>
+  </div>
+  <script>
+    fetch('../brain-index.public.json')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && data.metadata && data.metadata.universe) {
+          const u = data.metadata.universe;
+          const badge = document.getElementById('day-badge');
+          if (badge) {
+            const litCount = data.nodes ? data.nodes.filter(n => n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length : 0;
+            const totalCount = data.metadata.node_count ?? 200;
+            if (u.status === 'complete' || litCount === totalCount) {
+              badge.textContent = 'UNIVERSE 01 · COMPLETE';
+            } else {
+              badge.textContent = u.title.split(' — ')[0].toUpperCase() + ' · ' + u.codename.toUpperCase();
+            }
+          }
+        }
+      }).catch(() => {});
+  </script>
+</body>
+</html>
