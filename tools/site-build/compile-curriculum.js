@@ -481,7 +481,7 @@ function compileCurriculum() {
     milestones: milestones
   };
   fs.writeFileSync(curJsonPath, JSON.stringify(curriculumObj, null, 2));
-  console.log(`Saved curriculum.json (Version ${parsed.version}, 200 nodes, 5 milestones).`);
+  console.log(`Saved curriculum.json (Version ${parsed.version}, ${nodes.length} nodes, ${milestones.length} milestones).`);
   
   // 8. Generate D3 index JSON for LIVE mode (site/brain-index.public.json)
   const d3LiveNodes = [];

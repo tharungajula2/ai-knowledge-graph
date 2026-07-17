@@ -565,17 +565,17 @@
       "completed": null
     },
     {
-      "id": "study-gateway",
-      "label": "🔩 Deep-dive: gateway.py",
-      "title": "🔩 Deep-dive: gateway.py",
-      "type": "deep-dive",
+      "id": "build-gateway",
+      "label": "Build: Provider-Agnostic LLM Gateway",
+      "title": "Build: Provider-Agnostic LLM Gateway",
+      "type": "build",
       "ring": "prompting-apis",
       "domain": "prompting-apis",
       "size": "M",
       "status": "ghost",
-      "summary": "my own multi-provider fallback gateway, finally readable.",
+      "summary": "Build a LiteLLM-like gateway with fallbacks (Gemini -> Groq -> OpenRouter), retry logic, exponential backoff, semantic caching, and token/cost tracking; verify with simulated key failures.",
       "backlinks": [],
-      "slug": "study-gateway",
+      "slug": "build-gateway",
       "started": null,
       "completed": null
     },
@@ -805,17 +805,17 @@
       "completed": null
     },
     {
-      "id": "hybrid-search-rrf",
-      "label": "🔩 Deep-dive: Hybrid Search + RRF",
-      "title": "🔩 Deep-dive: Hybrid Search + RRF",
-      "type": "deep-dive",
+      "id": "build-hybrid-search",
+      "label": "Build: Hybrid Search & RRF",
+      "title": "Build: Hybrid Search & RRF",
+      "type": "build",
       "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "size": "M",
       "status": "ghost",
-      "summary": "my own retrieve.py — vectors + keywords merged.",
+      "summary": "Build a hybrid retrieval system merging semantic vector results (using cosine similarity/pgvector) with keyword full-text matches, re-ranked using Reciprocal Rank Fusion (RRF); verify against test search queries.",
       "backlinks": [],
-      "slug": "hybrid-search-rrf",
+      "slug": "build-hybrid-search",
       "started": null,
       "completed": null
     },
@@ -911,14 +911,14 @@
     },
     {
       "id": "ingestion-pipelines",
-      "label": "Ingestion Pipelines",
-      "title": "Ingestion Pipelines",
+      "label": "Build: Ingestion Pipeline & Seeder",
+      "title": "Build: Ingestion Pipeline & Seeder",
       "type": "build",
       "ring": "rag-retrieval",
       "domain": "rag-retrieval",
       "size": "M",
       "status": "ghost",
-      "summary": "PDFs and messy HTML → clean chunks.",
+      "summary": "Build an ingestion pipeline that parses markdown note files, splits them into clean semantic chunks, generates vector embeddings, and seeds a pgvector database; verify with chunk length assertions.",
       "backlinks": [],
       "slug": "ingestion-pipelines",
       "started": null,
@@ -1083,7 +1083,7 @@
       "domain": "agents",
       "size": "M",
       "status": "ghost",
-      "summary": "pure-Python loop, no framework.",
+      "summary": "Build a pure-Python manual ReAct loop handling raw prompt formatting, regex tool-calling parsing, and a tool dispatch execution loop; verify with 5 mock tasks.",
       "backlinks": [],
       "slug": "build-agent-from-scratch",
       "started": null,
@@ -1180,32 +1180,32 @@
       "completed": null
     },
     {
-      "id": "study-supervisor",
-      "label": "🔩 Deep-dive: supervisor.py",
-      "title": "🔩 Deep-dive: supervisor.py",
-      "type": "deep-dive",
+      "id": "build-supervisor",
+      "label": "Build: LangGraph Supervisor",
+      "title": "Build: LangGraph Supervisor",
+      "type": "build",
       "ring": "agents",
       "domain": "agents",
       "size": "M",
       "status": "ghost",
-      "summary": "my own supervisor router, understood.",
+      "summary": "Build a LangGraph supervisor that routes to 4 specialist subgraphs by intent using structured LLM output, persistence checkpointers, and thread state tracking; verify with 10 routing tests.",
       "backlinks": [],
-      "slug": "study-supervisor",
+      "slug": "build-supervisor",
       "started": null,
       "completed": null
     },
     {
-      "id": "study-specialists",
-      "label": "🔩 Deep-dive: specialists.py",
-      "title": "🔩 Deep-dive: specialists.py",
-      "type": "deep-dive",
+      "id": "build-specialists",
+      "label": "Build: Specialist Subgraphs & Loops",
+      "title": "Build: Specialist Subgraphs & Loops",
+      "type": "build",
       "ring": "agents",
       "domain": "agents",
       "size": "M",
       "status": "ghost",
-      "summary": "Scheduler, Scribe, Researcher, Analyst dissected.",
+      "summary": "Build Scheduler, Scribe, Researcher, and Analyst subgraphs, integrating local API tools and bridging async event loops with sync supervisor threads; verify with mock task completions.",
       "backlinks": [],
-      "slug": "study-specialists",
+      "slug": "build-specialists",
       "started": null,
       "completed": null
     },
@@ -1451,16 +1451,31 @@
     },
     {
       "id": "build-mcp-server",
-      "label": "🔩 Build: My First MCP Server",
-      "title": "🔩 Build: My First MCP Server",
-      "type": "deep-dive",
+      "label": "Build: System Utilities MCP Server",
+      "title": "Build: System Utilities MCP Server",
+      "type": "build",
       "ring": "multi-agent-mcp",
       "domain": "multi-agent-mcp",
       "size": "M",
       "status": "ghost",
-      "summary": "study vizier_utils_server.py, then extend it.",
+      "summary": "Build a custom Model Context Protocol server exposing system utility tools, handling stdio communication, and executing subprocess actions; verify with a command-line client.",
       "backlinks": [],
       "slug": "build-mcp-server",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "build-mcp-bridge",
+      "label": "Build: Async MCP Sync Bridge",
+      "title": "Build: Async MCP Sync Bridge",
+      "type": "build",
+      "ring": "multi-agent-mcp",
+      "domain": "multi-agent-mcp",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Build a background event loop wrapper that executes async MCP client calls within sync LangGraph thread environments; verify by invoking tools concurrently.",
+      "backlinks": [],
+      "slug": "build-mcp-bridge",
       "started": null,
       "completed": null
     },
@@ -1600,17 +1615,17 @@
       "completed": null
     },
     {
-      "id": "memory-taxonomy",
-      "label": "🔩 Memory Taxonomy",
-      "title": "🔩 Memory Taxonomy",
-      "type": "deep-dive",
+      "id": "build-memory-taxonomy",
+      "label": "Build: Memory Taxonomy",
+      "title": "Build: Memory Taxonomy",
+      "type": "build",
       "ring": "memory-knowledge",
       "domain": "memory-knowledge",
       "size": "S",
       "status": "ghost",
-      "summary": "semantic/episodic/procedural — study my own memories table.",
+      "summary": "Build a semantic memory extraction service that classifies inputs into semantic, episodic, and procedural categories and stores them in Postgres tables; verify with test conversation snippets.",
       "backlinks": [],
-      "slug": "memory-taxonomy",
+      "slug": "build-memory-taxonomy",
       "started": null,
       "completed": null
     },
@@ -1825,6 +1840,21 @@
       "completed": null
     },
     {
+      "id": "build-brain-reviewer",
+      "label": "Build: Self-Critical Graph Reviewer",
+      "title": "Build: Self-Critical Graph Reviewer",
+      "type": "build",
+      "ring": "memory-knowledge",
+      "domain": "memory-knowledge",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Build a self-review script that parses note links, identifies sparse domains, and prompts LLMs to suggest new entity connections and honesty checks; verify with local note files.",
+      "backlinks": [],
+      "slug": "build-brain-reviewer",
+      "started": null,
+      "completed": null
+    },
+    {
       "id": "build-learning-recall-agent",
       "label": "Build: \"What Did I Learn?\" Agent",
       "title": "Build: \"What Did I Learn?\" Agent",
@@ -1900,17 +1930,17 @@
       "completed": null
     },
     {
-      "id": "llm-as-judge",
-      "label": "🔩 LLM-as-Judge",
-      "title": "🔩 LLM-as-Judge",
-      "type": "deep-dive",
+      "id": "build-eval-judge",
+      "label": "Build: LLM-as-a-Judge Scorer",
+      "title": "Build: LLM-as-a-Judge Scorer",
+      "type": "build",
       "ring": "evals-observability",
       "domain": "evals-observability",
       "size": "M",
       "status": "ghost",
-      "summary": "study my own evals.py; judging with rubrics.",
+      "summary": "Build an LLM-as-a-judge scoring engine using customized rubrics, confidence metrics, and golden dataset assertions; verify by scoring 20 generated agent responses.",
       "backlinks": [],
-      "slug": "llm-as-judge",
+      "slug": "build-eval-judge",
       "started": null,
       "completed": null
     },
@@ -2005,17 +2035,17 @@
       "completed": null
     },
     {
-      "id": "tracing-spans",
-      "label": "🔩 Tracing: Spans & Traces",
-      "title": "🔩 Tracing: Spans & Traces",
-      "type": "deep-dive",
+      "id": "build-tracing-instrumentation",
+      "label": "Build: Tracing & Instrumentation",
+      "title": "Build: Tracing & Instrumentation",
+      "type": "build",
       "ring": "evals-observability",
       "domain": "evals-observability",
       "size": "M",
       "status": "ghost",
-      "summary": "study observability.py; the tracing model.",
+      "summary": "Build a tracing integration that tracks agent executions, span latency, and nested subgraphs using open telemetry SDKs/Langfuse; verify by generating nested run traces.",
       "backlinks": [],
-      "slug": "tracing-spans",
+      "slug": "build-tracing-instrumentation",
       "started": null,
       "completed": null
     },
@@ -2185,17 +2215,17 @@
       "completed": null
     },
     {
-      "id": "indirect-injection",
-      "label": "🔩 Indirect Injection",
-      "title": "🔩 Indirect Injection",
-      "type": "deep-dive",
+      "id": "build-overlap-scanner",
+      "label": "Build: Indirect Injection Overlap Scanner",
+      "title": "Build: Indirect Injection Overlap Scanner",
+      "type": "build",
       "ring": "safety-security",
       "domain": "safety-security",
       "size": "M",
       "status": "ghost",
-      "summary": "study my own scanner.py — poisoned emails & pages.",
+      "summary": "Build a security scanner that parses payloads for override keywords and correlates thread checkpoints to detect untrusted data overlap; verify with custom injection attacks.",
       "backlinks": [],
-      "slug": "indirect-injection",
+      "slug": "build-overlap-scanner",
       "started": null,
       "completed": null
     },
@@ -2275,32 +2305,32 @@
       "completed": null
     },
     {
-      "id": "the-approval-gate",
-      "label": "🔩 The Approval Gate",
-      "title": "🔩 The Approval Gate",
-      "type": "deep-dive",
+      "id": "build-proposal-gate",
+      "label": "Build: HITL Proposal Gate",
+      "title": "Build: HITL Proposal Gate",
+      "type": "build",
       "ring": "safety-security",
       "domain": "safety-security",
       "size": "M",
       "status": "ghost",
-      "summary": "study proposer.py — my own HITL gate, understood.",
+      "summary": "Build a database-backed proposal queue that intercepts agent actions, checks risk policies, and supports user editing of payloads before execution; verify with mock email/task proposals.",
       "backlinks": [],
-      "slug": "the-approval-gate",
+      "slug": "build-proposal-gate",
       "started": null,
       "completed": null
     },
     {
-      "id": "idempotency-audit-logs",
-      "label": "🔩 Idempotency & Audit Logs",
-      "title": "🔩 Idempotency & Audit Logs",
-      "type": "deep-dive",
+      "id": "build-idempotency-audit",
+      "label": "Build: Idempotency & Audit Logger",
+      "title": "Build: Idempotency & Audit Logger",
+      "type": "build",
       "ring": "safety-security",
       "domain": "safety-security",
-      "size": "S",
+      "size": "M",
       "status": "ghost",
-      "summary": "study audit.py; actions that can't double-fire.",
+      "summary": "Build an append-only database auditor and idempotency key guard ensuring critical actions are executed exactly once and logged to a tamper-evident table; verify with duplicate runs.",
       "backlinks": [],
-      "slug": "idempotency-audit-logs",
+      "slug": "build-idempotency-audit",
       "started": null,
       "completed": null
     },
@@ -2455,17 +2485,17 @@
       "completed": null
     },
     {
-      "id": "fastapi-fundamentals",
-      "label": "🔩 FastAPI Fundamentals",
-      "title": "🔩 FastAPI Fundamentals",
-      "type": "deep-dive",
+      "id": "build-fastapi-backend",
+      "label": "Build: Core FastAPI Application",
+      "title": "Build: Core FastAPI Application",
+      "type": "build",
       "ring": "production",
       "domain": "production",
       "size": "M",
       "status": "ghost",
-      "summary": "study main.py; routes, models, dependency injection.",
+      "summary": "Build the main backend REST API with route controllers, settings validation, state serialization, and SSE token streaming channels; verify using simulated client connections.",
       "backlinks": [],
-      "slug": "fastapi-fundamentals",
+      "slug": "build-fastapi-backend",
       "started": null,
       "completed": null
     },
@@ -2485,32 +2515,32 @@
       "completed": null
     },
     {
-      "id": "schedulers-cron",
-      "label": "🔩 Schedulers & Cron",
-      "title": "🔩 Schedulers & Cron",
-      "type": "deep-dive",
-      "ring": "production",
-      "domain": "production",
-      "size": "S",
-      "status": "ghost",
-      "summary": "study scheduler.py; the morning-briefing machinery.",
-      "backlinks": [],
-      "slug": "schedulers-cron",
-      "started": null,
-      "completed": null
-    },
-    {
-      "id": "postgres-migrations",
-      "label": "🔩 Postgres & Migrations",
-      "title": "🔩 Postgres & Migrations",
-      "type": "deep-dive",
+      "id": "build-briefing-scheduler",
+      "label": "Build: Briefing Scheduler & Cron",
+      "title": "Build: Briefing Scheduler & Cron",
+      "type": "build",
       "ring": "production",
       "domain": "production",
       "size": "M",
       "status": "ghost",
-      "summary": "study migrations/ 001–023; schema evolution.",
+      "summary": "Build a background cron scheduler that runs periodic briefing builders, aggregating calendars, emails, and notes into structured summaries; verify by triggering manual runs.",
       "backlinks": [],
-      "slug": "postgres-migrations",
+      "slug": "build-briefing-scheduler",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "build-migration-runner",
+      "label": "Build: Migration Runner & Pool",
+      "title": "Build: Migration Runner & Pool",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Build a schema migration runner that connects to PostgreSQL, manages transaction safety, runs sequential SQL migrations, and exposes database pooling; verify with a clean database reset.",
+      "backlinks": [],
+      "slug": "build-migration-runner",
       "started": null,
       "completed": null
     },
@@ -2560,6 +2590,36 @@
       "completed": null
     },
     {
+      "id": "google-oauth-flow",
+      "label": "Build: Google OAuth Integration",
+      "title": "Build: Google OAuth Integration",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Build a Google OAuth2 client with flow initialization, token storage/rotation, and local redirection handlers; verify with a web authentication login.",
+      "backlinks": [],
+      "slug": "google-oauth-flow",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "gmail-calendar-read",
+      "label": "Build: Gmail & Calendar Reader",
+      "title": "Build: Gmail & Calendar Reader",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "M",
+      "status": "ghost",
+      "summary": "Build services that read from Gmail and Calendar APIs, parse MIME message details, format queries, and sanitize untrusted content markers; verify by listing recent inbox items.",
+      "backlinks": [],
+      "slug": "gmail-calendar-read",
+      "started": null,
+      "completed": null
+    },
+    {
       "id": "supabase-deep-dive",
       "label": "Supabase Deep Dive",
       "title": "Supabase Deep Dive",
@@ -2576,31 +2636,31 @@
     },
     {
       "id": "realtime-subscriptions",
-      "label": "Realtime Subscriptions",
-      "title": "Realtime Subscriptions",
+      "label": "Build: Realtime Postgres Approvals UI",
+      "title": "Build: Realtime Postgres Approvals UI",
       "type": "build",
       "ring": "production",
       "domain": "production",
-      "size": "S",
+      "size": "M",
       "status": "ghost",
-      "summary": "live UI updates from Postgres changes.",
+      "summary": "Build a Next.js Approvals UI that subscribes to PostgreSQL changes via Supabase realtime channels and updates the cockpit layout dynamically; verify by simulating database inserts.",
       "backlinks": [],
       "slug": "realtime-subscriptions",
       "started": null,
       "completed": null
     },
     {
-      "id": "study-command-center",
-      "label": "🔩 The Command Center",
-      "title": "🔩 The Command Center",
-      "type": "deep-dive",
+      "id": "build-command-center",
+      "label": "Build: Command Center UI",
+      "title": "Build: Command Center UI",
+      "type": "build",
       "ring": "production",
       "domain": "production",
       "size": "M",
       "status": "ghost",
-      "summary": "study agent-lab/web — Next.js for AI dashboards.",
+      "summary": "Build the Next.js React cockpit dashboard featuring chat interfaces, state graphs, real-time activity views, and audit logging pages; verify with simulated server messages.",
       "backlinks": [],
-      "slug": "study-command-center",
+      "slug": "build-command-center",
       "started": null,
       "completed": null
     },
@@ -2620,17 +2680,17 @@
       "completed": null
     },
     {
-      "id": "queues-pollers",
-      "label": "🔩 Queues & Pollers",
-      "title": "🔩 Queues & Pollers",
-      "type": "deep-dive",
+      "id": "build-poller-engine",
+      "label": "Build: Async Queue Poller",
+      "title": "Build: Async Queue Poller",
+      "type": "build",
       "ring": "production",
       "domain": "production",
       "size": "S",
       "status": "ghost",
-      "summary": "study the approval poller; async job patterns.",
+      "summary": "Build a terminal-based and web-based queue poller that fetches pending database tasks, checks status transitions, and triggers executors; verify with mock queues.",
       "backlinks": [],
-      "slug": "queues-pollers",
+      "slug": "build-poller-engine",
       "started": null,
       "completed": null
     },
@@ -2661,6 +2721,21 @@
       "summary": "knowing it broke before users do.",
       "backlinks": [],
       "slug": "monitoring-alerting",
+      "started": null,
+      "completed": null
+    },
+    {
+      "id": "build-demo-mode",
+      "label": "Build: Credential-Free Demo Mode",
+      "title": "Build: Credential-Free Demo Mode",
+      "type": "build",
+      "ring": "production",
+      "domain": "production",
+      "size": "S",
+      "status": "ghost",
+      "summary": "Design and build a credential-free mock/simulator mode for the dashboard and backend APIs to run safely without live keys; verify by running local tests.",
+      "backlinks": [],
+      "slug": "build-demo-mode",
       "started": null,
       "completed": null
     },
@@ -2886,51 +2961,6 @@
       "summary": "a personal system to stay frontier forever.",
       "backlinks": [],
       "slug": "reading-papers-forever",
-      "started": null,
-      "completed": null
-    },
-    {
-      "id": "frontier-slot-1",
-      "label": "Frontier Slot α",
-      "title": "Frontier Slot α",
-      "type": "frontier",
-      "ring": "frontier-capstone",
-      "domain": "frontier-capstone",
-      "size": "M",
-      "status": "ghost",
-      "summary": "reserved — regenerated from frontier-scan on arrival.",
-      "backlinks": [],
-      "slug": "frontier-slot-1",
-      "started": null,
-      "completed": null
-    },
-    {
-      "id": "frontier-slot-2",
-      "label": "Frontier Slot β",
-      "title": "Frontier Slot β",
-      "type": "frontier",
-      "ring": "frontier-capstone",
-      "domain": "frontier-capstone",
-      "size": "M",
-      "status": "ghost",
-      "summary": "reserved — regenerated from frontier-scan on arrival.",
-      "backlinks": [],
-      "slug": "frontier-slot-2",
-      "started": null,
-      "completed": null
-    },
-    {
-      "id": "frontier-slot-3",
-      "label": "Frontier Slot γ",
-      "title": "Frontier Slot γ",
-      "type": "frontier",
-      "ring": "frontier-capstone",
-      "domain": "frontier-capstone",
-      "size": "M",
-      "status": "ghost",
-      "summary": "reserved — regenerated from frontier-scan on arrival.",
-      "backlinks": [],
-      "slug": "frontier-slot-3",
       "started": null,
       "completed": null
     },
@@ -3509,12 +3539,12 @@
     },
     {
       "source": "domain-prompting-apis",
-      "target": "study-gateway",
+      "target": "build-gateway",
       "type": "containment"
     },
     {
       "source": "rate-limits-caching",
-      "target": "study-gateway",
+      "target": "build-gateway",
       "type": "dependency"
     },
     {
@@ -3523,7 +3553,7 @@
       "type": "containment"
     },
     {
-      "source": "study-gateway",
+      "source": "build-gateway",
       "target": "injection-first-look",
       "type": "dependency"
     },
@@ -3659,12 +3689,12 @@
     },
     {
       "source": "domain-rag-retrieval",
-      "target": "hybrid-search-rrf",
+      "target": "build-hybrid-search",
       "type": "containment"
     },
     {
       "source": "keyword-fulltext-search",
-      "target": "hybrid-search-rrf",
+      "target": "build-hybrid-search",
       "type": "dependency"
     },
     {
@@ -3673,7 +3703,7 @@
       "type": "containment"
     },
     {
-      "source": "hybrid-search-rrf",
+      "source": "build-hybrid-search",
       "target": "reranking",
       "type": "dependency"
     },
@@ -3909,22 +3939,22 @@
     },
     {
       "source": "domain-agents",
-      "target": "study-supervisor",
+      "target": "build-supervisor",
       "type": "containment"
     },
     {
       "source": "subgraphs",
-      "target": "study-supervisor",
+      "target": "build-supervisor",
       "type": "dependency"
     },
     {
       "source": "domain-agents",
-      "target": "study-specialists",
+      "target": "build-specialists",
       "type": "containment"
     },
     {
-      "source": "study-supervisor",
-      "target": "study-specialists",
+      "source": "build-supervisor",
+      "target": "build-specialists",
       "type": "dependency"
     },
     {
@@ -3933,7 +3963,7 @@
       "type": "containment"
     },
     {
-      "source": "study-specialists",
+      "source": "build-specialists",
       "target": "scratchpads-working-memory",
       "type": "dependency"
     },
@@ -4078,7 +4108,7 @@
       "type": "containment"
     },
     {
-      "source": "study-gateway",
+      "source": "build-gateway",
       "target": "mcp-fundamentals",
       "type": "dependency"
     },
@@ -4099,11 +4129,21 @@
     },
     {
       "source": "domain-multi-agent-mcp",
-      "target": "mcp-clients",
+      "target": "build-mcp-bridge",
       "type": "containment"
     },
     {
       "source": "build-mcp-server",
+      "target": "build-mcp-bridge",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-multi-agent-mcp",
+      "target": "mcp-clients",
+      "type": "containment"
+    },
+    {
+      "source": "build-mcp-bridge",
       "target": "mcp-clients",
       "type": "dependency"
     },
@@ -4189,12 +4229,12 @@
     },
     {
       "source": "domain-memory-knowledge",
-      "target": "memory-taxonomy",
+      "target": "build-memory-taxonomy",
       "type": "containment"
     },
     {
       "source": "capstone-multi-agent",
-      "target": "memory-taxonomy",
+      "target": "build-memory-taxonomy",
       "type": "dependency"
     },
     {
@@ -4203,7 +4243,7 @@
       "type": "containment"
     },
     {
-      "source": "memory-taxonomy",
+      "source": "build-memory-taxonomy",
       "target": "memory-architectures",
       "type": "dependency"
     },
@@ -4293,7 +4333,7 @@
       "type": "dependency"
     },
     {
-      "source": "hybrid-search-rrf",
+      "source": "build-hybrid-search",
       "target": "graphrag-deep",
       "type": "dependency"
     },
@@ -4323,7 +4363,7 @@
       "type": "containment"
     },
     {
-      "source": "memory-taxonomy",
+      "source": "build-memory-taxonomy",
       "target": "build-memory-layer",
       "type": "dependency"
     },
@@ -4339,11 +4379,21 @@
     },
     {
       "source": "domain-memory-knowledge",
-      "target": "build-learning-recall-agent",
+      "target": "build-brain-reviewer",
       "type": "containment"
     },
     {
       "source": "build-link-suggester-v2",
+      "target": "build-brain-reviewer",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-memory-knowledge",
+      "target": "build-learning-recall-agent",
+      "type": "containment"
+    },
+    {
+      "source": "build-brain-reviewer",
       "target": "build-learning-recall-agent",
       "type": "dependency"
     },
@@ -4389,12 +4439,12 @@
     },
     {
       "source": "domain-evals-observability",
-      "target": "llm-as-judge",
+      "target": "build-eval-judge",
       "type": "containment"
     },
     {
       "source": "build-golden-dataset",
-      "target": "llm-as-judge",
+      "target": "build-eval-judge",
       "type": "dependency"
     },
     {
@@ -4403,7 +4453,7 @@
       "type": "containment"
     },
     {
-      "source": "llm-as-judge",
+      "source": "build-eval-judge",
       "target": "judge-bias-pinning",
       "type": "dependency"
     },
@@ -4459,7 +4509,7 @@
     },
     {
       "source": "domain-evals-observability",
-      "target": "tracing-spans",
+      "target": "build-tracing-instrumentation",
       "type": "containment"
     },
     {
@@ -4468,7 +4518,7 @@
       "type": "containment"
     },
     {
-      "source": "tracing-spans",
+      "source": "build-tracing-instrumentation",
       "target": "reading-traces",
       "type": "dependency"
     },
@@ -4574,12 +4624,12 @@
     },
     {
       "source": "domain-safety-security",
-      "target": "indirect-injection",
+      "target": "build-overlap-scanner",
       "type": "containment"
     },
     {
       "source": "direct-injection",
-      "target": "indirect-injection",
+      "target": "build-overlap-scanner",
       "type": "dependency"
     },
     {
@@ -4588,7 +4638,7 @@
       "type": "containment"
     },
     {
-      "source": "indirect-injection",
+      "source": "build-overlap-scanner",
       "target": "jailbreaks-redteaming",
       "type": "dependency"
     },
@@ -4629,27 +4679,27 @@
     },
     {
       "source": "domain-safety-security",
-      "target": "the-approval-gate",
+      "target": "build-proposal-gate",
       "type": "containment"
     },
     {
       "source": "least-privilege-tools",
-      "target": "the-approval-gate",
+      "target": "build-proposal-gate",
       "type": "dependency"
     },
     {
       "source": "hitl-interrupts",
-      "target": "the-approval-gate",
+      "target": "build-proposal-gate",
       "type": "dependency"
     },
     {
       "source": "domain-safety-security",
-      "target": "idempotency-audit-logs",
+      "target": "build-idempotency-audit",
       "type": "containment"
     },
     {
-      "source": "the-approval-gate",
-      "target": "idempotency-audit-logs",
+      "source": "build-proposal-gate",
+      "target": "build-idempotency-audit",
       "type": "dependency"
     },
     {
@@ -4658,7 +4708,7 @@
       "type": "containment"
     },
     {
-      "source": "idempotency-audit-logs",
+      "source": "build-idempotency-audit",
       "target": "guardrails-in-out",
       "type": "dependency"
     },
@@ -4754,12 +4804,12 @@
     },
     {
       "source": "domain-production",
-      "target": "fastapi-fundamentals",
+      "target": "build-fastapi-backend",
       "type": "containment"
     },
     {
       "source": "capstone-safety",
-      "target": "fastapi-fundamentals",
+      "target": "build-fastapi-backend",
       "type": "dependency"
     },
     {
@@ -4768,28 +4818,28 @@
       "type": "containment"
     },
     {
-      "source": "fastapi-fundamentals",
+      "source": "build-fastapi-backend",
       "target": "sse-streaming",
       "type": "dependency"
     },
     {
       "source": "domain-production",
-      "target": "schedulers-cron",
+      "target": "build-briefing-scheduler",
       "type": "containment"
     },
     {
       "source": "sse-streaming",
-      "target": "schedulers-cron",
+      "target": "build-briefing-scheduler",
       "type": "dependency"
     },
     {
       "source": "domain-production",
-      "target": "postgres-migrations",
+      "target": "build-migration-runner",
       "type": "containment"
     },
     {
-      "source": "schedulers-cron",
-      "target": "postgres-migrations",
+      "source": "build-briefing-scheduler",
+      "target": "build-migration-runner",
       "type": "dependency"
     },
     {
@@ -4798,7 +4848,7 @@
       "type": "containment"
     },
     {
-      "source": "postgres-migrations",
+      "source": "build-migration-runner",
       "target": "docker-for-ai",
       "type": "dependency"
     },
@@ -4824,6 +4874,26 @@
     },
     {
       "source": "domain-production",
+      "target": "google-oauth-flow",
+      "type": "containment"
+    },
+    {
+      "source": "secrets-done-right",
+      "target": "google-oauth-flow",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "gmail-calendar-read",
+      "type": "containment"
+    },
+    {
+      "source": "google-oauth-flow",
+      "target": "gmail-calendar-read",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
       "target": "supabase-deep-dive",
       "type": "containment"
     },
@@ -4839,12 +4909,12 @@
     },
     {
       "source": "domain-production",
-      "target": "study-command-center",
+      "target": "build-command-center",
       "type": "containment"
     },
     {
       "source": "realtime-subscriptions",
-      "target": "study-command-center",
+      "target": "build-command-center",
       "type": "dependency"
     },
     {
@@ -4853,18 +4923,18 @@
       "type": "containment"
     },
     {
-      "source": "study-command-center",
+      "source": "build-command-center",
       "target": "caching-layers",
       "type": "dependency"
     },
     {
       "source": "domain-production",
-      "target": "queues-pollers",
+      "target": "build-poller-engine",
       "type": "containment"
     },
     {
       "source": "caching-layers",
-      "target": "queues-pollers",
+      "target": "build-poller-engine",
       "type": "dependency"
     },
     {
@@ -4873,7 +4943,7 @@
       "type": "containment"
     },
     {
-      "source": "queues-pollers",
+      "source": "build-poller-engine",
       "target": "webhooks-telegram",
       "type": "dependency"
     },
@@ -4888,8 +4958,18 @@
       "type": "dependency"
     },
     {
-      "source": "tracing-spans",
+      "source": "build-tracing-instrumentation",
       "target": "monitoring-alerting",
+      "type": "dependency"
+    },
+    {
+      "source": "domain-production",
+      "target": "build-demo-mode",
+      "type": "containment"
+    },
+    {
+      "source": "monitoring-alerting",
+      "target": "build-demo-mode",
       "type": "dependency"
     },
     {
@@ -5044,36 +5124,6 @@
     },
     {
       "source": "domain-frontier-capstone",
-      "target": "frontier-slot-1",
-      "type": "containment"
-    },
-    {
-      "source": "reading-papers-forever",
-      "target": "frontier-slot-1",
-      "type": "dependency"
-    },
-    {
-      "source": "domain-frontier-capstone",
-      "target": "frontier-slot-2",
-      "type": "containment"
-    },
-    {
-      "source": "frontier-slot-1",
-      "target": "frontier-slot-2",
-      "type": "dependency"
-    },
-    {
-      "source": "domain-frontier-capstone",
-      "target": "frontier-slot-3",
-      "type": "containment"
-    },
-    {
-      "source": "frontier-slot-2",
-      "target": "frontier-slot-3",
-      "type": "dependency"
-    },
-    {
-      "source": "domain-frontier-capstone",
       "target": "define-vizier-v2",
       "type": "containment"
     },
@@ -5194,13 +5244,13 @@
     }
   ],
   "metadata": {
-    "generated_at": "2026-07-17T17:41:44.510Z",
+    "generated_at": "2026-07-17T18:14:40.335Z",
     "plan_version": "1.0.0",
-    "node_count": 200,
+    "node_count": 202,
     "lit_count": 0,
     "charging_count": 1,
-    "ghost_count": 199,
-    "edge_count": 405,
+    "ghost_count": 201,
+    "edge_count": 409,
     "universe": {
       "number": 1,
       "codename": "AI ENGINEERING",

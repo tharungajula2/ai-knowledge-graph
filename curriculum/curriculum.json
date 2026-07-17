@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updated_at": "2026-07-17T17:41:44.508Z",
+  "updated_at": "2026-07-17T18:14:40.333Z",
   "universe": {
     "number": 1,
     "codename": "AI ENGINEERING",
@@ -530,13 +530,13 @@
       "backlinks": []
     },
     {
-      "id": "study-gateway",
-      "title": "🔩 Deep-dive: gateway.py",
+      "id": "build-gateway",
+      "title": "Build: Provider-Agnostic LLM Gateway",
       "domain": "prompting-apis",
       "cluster": "Engineering the Call",
-      "type": "deep-dive",
+      "type": "build",
       "size": "M",
-      "summary": "my own multi-provider fallback gateway, finally readable.",
+      "summary": "Build a LiteLLM-like gateway with fallbacks (Gemini -> Groq -> OpenRouter), retry logic, exponential backoff, semantic caching, and token/cost tracking; verify with simulated key failures.",
       "requires": [
         "rate-limits-caching"
       ],
@@ -555,7 +555,7 @@
       "size": "S",
       "summary": "the attack that shapes everything later.",
       "requires": [
-        "study-gateway"
+        "build-gateway"
       ],
       "locked": false,
       "started": null,
@@ -798,13 +798,13 @@
       "backlinks": []
     },
     {
-      "id": "hybrid-search-rrf",
-      "title": "🔩 Deep-dive: Hybrid Search + RRF",
+      "id": "build-hybrid-search",
+      "title": "Build: Hybrid Search & RRF",
       "domain": "rag-retrieval",
       "cluster": "Retrieval, Seriously",
-      "type": "deep-dive",
+      "type": "build",
       "size": "M",
-      "summary": "my own retrieve.py — vectors + keywords merged.",
+      "summary": "Build a hybrid retrieval system merging semantic vector results (using cosine similarity/pgvector) with keyword full-text matches, re-ranked using Reciprocal Rank Fusion (RRF); verify against test search queries.",
       "requires": [
         "keyword-fulltext-search"
       ],
@@ -823,7 +823,7 @@
       "size": "S",
       "summary": "the second pass that fixes retrieval quality.",
       "requires": [
-        "hybrid-search-rrf"
+        "build-hybrid-search"
       ],
       "locked": false,
       "started": null,
@@ -919,12 +919,12 @@
     },
     {
       "id": "ingestion-pipelines",
-      "title": "Ingestion Pipelines",
+      "title": "Build: Ingestion Pipeline & Seeder",
       "domain": "rag-retrieval",
       "cluster": "Retrieval, Seriously",
       "type": "build",
       "size": "M",
-      "summary": "PDFs and messy HTML → clean chunks.",
+      "summary": "Build an ingestion pipeline that parses markdown note files, splits them into clean semantic chunks, generates vector embeddings, and seeds a pgvector database; verify with chunk length assertions.",
       "requires": [
         "multi-hop-retrieval"
       ],
@@ -1110,7 +1110,7 @@
       "cluster": "The Loop",
       "type": "build",
       "size": "M",
-      "summary": "pure-Python loop, no framework.",
+      "summary": "Build a pure-Python manual ReAct loop handling raw prompt formatting, regex tool-calling parsing, and a tool dispatch execution loop; verify with 5 mock tasks.",
       "requires": [
         "designing-tools"
       ],
@@ -1221,13 +1221,13 @@
       "backlinks": []
     },
     {
-      "id": "study-supervisor",
-      "title": "🔩 Deep-dive: supervisor.py",
+      "id": "build-supervisor",
+      "title": "Build: LangGraph Supervisor",
       "domain": "agents",
       "cluster": "LangGraph & Patterns",
-      "type": "deep-dive",
+      "type": "build",
       "size": "M",
-      "summary": "my own supervisor router, understood.",
+      "summary": "Build a LangGraph supervisor that routes to 4 specialist subgraphs by intent using structured LLM output, persistence checkpointers, and thread state tracking; verify with 10 routing tests.",
       "requires": [
         "subgraphs"
       ],
@@ -1238,15 +1238,15 @@
       "backlinks": []
     },
     {
-      "id": "study-specialists",
-      "title": "🔩 Deep-dive: specialists.py",
+      "id": "build-specialists",
+      "title": "Build: Specialist Subgraphs & Loops",
       "domain": "agents",
       "cluster": "LangGraph & Patterns",
-      "type": "deep-dive",
+      "type": "build",
       "size": "M",
-      "summary": "Scheduler, Scribe, Researcher, Analyst dissected.",
+      "summary": "Build Scheduler, Scribe, Researcher, and Analyst subgraphs, integrating local API tools and bridging async event loops with sync supervisor threads; verify with mock task completions.",
       "requires": [
-        "study-supervisor"
+        "build-supervisor"
       ],
       "locked": false,
       "started": null,
@@ -1263,7 +1263,7 @@
       "size": "S",
       "summary": "what the agent remembers mid-task.",
       "requires": [
-        "study-specialists"
+        "build-specialists"
       ],
       "locked": false,
       "started": null,
@@ -1516,7 +1516,7 @@
       "size": "M",
       "summary": "why one protocol won tool connectivity.",
       "requires": [
-        "study-gateway"
+        "build-gateway"
       ],
       "locked": false,
       "started": null,
@@ -1526,15 +1526,32 @@
     },
     {
       "id": "build-mcp-server",
-      "title": "🔩 Build: My First MCP Server",
+      "title": "Build: System Utilities MCP Server",
       "domain": "multi-agent-mcp",
       "cluster": "MCP & Protocols",
-      "type": "deep-dive",
+      "type": "build",
       "size": "M",
-      "summary": "study vizier_utils_server.py, then extend it.",
+      "summary": "Build a custom Model Context Protocol server exposing system utility tools, handling stdio communication, and executing subprocess actions; verify with a command-line client.",
       "requires": [
         "mcp-fundamentals",
         "designing-tools"
+      ],
+      "locked": false,
+      "started": null,
+      "completed": null,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-mcp-bridge",
+      "title": "Build: Async MCP Sync Bridge",
+      "domain": "multi-agent-mcp",
+      "cluster": "MCP & Protocols",
+      "type": "build",
+      "size": "M",
+      "summary": "Build a background event loop wrapper that executes async MCP client calls within sync LangGraph thread environments; verify by invoking tools concurrently.",
+      "requires": [
+        "build-mcp-server"
       ],
       "locked": false,
       "started": null,
@@ -1551,7 +1568,7 @@
       "size": "S",
       "summary": "connect my server to a client and call it.",
       "requires": [
-        "build-mcp-server"
+        "build-mcp-bridge"
       ],
       "locked": false,
       "started": null,
@@ -1695,13 +1712,13 @@
       "backlinks": []
     },
     {
-      "id": "memory-taxonomy",
-      "title": "🔩 Memory Taxonomy",
+      "id": "build-memory-taxonomy",
+      "title": "Build: Memory Taxonomy",
       "domain": "memory-knowledge",
       "cluster": "Agent Memory",
-      "type": "deep-dive",
+      "type": "build",
       "size": "S",
-      "summary": "semantic/episodic/procedural — study my own memories table.",
+      "summary": "Build a semantic memory extraction service that classifies inputs into semantic, episodic, and procedural categories and stores them in Postgres tables; verify with test conversation snippets.",
       "requires": [
         "capstone-multi-agent"
       ],
@@ -1720,7 +1737,7 @@
       "size": "S",
       "summary": "context vs store; the memory stack.",
       "requires": [
-        "memory-taxonomy"
+        "build-memory-taxonomy"
       ],
       "locked": false,
       "started": null,
@@ -1872,7 +1889,7 @@
       "summary": "community summaries, graph-aware retrieval.",
       "requires": [
         "entity-extraction",
-        "hybrid-search-rrf"
+        "build-hybrid-search"
       ],
       "locked": false,
       "started": null,
@@ -1923,7 +1940,7 @@
       "size": "L",
       "summary": "long-term memory bolted onto my research agent — extraction, retrieval, importance.",
       "requires": [
-        "memory-taxonomy"
+        "build-memory-taxonomy"
       ],
       "locked": false,
       "started": null,
@@ -1949,6 +1966,23 @@
       "backlinks": []
     },
     {
+      "id": "build-brain-reviewer",
+      "title": "Build: Self-Critical Graph Reviewer",
+      "domain": "memory-knowledge",
+      "cluster": "Memory Builds",
+      "type": "build",
+      "size": "M",
+      "summary": "Build a self-review script that parses note links, identifies sparse domains, and prompts LLMs to suggest new entity connections and honesty checks; verify with local note files.",
+      "requires": [
+        "build-link-suggester-v2"
+      ],
+      "locked": false,
+      "started": null,
+      "completed": null,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
       "id": "build-learning-recall-agent",
       "title": "Build: \"What Did I Learn?\" Agent",
       "domain": "memory-knowledge",
@@ -1957,7 +1991,7 @@
       "size": "M",
       "summary": "ask my brain about any period; grounded, node-cited answers.",
       "requires": [
-        "build-link-suggester-v2"
+        "build-brain-reviewer"
       ],
       "locked": false,
       "started": null,
@@ -2034,13 +2068,13 @@
       "backlinks": []
     },
     {
-      "id": "llm-as-judge",
-      "title": "🔩 LLM-as-Judge",
+      "id": "build-eval-judge",
+      "title": "Build: LLM-as-a-Judge Scorer",
       "domain": "evals-observability",
       "cluster": "Measuring Quality",
-      "type": "deep-dive",
+      "type": "build",
       "size": "M",
-      "summary": "study my own evals.py; judging with rubrics.",
+      "summary": "Build an LLM-as-a-judge scoring engine using customized rubrics, confidence metrics, and golden dataset assertions; verify by scoring 20 generated agent responses.",
       "requires": [
         "build-golden-dataset"
       ],
@@ -2059,7 +2093,7 @@
       "size": "S",
       "summary": "when the judge is wrong; version-pin the judge.",
       "requires": [
-        "llm-as-judge"
+        "build-eval-judge"
       ],
       "locked": false,
       "started": null,
@@ -2153,13 +2187,13 @@
       "backlinks": []
     },
     {
-      "id": "tracing-spans",
-      "title": "🔩 Tracing: Spans & Traces",
+      "id": "build-tracing-instrumentation",
+      "title": "Build: Tracing & Instrumentation",
       "domain": "evals-observability",
       "cluster": "Seeing Inside",
-      "type": "deep-dive",
+      "type": "build",
       "size": "M",
-      "summary": "study observability.py; the tracing model.",
+      "summary": "Build a tracing integration that tracks agent executions, span latency, and nested subgraphs using open telemetry SDKs/Langfuse; verify by generating nested run traces.",
       "requires": [],
       "locked": false,
       "started": null,
@@ -2176,7 +2210,7 @@
       "size": "S",
       "summary": "debug a real agent failure from its trace.",
       "requires": [
-        "tracing-spans"
+        "build-tracing-instrumentation"
       ],
       "locked": false,
       "started": null,
@@ -2354,13 +2388,13 @@
       "backlinks": []
     },
     {
-      "id": "indirect-injection",
-      "title": "🔩 Indirect Injection",
+      "id": "build-overlap-scanner",
+      "title": "Build: Indirect Injection Overlap Scanner",
       "domain": "safety-security",
       "cluster": "The Attacks",
-      "type": "deep-dive",
+      "type": "build",
       "size": "M",
-      "summary": "study my own scanner.py — poisoned emails & pages.",
+      "summary": "Build a security scanner that parses payloads for override keywords and correlates thread checkpoints to detect untrusted data overlap; verify with custom injection attacks.",
       "requires": [
         "direct-injection"
       ],
@@ -2379,7 +2413,7 @@
       "size": "S",
       "summary": "thinking like the attacker.",
       "requires": [
-        "indirect-injection"
+        "build-overlap-scanner"
       ],
       "locked": false,
       "started": null,
@@ -2454,13 +2488,13 @@
       "backlinks": []
     },
     {
-      "id": "the-approval-gate",
-      "title": "🔩 The Approval Gate",
+      "id": "build-proposal-gate",
+      "title": "Build: HITL Proposal Gate",
       "domain": "safety-security",
       "cluster": "The Defenses",
-      "type": "deep-dive",
+      "type": "build",
       "size": "M",
-      "summary": "study proposer.py — my own HITL gate, understood.",
+      "summary": "Build a database-backed proposal queue that intercepts agent actions, checks risk policies, and supports user editing of payloads before execution; verify with mock email/task proposals.",
       "requires": [
         "least-privilege-tools",
         "hitl-interrupts"
@@ -2472,15 +2506,15 @@
       "backlinks": []
     },
     {
-      "id": "idempotency-audit-logs",
-      "title": "🔩 Idempotency & Audit Logs",
+      "id": "build-idempotency-audit",
+      "title": "Build: Idempotency & Audit Logger",
       "domain": "safety-security",
       "cluster": "The Defenses",
-      "type": "deep-dive",
-      "size": "S",
-      "summary": "study audit.py; actions that can't double-fire.",
+      "type": "build",
+      "size": "M",
+      "summary": "Build an append-only database auditor and idempotency key guard ensuring critical actions are executed exactly once and logged to a tamper-evident table; verify with duplicate runs.",
       "requires": [
-        "the-approval-gate"
+        "build-proposal-gate"
       ],
       "locked": false,
       "started": null,
@@ -2497,7 +2531,7 @@
       "size": "S",
       "summary": "input scanning, output enforcement.",
       "requires": [
-        "idempotency-audit-logs"
+        "build-idempotency-audit"
       ],
       "locked": false,
       "started": null,
@@ -2659,13 +2693,13 @@
       "backlinks": []
     },
     {
-      "id": "fastapi-fundamentals",
-      "title": "🔩 FastAPI Fundamentals",
+      "id": "build-fastapi-backend",
+      "title": "Build: Core FastAPI Application",
       "domain": "production",
       "cluster": "The Backend Craft",
-      "type": "deep-dive",
+      "type": "build",
       "size": "M",
-      "summary": "study main.py; routes, models, dependency injection.",
+      "summary": "Build the main backend REST API with route controllers, settings validation, state serialization, and SSE token streaming channels; verify using simulated client connections.",
       "requires": [
         "capstone-safety"
       ],
@@ -2684,7 +2718,7 @@
       "size": "S",
       "summary": "how tokens travel from server to screen.",
       "requires": [
-        "fastapi-fundamentals"
+        "build-fastapi-backend"
       ],
       "locked": false,
       "started": null,
@@ -2693,13 +2727,13 @@
       "backlinks": []
     },
     {
-      "id": "schedulers-cron",
-      "title": "🔩 Schedulers & Cron",
+      "id": "build-briefing-scheduler",
+      "title": "Build: Briefing Scheduler & Cron",
       "domain": "production",
       "cluster": "The Backend Craft",
-      "type": "deep-dive",
-      "size": "S",
-      "summary": "study scheduler.py; the morning-briefing machinery.",
+      "type": "build",
+      "size": "M",
+      "summary": "Build a background cron scheduler that runs periodic briefing builders, aggregating calendars, emails, and notes into structured summaries; verify by triggering manual runs.",
       "requires": [
         "sse-streaming"
       ],
@@ -2710,15 +2744,15 @@
       "backlinks": []
     },
     {
-      "id": "postgres-migrations",
-      "title": "🔩 Postgres & Migrations",
+      "id": "build-migration-runner",
+      "title": "Build: Migration Runner & Pool",
       "domain": "production",
       "cluster": "The Backend Craft",
-      "type": "deep-dive",
+      "type": "build",
       "size": "M",
-      "summary": "study migrations/ 001–023; schema evolution.",
+      "summary": "Build a schema migration runner that connects to PostgreSQL, manages transaction safety, runs sequential SQL migrations, and exposes database pooling; verify with a clean database reset.",
       "requires": [
-        "schedulers-cron"
+        "build-briefing-scheduler"
       ],
       "locked": false,
       "started": null,
@@ -2735,7 +2769,7 @@
       "size": "M",
       "summary": "containerize a small service myself.",
       "requires": [
-        "postgres-migrations"
+        "build-migration-runner"
       ],
       "locked": false,
       "started": null,
@@ -2778,6 +2812,40 @@
       "backlinks": []
     },
     {
+      "id": "google-oauth-flow",
+      "title": "Build: Google OAuth Integration",
+      "domain": "production",
+      "cluster": "The Backend Craft",
+      "type": "build",
+      "size": "M",
+      "summary": "Build a Google OAuth2 client with flow initialization, token storage/rotation, and local redirection handlers; verify with a web authentication login.",
+      "requires": [
+        "secrets-done-right"
+      ],
+      "locked": false,
+      "started": null,
+      "completed": null,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "gmail-calendar-read",
+      "title": "Build: Gmail & Calendar Reader",
+      "domain": "production",
+      "cluster": "The Backend Craft",
+      "type": "build",
+      "size": "M",
+      "summary": "Build services that read from Gmail and Calendar APIs, parse MIME message details, format queries, and sanitize untrusted content markers; verify by listing recent inbox items.",
+      "requires": [
+        "google-oauth-flow"
+      ],
+      "locked": false,
+      "started": null,
+      "completed": null,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
       "id": "supabase-deep-dive",
       "title": "Supabase Deep Dive",
       "domain": "production",
@@ -2794,12 +2862,12 @@
     },
     {
       "id": "realtime-subscriptions",
-      "title": "Realtime Subscriptions",
+      "title": "Build: Realtime Postgres Approvals UI",
       "domain": "production",
       "cluster": "The Platform",
       "type": "build",
-      "size": "S",
-      "summary": "live UI updates from Postgres changes.",
+      "size": "M",
+      "summary": "Build a Next.js Approvals UI that subscribes to PostgreSQL changes via Supabase realtime channels and updates the cockpit layout dynamically; verify by simulating database inserts.",
       "requires": [
         "supabase-deep-dive"
       ],
@@ -2810,13 +2878,13 @@
       "backlinks": []
     },
     {
-      "id": "study-command-center",
-      "title": "🔩 The Command Center",
+      "id": "build-command-center",
+      "title": "Build: Command Center UI",
       "domain": "production",
       "cluster": "The Platform",
-      "type": "deep-dive",
+      "type": "build",
       "size": "M",
-      "summary": "study agent-lab/web — Next.js for AI dashboards.",
+      "summary": "Build the Next.js React cockpit dashboard featuring chat interfaces, state graphs, real-time activity views, and audit logging pages; verify with simulated server messages.",
       "requires": [
         "realtime-subscriptions"
       ],
@@ -2835,7 +2903,7 @@
       "size": "S",
       "summary": "response cache, semantic cache, CDN.",
       "requires": [
-        "study-command-center"
+        "build-command-center"
       ],
       "locked": false,
       "started": null,
@@ -2844,13 +2912,13 @@
       "backlinks": []
     },
     {
-      "id": "queues-pollers",
-      "title": "🔩 Queues & Pollers",
+      "id": "build-poller-engine",
+      "title": "Build: Async Queue Poller",
       "domain": "production",
       "cluster": "The Platform",
-      "type": "deep-dive",
+      "type": "build",
       "size": "S",
-      "summary": "study the approval poller; async job patterns.",
+      "summary": "Build a terminal-based and web-based queue poller that fetches pending database tasks, checks status transitions, and triggers executors; verify with mock queues.",
       "requires": [
         "caching-layers"
       ],
@@ -2869,7 +2937,7 @@
       "size": "S",
       "summary": "wire a real notification path.",
       "requires": [
-        "queues-pollers"
+        "build-poller-engine"
       ],
       "locked": false,
       "started": null,
@@ -2887,7 +2955,24 @@
       "summary": "knowing it broke before users do.",
       "requires": [
         "webhooks-telegram",
-        "tracing-spans"
+        "build-tracing-instrumentation"
+      ],
+      "locked": false,
+      "started": null,
+      "completed": null,
+      "status": "ghost",
+      "backlinks": []
+    },
+    {
+      "id": "build-demo-mode",
+      "title": "Build: Credential-Free Demo Mode",
+      "domain": "production",
+      "cluster": "The Platform",
+      "type": "build",
+      "size": "S",
+      "summary": "Design and build a credential-free mock/simulator mode for the dashboard and backend APIs to run safely without live keys; verify by running local tests.",
+      "requires": [
+        "monitoring-alerting"
       ],
       "locked": false,
       "started": null,
@@ -3142,57 +3227,6 @@
       "summary": "a personal system to stay frontier forever.",
       "requires": [
         "protocol-futures"
-      ],
-      "locked": false,
-      "started": null,
-      "completed": null,
-      "status": "ghost",
-      "backlinks": []
-    },
-    {
-      "id": "frontier-slot-1",
-      "title": "Frontier Slot α",
-      "domain": "frontier-capstone",
-      "cluster": "The Moving Edge (baseline guesses — expect replans)",
-      "type": "frontier",
-      "size": "M",
-      "summary": "reserved — regenerated from frontier-scan on arrival.",
-      "requires": [
-        "reading-papers-forever"
-      ],
-      "locked": false,
-      "started": null,
-      "completed": null,
-      "status": "ghost",
-      "backlinks": []
-    },
-    {
-      "id": "frontier-slot-2",
-      "title": "Frontier Slot β",
-      "domain": "frontier-capstone",
-      "cluster": "The Moving Edge (baseline guesses — expect replans)",
-      "type": "frontier",
-      "size": "M",
-      "summary": "reserved — regenerated from frontier-scan on arrival.",
-      "requires": [
-        "frontier-slot-1"
-      ],
-      "locked": false,
-      "started": null,
-      "completed": null,
-      "status": "ghost",
-      "backlinks": []
-    },
-    {
-      "id": "frontier-slot-3",
-      "title": "Frontier Slot γ",
-      "domain": "frontier-capstone",
-      "cluster": "The Moving Edge (baseline guesses — expect replans)",
-      "type": "frontier",
-      "size": "M",
-      "summary": "reserved — regenerated from frontier-scan on arrival.",
-      "requires": [
-        "frontier-slot-2"
       ],
       "locked": false,
       "started": null,

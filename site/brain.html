@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VIZIER Brain — AI Engineering Knowledge Graph</title>
-  <meta name="description" content="A living knowledge graph of one human mastering AI engineering in public. 200 planned nodes across 10 domains. Nodes light up only when the learning is real.">  
+  <meta name="description" content="A living knowledge graph of one human mastering AI engineering in public. 202 planned nodes across 10 domains. Nodes light up only when the learning is real.">  
 
   <!-- Favicon -->
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -12,7 +12,7 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="VIZIER — AI Engineering Brain">
-  <meta property="og:description" content="A living knowledge graph of one human mastering AI engineering in public. 200 planned nodes across 10 domains. Nodes light up only when the learning is real.">
+  <meta property="og:description" content="A living knowledge graph of one human mastering AI engineering in public. 202 planned nodes across 10 domains. Nodes light up only when the learning is real.">
   <meta property="og:image" content="assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -21,7 +21,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="VIZIER — AI Engineering Brain">
-  <meta name="twitter:description" content="A living knowledge graph of one human mastering AI engineering in public. 200 planned nodes · 10 domains · Universe 01.">
+  <meta name="twitter:description" content="A living knowledge graph of one human mastering AI engineering in public. 202 planned nodes · 10 domains · Universe 01.">
   <meta name="twitter:image" content="assets/og-image.png">
 
   <!-- Fonts -->
@@ -671,7 +671,7 @@
 
   <!-- Preview info strip -->
   <div id="preview-strip" class="visible">
-    THE LIVING MAP — Universe 01 · plan v1.0.0 · 200 nodes. The past is locked. The future evolves.
+    THE LIVING MAP — Universe 01 · plan v1.0.0 · 202 nodes. The past is locked. The future evolves.
   </div>
 
   <!-- LAYOUT -->
@@ -838,7 +838,7 @@
 ">
   <div style="font-size:2rem;margin-bottom:12px;">🌑</div>
   <div style="color:#3ee2e2;font-weight:700;font-size:1rem;letter-spacing:.06em;margin-bottom:8px;">The brain is dark — for now.</div>
-  <div style="color:#94a3b8;font-size:.82rem;line-height:1.6;">200 nodes await. Ignition is pending.<br>Switch to VISION to see the full plan.</div>
+  <div style="color:#94a3b8;font-size:.82rem;line-height:1.6;">202 nodes await. Ignition is pending.<br>Switch to VISION to see the full plan.</div>
   <button id="live-empty-dismiss" style="
     margin-top:18px; pointer-events:all; background:rgba(42,127,127,.15);
     border:1px solid rgba(62,226,226,.3); color:#3ee2e2; padding:6px 18px;
@@ -1055,7 +1055,7 @@ function loadData(src) {
     const strip = document.getElementById('preview-strip');
     
     const litCount = data.nodes.filter(n => n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length;
-    const totalCount = data.metadata ? (data.metadata.node_count ?? 200) : 200;
+    const totalCount = data.metadata ? (data.metadata.node_count ?? 202) : 202;
     const isUniverseComplete = litCount === totalCount || (data.metadata && data.metadata.universe && data.metadata.universe.status === 'complete');
 
     if (isUniverseComplete) {
