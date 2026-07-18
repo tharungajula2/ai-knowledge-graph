@@ -1,484 +1,175 @@
-# Vizier - PROJECT TRUTH
-Last verified: July 14, 2026, from the active codebase.
+# Vizier — PROJECT TRUTH
+Last verified: July 18, 2026, from the active codebase on `main` (merged from `brain-only`).
 
 ## 1. One-liner
-A curriculum visualizer tracking learning progress on a dynamic graph beside an agent dashboard.
+A self-rewiring interactive curriculum map and notes textbook for mastering AI engineering.
 
 ## 2. Elevator pitch
-It is a tool that tracks learning by rendering completed, in-progress, and planned curriculum topics as a dynamic, interactive map. It includes a simulated agent interface where users approve actions like emails or tasks before execution.
+VIZIER is a single-purpose learning brain. It renders 228 curriculum nodes across 10 AI engineering domains as an interactive cosmic graph. Notes written in markdown with wikilinks are compiled into the graph, flipping nodes from ghost (planned) to charging (in-progress) to lit (complete). The entire system — curriculum compiler, note parser, status automation, gamification overlay, and D3 visualizer — runs as a static single-page app deployed on Vercel.
 
 ## 3. What it is
-Vizier solves the problem of tracking structured learning paths over long marathons where linear logs fail to capture conceptual connections. It serves as a visual, self-rewiring knowledge base and a simulated multi-agent dashboard.
+VIZIER solves the problem of tracking a long, structured learning marathon where linear logs fail to capture conceptual connections. It is a visual, self-rewiring knowledge graph that grows node-by-node through honest, note-driven progress.
 
-The project has two parts. The first is a static frontend displaying an interactive, concentric D3 graph of 200 curriculum nodes in 10 permanent AI domains. Nodes move from planned ghosts, to active charging states, to lit nodes representing completed lessons. During daily builds, a script parses markdown notes to extract wikilinks and map backlinks, generating graph edges dynamically.
+The project has one part: a static frontend displaying an interactive D3 graph of 228 curriculum nodes in 10 permanent AI domains, with concentric ring and galaxy layout modes. During builds, a Node.js compiler parses markdown notes from `notes/` and `brain/knowledge/`, extracts `[[wikilinks]]` to generate graph edges, computes streaks and XP, and outputs JSON indexes consumed by the client-side visualizer.
 
-The second part is the agent laboratory, which contains a frozen multi-agent system built on LangGraph. A supervisor agent coordinates specialized subgraphs for research, analysis, writing, and scheduling. It uses Model Context Protocol adapters to connect to external APIs. To prevent unauthorized writes, the system writes proposed actions like emails or tasks to a PostgreSQL database for human approval via a Next.js cockpit. The backend also runs heuristic regex matching and thread correlation scans to identify indirect prompt injection risks before execution.
-
-Ultimately, Vizier provides an honest ledger of learning progress alongside a secure environment to experiment with agent orchestration.
+**The agent-lab chapter.** VIZIER originally included a multi-agent laboratory (LangGraph supervisor, specialist subgraphs, MCP adapters, HITL proposal gate, Next.js safety cockpit, prompt injection scanner). That system was built by IDE coding agents as a learning exercise. In the brain simplification of July 2026, every concept from agent-lab was absorbed into the curriculum as "build it yourself from scratch" nodes, and the reference code was removed from the working tree. The full agent-lab codebase is preserved at the annotated git tag `pre-brain-simplification` for historical reference. The curriculum now teaches those same systems as hands-on build projects, which is the entire point.
 
 ## 4. Tech stack
 
-| Component | Technologies Used | Role / Purpose |
+| Component | Technologies | Role |
 | :--- | :--- | :--- |
-| **Frontend Site** | HTML5, JavaScript, D3.js, Canvas, CSS | Renders the concentric, interactive learning graph and visualizes stats. |
-| **Agent Web App** | Next.js, React, TypeScript, Tailwind CSS, Supabase Client | Renders the safety approvals cockpit and receives database updates in real time. |
-| **Agent Backend** | FastAPI, Python, LangGraph, LiteLLM, Pydantic | Manages state graph coordination, specialist subgraphs, settings, and API routes. |
-| **Data & Storage** | PostgreSQL, Supabase, pgvector | Stores checkpointer state, RAG vectors, and the proposed actions queue. |
-| **Integrations** | Model Context Protocol, Trafilatura, DuckDuckGo Search | Enables agents to connect to external tools and retrieve web information. |
-| **Monitoring** | Langfuse | Handles tracing and agent evaluation tracking. |
+| **Visualizer** | HTML5, JavaScript, D3.js, SVG, Canvas, CSS | Renders the interactive concentric/galaxy graph, inspector panel, search, gamification UI. |
+| **Build Pipeline** | Node.js | Compiles curriculum markdown → JSON indexes, parses notes/wikilinks, computes streaks and XP. |
+| **Styling** | Vanilla CSS (glassmorphism, HSL palette) | Dark cosmic theme with responsive mobile layout. |
+| **Deployment** | Vercel (static) | Builds via `npm run build-brain`, serves `site/` as output directory. |
+| **Data** | JSON (brain-index.public.json, badges.json, curriculum.json) | All state is compiled at build time; zero runtime dependencies. |
 
 ## 5. Core features
-* **Concentric Graph Visualizer**: A physics-based D3 graph mapping 10 AI domains and 200 curriculum nodes with concentric ring rotation and Live/Vision modes.
-* **Wikilink and Backlink Parser**: A build script that crawls markdown files, extracts internal link connections, and compiles backlink lists for the graph inspector.
-* **Multi-Agent Orchestration**: A LangGraph supervisor-specialist graph coordinating Scheduler, Scribe, Researcher, and Analyst subgraphs.
-* **Background Thread Event Loop**: A synchronous LangGraph wrapper that runs async Model Context Protocol client loops on a background thread.
-* **Human-in-the-Loop Proposal Gate**: A queue system that intercepts database writes and requires manual authorization before performing actions.
-* **Safety Cockpit Dashboard**: A Next.js approvals interface with custom payload editing, synced to PostgreSQL via Supabase Realtime.
-* **Indirect Prompt Injection Scanner**: A security filter running regex check patterns and semantic correlation algorithms to find leaked instructions.
-* **Provider-Agnostic LLM Gateway**: A LiteLLM wrapper with fallback logic, backoffs, and tracking configuration.
-* **Hybrid RAG System**: Combines vector cosine similarity with full-text search database operations.
+* **Concentric Ring / Galaxy Graph**: A physics-based D3 visualization mapping 10 domains and 228 nodes with two layout modes (concentric rings with orbital spin, force-directed galaxy), zoom/pan, hover tooltips, and click-to-inspect.
+* **Wikilink & Backlink Engine**: The build compiler (`tools/site-build/compile-curriculum.js`) crawls markdown notes, extracts `[[wikilinks]]`, generates bidirectional edges and backlink lists for the graph inspector.
+* **Note-Driven Status Automation**: Node status transitions automatically — ghost → charging (note exists with `started` date, no `completed` date) → lit (note has `completed` date). Status is derived from note frontmatter at build time. Lit nodes are locked and immutable.
+* **Structured Notes Pipeline**: Notes follow a mandatory template (`notes/TEMPLATE.md`): ELI5, Real Explanation, Why It Matters, Hands-On, Proof, Prove It (5 self-test questions), Wikilinks, Status Log.
+* **XP & Level System**: XP computed per lit node by size (S=10, M=25, L=50, capstone=100). Level bar in left panel (1000 XP/level) with titles: Apprentice → Journeyman → Engineer → Architect → Vizier.
+* **Streak Flame**: Daily streak counter with current and best-ever display, driven by commit/build history.
+* **Boss Nodes**: 10 domain capstone nodes render with a distinct glow and trigger a celebration animation on first light.
+* **Trophy Shelf**: Badge system (`site/badges.json`) with a modal shelf displaying achievements (First Light, Ring Closed ×10, Century, The Rebuild, Graduation).
+* **Per-Domain Progress Rings**: Completion percentages shown in the ring legend panel.
+* **Search**: Client-side fuzzy search across node titles, tags, and domains.
+* **LIVE / VISION Modes**: LIVE shows only lit/charging nodes (real progress). VISION shows the full planned graph including all ghosts.
+* **Deep-Link & Inspector**: Click any node to open a detail panel with metadata, prerequisites, backlinks, note preview, and copy-link.
+* **Tour Mode**: Automated fly-through animation visiting each domain ring.
 
 ## 6. Feature status table
 
-| Feature | Status | Evidence in Codebase |
+| Feature | Status | Evidence |
 | :--- | :--- | :--- |
-| **D3 Concentric Graph Visualizer** | SHIPPED | Implemented in `site/index.html` and `site/brain.html` using custom canvas renderers. |
-| **Wikilink and Backlink Parser** | SHIPPED | Executed in `tools/site-build/build-brain.js` during workspace builds. |
-| **Curriculum Note System** | PARTIAL | The build engine is ready, but only one note (`map-of-ai.md`) exists as `in-progress` (Day 0). The other 199 nodes in `site/brain-index.public.json` are marked as `ghost`. |
-| **Multi-Agent Orchestration** | SHIPPED | The graph topology is defined in `agent-lab/backend/app/agents/supervisor.py` and `specialists.py`. |
-| **Background Thread Event Loop** | SHIPPED | Handled in `agent-lab/backend/app/agents/specialists.py` via `_mcp_loop` and `_mcp_thread`. |
-| **Human-in-the-Loop Proposal Gate** | SHIPPED | Implemented in `agent-lab/backend/app/actions/proposer.py` and `executors.py` by queueing proposals. |
-| **Simulation Mode (DEMO_MODE)** | SHIPPED | Configured in `agent-lab/backend/app/settings.py` and handled in `executors.py` to bypass credentials. |
-| **Next.js Safety Cockpit** | SHIPPED | Implemented in `agent-lab/web/app/approvals/page.tsx` with full editing forms. |
-| **Realtime Database Subscription** | SHIPPED | Configured via the Supabase JS client inside `agent-lab/web/app/approvals/page.tsx`. |
-| **Indirect Prompt Injection Scanner** | SHIPPED | Found in `agent-lab/backend/app/actions/scanner.py` using regex and content overlap checks. |
-| **Replan Engine** | PLANNED | Mentioned in runbooks and specifications, but CLI scripts are not implemented in the tools folder. |
+| **D3 Graph Visualizer (rings + galaxy)** | SHIPPED | `site/index.html` — 2781 lines, full D3/SVG/Canvas renderer. |
+| **Wikilink & Backlink Parser** | SHIPPED | `tools/site-build/compile-curriculum.js` — wikilink extraction and edge generation. |
+| **Note-Driven Status Automation** | SHIPPED | `tools/site-build/compile-curriculum.js` — reads frontmatter `status`/`completed` fields. |
+| **Structured Notes Template** | SHIPPED | `notes/TEMPLATE.md` — 7-section mandatory structure. |
+| **XP & Level System** | SHIPPED | `site/index.html` lines 720–730 — level bar, XP counter, title display. |
+| **Streak Flame** | SHIPPED | `site/index.html` lines 732–743 — streak current/best display. |
+| **Boss Node Glow** | SHIPPED | `site/index.html` — capstone nodes render with distinct glow filter. |
+| **Trophy Shelf & Badges** | SHIPPED | `site/badges.json` (5 badges defined), `site/index.html` lines 921–955 (modal). |
+| **Domain Progress Rings** | SHIPPED | `site/index.html` — per-domain completion % in ring legend. |
+| **Search** | SHIPPED | `site/index.html` — `#search-panel` with fuzzy matching. |
+| **LIVE / VISION Toggle** | SHIPPED | `site/index.html` — `#btn-live` / `#btn-preview` mode switching. |
+| **Tour Mode** | SHIPPED | `site/index.html` — `#btn-tour` automated domain fly-through. |
+| **Curriculum Compiler** | SHIPPED | `tools/site-build/compile-curriculum.js` — parses `VIZIER_MASTERY_GRAPH.md` → JSON. |
+| **Day-Close Pipeline** | SHIPPED | `tools/day-close.js` — builds, computes streaks, commits, pushes. |
+| **Next-Node / Finish-Node CLI** | SHIPPED | `tools/next-node.js`, `tools/finish-node.js` — node selection and completion workflow. |
+| **Frontier Scanner** | SHIPPED | `tools/frontier-scan.js` — Gemini-powered ghost node update scanner. |
+| **QA Integrity Checker** | SHIPPED | `tools/check-qa-integrity.js` — validates all nodes have required fields, zero orphans. |
+| **Vercel Production Deployment** | SHIPPED | `vercel.json` — `buildCommand: npm run build-brain`, `outputDirectory: site`. |
+| **Mobile Responsive Layout** | SHIPPED | `site/assets/style.css` — `@media (max-width: 768px)` collapsible panels. |
 
-## 7. Real vs. Demo/Simulation aspects
-* **What is Real**:
-  * The build-brain script compiles notes, extracts wikilinks, and generates graph JSON correctly.
-  * The D3 visualization rendering concentric rings, nodes, streaks, and stats runs fully client-side.
-  * The LangGraph supervisor-specialist graph runs, hooks up tool definitions, and processes message routing.
-  * The Next.js dashboard retrieves pending actions and updates via Supabase realtime.
-  * The Prompt Injection scanner executes regex and history correlation checks on payload items.
-* **What is Simulated/Demo**:
-  * **Simulation mode**: By default, `DEMO_MODE` is enabled. Write actions (such as sending emails, calendar events, or tasks) write mock results to the database rather than communicating with active Google OAuth services. This allows local and host deployments to function without active workspace credentials.
-  * **Curriculum progress**: Out of 200 nodes, 199 are ghost placeholders. Only `map-of-ai.md` exists physically, representing Day 0 of the actual learning journey.
-  * **Daily close pipeline**: The automated day close script and AI replan functions are outline concepts in documentation (`docs/DAILY_RITUAL.md`, `instructions.md`) and not active scripts.
+## 7. Real vs. Demo
+* **What is real**:
+  * The build pipeline compiles notes, extracts wikilinks, generates graph JSON, and computes XP/streaks correctly.
+  * The D3 visualizer renders concentric rings, nodes, edges, stats, and gamification overlays fully client-side.
+  * The note template and status automation pipeline are fully functional.
+  * Vercel production deployment builds and serves the brain SPA at root (`/`).
+* **What is honestly zero right now** (as of July 18, 2026):
+  * **Curriculum progress**: 0 of 228 nodes are lit. 1 node (`map-of-ai`) exists as `in-progress`. The other 227 are ghosts. All progress from here is real and note-driven — there is no simulation.
+  * **XP / Level**: 0 XP, Level 1 (Apprentice). Will increase only when notes are completed and nodes are lit.
+  * **Streaks**: Current streak is 0. Will accumulate from actual daily builds.
+  * **Badges**: All locked. Earned only by real milestones.
 
 ## 8. Problems solved / Technical hurdles overcome
-* **Bridging Async MCP Clients inside Synchronous LangGraph Nodes**: LangGraph agents are designed as synchronous node functions in this architecture, but the Model Context Protocol (MCP) client library is inherently asynchronous. To bridge this, a custom background event loop (`_mcp_loop`) is started on a dedicated thread (`_mcp_thread`). Synchronous agent nodes push requests to this thread and block, waiting for a thread-safe future to return the result.
-* **Detecting Context-Leaking Prompt Injections**: Agents reading untrusted tools (like web content or email bodies) can be poisoned by malicious instructions. Vizier implements an overlap scanner that caches tool outputs and checks if these untrusted contents correlate semantically (using overlap metrics) with critical fields inside proposed write payloads.
-* **Credential-Free Deployment**: Running agent portfolios on the web without exposing keys or crashing due to missing Google credentials was achieved by decoupling the proposal database table and creating a simulated execution branch (`DEMO_MODE`) in Python.
+* **Brain Simplification Architecture**: Designed a process to absorb every concept from a working multi-agent system into curriculum build nodes, then safely remove the reference implementation while preserving it at a git tag — converting "code I was given" into "things I must build myself."
+* **Wikilink-Driven Graph Rewiring**: Built a compiler that reads `[[wikilinks]]` from free-form markdown notes and deterministically generates graph edges and backlinks, making the knowledge graph self-organizing as notes are written.
+* **Gamification as Pure Overlay**: Implemented XP, levels, streaks, boss nodes, and badges as a pure data-driven overlay on the existing graph engine — all computed from the built JSON at render time, degrading gracefully if fields are absent, with zero changes to graph physics or data semantics.
+* **Single-Page Static Deployment**: Converted a multi-page site (home, feed, about, brain) into a single-page brain-only app served at root, with Vercel redirects for legacy URLs, eliminating all backend runtime dependencies.
 
-## 9. Known limitations / Contradictions
-* **Static Graph build is empty**: The public site's main stats show `⚡ 0 / 200 NODES LIT` because only one note is in progress and none are marked learned.
-* **Vercel Build Discrepancy**: The file `docs/DEPLOYMENT.md` specifies building the project using site-build scripts from the root, but `vercel.json` at the root is configured to point directly to `site` output or custom build triggers.
-* **API Connection Errors**: The Next.js dashboard assumes `http://localhost:8000` is the active backend endpoint for details fetching, which means it will fail to update action items unless the backend is running locally alongside it.
+## 9. Known limitations
+*Sourced from `QA_REPORT.md` (July 17, 2026 audit).*
+
+* **Empty graph in LIVE mode**: LIVE mode shows 0 nodes because nothing is lit yet. An empty-state overlay explains this and offers a dismiss button. VISION mode shows the full 228-node plan.
+* **No runtime server**: The app is fully static. There is no backend, no database, no API. All state is baked at build time. This is intentional but means progress requires local builds and git pushes.
+* **Notes pipeline is manual**: Writing a note, running `npm run finish-node`, and running `npm run day:close` are manual CLI steps. There is no automated ingestion or CI trigger.
+* **Single note exists**: Only `notes/map-of-ai.md` and `brain/knowledge/foundations/map-of-ai.md` exist as real content. The textbook is 99.5% unwritten.
+* **Frontier nodes are stale placeholders**: The 5 frontier-type nodes contain baseline guesses from graph creation date. They are designed to be regenerated via `npm run frontier-scan` when approached.
 
 ## 10. Ready-made copy
-* **Resume Bullet Points**:
-  * Built a curriculum visualizer that tracks engineering progress by rendering conceptual notes as a dynamic concentric graph using D3.js.
-  * Developed a multi-agent laboratory using LangGraph to orchestrate supervisor and specialist subgraphs communicating via Model Context Protocol.
-  * Implemented a gated human-in-the-loop authorization gate in Python that writes proposed actions to a PostgreSQL database for review.
-  * Designed an indirect prompt injection scanner that checks proposal fields against execution history to prevent data leakage.
-* **LinkedIn Description**:
-  I built Vizier to track my progress in AI engineering. It combines a dynamic concentric graph visualization of a 200-node curriculum with an agent laboratory. The agent system uses LangGraph to coordinate specialists and connects to APIs using the Model Context Protocol. To ensure safety, a Next.js dashboard requires human approval before the agent executes any email or calendar write actions. The system also scans for prompt injections by comparing proposed action details with the conversation history.
-* **GitHub README Intro**:
-  Vizier is a dual-purpose portfolio project. It is a dynamic knowledge graph that maps learning progress across ten domains of AI engineering, and a supervisor-specialist agent laboratory. The agent system features a safety cockpit that intercepts write actions for human authorization, and security scanners to protect against indirect prompt injections.
 
-## 11. Interview Talking Points
-* **Explaining the Multi-Agent Threading Bridging**: If asked how agents communicate with APIs, explain that you wrapped asynchronous Model Context Protocol (MCP) clients in a dedicated background event loop running on a separate thread, allowing synchronous LangGraph nodes to make safe, blocking tool calls.
-* **Explaining the Safety Cockpit and HITL Gate**: Explain that you implemented a gated database schema to store write action proposals rather than giving LLM agents direct write access, requiring manual user interaction to edit and execute tasks.
-* **Explaining the Prompt Injection Defense**: Detail how the correlation scanner detects indirect injections by comparing text overlap between untrusted tool read results and the final proposed write action payloads, catching leaked instructions before they trigger writes.
+### Resume bullet points
+* Built an interactive D3.js knowledge graph visualizer rendering 228 AI engineering curriculum nodes across 10 domains with concentric ring and force-directed galaxy layouts.
+* Engineered a markdown-to-graph compiler in Node.js that parses wikilinks from structured notes, generates bidirectional edges, and automates node status transitions (ghost → charging → lit) from note metadata.
+* Designed a gamification overlay (XP/levels, streaks, boss nodes, trophy badges) as a pure data-driven layer computed at build time with zero coupling to graph physics.
+* Executed a codebase simplification that absorbed a multi-agent system's concepts into build-it-yourself curriculum nodes, converting reference code into structured learning objectives.
 
-## 12. Curriculum Philosophy & Graph Design
-* **Nodes, Not Calendars**: The graph operates independently of calendar deadlines. Nodes represent conceptual or technical topics that take variable time to master. Progress is asymmetric and honestly tracked.
+### LinkedIn description
+I built VIZIER to track my journey mastering AI engineering. It's an interactive cosmic graph of 228 curriculum nodes across 10 domains — from foundations and APIs to agents, security, and production. Notes written in markdown with wikilinks automatically rewire the graph's edges. Nodes light up only when I've written a Feynman-depth explanation and, for builds, a working artifact. The whole system compiles to a static single-page app deployed on Vercel. Every concept from a multi-agent system I studied was absorbed into the curriculum as "build it from scratch" nodes — the map doesn't just track learning, it IS the textbook.
+
+### GitHub README intro
+VIZIER is a single-purpose learning brain — an interactive, self-rewiring curriculum map for mastering AI engineering. 228 nodes across 10 domains. Notes light up nodes. Wikilinks create edges. Progress is real and publicly visible. The brain is the app.
+
+## 11. Interview talking points
+* **The Simplification Decision**: Explain that you had a working multi-agent system (LangGraph supervisor, MCP adapters, HITL gate, safety cockpit) built by coding agents, and you chose to remove it and convert every concept into build-it-yourself curriculum nodes — because understanding > having.
+* **Wikilink Graph Engine**: Explain how free-form `[[wikilinks]]` in markdown notes are parsed at build time to generate graph edges, making the knowledge map self-organizing as you learn.
+* **Gamification Design**: Explain the XP/level/badge system as a pure overlay — computed from the same JSON the graph uses, no separate state store, degrades gracefully if fields are missing.
+* **The Curriculum Philosophy**: Explain why the graph uses nodes-not-calendars, why lit nodes are immutable, and why frontier nodes are regenerated from live scans rather than frozen at creation.
+
+## 12. Curriculum philosophy & graph design
+* **Nodes, Not Calendars**: The graph is independent of calendar deadlines. Nodes take variable time. Progress is asymmetric and honestly tracked.
 * **Node Life-Cycle States**:
-  * **Ghost**: A planned lesson or project topic (uncompleted).
-  * **Charging**: A topic currently in progress, visually pulsing on the graph.
-  * **Lit**: A completed topic. Once marked learned, it is locked (`locked: true` in `curriculum/.locked/<node-id>.json`) and becomes immutable to preserve the integrity of the learning ledger.
-* **The 10 Permanent Domains**: The graph is structured concentrically around 10 core AI Engineering domains that act as the permanent spine.
+  * **Ghost**: Planned (uncompleted). Dim on the graph.
+  * **Charging**: In progress (note exists, pulsing animation).
+  * **Lit**: Completed. Locked forever (`locked: true`). Immutable.
+* **The 10 Permanent Domains**: Foundations, Prompting & APIs, RAG & Retrieval, Agents, Multi-Agent & MCP, Memory & Knowledge, Evals & Observability, Safety & Security, Production, Frontier & Capstone.
+* **228 Nodes**: ~88 build nodes, 10 capstones, 10 synthesis nodes, 5 frontier placeholders, the rest concept nodes. Count will change via replans — that's the point.
 
-## 13. Mastery Graph Rules
-1. **The Spine is Permanent**: The 10 domains (rings) are static. The nodes inside them evolve through updates, but the rings themselves never do.
-2. **Lit Nodes are Immutable**: Completed nodes cannot be modified or altered by system scripts.
-3. **Feynman Depth Requirement**: A node is only lit when its markdown note contains a clear Feynman explanation and, for builds, a functioning code artifact.
-4. **Organic Backlinks**: Wikilinks (`[[node-id]]`) in notes generate graph edges and bidirectional backlinks dynamically during daily builds.
-5. **Deterministic Edges**: Node relationships are generated deterministically based on prerequisite chains, clusters, and wikilinks (targeting 2–6 edges per node).
-6. **Replan Integrity**: Any modifications/replans of ghost nodes must be justified with a stated reason appended to `curriculum/CHANGELOG.md`.
-7. **Frontier Scanning**: Future placeholder nodes are updated dynamically when approached by running a scan of the current industry state.
+## 13. Mastery graph rules
+1. The 10 domains (rings) are the permanent spine. Nodes evolve; rings never do.
+2. Lit nodes are immutable — tooling refuses to alter them.
+3. A node isn't lit until its note has a Feynman explanation (and, for builds, a working artifact).
+4. Notes use `[[wikilinks]]` freely; the build rewires edges and backlinks organically.
+5. `sync` runs regularly, lit node or not. Charging is real work.
+6. Replans need a written reason in `curriculum/CHANGELOG.md`. Never replan from restlessness.
+7. `frontier` nodes are placeholders — regenerated from a fresh frontier-scan when approached.
 
-## 14. Floating Milestones
-* **M1 — RESURRECTION** (related: `production`): Deploy the backend (Machine 1) and dashboard (Machine 2) manually (env, DB, migrations, OAuth, scheduler, gate, UI). Triggered by unfreezing `agent-lab`. Baseline node: `resurrection`.
-* **M2 — THE BRIDGE** (related: `production`, `agents`): The deployed agent proposes new brain nodes through its own human-approval gate, merging agent and curriculum into a single system. Baseline node: `the-bridge`.
-* **M3 — FIRST PUBLIC ARTIFACT** (related: `prompting-apis`): Ship a publicly usable application. Baseline node: `build-feynman-bot`.
-* **M4 — HALF-LIT BRAIN** (related: all): Achieve a 50% completion rate of curriculum nodes.
-* **M5 — VIZIER v2** (related: `frontier-capstone`): The final capstone where the user designs and implements a unified agent + brain system from scratch without code assistants. Baseline node: `define-vizier-v2`.
+## 14. Floating milestones
+* **M1 — RESURRECTION**: Deploy a full backend + dashboard with my own hands. Baseline: `resurrection`.
+* **M2 — THE BRIDGE**: The deployed agent proposes brain nodes through its own approval gate. Baseline: `the-bridge`.
+* **M3 — FIRST PUBLIC ARTIFACT**: Ship something strangers can use. Baseline: `build-feynman-bot`.
+* **M4 — HALF-LIT BRAIN**: 50% of nodes lit; the halfway story post.
+* **M5 — VIZIER v2**: The final capstone — a unified agent+brain system designed and built by me from scratch. Baseline: `define-vizier-v2`.
 
-## 15. Operational Workflow Loops
+## 15. Operational workflow loops
 
 ### 15.1 The Daily Loop
-* **Initialization**: Execute `npm run next-node` to select the next ghost node or continue charging the active one.
-* **Build & Document**: Write notes in `brain/knowledge/` using the frontmatter template. Use double-bracket `[[wikilinks]]` to relate concepts.
-* **Verification**: Execute `npm run finish-node` to transition the note's status to `learned`, locking it.
-* **Daily Close**: Run `npm run day:close` (or `npm run sync`) to build the static graph data, compute streaks, commit all changes, and push to the remote repository.
+1. Run `npm run next-node` to select the next ghost node or continue the active one.
+2. Write the note in `notes/` using the template. Use `[[wikilinks]]` freely.
+3. Run `npm run finish-node` to transition to `learned` and lock it.
+4. Run `npm run day:close` (or `npm run sync`) to build, compute streaks, commit, push.
 
 ### 15.2 The Content Loop
-* **Polish Drafts**: On lighting a node, `draft-post` generates drafts (Feynman-style posts, carousel outlines, video scripts) in `posts/<node-id>/`. Polish a draft in under 15 minutes.
-* **1-in-4 Format Rotation**: Cycle content types between Carousels, Text posts, Infographics, and Video walk-throughs.
-* **Sunday Batching**: Spend time each Sunday batch-generating and scheduling posts.
+* On lighting a node, `npm run draft-post` generates content drafts in `posts/<node-id>/`.
+* 1-in-4 format rotation: Carousels, Text, Infographics, Video walk-throughs.
 
 ### 15.3 The Evolution Loop
-* **Weekly Frontier Scan**: Run `npm run frontier-scan` to crawl recent AI engineering developments.
-* **Replan**: Execute `npm run replan` to interactively modify ghost nodes using LLM suggestions on approved prompts, updating `curriculum/curriculum.json` and `CHANGELOG.md`.
-* **Capstone checkpoints**: Every domain's final capstone requires evaluating progress and performing a replan before moving to the next ring.
+* `npm run frontier-scan` — crawl recent AI developments to refresh frontier nodes.
+* `npm run replan` — modify ghost nodes with LLM suggestions; changes logged in `curriculum/CHANGELOG.md`.
 
-## 16. The Full 228-Node Curriculum Map
+## 16. Full curriculum map
+The complete 228-node curriculum (all 10 domains, every cluster, every node with ID/title/type/size/summary, milestones, and cross-domain edge wiring) lives in:
 
-### DOMAIN 01 — FOUNDATIONS · ring: `foundations` · 24 nodes
-*How AI actually works, plus the engineer's floor everything stands on.*
+→ **[CURRICULUM_FULL.md](CURRICULUM_FULL.md)** (repo root)
 
-#### Cluster: How AI Works
-* **map-of-ai** — The Map of AI (concept · S): AI vs ML vs DL vs GenAI vs Agentic — the family tree.
-* **how-machines-learn** — How Machines Learn (concept · S): weights, loss, gradient descent — pure intuition.
-* **what-is-a-language-model** — What a Language Model Is (concept · S): next-token prediction, and why that's enough for magic.
-* **tokens** — Tokens (concept · S): play with a real tokenizer; why "strawberry" confuses models.
-* **embeddings-intuition** — Embeddings Intuition (concept · S): meaning as coordinates; nearest-neighbor thinking.
-* **attention-transformers** — Attention & Transformers (concept · M): the "every word looks at every word" idea.
-* **training-pipeline** — Pretraining → Fine-tuning → RLHF (concept · S): the three-stage recipe behind every chatbot.
-* **context-windows** — Context Windows (concept · S): the model's short-term memory and what fits.
-* **sampling-controls** — Temperature & Top-p (concept · S): why the same prompt gives different answers.
-* **hallucination** — Hallucination (concept · S): why models confidently make things up; grounding preview.
-* **model-landscape** — The Current Model Landscape (frontier · S): open vs closed, frontier vs small — as of the day I light this node.
-* **classical-ml-fundamentals** — Classical ML Fundamentals (concept · M): Train/test splits, overfitting/regularization, precision/recall/F1, and confusion matrices.
-* **nlp-transformer-lineage** — NLP Lineage to Transformers (concept · M): From TF-IDF, Word2Vec, and RNNs/LSTMs to self-attention; the architectural lineage that enabled LLMs.
+Canonical source: `curriculum/VIZIER_MASTERY_GRAPH.md`.
 
-#### Cluster: The Engineer's Floor
-* **python-environments** — Environments & Packages (build · S): venv, pip, running scripts like a pro.
-* **python-data-shapes** — Data Shapes (build · S): functions, dicts, JSON — the shapes of AI data.
-* **python-classes-modules** — Classes & Modules (build · S): reading real codebases.
-* **python-async** — Async/Await (build · M): why AI apps need it; hands-on.
-* **python-typing-pydantic** — Types & Pydantic (build · S): the schema mindset.
-* **git-mastery** — Git Mastery (build · S): branches, commits, history — understand my own daily ritual.
-* **terminal-fluency** — Terminal Fluency (build · S): navigate, pipe, grep — no more fear.
-* **python-craft-professional** — Build: Professional Python Craft (build · M): Build a modular package using typing conventions, unit tests with pytest, execution profiling, and metadata packaging; verify with test passes.
-* **build-token-cost-calculator** — Build: Token & Cost Calculator (build · M): count tokens, estimate API cost, write the explainer.
+### Domain summary
 
-#### Cluster: Consolidation
-* **synthesis-foundations** — Synthesis: The Foundations Map (synthesis · S): explain "how an LLM works" to a 12-year-old, end to end.
-* **capstone-foundations** — 🏁 Capstone: Foundations (capstone · M): mega-note + carousel "How AI really works" + replan checkpoint.
-### DOMAIN 02 — PROMPTING & LLM APIs · ring: `prompting-apis` · 20 nodes
-*Talk to models like an engineer: APIs, structure, tools, reliability.*
-
-#### Cluster: Speaking to Models
-* **first-api-call** — First API Call (build · S): call Gemini from Python; inspect the raw response.
-* **roles-and-system-prompts** — Roles & System Prompts (concept · S): who's talking; why system prompts steer everything.
-* **prompt-skeleton** — The Prompt Skeleton (concept · S): role + context + task + format — the reusable pattern.
-* **few-shot-prompting** — Few-shot Examples (concept · S): when 3 examples beat 300 words.
-* **reasoning-prompts** — Reasoning Prompts (concept · S): chain-of-thought, step-by-step, and their limits.
-* **structured-output** — Structured Output (build · S): force clean JSON out of a model; parse safely.
-* **tool-calling** — Tool / Function Calling (concept · M): the single most important mechanic in agentic AI.
-
-#### Cluster: Engineering the Call
-* **streaming-responses** — Streaming (build · S): tokens flowing into the terminal, live.
-* **errors-retries-backoff** — Errors, Retries, Backoff (build · S): API calls that survive failure.
-* **rate-limits-caching** — Rate Limits & Caching (concept · S): why free tiers throttle; how caching saves you.
-* **build-gateway** — Build: Provider-Agnostic LLM Gateway (build · M): Build a LiteLLM-like gateway with fallbacks (Gemini -> Groq -> OpenRouter), retry logic, exponential backoff, semantic caching, and token/cost tracking; verify with simulated key failures.
-* **injection-first-look** — Prompt Injection: First Look (concept · S): the attack that shapes everything later.
-* **multimodal-input** — Multimodal In (build · S): send an image; extract structured info.
-* **voice-audio-apis** — Voice & Audio APIs (concept · S): speech-to-text and text-to-speech landscape.
-* **long-context-strategies** — Long-Context Strategies (concept · S): stuffing vs retrieval vs summarizing.
-* **prompt-quality** — Is My Prompt Good? (concept · S): informal evaluation; A/B thinking begins.
-
-#### Cluster: First Ships
-* **build-cli-chatbot** — Build: CLI Chatbot (build · M): terminal chatbot with in-session memory, streaming, a persona.
-* **build-feynman-bot** — Build: Feynman-Bot (build · L): explains any AI term with an Indian-life analogy — ship it public. -> M3
-* **synthesis-apis** — Synthesis: The API Layer (synthesis · S): the whole call path, explained start to finish.
-* **capstone-apis** — 🏁 Capstone: APIs (capstone · M): "I taught a computer to take orders" + replan checkpoint.
-
-### DOMAIN 03 — RAG & RETRIEVAL · ring: `rag-retrieval` · 22 nodes
-*Ground models in real knowledge: embeddings, vector search, citations.*
-
-#### Cluster: Retrieval Fundamentals
-* **why-rag** — Why RAG Exists (concept · S): closed-book vs open-book exams; the grounding solution.
-* **embeddings-hands-on** — Embeddings Hands-on (build · S): embed sentences; cosine similarity by hand.
-* **chunking** — Chunking (concept · S): slicing documents, sliding window strategies, semantic chunking, and hierarchical document splitters.
-* **vector-databases** — Vector Databases (concept · M): what pgvector, HNSW graph structures, and IVF index partitioning actually do.
-* **build-first-rag** — Build: First RAG Pipeline (build · M): ingest → embed → store → retrieve → answer.
-
-#### Cluster: Retrieval, Seriously
-* **keyword-fulltext-search** — Keyword & Full-Text Search (concept · S): BM25/tsvector — old magic that still wins.
-* **build-hybrid-search** — Build: Hybrid Search & RRF (build · M): Build a hybrid retrieval system merging semantic vector results (using cosine similarity/pgvector) with keyword full-text matches, re-ranked using Reciprocal Rank Fusion (RRF); verify against test search queries.
-* **build-vector-db-benchmark** — Build: Vector Database Benchmark (build · M): Build a benchmarking script comparing pgvector, local FAISS-style indices, and embedded Chroma-style stores on a corpus, measuring recall@k and latency; verify with comparative performance reports.
-* **reranking** — Reranking (concept · S): the second pass that fixes retrieval quality.
-* **citations-grounding** — Citations & Grounding (build · S): every answer points at its source.
-* **rag-failure-modes** — RAG Failure Modes (concept · S): lost-in-the-middle, bad chunks, stale indexes.
-* **metadata-filters** — Metadata & Filters (build · S): retrieval with structure — dates, tags, domains.
-* **query-rewriting-hyde** — Query Rewriting & HyDE (concept · S): fixing bad questions before retrieval.
-* **multi-hop-retrieval** — Multi-hop Retrieval (concept · S): questions that need two lookups.
-* **ingestion-pipelines** — Build: Ingestion Pipeline & Seeder (build · M): Build an ingestion pipeline that parses markdown note files, splits them into clean semantic chunks, generates vector embeddings, and seeds a pgvector database; verify with chunk length assertions.
-* **rag-evals-intro** — RAG Evals Intro (concept · S): faithfulness & context recall — measuring groundedness.
-
-#### Cluster: RAG on My Own Brain
-* **build-chat-with-my-brain** — Build: Chat With My Brain (build · L): RAG over my own notes, with citations + domain filters — meta and glorious.
-* **evaluate-brain-chat** — Build: Evaluate It (build · M): mini golden set; score faithfulness.
-* **graphrag-preview** — GraphRAG Preview (concept · S): when knowledge is a graph, not a pile, leveraging community summaries, entity linking, and hierarchical relationship indexing.
-* **semantic-caching** — Semantic Caching (concept · S): answering repeat questions for free.
-* **synthesis-rag** — Synthesis: The Retrieval Story (synthesis · S): the full pipeline, one diagram.
-* **capstone-rag** — 🏁 Capstone: Retrieval (capstone · M): "I gave AI an open book" + replan checkpoint.
-### DOMAIN 04 — AGENTS · ring: `agents` · 20 nodes
-*From chatbot to agent: loops, tools, state, LangGraph.*
-
-#### Cluster: The Loop
-* **what-makes-an-agent** — What Makes an Agent (concept · S): reason, act, observe, repeat.
-* **react-by-hand** — ReAct By Hand (build · S): run the loop manually on paper with a real task.
-* **designing-tools** — Designing Tools (concept · S): schemas, descriptions, why naming matters.
-* **build-agent-from-scratch** — Build: Agent From Scratch (build · M): Build a pure-Python manual ReAct loop handling raw prompt formatting, regex tool-calling parsing, and a tool dispatch execution loop; verify with 5 mock tasks.
-
-#### Cluster: LangGraph & Patterns
-* **langgraph-state** — LangGraph: Nodes & State (concept · M): the graph mental model.
-* **langgraph-checkpointers** — Checkpointers (concept · S): pause, resume, survive crashes.
-* **hitl-interrupts** — Human-in-the-Loop Interrupts (build · M): an agent that stops and asks permission.
-* **plan-and-execute** — Plan-and-Execute (concept · S): planners vs reactors.
-* **reflection-patterns** — Reflection / Reflexion (concept · S): agents that critique themselves.
-* **subgraphs** — Subgraphs (concept · S): agents made of agents.
-* **build-supervisor** — Build: LangGraph Supervisor (build · M): Build a LangGraph supervisor that routes to 4 specialist subgraphs by intent using structured LLM output, persistence checkpointers, and thread state tracking; verify with 10 routing tests.
-* **build-specialists** — Build: Specialist Subgraphs & Loops (build · M): Build Scheduler, Scribe, Researcher, and Analyst subgraphs, integrating local API tools and bridging async event loops with sync supervisor threads; verify with mock task completions.
-* **scratchpads-working-memory** — Scratchpads (concept · S): what the agent remembers mid-task.
-
-#### Cluster: Real Agents
-* **build-research-agent** — Build: Research Agent (build · L): web-search tool + multi-step plans + cited synthesis.
-* **add-the-gate** — Build: Add the Gate (build · M): HITL approval before it saves anything.
-* **agent-failure-modes** — Agent Failure Modes (concept · S): infinite loops, tool spam, derailment — and guards.
-* **cost-latency-budgets** — Cost & Latency Budgets (concept · S): agents burn tokens; engineer the bill.
-* **build-node-proposer** — Build: The Node-Proposer (build · L): an agent that proposes brain nodes for my approval — the seed of The Bridge.
-* **synthesis-agents** — Synthesis: Chatbot vs Agent (synthesis · S): explained forever.
-* **capstone-agents** — 🏁 Capstone: Agents (capstone · M): milestone mega-post + replan checkpoint.
-
-### DOMAIN 05 — MULTI-AGENT & MCP · ring: `multi-agent-mcp` · 19 nodes
-*Teams of agents and the protocols that connect everything.*
-
-#### Cluster: Teams
-* **when-many-beats-one** — When Many Beats One (concept · S): honest criteria for multi-agent (and when it's hype).
-* **orchestrator-worker** — Orchestrator–Worker (concept · S): the supervisor pattern, formalized.
-* **handoffs-routing** — Handoffs & Routing (concept · S): tasks moving between agents cleanly.
-* **shared-state-patterns** — Shared State (concept · S): scratchpads, blackboards, message passing.
-* **parallel-agents** — Parallel Agents (concept · S): fan-out/fan-in; what's safe to parallelize.
-* **debate-consensus** — Debate & Consensus (concept · S): agents arguing their way to better answers.
-* **token-economics-of-teams** — Token Economics of Teams (concept · S): multi-agent cost math, honestly.
-
-#### Cluster: MCP & Protocols
-* **mcp-fundamentals** — MCP: The USB-C of AI (concept · M): why one protocol won tool connectivity.
-* **build-mcp-server** — Build: System Utilities MCP Server (build · M): Build a custom Model Context Protocol server exposing system utility tools, handling stdio communication, and executing subprocess actions; verify with a command-line client.
-* **build-mcp-bridge** — Build: Async MCP Sync Bridge (build · M): Build a background event loop wrapper that executes async MCP client calls within sync LangGraph thread environments; verify by invoking tools concurrently.
-* **mcp-clients** — MCP Clients (build · S): connect my server to a client and call it.
-* **mcp-resources-prompts** — MCP Deep: Resources & Prompts (concept · S): beyond tools — the full spec.
-* **mcp-security** — MCP Security (concept · M): tool poisoning, confused deputies — the new attack surface.
-* **protocol-landscape** — The Protocol Landscape (frontier · S): A2A and whatever is current when I light this node.
-
-#### Cluster: Team Builds
-* **build-writer-critic** — Build: Writer + Critic (build · M): two agents improving a draft in a loop; add a supervisor; measure gain.
-* **build-brain-mcp-server** — Build: Brain MCP Server (build · L): expose my brain graph as MCP tools — any AI client can query my learning.
-* **experiment-one-vs-many** — Experiment: One vs Many (build · M): same task, single vs multi; publish the honest finding.
-* **synthesis-multi-agent** — Synthesis: The Connected-Agents Map (synthesis · S).
-* **capstone-multi-agent** — 🏁 Capstone: Multi-Agent (capstone · M): + replan checkpoint.
-
-### DOMAIN 06 — MEMORY & KNOWLEDGE · ring: `memory-knowledge` · 19 nodes
-*Agents that remember, and knowledge shaped as graphs.*
-
-#### Cluster: Agent Memory
-* **build-memory-taxonomy** — Build: Memory Taxonomy (build · S): Build a semantic memory extraction service that classifies inputs into semantic, episodic, and procedural categories and stores them in Postgres tables; verify with test conversation snippets.
-* **memory-architectures** — Memory Architectures (concept · S): context vs store; the memory stack.
-* **memory-extraction** — Memory Extraction (concept · S): conversations → durable facts.
-* **retrieval-and-decay** — Retrieval & Decay (concept · S): importance, recency, forgetting on purpose.
-* **memory-frameworks** — Memory Frameworks (frontier · S): the current landscape when I light this node.
-* **compaction-summarization** — Compaction & Summarization (concept · S): keeping memory small and sharp.
-* **personalization-via-memory** — Personalization (concept · S): assistants that actually know you.
-* **privacy-in-memory** — Privacy in Memory (concept · S): what should never be remembered.
-
-#### Cluster: Knowledge Graphs
-* **knowledge-graphs-101** — Knowledge Graphs 101 (concept · S): entities, relations, triples.
-* **entity-extraction** — Entity Extraction (build · M): LLM pulls entities/relations from my notes.
-* **graphrag-deep** — GraphRAG Properly (concept · M): community summaries, graph-aware retrieval.
-* **temporal-knowledge** — Temporal Knowledge (concept · S): facts that change over time.
-* **brain-as-knowledge-graph** — My Brain, Formalized (concept · M): map my graph to a real KG schema.
-
-#### Cluster: Memory Builds
-* **build-memory-layer** — Build: Memory Layer (build · L): long-term memory bolted onto my research agent — extraction, retrieval, importance.
-* **build-link-suggester-v2** — Build: Link-Suggester v2 (build · M): entity-aware edge proposals for the brain, still human-approved.
-* **build-brain-reviewer** — Build: Self-Critical Graph Reviewer (build · M): Build a self-review script that parses note links, identifies sparse domains, and prompts LLMs to suggest new entity connections and honesty checks; verify with local note files.
-* **build-learning-recall-agent** — Build: "What Did I Learn?" Agent (build · M): ask my brain about any period; grounded, node-cited answers.
-* **synthesis-memory** — Synthesis: The Memory Stack (synthesis · S).
-* **capstone-memory** — 🏁 Capstone: Memory (capstone · M): "I built an AI that remembers" + replan checkpoint.
-
-### DOMAIN 07 — EVALS & OBSERVABILITY · ring: `evals-observability` · 22 nodes
-*The senior-engineer superpower: measuring non-deterministic systems.*
-
-#### Cluster: Measuring Quality
-* **why-evals-rule** — Why Evals Rule Everything (concept · S): you can't improve what you can't measure.
-* **build-golden-dataset** — Build: Golden Dataset (build · M): 20 golden cases for my research agent.
-* **build-eval-judge** — Build: LLM-as-a-Judge Scorer (build · M): Build an LLM-as-a-judge scoring engine using customized rubrics, confidence metrics, and golden dataset assertions; verify by scoring 20 generated agent responses.
-* **judge-bias-pinning** — Judge Bias & Pinning (concept · S): when the judge is wrong; version-pin the judge.
-* **trajectory-evals** — Trajectory Evals (concept · S): scoring the path, not just the answer.
-* **tool-use-metrics** — Tool-Use Metrics (concept · S): right tool, right args, right time.
-* **eval-frameworks-hands-on** — Eval Frameworks Hands-on (build · M): run current frameworks on my brain-chat.
-* **prompt-regression-tests** — Prompt Regression Tests (build · S): freeze behavior; catch silent breakage.
-* **ci-gates-for-ai** — CI Gates for AI (concept · S): evals as merge blockers.
-
-#### Cluster: MLOps & Model Lifecycle
-* **build-experiment-tracker** — Build: Experiment Tracker & Registry (build · M): Build an experiment tracker integration using MLflow on a free workspace to train a classifier, log hyperparameters/metrics, register the model artifact, and execute batch inference; verify with registered model runs.
-* **data-versioning-reproducibility** — Data Versioning & Reproducibility (concept · S): Data versioning basics, git-for-data, reproducibility standards, and writing model cards.
-* **model-serving-patterns** — Model Serving & Latency Tradeoffs (concept · S): Batch inference vs real-time REST endpoints vs token streaming; latency, cost, and resource tradeoffs.
-
-#### Cluster: Seeing Inside
-* **build-tracing-instrumentation** — Build: Tracing & Instrumentation (build · M): Build a tracing integration that tracks agent executions, span latency, and nested subgraphs using open telemetry SDKs/Langfuse; verify by generating nested run traces.
-* **reading-traces** — Reading Traces (build · S): debug a real agent failure from its trace.
-* **online-evals** — Online Evals (concept · S): scoring production traffic continuously.
-* **ab-testing-prompts** — A/B Testing Prompts (concept · S): shipping prompt changes like features.
-* **cost-latency-dashboards** — Cost & Latency Dashboards (build · M): see the money and the milliseconds.
-
-#### Cluster: The Harness
-* **build-eval-harness** — Build: Eval Harness (build · L): trajectory + judge + regression around the node-proposer, one command.
-* **failure-to-golden-loop** — Build: Failure→Golden Loop (build · M): every bug becomes a permanent test.
-* **error-analysis-practice** — Error Analysis Practice (build · S): categorize 20 failures; find the pattern.
-* **synthesis-evals** — Synthesis: Eval-Driven Development (synthesis · S): the full EDD loop, internalized.
-* **capstone-evals** — 🏁 Capstone: Evals (capstone · M): "How I test software that's never the same twice" + replan checkpoint.
-### DOMAIN 08 — SAFETY & SECURITY · ring: `safety-security` · 20 nodes
-*Building agents that can't be turned against you.*
-
-#### Cluster: The Attacks
-* **agent-threat-model** — The Threat Model (concept · M): everything that can go wrong with an agent, mapped.
-* **direct-injection** — Direct Prompt Injection (concept · S): attacks in the user's own message.
-* **build-overlap-scanner** — Build: Indirect Injection Overlap Scanner (build · M): Build a security scanner that parses payloads for override keywords and correlates thread checkpoints to detect untrusted data overlap; verify with custom injection attacks.
-* **jailbreaks-redteaming** — Jailbreaks & Red-Teaming (concept · S): thinking like the attacker.
-* **supply-chain-risks** — Supply-Chain Risks (concept · S): poisoned packages, models, and MCP servers.
-
-#### Cluster: The Defenses
-* **spotlighting-delimiters** — Spotlighting & Delimiters (concept · S): quarantining untrusted content.
-* **lethal-trifecta** — The Lethal Trifecta & Rule of Two (concept · S): private data + untrusted input + exfil paths.
-* **least-privilege-tools** — Least-Privilege Tools (concept · S): capabilities, not keys to everything.
-* **build-proposal-gate** — Build: HITL Proposal Gate (build · M): Build a database-backed proposal queue that intercepts agent actions, checks risk policies, and supports user editing of payloads before execution; verify with mock email/task proposals.
-* **build-idempotency-audit** — Build: Idempotency & Audit Logger (build · M): Build an append-only database auditor and idempotency key guard ensuring critical actions are executed exactly once and logged to a tamper-evident table; verify with duplicate runs.
-* **guardrails-in-out** — Guardrails In & Out (concept · S): input scanning, output enforcement.
-* **pii-redaction** — PII Redaction (build · S): scrub personal data before the model sees it.
-* **refusals-content-safety** — Refusals & Content Safety (concept · S): designing what my system won't do.
-* **sandboxing-isolation** — Sandboxing & Isolation (concept · S): blast-radius thinking for tools.
-
-#### Cluster: Prove It
-* **build-redteam-my-agent** — Build: Red-Team My Agent (build · M): attack my own agent with injection payloads.
-* **fix-what-broke** — Build: Fix What Broke (build · M): patch the holes; document each fix.
-* **build-injection-suite** — Build: Injection Test Suite (build · M): permanent attack suite + CI; zero-exfil gate.
-* **responsible-shipping** — Responsible Shipping (concept · S): what you owe the public when you deploy AI.
-* **synthesis-safety** — Synthesis: Defense in Depth (synthesis · S): the layered diagram.
-* **capstone-safety** — 🏁 Capstone: Safety (capstone · M): "I attacked my own AI. Here's what I learned" + replan checkpoint.
-
-### DOMAIN 09 — PRODUCTION · ring: `production` · 38 nodes
-*Take systems to the real world. Home ring of RESURRECTION and THE BRIDGE — both pull-forwardable any time.*
-
-#### Cluster: The Backend Craft
-* **build-fastapi-backend** — Build: Core FastAPI Application (build · M): Build the main backend REST API with route controllers, settings validation, state serialization, and SSE token streaming channels; verify using simulated client connections.
-* **sse-streaming** — SSE & Streaming (concept · S): how tokens travel from server to screen.
-* **build-briefing-scheduler** — Build: Briefing Scheduler & Cron (build · M): Build a background cron scheduler that runs periodic briefing builders, aggregating calendars, emails, and notes into structured summaries; verify by triggering manual runs.
-* **build-migration-runner** — Build: Migration Runner & Pool (build · M): Build a schema migration runner that connects to PostgreSQL, manages transaction safety, runs sequential SQL migrations, and exposes database pooling; verify with a clean database reset.
-* **docker-for-ai** — Docker for AI Services (build · M): containerize a small service myself.
-* **deploying-backends** — Deploying Backends (frontier · S): current hosting options and tradeoffs when I light this node.
-* **google-oauth-flow** — Build: Google OAuth Integration (build · M): Build a Google OAuth2 client with flow initialization, token storage/rotation, and local redirection handlers; verify with a web authentication login.
-* **gmail-calendar-read** — Build: Gmail & Calendar Reader (build · M): Build services that read from Gmail and Calendar APIs, parse MIME message details, format queries, and sanitize untrusted content markers; verify by listing recent inbox items.
-
-#### Cluster: The Platform
-* **supabase-deep-dive** — Supabase Deep Dive (concept · M): auth, RLS, realtime — the whole platform.
-* **realtime-subscriptions** — Build: Realtime Postgres Approvals UI (build · M): Build a Next.js Approvals UI that subscribes to PostgreSQL changes via Supabase realtime channels and updates the cockpit layout dynamically; verify by simulating database inserts.
-* **build-command-center** — Build: Command Center UI (build · M): Build the Next.js React cockpit dashboard featuring chat interfaces, state graphs, real-time activity views, and audit logging pages; verify with simulated server messages.
-* **caching-layers** — Caching Layers (concept · S): response cache, semantic cache, CDN.
-* **build-poller-engine** — Build: Async Queue Poller (build · S): Build a terminal-based and web-based queue poller that fetches pending database tasks, checks status transitions, and triggers executors; verify with mock queues.
-* **webhooks-telegram** — Webhooks & Telegram (build · S): wire a real notification path.
-* **monitoring-alerting** — Monitoring & Alerting (concept · S): knowing it broke before users do.
-* **build-demo-mode** — Build: Credential-Free Demo Mode (build · S): Design and build a credential-free mock/simulator mode for the dashboard and backend APIs to run safely without live keys; verify by running local tests.
-
-#### Cluster: Cloud & Deployment Ops
-* **cloud-fundamentals** — Cloud Fundamentals (concept · S): Cloud accounts, projects, regions, IAM roles, and setting up budget/billing alerts from day zero.
-* **compute-choices** — Serverless, VMs & Kubernetes (concept · S): Serverless containers vs virtual machines vs managed Kubernetes clusters; structural trade-offs.
-* **build-container-deployment** — Build: Manual Container Deployment (build · M): Build a Docker image, push it to a registry, and manually deploy it to a serverless container service (e.g., Cloud Run); verify with curl endpoint test.
-* **kubernetes-essentials** — Kubernetes Essentials (concept · M): Pods, deployments, services, ingress controllers, and horizontal pod autoscalers; understanding k8s orchestration conceptually.
-* **cicd-fundamentals** — CI/CD Pipeline Fundamentals (concept · S): Pipeline execution, runner containers, trigger events, and automated stage routing.
-* **build-github-actions-pipeline** — Build: GitHub Actions Pipeline (build · M): Write and run a GitHub Actions YAML workflow that lints Python code, executes pytest runs, builds a container image, and deploys it to staging; verify with commit triggers.
-* **secrets-cost-engineering** — Build: Secrets & Cost Engineering (build · M): Implement secure storage via secrets managers and write utility scripts calculating LLM token cost metrics with strict budget capping; verify with mock budgets.
-* **static-sites-cdns** — Static Sites & CDNs (concept · S): Object storage buckets, CDN caching behavior, and edge routing for high-performance static sites.
-
-#### Cluster: Enterprise Architecture & Scale
-* **multi-tenancy-design** — Multi-tenancy & Tenant Isolation (concept · M): Tenant isolation strategies, Row Level Security (RLS) policies, and per-tenant rate/resource limits.
-* **build-async-workers** — Build: Background Queues & Workers (build · M): Build a background task worker loop using Redis/Celery to run long-running agent execution tasks asynchronously; verify with mock task status polling.
-* **rate-limiting-logs** — Build: API Rate Limiter & Structured Logging (build · M): Build API rate-limiting middleware and a structured JSON logging pipeline that outputs trace-correlated metrics; verify with concurrency bursts.
-* **observability-slos** — Observability & SLOs (concept · S): Metrics, logs, traces, and Service Level Objectives (SLOs) in production systems.
-* **authn-vs-authz** — AuthN vs AuthZ & API Keys (concept · S): Authentication vs Authorization, JWT validation, custom API key tables, and credential authorization roles.
-* **build-load-testing** — Build: API Load Testing (build · M): Write a load testing suite using Locust/k6 to simulate concurrent users accessing agent endpoints and analyze latency spikes; verify with simulated load runs.
-* **caching-layer-depth** — Caching Layers & Vector Cache (concept · S): Multi-tier caching including HTTP response cache, semantic vector cache, and database query pooling.
-* **failure-drills-rollbacks** — Failure Drills & Rollback Protocols (concept · S): Chaos engineering drills, automated rollback protocols, and database migration backup strategy.
-* **compliance-responsible-ai** — Compliance, PII & Responsible AI (concept · S): PII masking compliance, data retention limits, append-only security logs, and responsible-AI org policies.
-
-#### Cluster: The Resurrection
-* **resurrection** — 🔥 Build: RESURRECTION (build · L): deploy Machine 1 + Machine 2 with my own hands — env, DB, migrations, OAuth, scheduler, gate, dashboard, every subsystem verified. → M1
-* **the-bridge** — 🔥 Build: THE BRIDGE (build · L): the deployed agent proposes brain nodes through its own approval gate — agent + brain, one nervous system. → M2
-* **hardening-pass** — Build: Hardening Pass (build · M): load, cost caps, failure drills.
-* **synthesis-production** — Synthesis: The Production Diagram (synthesis · S): the full system, mine now.
-* **capstone-production** — 🏁 Capstone: Production (capstone · M): "The AI built it. I understood it. I run it." + replan checkpoint.
-### DOMAIN 10 — FRONTIER & CAPSTONE · ring: `frontier-capstone` · 24 nodes
-*THE MOST FLUID RING BY DESIGN — the capstone-production replan checkpoint rewrites the
-frontier cluster from a fresh frontier-scan before I enter it.*
-
-#### Cluster: The Moving Edge (baseline guesses — expect replans)
-* **local-models** — Local Models (build · M): run a model on my own laptop.
-* **small-distilled-models** — Small & Distilled Models (concept · S): why tiny models are eating the edge.
-* **voice-agents** — Voice Agents (concept · M): realtime speech loops; latency budgets.
-* **computer-use-agents** — Computer-Use & Browser Agents (concept · M): agents that click and type.
-* **coding-agents** — Coding Agents (concept · S): how the tools that built VIZIER actually work.
-* **agentic-rag-frontiers** — Agentic RAG Frontiers (concept · S): retrieval as a tool inside the loop.
-* **reasoning-test-time-compute** — Reasoning & Test-Time Compute (concept · S): models that think longer, not just bigger.
-* **protocol-futures** — Protocol Futures (frontier · S): where MCP/A2A and successors are heading — live view.
-* **reading-papers-forever** — Reading Papers Forever (concept · S): a personal system to stay frontier forever.
-
-#### Cluster: Fine-Tuning & Model Adaptation
-* **prompt-vs-rag-vs-tune** — Prompting vs RAG vs Fine-Tuning (concept · S): The buy-vs-tune decision matrix; when context injection beats model tuning and vice-versa.
-* **lora-qlora-concepts** — LoRA & QLoRA Concepts (concept · M): Parameter-efficient fine-tuning, LoRA weight adapters, quantization (NF4/FP4), and why a free T4 GPU is enough.
-* **build-qlora-finetune** — Build: QLoRA Fine-Tune (build · L): Build a script to fine-tune a small open model (e.g. Llama-3-8B/Qwen-2.5-Coder) using QLoRA on a custom ~300 pair dataset, hand-review samples, evaluate on a 50-pair held-out set, and compile a before/after eval table artifact; verify with training loss metrics.
-* **preference-tuning-distillation** — Alignment & Distillation (concept · M): DPO, RLHF, reward models, model distillation techniques, and evaluating tuned model alignment.
-
-#### Cluster: VIZIER v2 — The Final Masterpiece
-* **define-vizier-v2** — Define VIZIER v2 (capstone · M): spec the unified agent+brain rebuilt from scratch by ME, mapped back to the modules that taught it. → M5
-* **build-vizier-v2-core** — Build: v2 Core ReAct Loop (build · L): Rebuild the ReAct execution framework and graph-based supervisor from scratch (taught by build-agent-from-scratch & build-supervisor).
-* **vizier-v2-memory-retrieval** — Build: v2 Memory & RAG (build · L): Integrate long-term memory extraction and hybrid vector retrieval (taught by build-memory-layer & build-hybrid-search).
-* **vizier-v2-gate-safety** — Build: v2 Gate & Security (build · M): Connect the human-in-the-loop proposal queue and injection overlap scanner (taught by build-proposal-gate & build-overlap-scanner).
-* **vizier-v2-evals-traces** — Build: v2 Evals & Tracing (build · M): Implement LLM-as-a-judge regression testing and observability span tracing (taught by build-eval-judge & build-tracing-instrumentation).
-* **vizier-v2-redteam-ship** — Build: v2 Deploy & Ship (build · M): Package, containerize, container-deploy, and establish CI/CD for the entire system (taught by build-github-actions-pipeline & build-container-deployment).
-
-#### Cluster: Graduation
-* **the-full-story** — The Full Story (synthesis · M): long-form essay — the whole arc.
-* **the-demo-film** — The Demo Film (build · S): record the cinematic brain tour + system walkthrough.
-* **portfolio-integration** — Portfolio Integration (build · M): VIZIER takes its throne on tharungajula.vercel.app.
-* **retrospective** — Retrospective (synthesis · S): what actually changed in me; honest lessons.
-* **graduation** — 🏆 GRADUATION (capstone · S): the graph is lit. Publish the mega-post. Begin again.
-## 17. Cross-Domain Edge Wiring
-* **build-gateway** → `mcp-fundamentals`
-* **build-hybrid-search** → `graphrag-deep`
-* **hitl-interrupts** → `build-proposal-gate`
-* **designing-tools** → `build-mcp-server`
-* **build-golden-dataset** → `build-redteam-my-agent`
-* **hallucination** → `citations-grounding`
-* **build-node-proposer** → `the-bridge`
-* **injection-first-look** → `direct-injection`
-* **tool-calling** → `what-makes-an-agent`
-* **build-chat-with-my-brain** → `build-brain-mcp-server`
-* **build-memory-taxonomy** → `build-memory-layer`
-* **build-tracing-instrumentation** → `monitoring-alerting`
-* **build-supervisor** → `build-vizier-v2-core`
-* **build-specialists** → `build-vizier-v2-core`
-* **build-mcp-bridge** → `build-vizier-v2-core`
-* **build-proposal-gate** → `vizier-v2-gate-safety`
-* **build-overlap-scanner** → `vizier-v2-gate-safety`
-* **build-eval-judge** → `vizier-v2-evals-traces`
-* **build-tracing-instrumentation** → `vizier-v2-evals-traces`
-* **build-fastapi-backend** → `vizier-v2-redteam-ship`
-* **Domain Capstone Progression**: Each domain's capstone connects to the next domain's first node.
-* **Milestone Anchors**: Every milestone points to its baseline node.
-
+| # | Domain | Ring | Nodes |
+|---|--------|------|------:|
+| 01 | Foundations | `foundations` | 24 |
+| 02 | Prompting & LLM APIs | `prompting-apis` | 20 |
+| 03 | RAG & Retrieval | `rag-retrieval` | 22 |
+| 04 | Agents | `agents` | 20 |
+| 05 | Multi-Agent & MCP | `multi-agent-mcp` | 19 |
+| 06 | Memory & Knowledge | `memory-knowledge` | 19 |
+| 07 | Evals & Observability | `evals-observability` | 22 |
+| 08 | Safety & Security | `safety-security` | 20 |
+| 09 | Production | `production` | 38 |
+| 10 | Frontier & Capstone | `frontier-capstone` | 24 |
+| | **Total** | | **228** |
