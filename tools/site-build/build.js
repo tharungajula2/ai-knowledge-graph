@@ -81,7 +81,11 @@ function simpleMarkdownToHtml(md, domain) {
   // Horizontal rules: --- or ***
   html = html.replace(/^\s*(---|\*\*\*|___)\s*$/gm, '<hr>');
 
-  // Headers: ## Header, ### Header
+  // Headers: # Header, ## Header, ### Header, #### Header
+  html = html.replace(/^\s*#\s+(.*)$/gm, (match, p1) => {
+    const cleanId = p1.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    return `<h1 id="${cleanId}">${p1}</h1>`;
+  });
   html = html.replace(/^\s*##\s+(.*)$/gm, (match, p1) => {
     const cleanId = p1.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     if (p1.toLowerCase().includes('where this could be wrong') || p1.toLowerCase().includes('debated')) {
@@ -96,6 +100,9 @@ function simpleMarkdownToHtml(md, domain) {
   html = html.replace(/^\s*-\s+\[ \]\s+(.*)$/gm, '<li class="task-list-item"><input type="checkbox" disabled /> <span>$1</span></li>');
   html = html.replace(/^\s*-\s+\[[xX]\]\s+(.*)$/gm, '<li class="task-list-item task-checked"><input type="checkbox" checked disabled /> <span>$1</span></li>');
 
+  // Inline code: `code`
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
   // Bold: **text**
   html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
@@ -103,8 +110,9 @@ function simpleMarkdownToHtml(md, domain) {
   html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
 
   // Double bracket wiki-links: [[note-slug]] or [[note-slug|Display Label]]
-  html = html.replace(/\[\[([a-zA-Z0-9\s-_#|]+)\]\]/g, (match, p1) => {
-    const parts = p1.split('|');
+  html = html.replace(/\[\[([^\]]+)\]\]/g, (match, p1) => {
+    const rawContent = p1.replace(/&amp;/g, '&');
+    const parts = rawContent.split('|');
     const slug = parts[0].trim().toLowerCase().replace(/\s+/g, '-');
     const label = parts[1] ? parts[1].trim() : parts[0].trim();
     return `<a class="wiki-link" data-node-id="${slug}" href="${slug}.html">${label}</a>`;
@@ -542,9 +550,12 @@ function buildSite() {
       <article>
         <h1>${noteMeta.title || noteSlug}</h1>
         <div class="metadata-row">
+          <span class="tag status-badge status-${(noteMeta.status || 'dark').toLowerCase()}">${(noteMeta.status || 'dark').toUpperCase()}</span>
           <span class="tag">Domain: ${noteMeta.domain || 'none'}</span>
-          <span class="tag">Confidence: ${noteMeta.confidence || 'medium'}</span>
-          <span class="tag">Class: ${noteMeta.note_type || 'note'}</span>
+          <span class="tag">v${noteMeta.version || '0.1.0'}</span>
+          <span class="tag">Updated: ${noteMeta.updated || '2026-07-20'}</span>
+          <span class="tag">Revisions: ${noteMeta.revisions !== undefined ? noteMeta.revisions : 0}</span>
+          ${noteMeta.status === 'lit' && noteMeta.lit_date ? `<span class="tag lit-date-badge">Lit on ${noteMeta.lit_date}</span>` : ''}
         </div>
         <div class="note-body">
           ${noteBodyHtml}

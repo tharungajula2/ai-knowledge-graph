@@ -385,6 +385,10 @@ function compileCurriculum() {
           domain: node.domain,
           status: resolvedStatus,
           confidence: fm.confidence || 'high',
+          version: fm.version || node.note_version || '0.1.0',
+          updated: fm.updated || node.note_updated || '2026-07-20',
+          revisions: fm.revisions ? parseInt(fm.revisions, 10) || 0 : (node.note_revisions || 0),
+          lit_date: fm.lit_date && fm.lit_date !== 'null' ? fm.lit_date : (node.lit_date || null),
           modified: fm.modified || fm.updated || new Date().toISOString()
         },
         content: rawContent
@@ -721,6 +725,7 @@ function compileCurriculum() {
       note_updated:   node.note_updated   || null,
       lit_date:       node.lit_date       || null,
       note_revisions: node.note_revisions || 0,
+      revisions:      node.note_revisions || 0,
       has_content:    node.has_content    || false
     });
     

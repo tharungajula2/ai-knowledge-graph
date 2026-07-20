@@ -24,7 +24,7 @@ Update the YAML frontmatter block at the top of `notes/<node-id>.md`:
 - Set `status:` to `charging` (content pasted, in progress) or `lit` (topic mastered).
 - Set `updated: YYYY-MM-DD` (today's date).
 - Bump `version:` (e.g. `0.1.0` → `1.0.0`).
-- Increment `revisions:` count.
+- Increment `revisions:` count (manually bump `revisions: N` in frontmatter whenever you re-read or refine a note; rendered directly in the note reader header without any backend server or database requirement).
 - If status is `lit`, set `lit_date: YYYY-MM-DD` (today's date).
 - For build nodes, populate `artifact:` path (e.g., `vizier-floor/<node-id>/index.js`).
 
