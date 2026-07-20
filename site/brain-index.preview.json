@@ -484,7 +484,7 @@
       "seq_num": 14,
       "cluster": "The Engineer's Floor",
       "size": "S",
-      "status": "charging",
+      "status": "ghost",
       "summary": "venv, pip, running scripts like a pro.",
       "backlinks": [],
       "slug": "python-environments",
@@ -8690,12 +8690,12 @@
     }
   ],
   "metadata": {
-    "generated_at": "2026-07-20T11:48:18.691Z",
+    "generated_at": "2026-07-20T11:50:26.004Z",
     "plan_version": "1.0.0",
     "node_count": 228,
     "lit_count": 0,
-    "charging_count": 1,
-    "ghost_count": 227,
+    "charging_count": 0,
+    "ghost_count": 228,
     "edge_count": 469,
     "universe": {
       "number": 1,

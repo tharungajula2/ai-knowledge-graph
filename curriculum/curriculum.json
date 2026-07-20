@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updated_at": "2026-07-20T11:48:18.689Z",
+  "updated_at": "2026-07-20T11:50:26.002Z",
   "universe": {
     "number": 1,
     "codename": "AI ENGINEERING",
@@ -410,7 +410,7 @@
       "lit_date": null,
       "note_revisions": 0,
       "has_content": false,
-      "status": "charging",
+      "status": "ghost",
       "backlinks": []
     },
     {

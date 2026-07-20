@@ -5,7 +5,7 @@ domain: foundations
 ring: 1
 type: build
 size: S
-status: charging
+status: dark
 version: 0.1.0
 created: 2026-07-20
 updated: 2026-07-20
