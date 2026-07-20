@@ -113,7 +113,13 @@
       "backlinks": [],
       "slug": "map-of-ai",
       "started": "2026-07-14",
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": true
     },
     {
       "id": "how-machines-learn",
@@ -124,7 +130,7 @@
       "domain": "foundations",
       "cluster": "How AI Works",
       "size": "S",
-      "status": "charging",
+      "status": "ghost",
       "summary": "weights, loss, gradient descent — pure intuition.",
       "backlinks": [
         {
@@ -134,7 +140,13 @@
       ],
       "slug": "how-machines-learn",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "what-is-a-language-model",
@@ -151,15 +163,17 @@
         {
           "id": "map-of-ai",
           "title": "The Map of AI"
-        },
-        {
-          "id": "how-machines-learn",
-          "title": "How Machines Learn"
         }
       ],
       "slug": "what-is-a-language-model",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "tokens",
@@ -175,7 +189,13 @@
       "backlinks": [],
       "slug": "tokens",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "embeddings-intuition",
@@ -188,10 +208,21 @@
       "size": "S",
       "status": "ghost",
       "summary": "meaning as coordinates; nearest-neighbor thinking.",
-      "backlinks": [],
+      "backlinks": [
+        {
+          "id": "attention-transformers",
+          "title": "Attention & Transformers"
+        }
+      ],
       "slug": "embeddings-intuition",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "attention-transformers",
@@ -202,12 +233,18 @@
       "domain": "foundations",
       "cluster": "How AI Works",
       "size": "M",
-      "status": "ghost",
+      "status": "lit",
       "summary": "the \"every word looks at every word\" idea.",
       "backlinks": [],
       "slug": "attention-transformers",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "1.0.0",
+      "note_updated": "2026-07-20",
+      "lit_date": "2026-07-20",
+      "note_revisions": 1,
+      "revisions": 1,
+      "has_content": true
     },
     {
       "id": "training-pipeline",
@@ -223,7 +260,13 @@
       "backlinks": [],
       "slug": "training-pipeline",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "context-windows",
@@ -239,7 +282,13 @@
       "backlinks": [],
       "slug": "context-windows",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "sampling-controls",
@@ -255,7 +304,13 @@
       "backlinks": [],
       "slug": "sampling-controls",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "hallucination",
@@ -271,7 +326,13 @@
       "backlinks": [],
       "slug": "hallucination",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "model-landscape",
@@ -287,7 +348,13 @@
       "backlinks": [],
       "slug": "model-landscape",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "classical-ml-fundamentals",
@@ -303,7 +370,13 @@
       "backlinks": [],
       "slug": "classical-ml-fundamentals",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "nlp-transformer-lineage",
@@ -316,10 +389,21 @@
       "size": "M",
       "status": "ghost",
       "summary": "From TF-IDF, Word2Vec, and RNNs/LSTMs to self-attention; the architectural lineage that enabled LLMs.",
-      "backlinks": [],
+      "backlinks": [
+        {
+          "id": "attention-transformers",
+          "title": "Attention & Transformers"
+        }
+      ],
       "slug": "nlp-transformer-lineage",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "python-environments",
@@ -335,7 +419,13 @@
       "backlinks": [],
       "slug": "python-environments",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "python-data-shapes",
@@ -351,7 +441,13 @@
       "backlinks": [],
       "slug": "python-data-shapes",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "python-classes-modules",
@@ -367,7 +463,13 @@
       "backlinks": [],
       "slug": "python-classes-modules",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "python-async",
@@ -383,7 +485,13 @@
       "backlinks": [],
       "slug": "python-async",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "python-typing-pydantic",
@@ -399,7 +507,13 @@
       "backlinks": [],
       "slug": "python-typing-pydantic",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "git-mastery",
@@ -415,7 +529,13 @@
       "backlinks": [],
       "slug": "git-mastery",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "terminal-fluency",
@@ -431,7 +551,13 @@
       "backlinks": [],
       "slug": "terminal-fluency",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "python-craft-professional",
@@ -447,7 +573,13 @@
       "backlinks": [],
       "slug": "python-craft-professional",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-token-cost-calculator",
@@ -463,7 +595,13 @@
       "backlinks": [],
       "slug": "build-token-cost-calculator",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "synthesis-foundations",
@@ -479,7 +617,13 @@
       "backlinks": [],
       "slug": "synthesis-foundations",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "capstone-foundations",
@@ -495,7 +639,13 @@
       "backlinks": [],
       "slug": "capstone-foundations",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "first-api-call",
@@ -511,7 +661,13 @@
       "backlinks": [],
       "slug": "first-api-call",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "roles-and-system-prompts",
@@ -527,7 +683,13 @@
       "backlinks": [],
       "slug": "roles-and-system-prompts",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "prompt-skeleton",
@@ -543,7 +705,13 @@
       "backlinks": [],
       "slug": "prompt-skeleton",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "few-shot-prompting",
@@ -559,7 +727,13 @@
       "backlinks": [],
       "slug": "few-shot-prompting",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "reasoning-prompts",
@@ -575,7 +749,13 @@
       "backlinks": [],
       "slug": "reasoning-prompts",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "structured-output",
@@ -591,7 +771,13 @@
       "backlinks": [],
       "slug": "structured-output",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "tool-calling",
@@ -607,7 +793,13 @@
       "backlinks": [],
       "slug": "tool-calling",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "streaming-responses",
@@ -623,7 +815,13 @@
       "backlinks": [],
       "slug": "streaming-responses",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "errors-retries-backoff",
@@ -639,7 +837,13 @@
       "backlinks": [],
       "slug": "errors-retries-backoff",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "rate-limits-caching",
@@ -655,7 +859,13 @@
       "backlinks": [],
       "slug": "rate-limits-caching",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-gateway",
@@ -671,7 +881,13 @@
       "backlinks": [],
       "slug": "build-gateway",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "injection-first-look",
@@ -687,7 +903,13 @@
       "backlinks": [],
       "slug": "injection-first-look",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "multimodal-input",
@@ -703,7 +925,13 @@
       "backlinks": [],
       "slug": "multimodal-input",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "voice-audio-apis",
@@ -719,7 +947,13 @@
       "backlinks": [],
       "slug": "voice-audio-apis",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "long-context-strategies",
@@ -735,7 +969,13 @@
       "backlinks": [],
       "slug": "long-context-strategies",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "prompt-quality",
@@ -751,7 +991,13 @@
       "backlinks": [],
       "slug": "prompt-quality",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-cli-chatbot",
@@ -767,7 +1013,13 @@
       "backlinks": [],
       "slug": "build-cli-chatbot",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-feynman-bot",
@@ -783,7 +1035,13 @@
       "backlinks": [],
       "slug": "build-feynman-bot",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "synthesis-apis",
@@ -799,7 +1057,13 @@
       "backlinks": [],
       "slug": "synthesis-apis",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "capstone-apis",
@@ -815,7 +1079,13 @@
       "backlinks": [],
       "slug": "capstone-apis",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "why-rag",
@@ -831,7 +1101,13 @@
       "backlinks": [],
       "slug": "why-rag",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "embeddings-hands-on",
@@ -847,7 +1123,13 @@
       "backlinks": [],
       "slug": "embeddings-hands-on",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "chunking",
@@ -863,7 +1145,13 @@
       "backlinks": [],
       "slug": "chunking",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "vector-databases",
@@ -879,7 +1167,13 @@
       "backlinks": [],
       "slug": "vector-databases",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-first-rag",
@@ -895,7 +1189,13 @@
       "backlinks": [],
       "slug": "build-first-rag",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "keyword-fulltext-search",
@@ -911,7 +1211,13 @@
       "backlinks": [],
       "slug": "keyword-fulltext-search",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-hybrid-search",
@@ -927,7 +1233,13 @@
       "backlinks": [],
       "slug": "build-hybrid-search",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-vector-db-benchmark",
@@ -943,7 +1255,13 @@
       "backlinks": [],
       "slug": "build-vector-db-benchmark",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "reranking",
@@ -959,7 +1277,13 @@
       "backlinks": [],
       "slug": "reranking",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "citations-grounding",
@@ -975,7 +1299,13 @@
       "backlinks": [],
       "slug": "citations-grounding",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "rag-failure-modes",
@@ -991,7 +1321,13 @@
       "backlinks": [],
       "slug": "rag-failure-modes",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "metadata-filters",
@@ -1007,7 +1343,13 @@
       "backlinks": [],
       "slug": "metadata-filters",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "query-rewriting-hyde",
@@ -1023,7 +1365,13 @@
       "backlinks": [],
       "slug": "query-rewriting-hyde",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "multi-hop-retrieval",
@@ -1039,7 +1387,13 @@
       "backlinks": [],
       "slug": "multi-hop-retrieval",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "ingestion-pipelines",
@@ -1055,7 +1409,13 @@
       "backlinks": [],
       "slug": "ingestion-pipelines",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "rag-evals-intro",
@@ -1071,7 +1431,13 @@
       "backlinks": [],
       "slug": "rag-evals-intro",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-chat-with-my-brain",
@@ -1087,7 +1453,13 @@
       "backlinks": [],
       "slug": "build-chat-with-my-brain",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "evaluate-brain-chat",
@@ -1103,7 +1475,13 @@
       "backlinks": [],
       "slug": "evaluate-brain-chat",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "graphrag-preview",
@@ -1119,7 +1497,13 @@
       "backlinks": [],
       "slug": "graphrag-preview",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "semantic-caching",
@@ -1135,7 +1519,13 @@
       "backlinks": [],
       "slug": "semantic-caching",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "synthesis-rag",
@@ -1151,7 +1541,13 @@
       "backlinks": [],
       "slug": "synthesis-rag",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "capstone-rag",
@@ -1167,7 +1563,13 @@
       "backlinks": [],
       "slug": "capstone-rag",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "what-makes-an-agent",
@@ -1183,7 +1585,13 @@
       "backlinks": [],
       "slug": "what-makes-an-agent",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "react-by-hand",
@@ -1199,7 +1607,13 @@
       "backlinks": [],
       "slug": "react-by-hand",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "designing-tools",
@@ -1215,7 +1629,13 @@
       "backlinks": [],
       "slug": "designing-tools",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-agent-from-scratch",
@@ -1231,7 +1651,13 @@
       "backlinks": [],
       "slug": "build-agent-from-scratch",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "langgraph-state",
@@ -1247,7 +1673,13 @@
       "backlinks": [],
       "slug": "langgraph-state",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "langgraph-checkpointers",
@@ -1263,7 +1695,13 @@
       "backlinks": [],
       "slug": "langgraph-checkpointers",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "hitl-interrupts",
@@ -1279,7 +1717,13 @@
       "backlinks": [],
       "slug": "hitl-interrupts",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "plan-and-execute",
@@ -1295,7 +1739,13 @@
       "backlinks": [],
       "slug": "plan-and-execute",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "reflection-patterns",
@@ -1311,7 +1761,13 @@
       "backlinks": [],
       "slug": "reflection-patterns",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "subgraphs",
@@ -1327,7 +1783,13 @@
       "backlinks": [],
       "slug": "subgraphs",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-supervisor",
@@ -1343,7 +1805,13 @@
       "backlinks": [],
       "slug": "build-supervisor",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-specialists",
@@ -1359,7 +1827,13 @@
       "backlinks": [],
       "slug": "build-specialists",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "scratchpads-working-memory",
@@ -1375,7 +1849,13 @@
       "backlinks": [],
       "slug": "scratchpads-working-memory",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-research-agent",
@@ -1391,7 +1871,13 @@
       "backlinks": [],
       "slug": "build-research-agent",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "add-the-gate",
@@ -1402,12 +1888,18 @@
       "domain": "agents",
       "cluster": "Real Agents",
       "size": "M",
-      "status": "ghost",
+      "status": "charging",
       "summary": "HITL approval before it saves anything.",
       "backlinks": [],
       "slug": "add-the-gate",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.2.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 1,
+      "revisions": 1,
+      "has_content": false
     },
     {
       "id": "agent-failure-modes",
@@ -1423,7 +1915,13 @@
       "backlinks": [],
       "slug": "agent-failure-modes",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "cost-latency-budgets",
@@ -1439,7 +1937,13 @@
       "backlinks": [],
       "slug": "cost-latency-budgets",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-node-proposer",
@@ -1455,7 +1959,13 @@
       "backlinks": [],
       "slug": "build-node-proposer",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "synthesis-agents",
@@ -1471,7 +1981,13 @@
       "backlinks": [],
       "slug": "synthesis-agents",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "capstone-agents",
@@ -1487,7 +2003,13 @@
       "backlinks": [],
       "slug": "capstone-agents",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "when-many-beats-one",
@@ -1503,7 +2025,13 @@
       "backlinks": [],
       "slug": "when-many-beats-one",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "orchestrator-worker",
@@ -1519,7 +2047,13 @@
       "backlinks": [],
       "slug": "orchestrator-worker",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "handoffs-routing",
@@ -1535,7 +2069,13 @@
       "backlinks": [],
       "slug": "handoffs-routing",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "shared-state-patterns",
@@ -1551,7 +2091,13 @@
       "backlinks": [],
       "slug": "shared-state-patterns",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "parallel-agents",
@@ -1567,7 +2113,13 @@
       "backlinks": [],
       "slug": "parallel-agents",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "debate-consensus",
@@ -1583,7 +2135,13 @@
       "backlinks": [],
       "slug": "debate-consensus",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "token-economics-of-teams",
@@ -1599,7 +2157,13 @@
       "backlinks": [],
       "slug": "token-economics-of-teams",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "mcp-fundamentals",
@@ -1615,7 +2179,13 @@
       "backlinks": [],
       "slug": "mcp-fundamentals",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-mcp-server",
@@ -1631,7 +2201,13 @@
       "backlinks": [],
       "slug": "build-mcp-server",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-mcp-bridge",
@@ -1647,7 +2223,13 @@
       "backlinks": [],
       "slug": "build-mcp-bridge",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "mcp-clients",
@@ -1663,7 +2245,13 @@
       "backlinks": [],
       "slug": "mcp-clients",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "mcp-resources-prompts",
@@ -1679,7 +2267,13 @@
       "backlinks": [],
       "slug": "mcp-resources-prompts",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "mcp-security",
@@ -1695,7 +2289,13 @@
       "backlinks": [],
       "slug": "mcp-security",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "protocol-landscape",
@@ -1711,7 +2311,13 @@
       "backlinks": [],
       "slug": "protocol-landscape",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-writer-critic",
@@ -1727,7 +2333,13 @@
       "backlinks": [],
       "slug": "build-writer-critic",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-brain-mcp-server",
@@ -1743,7 +2355,13 @@
       "backlinks": [],
       "slug": "build-brain-mcp-server",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "experiment-one-vs-many",
@@ -1759,7 +2377,13 @@
       "backlinks": [],
       "slug": "experiment-one-vs-many",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "synthesis-multi-agent",
@@ -1775,7 +2399,13 @@
       "backlinks": [],
       "slug": "synthesis-multi-agent",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "capstone-multi-agent",
@@ -1791,7 +2421,13 @@
       "backlinks": [],
       "slug": "capstone-multi-agent",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-memory-taxonomy",
@@ -1807,7 +2443,13 @@
       "backlinks": [],
       "slug": "build-memory-taxonomy",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "memory-architectures",
@@ -1823,7 +2465,13 @@
       "backlinks": [],
       "slug": "memory-architectures",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "memory-extraction",
@@ -1839,7 +2487,13 @@
       "backlinks": [],
       "slug": "memory-extraction",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "retrieval-and-decay",
@@ -1855,7 +2509,13 @@
       "backlinks": [],
       "slug": "retrieval-and-decay",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "memory-frameworks",
@@ -1871,7 +2531,13 @@
       "backlinks": [],
       "slug": "memory-frameworks",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "compaction-summarization",
@@ -1887,7 +2553,13 @@
       "backlinks": [],
       "slug": "compaction-summarization",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "personalization-via-memory",
@@ -1903,7 +2575,13 @@
       "backlinks": [],
       "slug": "personalization-via-memory",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "privacy-in-memory",
@@ -1919,7 +2597,13 @@
       "backlinks": [],
       "slug": "privacy-in-memory",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "knowledge-graphs-101",
@@ -1935,7 +2619,13 @@
       "backlinks": [],
       "slug": "knowledge-graphs-101",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "entity-extraction",
@@ -1951,7 +2641,13 @@
       "backlinks": [],
       "slug": "entity-extraction",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "graphrag-deep",
@@ -1967,7 +2663,13 @@
       "backlinks": [],
       "slug": "graphrag-deep",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "temporal-knowledge",
@@ -1983,7 +2685,13 @@
       "backlinks": [],
       "slug": "temporal-knowledge",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "brain-as-knowledge-graph",
@@ -1999,7 +2707,13 @@
       "backlinks": [],
       "slug": "brain-as-knowledge-graph",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-memory-layer",
@@ -2015,7 +2729,13 @@
       "backlinks": [],
       "slug": "build-memory-layer",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-link-suggester-v2",
@@ -2031,7 +2751,13 @@
       "backlinks": [],
       "slug": "build-link-suggester-v2",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-brain-reviewer",
@@ -2047,7 +2773,13 @@
       "backlinks": [],
       "slug": "build-brain-reviewer",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-learning-recall-agent",
@@ -2063,7 +2795,13 @@
       "backlinks": [],
       "slug": "build-learning-recall-agent",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "synthesis-memory",
@@ -2079,7 +2817,13 @@
       "backlinks": [],
       "slug": "synthesis-memory",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "capstone-memory",
@@ -2095,7 +2839,13 @@
       "backlinks": [],
       "slug": "capstone-memory",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "why-evals-rule",
@@ -2111,7 +2861,13 @@
       "backlinks": [],
       "slug": "why-evals-rule",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-golden-dataset",
@@ -2127,7 +2883,13 @@
       "backlinks": [],
       "slug": "build-golden-dataset",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-eval-judge",
@@ -2143,7 +2905,13 @@
       "backlinks": [],
       "slug": "build-eval-judge",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "judge-bias-pinning",
@@ -2159,7 +2927,13 @@
       "backlinks": [],
       "slug": "judge-bias-pinning",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "trajectory-evals",
@@ -2175,7 +2949,13 @@
       "backlinks": [],
       "slug": "trajectory-evals",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "tool-use-metrics",
@@ -2191,7 +2971,13 @@
       "backlinks": [],
       "slug": "tool-use-metrics",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "eval-frameworks-hands-on",
@@ -2207,7 +2993,13 @@
       "backlinks": [],
       "slug": "eval-frameworks-hands-on",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "prompt-regression-tests",
@@ -2223,7 +3015,13 @@
       "backlinks": [],
       "slug": "prompt-regression-tests",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "ci-gates-for-ai",
@@ -2239,7 +3037,13 @@
       "backlinks": [],
       "slug": "ci-gates-for-ai",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-experiment-tracker",
@@ -2255,7 +3059,13 @@
       "backlinks": [],
       "slug": "build-experiment-tracker",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "data-versioning-reproducibility",
@@ -2271,7 +3081,13 @@
       "backlinks": [],
       "slug": "data-versioning-reproducibility",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "model-serving-patterns",
@@ -2287,7 +3103,13 @@
       "backlinks": [],
       "slug": "model-serving-patterns",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-tracing-instrumentation",
@@ -2303,7 +3125,13 @@
       "backlinks": [],
       "slug": "build-tracing-instrumentation",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "reading-traces",
@@ -2319,7 +3147,13 @@
       "backlinks": [],
       "slug": "reading-traces",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "online-evals",
@@ -2335,7 +3169,13 @@
       "backlinks": [],
       "slug": "online-evals",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "ab-testing-prompts",
@@ -2351,7 +3191,13 @@
       "backlinks": [],
       "slug": "ab-testing-prompts",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "cost-latency-dashboards",
@@ -2367,7 +3213,13 @@
       "backlinks": [],
       "slug": "cost-latency-dashboards",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-eval-harness",
@@ -2383,7 +3235,13 @@
       "backlinks": [],
       "slug": "build-eval-harness",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "failure-to-golden-loop",
@@ -2399,7 +3257,13 @@
       "backlinks": [],
       "slug": "failure-to-golden-loop",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "error-analysis-practice",
@@ -2415,7 +3279,13 @@
       "backlinks": [],
       "slug": "error-analysis-practice",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "synthesis-evals",
@@ -2431,7 +3301,13 @@
       "backlinks": [],
       "slug": "synthesis-evals",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "capstone-evals",
@@ -2447,7 +3323,13 @@
       "backlinks": [],
       "slug": "capstone-evals",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "agent-threat-model",
@@ -2463,7 +3345,13 @@
       "backlinks": [],
       "slug": "agent-threat-model",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "direct-injection",
@@ -2479,7 +3367,13 @@
       "backlinks": [],
       "slug": "direct-injection",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-overlap-scanner",
@@ -2495,7 +3389,13 @@
       "backlinks": [],
       "slug": "build-overlap-scanner",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "jailbreaks-redteaming",
@@ -2511,7 +3411,13 @@
       "backlinks": [],
       "slug": "jailbreaks-redteaming",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "supply-chain-risks",
@@ -2527,7 +3433,13 @@
       "backlinks": [],
       "slug": "supply-chain-risks",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "spotlighting-delimiters",
@@ -2543,7 +3455,13 @@
       "backlinks": [],
       "slug": "spotlighting-delimiters",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "lethal-trifecta",
@@ -2559,7 +3477,13 @@
       "backlinks": [],
       "slug": "lethal-trifecta",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "least-privilege-tools",
@@ -2575,7 +3499,13 @@
       "backlinks": [],
       "slug": "least-privilege-tools",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-proposal-gate",
@@ -2591,7 +3521,13 @@
       "backlinks": [],
       "slug": "build-proposal-gate",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-idempotency-audit",
@@ -2607,7 +3543,13 @@
       "backlinks": [],
       "slug": "build-idempotency-audit",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "guardrails-in-out",
@@ -2623,7 +3565,13 @@
       "backlinks": [],
       "slug": "guardrails-in-out",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "pii-redaction",
@@ -2639,7 +3587,13 @@
       "backlinks": [],
       "slug": "pii-redaction",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "refusals-content-safety",
@@ -2655,7 +3609,13 @@
       "backlinks": [],
       "slug": "refusals-content-safety",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "sandboxing-isolation",
@@ -2671,7 +3631,13 @@
       "backlinks": [],
       "slug": "sandboxing-isolation",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-redteam-my-agent",
@@ -2687,7 +3653,13 @@
       "backlinks": [],
       "slug": "build-redteam-my-agent",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "fix-what-broke",
@@ -2703,7 +3675,13 @@
       "backlinks": [],
       "slug": "fix-what-broke",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-injection-suite",
@@ -2719,7 +3697,13 @@
       "backlinks": [],
       "slug": "build-injection-suite",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "responsible-shipping",
@@ -2735,7 +3719,13 @@
       "backlinks": [],
       "slug": "responsible-shipping",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "synthesis-safety",
@@ -2751,7 +3741,13 @@
       "backlinks": [],
       "slug": "synthesis-safety",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "capstone-safety",
@@ -2767,7 +3763,13 @@
       "backlinks": [],
       "slug": "capstone-safety",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-fastapi-backend",
@@ -2783,7 +3785,13 @@
       "backlinks": [],
       "slug": "build-fastapi-backend",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "sse-streaming",
@@ -2799,7 +3807,13 @@
       "backlinks": [],
       "slug": "sse-streaming",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-briefing-scheduler",
@@ -2815,7 +3829,13 @@
       "backlinks": [],
       "slug": "build-briefing-scheduler",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-migration-runner",
@@ -2831,7 +3851,13 @@
       "backlinks": [],
       "slug": "build-migration-runner",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "docker-for-ai",
@@ -2847,7 +3873,13 @@
       "backlinks": [],
       "slug": "docker-for-ai",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "deploying-backends",
@@ -2863,7 +3895,13 @@
       "backlinks": [],
       "slug": "deploying-backends",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "google-oauth-flow",
@@ -2879,7 +3917,13 @@
       "backlinks": [],
       "slug": "google-oauth-flow",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "gmail-calendar-read",
@@ -2895,7 +3939,13 @@
       "backlinks": [],
       "slug": "gmail-calendar-read",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "supabase-deep-dive",
@@ -2911,7 +3961,13 @@
       "backlinks": [],
       "slug": "supabase-deep-dive",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "realtime-subscriptions",
@@ -2927,7 +3983,13 @@
       "backlinks": [],
       "slug": "realtime-subscriptions",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-command-center",
@@ -2943,7 +4005,13 @@
       "backlinks": [],
       "slug": "build-command-center",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "caching-layers",
@@ -2959,7 +4027,13 @@
       "backlinks": [],
       "slug": "caching-layers",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-poller-engine",
@@ -2975,7 +4049,13 @@
       "backlinks": [],
       "slug": "build-poller-engine",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "webhooks-telegram",
@@ -2991,7 +4071,13 @@
       "backlinks": [],
       "slug": "webhooks-telegram",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "monitoring-alerting",
@@ -3007,7 +4093,13 @@
       "backlinks": [],
       "slug": "monitoring-alerting",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-demo-mode",
@@ -3023,7 +4115,13 @@
       "backlinks": [],
       "slug": "build-demo-mode",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "cloud-fundamentals",
@@ -3039,7 +4137,13 @@
       "backlinks": [],
       "slug": "cloud-fundamentals",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "compute-choices",
@@ -3055,7 +4159,13 @@
       "backlinks": [],
       "slug": "compute-choices",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-container-deployment",
@@ -3071,7 +4181,13 @@
       "backlinks": [],
       "slug": "build-container-deployment",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "kubernetes-essentials",
@@ -3087,7 +4203,13 @@
       "backlinks": [],
       "slug": "kubernetes-essentials",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "cicd-fundamentals",
@@ -3103,7 +4225,13 @@
       "backlinks": [],
       "slug": "cicd-fundamentals",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-github-actions-pipeline",
@@ -3119,7 +4247,13 @@
       "backlinks": [],
       "slug": "build-github-actions-pipeline",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "secrets-cost-engineering",
@@ -3135,7 +4269,13 @@
       "backlinks": [],
       "slug": "secrets-cost-engineering",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "static-sites-cdns",
@@ -3151,7 +4291,13 @@
       "backlinks": [],
       "slug": "static-sites-cdns",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "multi-tenancy-design",
@@ -3167,7 +4313,13 @@
       "backlinks": [],
       "slug": "multi-tenancy-design",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-async-workers",
@@ -3183,7 +4335,13 @@
       "backlinks": [],
       "slug": "build-async-workers",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "rate-limiting-logs",
@@ -3199,7 +4357,13 @@
       "backlinks": [],
       "slug": "rate-limiting-logs",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "observability-slos",
@@ -3215,7 +4379,13 @@
       "backlinks": [],
       "slug": "observability-slos",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "authn-vs-authz",
@@ -3231,7 +4401,13 @@
       "backlinks": [],
       "slug": "authn-vs-authz",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-load-testing",
@@ -3247,7 +4423,13 @@
       "backlinks": [],
       "slug": "build-load-testing",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "caching-layer-depth",
@@ -3263,7 +4445,13 @@
       "backlinks": [],
       "slug": "caching-layer-depth",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "failure-drills-rollbacks",
@@ -3279,7 +4467,13 @@
       "backlinks": [],
       "slug": "failure-drills-rollbacks",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "compliance-responsible-ai",
@@ -3295,7 +4489,13 @@
       "backlinks": [],
       "slug": "compliance-responsible-ai",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "resurrection",
@@ -3311,7 +4511,13 @@
       "backlinks": [],
       "slug": "resurrection",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "the-bridge",
@@ -3327,7 +4533,13 @@
       "backlinks": [],
       "slug": "the-bridge",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "hardening-pass",
@@ -3343,7 +4555,13 @@
       "backlinks": [],
       "slug": "hardening-pass",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "synthesis-production",
@@ -3359,7 +4577,13 @@
       "backlinks": [],
       "slug": "synthesis-production",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "capstone-production",
@@ -3375,7 +4599,13 @@
       "backlinks": [],
       "slug": "capstone-production",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "local-models",
@@ -3391,7 +4621,13 @@
       "backlinks": [],
       "slug": "local-models",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "small-distilled-models",
@@ -3407,7 +4643,13 @@
       "backlinks": [],
       "slug": "small-distilled-models",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "voice-agents",
@@ -3423,7 +4665,13 @@
       "backlinks": [],
       "slug": "voice-agents",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "computer-use-agents",
@@ -3439,7 +4687,13 @@
       "backlinks": [],
       "slug": "computer-use-agents",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "coding-agents",
@@ -3455,7 +4709,13 @@
       "backlinks": [],
       "slug": "coding-agents",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "agentic-rag-frontiers",
@@ -3471,7 +4731,13 @@
       "backlinks": [],
       "slug": "agentic-rag-frontiers",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "reasoning-test-time-compute",
@@ -3487,7 +4753,13 @@
       "backlinks": [],
       "slug": "reasoning-test-time-compute",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "protocol-futures",
@@ -3503,7 +4775,13 @@
       "backlinks": [],
       "slug": "protocol-futures",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "reading-papers-forever",
@@ -3519,7 +4797,13 @@
       "backlinks": [],
       "slug": "reading-papers-forever",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "prompt-vs-rag-vs-tune",
@@ -3535,7 +4819,13 @@
       "backlinks": [],
       "slug": "prompt-vs-rag-vs-tune",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "lora-qlora-concepts",
@@ -3551,7 +4841,13 @@
       "backlinks": [],
       "slug": "lora-qlora-concepts",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-qlora-finetune",
@@ -3567,7 +4863,13 @@
       "backlinks": [],
       "slug": "build-qlora-finetune",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "preference-tuning-distillation",
@@ -3583,7 +4885,13 @@
       "backlinks": [],
       "slug": "preference-tuning-distillation",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "define-vizier-v2",
@@ -3599,7 +4907,13 @@
       "backlinks": [],
       "slug": "define-vizier-v2",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "build-vizier-v2-core",
@@ -3615,7 +4929,13 @@
       "backlinks": [],
       "slug": "build-vizier-v2-core",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "vizier-v2-memory-retrieval",
@@ -3631,7 +4951,13 @@
       "backlinks": [],
       "slug": "vizier-v2-memory-retrieval",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "vizier-v2-gate-safety",
@@ -3647,7 +4973,13 @@
       "backlinks": [],
       "slug": "vizier-v2-gate-safety",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "vizier-v2-evals-traces",
@@ -3663,7 +4995,13 @@
       "backlinks": [],
       "slug": "vizier-v2-evals-traces",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "vizier-v2-redteam-ship",
@@ -3679,7 +5017,13 @@
       "backlinks": [],
       "slug": "vizier-v2-redteam-ship",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "the-full-story",
@@ -3695,7 +5039,13 @@
       "backlinks": [],
       "slug": "the-full-story",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "the-demo-film",
@@ -3711,7 +5061,13 @@
       "backlinks": [],
       "slug": "the-demo-film",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "portfolio-integration",
@@ -3727,7 +5083,13 @@
       "backlinks": [],
       "slug": "portfolio-integration",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "retrospective",
@@ -3743,7 +5105,13 @@
       "backlinks": [],
       "slug": "retrospective",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "graduation",
@@ -3759,7 +5127,13 @@
       "backlinks": [],
       "slug": "graduation",
       "started": null,
-      "completed": null
+      "completed": null,
+      "note_version": "0.1.0",
+      "note_updated": "2026-07-20",
+      "lit_date": null,
+      "note_revisions": 0,
+      "revisions": 0,
+      "has_content": false
     },
     {
       "id": "M1",
@@ -3905,11 +5279,6 @@
       "type": "dependency"
     },
     {
-      "source": "how-machines-learn",
-      "target": "what-is-a-language-model",
-      "type": "wikilink"
-    },
-    {
       "source": "domain-foundations",
       "target": "what-is-a-language-model",
       "type": "containment"
@@ -3948,6 +5317,16 @@
       "source": "embeddings-intuition",
       "target": "attention-transformers",
       "type": "dependency"
+    },
+    {
+      "source": "attention-transformers",
+      "target": "embeddings-intuition",
+      "type": "wikilink"
+    },
+    {
+      "source": "attention-transformers",
+      "target": "nlp-transformer-lineage",
+      "type": "wikilink"
     },
     {
       "source": "domain-foundations",
@@ -6171,13 +7550,13 @@
     }
   ],
   "metadata": {
-    "generated_at": "2026-07-17T18:54:13.542Z",
+    "generated_at": "2026-07-20T09:46:58.050Z",
     "plan_version": "1.0.0",
     "node_count": 228,
-    "lit_count": 0,
+    "lit_count": 1,
     "charging_count": 2,
-    "ghost_count": 226,
-    "edge_count": 468,
+    "ghost_count": 225,
+    "edge_count": 469,
     "universe": {
       "number": 1,
       "codename": "AI ENGINEERING",
@@ -6186,9 +7565,9 @@
       "started": null,
       "completed": null
     },
-    "total_xp": 0,
+    "total_xp": 25,
     "streak": {
-      "current": 1,
+      "current": 0,
       "best": 1
     }
   }

@@ -78,6 +78,30 @@ function extractWikiLinks(content) {
   return links;
 }
 
+// Determines whether a note has real body content below the frontmatter.
+// A note is considered to have content if its body (below ---) has at least
+// one non-empty, non-whitespace, non-comment line of 20+ characters.
+function hasNoteContent(rawContent) {
+  // Strip frontmatter block
+  let body = rawContent;
+  if (rawContent.startsWith('---')) {
+    const endIdx = rawContent.indexOf('---', 3);
+    if (endIdx !== -1) {
+      body = rawContent.substring(endIdx + 3);
+    }
+  }
+  // Count meaningful lines: non-blank, not pure heading markers, not comment markers
+  const meaningfulLines = body.split(/\r?\n/).filter(line => {
+    const t = line.trim();
+    if (!t) return false;              // blank
+    if (t.startsWith('#')) return false; // headings are structural, not content
+    if (t.startsWith('<!--')) return false; // HTML comments
+    if (t.startsWith('---')) return false; // section dividers
+    return t.length >= 20;             // must be substantive
+  });
+  return meaningfulLines.length >= 3;
+}
+
 function parseMasteryGraph(filePath) {
   const content = fs.readFileSync(filePath, 'utf-8');
   
@@ -289,6 +313,7 @@ function compileCurriculum() {
     node.completed = null;
     let resolvedStatus = 'ghost';
     let rawContent = '';
+    let noteHasContent = false;
     
     if (fs.existsSync(notePath)) {
       rawContent = fs.readFileSync(notePath, 'utf-8');
@@ -305,11 +330,44 @@ function compileCurriculum() {
       
       node.started = (startedDate && startedDate !== 'null') ? startedDate : null;
       node.completed = (finishedDate && finishedDate !== 'null') ? finishedDate : null;
-      
-      if (node.completed || fm.status === 'learned') {
+
+      // ── Status resolution (new spec-compliant order) ─────────────────────
+      // Explicit frontmatter status:lit/learned triggers lit.
+      // Explicit status:charging overrides completion-based inference.
+      // Explicit status:dark forces ghost even if note file exists.
+      // Fallback: infer from completed date.
+      const fmStatus = (fm.status || '').toLowerCase().trim();
+      if (fmStatus === 'lit' || fmStatus === 'learned' || node.completed) {
         resolvedStatus = 'lit';
+      } else if (fmStatus === 'dark') {
+        resolvedStatus = 'ghost';
       } else {
+        // note file exists but no completion date and no explicit status → charging
         resolvedStatus = 'charging';
+      }
+      // Override: explicit charging beats a completed date only if the note author
+      // deliberately set it (rare — safety valve for in-progress notes).
+      if (fmStatus === 'charging') {
+        resolvedStatus = 'charging';
+      }
+
+      // ── Note metadata fields ─────────────────────────────────────────────
+      noteHasContent = hasNoteContent(rawContent);
+      node.note_version  = fm.version  || null;
+      node.note_updated  = fm.updated  || fm.modified || null;
+      node.lit_date      = fm.lit_date && fm.lit_date !== 'null' ? fm.lit_date : null;
+      node.note_revisions = fm.revisions ? parseInt(fm.revisions, 10) || 0 : 0;
+      node.has_content   = noteHasContent;
+      
+      // ── Empty-lit guard ──────────────────────────────────────────────────
+      // A node that claims status:lit but has no real content is a lie.
+      // Fail hard here so the build cannot proceed.
+      if (resolvedStatus === 'lit' && !noteHasContent) {
+        console.error(`\n[BUILD ERROR] EMPTY LIT NODE — "${node.id}" claims status:lit but has no substantive content.`);
+        console.error(`  File: ${notePath}`);
+        console.error(`  A lit node must have at least 3 lines of real content (each 20+ chars) below the frontmatter.`);
+        console.error(`  Either add content or set status: charging.\n`);
+        process.exit(1);
       }
       
       // Extract wikilinks from note content
@@ -327,12 +385,21 @@ function compileCurriculum() {
           domain: node.domain,
           status: resolvedStatus,
           confidence: fm.confidence || 'high',
-          modified: fm.modified || new Date().toISOString()
+          version: fm.version || node.note_version || '0.1.0',
+          updated: fm.updated || node.note_updated || '2026-07-20',
+          revisions: fm.revisions ? parseInt(fm.revisions, 10) || 0 : (node.note_revisions || 0),
+          lit_date: fm.lit_date && fm.lit_date !== 'null' ? fm.lit_date : (node.lit_date || null),
+          modified: fm.modified || fm.updated || new Date().toISOString()
         },
         content: rawContent
       });
     } else {
       resolvedStatus = 'ghost';
+      node.note_version   = null;
+      node.note_updated   = null;
+      node.lit_date       = null;
+      node.note_revisions = 0;
+      node.has_content    = false;
     }
     
     node.status = resolvedStatus;
@@ -652,7 +719,14 @@ function compileCurriculum() {
       backlinks: node.backlinks,
       slug: node.id,
       started: node.started,
-      completed: node.completed
+      completed: node.completed,
+      // ── Note-state fields (ignition schema) ─────────────────────────────
+      note_version:   node.note_version   || null,
+      note_updated:   node.note_updated   || null,
+      lit_date:       node.lit_date       || null,
+      note_revisions: node.note_revisions || 0,
+      revisions:      node.note_revisions || 0,
+      has_content:    node.has_content    || false
     });
     
     // Edge from domain guide to node (containment edge)

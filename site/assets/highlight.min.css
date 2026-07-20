@@ -1,0 +1,11 @@
+/* Vizier Dark Code Syntax Highlighting Theme */
+.hljs-keyword { color: #f687b3; font-weight: 600; }
+.hljs-string { color: #68d391; }
+.hljs-number { color: #f6ad55; }
+.hljs-comment { color: #64748b; font-style: italic; }
+.hljs-title.function_ { color: #3ee2e2; font-weight: 500; }
+.hljs-type, .hljs-class { color: #b794f4; font-weight: 600; }
+.hljs-variable { color: #e2e8f0; }
+.hljs-operator { color: #4fd1c5; }
+.hljs-attr { color: #76e4f7; }
+.hljs-literal { color: #f6ad55; font-weight: 600; }
