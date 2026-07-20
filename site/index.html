@@ -899,11 +899,65 @@
     .lib-filter-group { display: flex; flex-direction: column; gap: 4px; }
     .lib-filter-label { font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; }
     .lib-select {
-      background: rgba(0,0,0,0.5); border: 1px solid var(--panel-border);
-      border-radius: 6px; color: var(--text); padding: 6px 10px; font-size: 0.76rem;
-      font-family: inherit; outline: none; cursor: pointer; transition: border-color 0.15s;
+      background-color: #0c131a !important;
+      color: #e2e8f0 !important;
+      border: 1px solid rgba(62, 226, 226, 0.25) !important;
+      border-radius: 8px !important;
+      padding: 7px 30px 7px 11px !important;
+      font-size: 0.78rem !important;
+      font-family: inherit !important;
+      outline: none !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      appearance: none !important;
+      -webkit-appearance: none !important;
+      -moz-appearance: none !important;
+      background-image: url("data:image/svg+xml;utf8,<svg fill='%233ee2e2' height='14' viewBox='0 0 24 24' width='14' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>") !important;
+      background-repeat: no-repeat !important;
+      background-position: right 10px center !important;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5) !important;
     }
-    .lib-select:focus { border-color: var(--bright); }
+    .lib-select:focus, .lib-select:hover {
+      border-color: #3ee2e2 !important;
+      box-shadow: 0 0 10px rgba(62, 226, 226, 0.25), inset 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+    }
+    .lib-select option {
+      background-color: #0c131a !important;
+      color: #e2e8f0 !important;
+      padding: 8px !important;
+    }
+
+    /* Domain Quick Bar */
+    .lib-domain-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 6px 0 12px 0;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(62, 226, 226, 0.3) transparent;
+    }
+    .lib-domain-bar::-webkit-scrollbar { height: 4px; }
+    .lib-domain-bar::-webkit-scrollbar-thumb { background: rgba(62, 226, 226, 0.3); border-radius: 4px; }
+    .dom-pill {
+      background: rgba(10, 16, 22, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      padding: 5px 11px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .dom-pill:hover, .dom-pill.active {
+      background: rgba(62, 226, 226, 0.15);
+      color: var(--bright);
+      border-color: rgba(62, 226, 226, 0.4);
+      box-shadow: 0 0 8px rgba(62, 226, 226, 0.25);
+    }
 
     /* Status Pills */
     .status-pills { display: flex; gap: 4px; flex-wrap: wrap; }
@@ -920,6 +974,62 @@
       display: none; background: rgba(0,0,0,0.4); border: 1px solid var(--panel-border);
       color: var(--muted); padding: 8px 12px; font-size: 0.75rem; font-weight: 600;
       border-radius: 8px; cursor: pointer; text-align: center; font-family: inherit;
+    }
+
+    /* Domain Section Header in Curriculum Order */
+    .lib-domain-section-header {
+      margin: 20px 0 10px 0;
+      padding: 10px 14px;
+      background: linear-gradient(90deg, rgba(62, 226, 226, 0.1) 0%, rgba(10, 16, 22, 0.5) 100%);
+      border-left: 4px solid var(--dom-color, #3ee2e2);
+      border-radius: 0 8px 8px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .lib-domain-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .lib-domain-num-tag {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(62, 226, 226, 0.18);
+      color: var(--dom-color, #3ee2e2);
+      border: 1px solid rgba(62, 226, 226, 0.3);
+      text-transform: uppercase;
+    }
+    .lib-domain-header-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+    .lib-domain-header-stats {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* Chapter Code Badge */
+    .lib-code-badge {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--dom-color, #3ee2e2);
+      background: rgba(62, 226, 226, 0.12);
+      border: 1px solid rgba(62, 226, 226, 0.25);
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-right: 6px;
+      display: inline-block;
+      flex-shrink: 0;
     }
 
     /* Node List Rows */
@@ -942,7 +1052,7 @@
     .lib-row-left { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
     .lib-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 6px currentColor; }
     .lib-row-title-wrap { display: flex; flex-direction: column; min-width: 0; }
-    .lib-row-title { font-size: 0.88rem; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .lib-row-title { font-size: 0.88rem; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; }
     .lib-row-sub { font-size: 0.7rem; color: var(--muted); display: flex; gap: 8px; align-items: center; margin-top: 2px; }
     .lib-row-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
@@ -1372,17 +1482,17 @@
         <div class="lib-filter-group">
           <span class="lib-filter-label">Domain</span>
           <select id="lib-filter-domain" class="lib-select">
-            <option value="all">All Domains</option>
-            <option value="foundations">Foundations</option>
-            <option value="prompting-apis">Prompting &amp; APIs</option>
-            <option value="rag-retrieval">RAG &amp; Retrieval</option>
-            <option value="agents">Agents</option>
-            <option value="multi-agent-mcp">Multi-Agent &amp; MCP</option>
-            <option value="memory-knowledge">Memory &amp; Knowledge</option>
-            <option value="evals-observability">Evals &amp; Observability</option>
-            <option value="safety-security">Safety &amp; Security</option>
-            <option value="production">Production</option>
-            <option value="frontier-capstone">Frontier Capstone</option>
+            <option value="all">All Domains (01–10)</option>
+            <option value="foundations">01. Foundations</option>
+            <option value="prompting-apis">02. Prompting &amp; APIs</option>
+            <option value="rag-retrieval">03. RAG &amp; Retrieval</option>
+            <option value="agents">04. Agents</option>
+            <option value="multi-agent-mcp">05. Multi-Agent &amp; MCP</option>
+            <option value="memory-knowledge">06. Memory &amp; Knowledge</option>
+            <option value="evals-observability">07. Evals &amp; Observability</option>
+            <option value="safety-security">08. Safety &amp; Security</option>
+            <option value="production">09. Production</option>
+            <option value="frontier-capstone">10. Frontier &amp; Capstone</option>
           </select>
         </div>
 
@@ -1426,13 +1536,29 @@
         <div class="lib-filter-group">
           <span class="lib-filter-label">Sort By</span>
           <select id="lib-sort-by" class="lib-select">
-            <option value="curriculum">Curriculum Order</option>
+            <option value="curriculum">Curriculum Order (Domain Grouped)</option>
+            <option value="code">Chapter Code (01.01 → 10.24)</option>
             <option value="updated">Recently Updated</option>
             <option value="revisions">Most Revised</option>
             <option value="ring">Ring Order</option>
             <option value="alphabetical">A – Z</option>
           </select>
         </div>
+      </div>
+
+      <!-- Domain Quick Bar -->
+      <div id="lib-domain-bar" class="lib-domain-bar">
+        <button class="dom-pill active" data-domain="all">ALL DOMAINS</button>
+        <button class="dom-pill" data-domain="foundations">01 FOUNDATIONS</button>
+        <button class="dom-pill" data-domain="prompting-apis">02 PROMPTING</button>
+        <button class="dom-pill" data-domain="rag-retrieval">03 RAG</button>
+        <button class="dom-pill" data-domain="agents">04 AGENTS</button>
+        <button class="dom-pill" data-domain="multi-agent-mcp">05 MULTI-AGENT</button>
+        <button class="dom-pill" data-domain="memory-knowledge">06 MEMORY</button>
+        <button class="dom-pill" data-domain="evals-observability">07 EVALS</button>
+        <button class="dom-pill" data-domain="safety-security">08 SAFETY</button>
+        <button class="dom-pill" data-domain="production">09 PRODUCTION</button>
+        <button class="dom-pill" data-domain="frontier-capstone">10 FRONTIER</button>
       </div>
     </div>
 
@@ -2871,6 +2997,19 @@ window.switchViewMode = function(mode) {
   }
 };
 
+const domainList = [
+  { id: 'foundations', num: '01', title: 'FOUNDATIONS', color: '#3ee2e2' },
+  { id: 'prompting-apis', num: '02', title: 'PROMPTING & LLM APIs', color: '#2a7f7f' },
+  { id: 'rag-retrieval', num: '03', title: 'RAG & RETRIEVAL', color: '#4fd1c5' },
+  { id: 'agents', num: '04', title: 'AGENTS', color: '#76e4f7' },
+  { id: 'multi-agent-mcp', num: '05', title: 'MULTI-AGENT & MCP', color: '#b794f4' },
+  { id: 'memory-knowledge', num: '06', title: 'MEMORY & KNOWLEDGE', color: '#68d391' },
+  { id: 'evals-observability', num: '07', title: 'EVALS & OBSERVABILITY', color: '#fc8181' },
+  { id: 'safety-security', num: '08', title: 'SAFETY & SECURITY', color: '#fbd38d' },
+  { id: 'production', num: '09', title: 'PRODUCTION', color: '#f6ad55' },
+  { id: 'frontier-capstone', num: '10', title: 'FRONTIER & CAPSTONE', color: '#f687b3' }
+];
+
 function setupLibraryControls() {
   const searchInput = document.getElementById('lib-search-input');
   if (searchInput) {
@@ -2898,8 +3037,24 @@ function setupLibraryControls() {
     });
   });
 
+  const domPills = document.querySelectorAll('.dom-pill');
+  domPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      domPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      libDomainFilter = pill.dataset.domain;
+      const domainSel = document.getElementById('lib-filter-domain');
+      if (domainSel) domainSel.value = libDomainFilter;
+      renderLibraryView();
+    });
+  });
+
   const domainSel = document.getElementById('lib-filter-domain');
-  if (domainSel) domainSel.addEventListener('change', (e) => { libDomainFilter = e.target.value; renderLibraryView(); });
+  if (domainSel) domainSel.addEventListener('change', (e) => {
+    libDomainFilter = e.target.value;
+    domPills.forEach(p => p.classList.toggle('active', p.dataset.domain === libDomainFilter));
+    renderLibraryView();
+  });
 
   const typeSel = document.getElementById('lib-filter-type');
   if (typeSel) typeSel.addEventListener('change', (e) => { libTypeFilter = e.target.value; renderLibraryView(); });
@@ -2925,33 +3080,35 @@ function setupLibraryControls() {
 
 function renderLibraryView() {
   if (!graphData || !graphData.nodes) return;
-  const nodes = graphData.nodes;
 
-  // 1. Stats calculation
-  const total = nodes.length;
-  const litCount = nodes.filter(n => n.status === 'lit').length;
-  const chargingCount = nodes.filter(n => n.status === 'charging').length;
+  // Filter out meta structural nodes (center, domain guides) from curriculum learning view
+  const allCurrNodes = graphData.nodes.filter(n => n.type !== 'center' && n.type !== 'domain');
+
+  // 1. Overall stats calculation
+  const total = allCurrNodes.length;
+  const litCount = allCurrNodes.filter(n => n.status === 'lit').length;
+  const chargingCount = allCurrNodes.filter(n => n.status === 'charging').length;
   const darkCount = total - litCount - chargingCount;
 
   const litPct = total > 0 ? (litCount / total) * 100 : 0;
   const chargingPct = total > 0 ? (chargingCount / total) * 100 : 0;
-  const darkPct = total > 0 ? (darkCount / total) * 100 : 0;
 
   const segLit = document.getElementById('seg-lit');
   const segCharging = document.getElementById('seg-charging');
   const segDark = document.getElementById('seg-dark');
   if (segLit) segLit.style.width = `${litPct}%`;
   if (segCharging) segCharging.style.width = `${chargingPct}%`;
-  if (segDark) segDark.style.width = `${darkPct}%`;
+  if (segDark) segDark.style.width = `${Math.max(0, 100 - litPct - chargingPct)}%`;
 
   const countsEl = document.getElementById('lib-progress-counts');
 
   // 2. Continue Affordance (First non-lit node in curriculum order)
-  continueTargetNode = nodes.find(n => n.status !== 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone') || nodes[0];
+  continueTargetNode = allCurrNodes.find(n => n.status !== 'lit' && n.type !== 'milestone') || allCurrNodes[0];
   const contTitleEl = document.getElementById('continue-node-title');
   const contMetaEl = document.getElementById('continue-node-meta');
   if (contTitleEl && continueTargetNode) {
-    contTitleEl.textContent = continueTargetNode.label || continueTargetNode.title || continueTargetNode.id;
+    const codeTag = continueTargetNode.code ? `[${continueTargetNode.code}] ` : '';
+    contTitleEl.textContent = `${codeTag}${continueTargetNode.label || continueTargetNode.title || continueTargetNode.id}`;
     const metaParts = [
       continueTargetNode.domain ? `Domain: ${continueTargetNode.domain}` : '',
       continueTargetNode.ring ? `Ring ${continueTargetNode.ring}` : '',
@@ -2961,15 +3118,17 @@ function renderLibraryView() {
     if (contMetaEl) contMetaEl.innerHTML = metaParts.map(m => `<span class="mtag">${m}</span>`).join(' ');
   }
 
-  // 3. Multi-faceted Filter Evaluation
-  let filtered = nodes.filter(n => {
+  // 3. Filter Evaluation
+  let filtered = allCurrNodes.filter(n => {
     if (libSearchQuery) {
+      const matchCode = (n.code || '').toLowerCase().includes(libSearchQuery);
+      const matchSeq = String(n.seq_num || '').includes(libSearchQuery);
       const matchLabel = (n.label || '').toLowerCase().includes(libSearchQuery);
       const matchId = (n.id || '').toLowerCase().includes(libSearchQuery);
       const matchDomain = (n.domain || '').toLowerCase().includes(libSearchQuery);
       const matchTags = n.tags && n.tags.some(t => t.toLowerCase().includes(libSearchQuery));
       const matchCluster = (n.cluster || '').toLowerCase().includes(libSearchQuery);
-      if (!matchLabel && !matchId && !matchDomain && !matchTags && !matchCluster) return false;
+      if (!matchCode && !matchSeq && !matchLabel && !matchId && !matchDomain && !matchTags && !matchCluster) return false;
     }
 
     if (libStatusFilter !== 'all') {
@@ -2997,7 +3156,7 @@ function renderLibraryView() {
     return true;
   });
 
-  // Calculate filtered stats for the progress bar & counts label
+  // Calculate filtered stats for progress label
   const fLit = filtered.filter(n => n.status === 'lit').length;
   const fCharging = filtered.filter(n => n.status === 'charging').length;
   const fDark = filtered.length - fLit - fCharging;
@@ -3011,47 +3170,35 @@ function renderLibraryView() {
     }
   }
 
-  // 4. Sorting Options
-  if (libSortBy === 'updated') {
-    filtered.sort((a, b) => new Date(b.updated || b.completed || '2000-01-01') - new Date(a.updated || a.completed || '2000-01-01'));
-  } else if (libSortBy === 'revisions') {
-    filtered.sort((a, b) => (b.revisions || 0) - (a.revisions || 0));
-  } else if (libSortBy === 'ring') {
-    filtered.sort((a, b) => {
-      const rA = parseInt(String(a.ring || '99').replace(/\D/g, ''), 10) || 99;
-      const rB = parseInt(String(b.ring || '99').replace(/\D/g, ''), 10) || 99;
-      return rA - rB;
-    });
-  } else if (libSortBy === 'alphabetical') {
-    filtered.sort((a, b) => (a.label || a.id).localeCompare(b.label || b.id));
-  }
-
   const matchCountEl = document.getElementById('lib-matching-count');
   if (matchCountEl) matchCountEl.textContent = `Showing ${filtered.length} of ${total} nodes`;
 
-  // 5. Render Node Rows
   const listEl = document.getElementById('lib-nodes-list');
   if (!listEl) return;
 
   if (filtered.length === 0) {
-    listEl.innerHTML = `<div style="text-align:center; padding:32px; color:var(--muted); font-size:0.85rem;">No nodes match the selected filters.</div>`;
+    listEl.innerHTML = `<div style="text-align:center; padding:40px; color:var(--muted); font-size:0.85rem;">No curriculum nodes match your selected search or filters.</div>`;
     return;
   }
 
-  listEl.innerHTML = filtered.map(n => {
+  // Helper function to render a single node row HTML
+  const renderRowHtml = (n) => {
     const dotColor = domainColors[n.domain] || '#3ee2e2';
     const nStatus = (n.status || 'dark').toLowerCase();
     const nVersion = n.version || n.plan_version || '0.1.0';
     const nUpdated = n.updated || n.completed || '2026-07-20';
     const nRing = n.ring ? `R${n.ring}` : '—';
     const nRevisions = n.revisions !== undefined ? n.revisions : 0;
-    
+
     return `
       <div class="lib-row" data-id="${n.id}" role="button" tabindex="0" aria-label="${escapeHtml(n.label || n.title || n.id)}">
         <div class="lib-row-left">
-          <div class="lib-dot" style="background:${dotColor}; color:${dotColor};"></div>
+          <div class="lib-dot" style="background:${dotColor}; color:${dotColor}; box-shadow:0 0 6px ${dotColor};"></div>
           <div class="lib-row-title-wrap">
-            <div class="lib-row-title">${escapeHtml(n.label || n.title || n.id)}</div>
+            <div class="lib-row-title">
+              ${n.code ? `<span class="lib-code-badge" style="--dom-color:${dotColor}">#${n.code}</span>` : ''}
+              <span>${escapeHtml(n.label || n.title || n.id)}</span>
+            </div>
             <div class="lib-row-sub">
               <span>${n.domain ? n.domain.toUpperCase() : 'CORE'}</span>
               <span>•</span>
@@ -3070,8 +3217,71 @@ function renderLibraryView() {
         </div>
       </div>
     `;
-  }).join('');
+  };
 
+  // 4. Sort & Render
+  if (libSortBy === 'curriculum') {
+    // Domain-Grouped Curriculum View
+    let html = '';
+    
+    domainList.forEach(dom => {
+      const domNodes = filtered.filter(n => n.domain === dom.id);
+      if (domNodes.length > 0) {
+        domNodes.sort((a, b) => (a.seq_num || 0) - (b.seq_num || 0));
+        const domLit = domNodes.filter(n => n.status === 'lit').length;
+        const domTotal = domNodes.length;
+
+        html += `
+          <div class="lib-domain-section-header" style="--dom-color: ${dom.color};">
+            <div class="lib-domain-header-left">
+              <span class="lib-domain-num-tag" style="--dom-color: ${dom.color}">DOMAIN ${dom.num}</span>
+              <span class="lib-domain-header-title">${dom.title}</span>
+            </div>
+            <span class="lib-domain-header-stats">${domLit} / ${domTotal} LIT</span>
+          </div>
+          ${domNodes.map(renderRowHtml).join('')}
+        `;
+      }
+    });
+
+    const unassigned = filtered.filter(n => !domainList.some(d => d.id === n.domain));
+    if (unassigned.length > 0) {
+      html += `
+        <div class="lib-domain-section-header" style="--dom-color: #f687b3;">
+          <div class="lib-domain-header-left">
+            <span class="lib-domain-num-tag" style="--dom-color: #f687b3">MILESTONES</span>
+            <span class="lib-domain-header-title">FLOATING MILESTONES & CAPSTONES</span>
+          </div>
+          <span class="lib-domain-header-stats">${unassigned.length} NODES</span>
+        </div>
+        ${unassigned.map(renderRowHtml).join('')}
+      `;
+    }
+
+    listEl.innerHTML = html;
+  } else {
+    // Flat sorted lists
+    let flatNodes = [...filtered];
+    if (libSortBy === 'code') {
+      flatNodes.sort((a, b) => (a.seq_num || 0) - (b.seq_num || 0));
+    } else if (libSortBy === 'updated') {
+      flatNodes.sort((a, b) => new Date(b.updated || b.completed || '2000-01-01') - new Date(a.updated || a.completed || '2000-01-01'));
+    } else if (libSortBy === 'revisions') {
+      flatNodes.sort((a, b) => (b.revisions || 0) - (a.revisions || 0));
+    } else if (libSortBy === 'ring') {
+      flatNodes.sort((a, b) => {
+        const rA = parseInt(String(a.ring || '99').replace(/\D/g, ''), 10) || 99;
+        const rB = parseInt(String(b.ring || '99').replace(/\D/g, ''), 10) || 99;
+        return rA - rB;
+      });
+    } else if (libSortBy === 'alphabetical') {
+      flatNodes.sort((a, b) => (a.label || a.id).localeCompare(b.label || b.id));
+    }
+
+    listEl.innerHTML = flatNodes.map(renderRowHtml).join('');
+  }
+
+  // Attach click listeners to all rows
   listEl.querySelectorAll('.lib-row').forEach(row => {
     const openRow = (e) => {
       const nodeId = row.dataset.id;

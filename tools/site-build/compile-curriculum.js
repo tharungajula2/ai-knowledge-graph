@@ -116,7 +116,11 @@ function parseMasteryGraph(filePath) {
   const crossDomainLinks = [];
   
   let currentDomain = null;
+  let currentDomainNum = 0;
+  let currentDomainTitle = null;
   let currentCluster = null;
+  let nodeInDomainIndex = 0;
+  let globalSeqNum = 0;
   
   const lines = content.split(/\r?\n/);
   
@@ -142,9 +146,12 @@ function parseMasteryGraph(filePath) {
       inMilestones = false;
       inCrossLinks = false;
       
-      const domMatch = trimmed.match(/^## DOMAIN\s+\d+\s+—\s+(.*?)\s*·\s*ring:\s*`?([\w-]+)`?/i);
+      const domMatch = trimmed.match(/^## DOMAIN\s+(\d+)\s+—\s+(.*?)\s*·\s*ring:\s*`?([\w-]+)`?/i);
       if (domMatch) {
-        currentDomain = domMatch[2].trim();
+        currentDomainNum = parseInt(domMatch[1], 10);
+        currentDomainTitle = domMatch[2].trim();
+        currentDomain = domMatch[3].trim();
+        nodeInDomainIndex = 0;
       }
       currentCluster = null;
       continue;
@@ -189,10 +196,19 @@ function parseMasteryGraph(filePath) {
           const size = nodeMatch[4].trim();
           const summary = (nodeMatch[5] || '').trim();
           
+          nodeInDomainIndex++;
+          globalSeqNum++;
+          const codeStr = `${String(currentDomainNum).padStart(2, '0')}.${String(nodeInDomainIndex).padStart(2, '0')}`;
+
           nodes.push({
             id,
             title,
             domain: currentDomain,
+            domain_num: currentDomainNum,
+            domain_title: currentDomainTitle || currentDomain,
+            chapter_num: nodeInDomainIndex,
+            code: codeStr,
+            seq_num: globalSeqNum,
             cluster: currentCluster || 'General',
             type,
             size,
@@ -728,6 +744,11 @@ function compileCurriculum() {
       type: node.type,
       ring: node.domain,
       domain: node.domain,
+      domain_num: node.domain_num || null,
+      domain_title: node.domain_title || null,
+      chapter_num: node.chapter_num || null,
+      code: node.code || null,
+      seq_num: node.seq_num || null,
       cluster: node.cluster,
       size: node.size,
       status: node.status,
