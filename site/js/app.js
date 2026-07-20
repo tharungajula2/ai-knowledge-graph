@@ -57,13 +57,14 @@ function loadData(src) {
     }
 
     const params = new URLSearchParams(window.location.search);
-    const nodeId = params.get('node');
-    if (nodeId && graphData) {
-      const node = graphData.nodes.find(n => n.id === nodeId);
-      if (node) {
+    const targetId = params.get('note') || params.get('node');
+    if (targetId && graphData && graphData.nodes) {
+      const cleanId = targetId.toLowerCase().trim();
+      const targetNode = graphData.nodes.find(n => n.id === cleanId || (n.slug && n.slug.toLowerCase() === cleanId));
+      if (targetNode) {
         setTimeout(() => {
-          onNodeClick({ stopPropagation: () => {} }, node);
-        }, 100);
+          onNodeClick({ stopPropagation: () => {} }, targetNode);
+        }, 120);
       }
     }
   }).catch(err => {

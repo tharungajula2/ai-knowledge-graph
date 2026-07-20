@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../assets/style.css">
   
 </head>
@@ -16,18 +17,24 @@
       <a href="../index.html" class="brand">VIZIER</a>
       <div class="day-badge" id="day-badge">UNIVERSE 01 · AI ENGINEERING</div>
     </header>
-    <nav>
-      <a href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain</a>
+    <nav style="margin-bottom: 24px;">
+      <a href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain Graph</a>
     </nav>
-    <main style="margin-top: 20px;">
+    <main>
       
-      <a href="../index.html" class="back-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-right:4px;"><polyline points="15 18 9 12 15 6"/></svg>
-        Back to Brain
-      </a>
-      <article>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px;">
+        <a href="../index.html" class="back-btn" style="margin-bottom:0;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="margin-right:6px;"><polyline points="15 18 9 12 15 6"/></svg>
+          Back to Brain
+        </a>
+        <a href="../index.html?note=python-environments" class="btn-open-app" style="text-decoration:none; padding:7px 14px; border-radius:6px; font-size:0.78rem; font-weight:600; background:rgba(62,226,226,0.15); border:1px solid rgba(62,226,226,0.4); color:var(--accent-bright); display:inline-flex; align-items:center; transition:all 0.2s ease;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="margin-right:6px;"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          Open in App Reader ⚡
+        </a>
+      </div>
+      <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Environments & Packages</h1>
-        <div class="metadata-row">
+        <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
           <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
           <span class="tag">v0.1.0</span>
@@ -35,7 +42,7 @@
           <span class="tag">Revisions: 0</span>
           
         </div>
-        <div class="note-body">
+        <div class="note-body md">
           
 
 <!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. --><hr>
@@ -43,26 +50,28 @@
 
 <p>Here is the exact coverage checklist. This is our contract for the node. Every single item listed here will be systematically unpacked and hardwired into your brain.</p>
 
-<p>* The "works on my machine" disease (Project A vs. Project B version conflict)</p>
-<p>* The private toolbox analogy</p>
-<p>* The rule: Professionals never install project packages globally. Ever.</p>
-<p>* <code>python3 -m venv .venv</code> (creating the toolbox)</p>
-<p>* <code>source .venv/bin/activate</code> (stepping inside)</p>
-<p>* <code>.venv\Scripts\activate</code> (Windows equivalent)</p>
-<p>* <code>which python</code> (verifying the path)</p>
-<p>* <code>pip install requests</code> (installing into the toolbox)</p>
-<p>* <code>pip freeze &gt; requirements.txt</code> (the reproducibility contract)</p>
-<p>* <code>deactivate</code> (stepping outside)</p>
-<p>* <code>pip install -r requirements.txt</code> (rebuilding the toolbox)</p>
-<p>* The mental model: <code>activate</code> edits the shell's PATH</p>
-<p>* Pro Habit 1: <code>.venv/</code> goes in <code>.gitignore</code></p>
-<p>* Pro Habit 2: One project = one venv (created immediately)</p>
-<p>* The fast modern replacement: <code>uv</code></p>
-<p>* Hands-on Artifact: <code>vizier-floor/</code> folder lifecycle</p>
-<p>* Python script: <code>main.py</code> that imports <code>requests</code>, fetches a URL's status code, and runs.</p>
-<p>* The ultimate test: delete <code>.venv</code>, rebuild from <code>requirements.txt</code>, and run successfully.</p>
-<p>* All five "Prove It" questions.</p>
-<p>* Wikilinks: <code><a class="wiki-link" data-node-id="terminal-fluency" href="terminal-fluency.html">terminal-fluency</a></code>, <code><a class="wiki-link" data-node-id="git-mastery" href="git-mastery.html">git-mastery</a></code>, <code><a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></code></p>
+<ul>
+<li>The "works on my machine" disease (Project A vs. Project B version conflict)</li>
+<li>The private toolbox analogy</li>
+<li>The rule: Professionals never install project packages globally. Ever.</li>
+<li><code>python3 -m venv .venv</code> (creating the toolbox)</li>
+<li><code>source .venv/bin/activate</code> (stepping inside)</li>
+<li><code>.venv\Scripts\activate</code> (Windows equivalent)</li>
+<li><code>which python</code> (verifying the path)</li>
+<li><code>pip install requests</code> (installing into the toolbox)</li>
+<li><code>pip freeze &gt; requirements.txt</code> (the reproducibility contract)</li>
+<li><code>deactivate</code> (stepping outside)</li>
+<li><code>pip install -r requirements.txt</code> (rebuilding the toolbox)</li>
+<li>The mental model: <code>activate</code> edits the shell's PATH</li>
+<li>Pro Habit 1: <code>.venv/</code> goes in <code>.gitignore</code></li>
+<li>Pro Habit 2: One project = one venv (created immediately)</li>
+<li>The fast modern replacement: <code>uv</code></li>
+<li>Hands-on Artifact: <code>vizier-floor/</code> folder lifecycle</li>
+<li>Python script: <code>main.py</code> that imports <code>requests</code>, fetches a URL's status code, and runs.</li>
+<li>The ultimate test: delete <code>.venv</code>, rebuild from <code>requirements.txt</code>, and run successfully.</li>
+<li>All five "Prove It" questions.</li>
+<li>Wikilinks: <code><a class="wiki-link" data-node-id="terminal-fluency" href="terminal-fluency.html">terminal-fluency</a></code>, <code><a class="wiki-link" data-node-id="git-mastery" href="git-mastery.html">git-mastery</a></code>, <code><a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></code></li>
+</ul>
 
 <p>⚡ <strong>RECAP:</strong> The canon is unpacked, the targets are locked, and the map is set.<hr></p>
 <h2 id="phase-1-absolute-zero-concept-amp-intuition-">PHASE 1 — ABSOLUTE ZERO (Concept &amp; Intuition)</h2>
@@ -402,20 +411,22 @@ user@machine:~/vizier-floor$
 
 <p><strong>MENTAL TRACE (Line-by-Line Anatomy):</strong></p>
 
-<p>1. <code>mkdir</code> and <code>cd</code> create our project workspace and move us into it.</p>
-<p>2. <code>python3 -m venv .venv</code> builds the heavy, isolated folder containing a private Python interpreter.</p>
-<p>3. <code>source .venv/bin/activate</code> manipulates the PATH. We are now wearing the <code>.venv</code> goggles.</p>
-<p>4. <code>which python</code> prints the local directory path. We are protected. We are not touching the global system. Professional developers check this to ensure they don't accidentally pollute their main hard drive.</p>
-<p>5. <code>pip install requests</code> downloads the third-party library directly into the hidden folder.</p>
-<p>6. The <code>echo</code> command is a quick bash trick to write our Python code into a new file called <code>main.py</code> without opening a text editor.</p>
-<p>7. <code>python3 main.py</code> runs our code. The code reaches out to Google, waits for a response, and prints <code>200</code>. The output proves the package is successfully installed.</p>
-<p>8. <code>pip freeze &gt; requirements.txt</code> looks at everything we just installed and writes it to a text file. This is the reproducibility contract.</p>
-<p>9. <code>deactivate</code> takes off the <code>.venv</code> goggles. We are back in the global system.</p>
-<p>10. <code>rm -rf .venv</code> violently and completely deletes our entire toolbox. All downloaded packages are gone. Only <code>main.py</code> and <code>requirements.txt</code> remain.</p>
-<p>11. <code>python3 -m venv .venv</code> creates a brand new, completely empty toolbox.</p>
-<p>12. <code>source .venv/bin/activate</code> steps inside the new toolbox.</p>
-<p>13. <code>pip install -r requirements.txt</code> reads our contract. It fetches the exact same version of <code>requests</code> we used earlier.</p>
-<p>14. <code>python3 main.py</code> runs the code. It prints <code>200</code> again.</p>
+<ol>
+<li><code>mkdir</code> and <code>cd</code> create our project workspace and move us into it.</li>
+<li><code>python3 -m venv .venv</code> builds the heavy, isolated folder containing a private Python interpreter.</li>
+<li><code>source .venv/bin/activate</code> manipulates the PATH. We are now wearing the <code>.venv</code> goggles.</li>
+<li><code>which python</code> prints the local directory path. We are protected. We are not touching the global system. Professional developers check this to ensure they don't accidentally pollute their main hard drive.</li>
+<li><code>pip install requests</code> downloads the third-party library directly into the hidden folder.</li>
+<li>The <code>echo</code> command is a quick bash trick to write our Python code into a new file called <code>main.py</code> without opening a text editor.</li>
+<li><code>python3 main.py</code> runs our code. The code reaches out to Google, waits for a response, and prints <code>200</code>. The output proves the package is successfully installed.</li>
+<li><code>pip freeze &gt; requirements.txt</code> looks at everything we just installed and writes it to a text file. This is the reproducibility contract.</li>
+<li><code>deactivate</code> takes off the <code>.venv</code> goggles. We are back in the global system.</li>
+<li><code>rm -rf .venv</code> violently and completely deletes our entire toolbox. All downloaded packages are gone. Only <code>main.py</code> and <code>requirements.txt</code> remain.</li>
+<li><code>python3 -m venv .venv</code> creates a brand new, completely empty toolbox.</li>
+<li><code>source .venv/bin/activate</code> steps inside the new toolbox.</li>
+<li><code>pip install -r requirements.txt</code> reads our contract. It fetches the exact same version of <code>requests</code> we used earlier.</li>
+<li><code>python3 main.py</code> runs the code. It prints <code>200</code> again.</li>
+</ol>
 
 <p><strong>Why professionals do it this way:</strong> This sequence proves that your code does not depend on "your machine." By deleting the <code>.venv</code> and rebuilding it purely from <code>requirements.txt</code>, you have proven that any teammate, any server, or any automated pipeline can perfectly reconstruct the exact conditions necessary for your code to run.</p>
 
@@ -471,36 +482,56 @@ python3 main.py</code></pre>
 <p><strong>Why it happens:</strong> You forgot the <code>&gt;</code> redirect arrow. <code>pip freeze</code> alone just prints the list of packages to your terminal screen. It doesn't save anything.</p>
 <p><strong>The Fix:</strong> Always use <code>pip freeze &gt; requirements.txt</code> to push the output into a file.<h3>Pro Habits that Separate the Elite:</h3></p>
 
-<p>* <strong>One Project = One Venv:</strong> The absolute minute a professional types <code>mkdir my_project</code>, the very next two lines they type are <code>cd my_project</code> and <code>python3 -m venv .venv</code>. It is an inseparable muscle memory.</p>
-<p>* <strong>The Gitignore Reflex:</strong> They create the <code>.gitignore</code> file and add <code>.venv/</code> before writing a single line of Python code.</p>
-<p>* <strong>Modern Tooling Awareness:</strong> As the canon mentions, elite engineers are migrating to <code>uv</code> [VERIFY] — an impossibly fast, modern Rust-based replacement that handles creating venvs and installing packages in milliseconds instead of seconds. The concepts transfer 1:1, but the speed is god-tier.</p>
+<ul>
+<li><strong>One Project = One Venv:</strong> The absolute minute a professional types <code>mkdir my_project</code>, the very next two lines they type are <code>cd my_project</code> and <code>python3 -m venv .venv</code>. It is an inseparable muscle memory.</li>
+<li><strong>The Gitignore Reflex:</strong> They create the <code>.gitignore</code> file and add <code>.venv/</code> before writing a single line of Python code.</li>
+<li><strong>Modern Tooling Awareness:</strong> As the canon mentions, elite engineers are migrating to <code>uv</code> [VERIFY] — an impossibly fast, modern Rust-based replacement that handles creating venvs and installing packages in milliseconds instead of seconds. The concepts transfer 1:1, but the speed is god-tier.</li>
+</ul>
 
 <p>⚡ <strong>RECAP:</strong> Never forget to activate, never commit the environment folder, and lock your dependencies tightly into a text file.<hr></p>
 <h2 id="phase-5-the-feynman-breakdown-answers-note-">PHASE 5 — THE FEYNMAN BREAKDOWN (Answers + Note)</h2>
 
 <p>Here are the bulletproof, plain-English model answers to the chapter's "Prove It" questions, followed by high-level interview prep.<h3>Canon "Prove It" Answers:</h3></p>
 
-<p>* <strong>What disease do venvs cure? Describe the two-projects conflict precisely.</strong></p>
+<ul>
+<li><strong>What disease do venvs cure? Describe the two-projects conflict precisely.</strong></li>
+</ul>
 <p>Venvs cure the "works on my machine" disease. The conflict happens when Project A requires version 1.0 of a library, and Project B requires version 2.0. If you only have one global Python installation, installing version 2.0 will overwrite version 1.0, breaking Project A. They cannot coexist globally.</p>
-<p>* <strong>What does activate mechanically do to your shell?</strong></p>
+<ul>
+<li><strong>What does activate mechanically do to your shell?</strong></li>
+</ul>
 <p>It edits the shell's PATH variable so that typing <code>python</code> and <code>pip</code> resolves to the local, private copies tucked inside the <code>.venv</code> folder, rather than the global system tools.</p>
-<p>* <strong>Why commit requirements.txt but gitignore .venv/?</strong></p>
+<ul>
+<li><strong>Why commit requirements.txt but gitignore .venv/?</strong></li>
+</ul>
 <code>requirements.txt</code> is just a lightweight text recipe of exact version numbers—it allows anyone to rebuild the environment. <code>.venv/</code> is the heavy, OS-specific toolbox itself, filled with thousands of binary files that will bloat the repository and break if downloaded onto a different operating system. You commit the recipe, never the toolbox.
-<p>* <strong>Write from memory: create, activate, install, freeze, deactivate.</strong></p>
+<ul>
+<li><strong>Write from memory: create, activate, install, freeze, deactivate.</strong></li>
+</ul>
 <code>python3 -m venv .venv</code>
 <code>source .venv/bin/activate</code>
 <code>pip install &lt;package_name&gt;</code>
 <code>pip freeze &gt; requirements.txt</code>
 <code>deactivate</code>
-<p>* <strong>Your script works locally, fails on the server with ModuleNotFoundError. First two things you check?</strong></p>
-<p>1. Did I remember to activate the virtual environment on the server?</p>
-<p>2. Did I run <code>pip install -r requirements.txt</code> on the server to actually pull in the dependencies?<h3>Realistic Interview Questions:</h3></p>
+<ul>
+<li><strong>Your script works locally, fails on the server with ModuleNotFoundError. First two things you check?</strong></li>
+</ul>
+<ol>
+<li>Did I remember to activate the virtual environment on the server?</li>
+<li>Did I run <code>pip install -r requirements.txt</code> on the server to actually pull in the dependencies?<h3>Realistic Interview Questions:</h3></li>
+</ol>
 
-<p>* <strong>Q: What is the difference between a virtual environment and Docker?</strong></p>
+<ul>
+<li><strong>Q: What is the difference between a virtual environment and Docker?</strong></li>
+</ul>
 <p><em>A:</em> A Python virtual environment only isolates Python packages. It still relies on your host machine's underlying operating system (like your system's C-libraries or networking). Docker isolates the <em>entire operating system</em>. A venv is a private Python toolbox; Docker is a completely separate private house.</p>
-<p>* <strong>Q: If I open a brand new terminal tab, do I need to run the activate command again?</strong></p>
+<ul>
+<li><strong>Q: If I open a brand new terminal tab, do I need to run the activate command again?</strong></li>
+</ul>
 <p><em>A:</em> Yes. The <code>activate</code> script only modifies the PATH for the current active shell session. If you open a new tab, it spawns a fresh shell pointing back to the global system, so you must activate it again.</p>
-<p>* <strong>Q: What happens if two developers run <code>pip freeze</code> on different operating systems?</strong></p>
+<ul>
+<li><strong>Q: What happens if two developers run <code>pip freeze</code> on different operating systems?</strong></li>
+</ul>
 <p><em>A:</em> Depending on the complexity of the project, they might get slightly different system-level dependencies. This is why teams often use advanced lockfiles, or why the industry is moving toward modern tools like <code>uv</code> or <code>poetry</code> to ensure mathematically strict cross-platform reproducibility.<h3>The Feynman Note (For your VIZIER brain)</h3></p>
 
 <p>Python virtual environments exist to stop your coding projects from destroying each other. Imagine you have two Lego sets. One needs a blue gear, the other needs a red gear, but they both fit into the exact same slot. If you dump all your Legos into one giant bucket (the global system), the gears get mixed up and a set breaks. A virtual environment (<code>.venv</code>) is just giving every single Lego set its own private ziplock bag. You use <code>activate</code> to open the bag, <code>pip install</code> to put pieces in it, and <code>requirements.txt</code> to write down a shopping list of exactly what is inside so your friends can buy the same pieces.</p>
@@ -514,34 +545,42 @@ python3 main.py</code></pre>
 
 <p><strong>Key Terms</strong></p>
 
-<p>* <strong>Virtual Environment (<code>.venv</code>):</strong> A private, isolated folder containing its own Python interpreter and downloaded packages.</p>
-<p>* <strong>PATH:</strong> The list of directories the operating system searches to find executable commands.</p>
-<p>* <strong><code>requirements.txt</code>:</strong> The reproducibility contract; a plain text snapshot of exact package versions.</p>
-<p>* <strong><code>uv</code>:</strong> A fast modern replacement doing the exact same jobs as pip/venv.</p>
+<ul>
+<li><strong>Virtual Environment (<code>.venv</code>):</strong> A private, isolated folder containing its own Python interpreter and downloaded packages.</li>
+<li><strong>PATH:</strong> The list of directories the operating system searches to find executable commands.</li>
+<li><strong><code>requirements.txt</code>:</strong> The reproducibility contract; a plain text snapshot of exact package versions.</li>
+<li><strong><code>uv</code>:</strong> A fast modern replacement doing the exact same jobs as pip/venv.</li>
+</ul>
 
 <p><strong>Code Idioms</strong></p>
 
-<p>* <code>python3 -m venv .venv</code> → Creates the hidden toolbox folder.</p>
-<p>* <code>source .venv/bin/activate</code> → Steps inside (Mac/Linux). Alters PATH.</p>
-<p>* <code>.venv\Scripts\activate</code> → Steps inside (Windows). Alters PATH.</p>
-<p>* <code>which python</code> → Proves isolation (must point inside <code>.venv</code>).</p>
-<p>* <code>pip freeze &gt; requirements.txt</code> → Snapshots current packages into a text file.</p>
-<p>* <code>pip install -r requirements.txt</code> → Rebuilds the environment from the snapshot.</p>
-<p>* <code>deactivate</code> → Steps outside, resets PATH.</p>
+<ul>
+<li><code>python3 -m venv .venv</code> → Creates the hidden toolbox folder.</li>
+<li><code>source .venv/bin/activate</code> → Steps inside (Mac/Linux). Alters PATH.</li>
+<li><code>.venv\Scripts\activate</code> → Steps inside (Windows). Alters PATH.</li>
+<li><code>which python</code> → Proves isolation (must point inside <code>.venv</code>).</li>
+<li><code>pip freeze &gt; requirements.txt</code> → Snapshots current packages into a text file.</li>
+<li><code>pip install -r requirements.txt</code> → Rebuilds the environment from the snapshot.</li>
+<li><code>deactivate</code> → Steps outside, resets PATH.</li>
+</ul>
 
 <p><strong>Flashcard Q&amp;A</strong></p>
 
-<p>* <strong>Q:</strong> What disease do venvs cure? <strong>A:</strong> The "works on my machine" version-conflict disease.</p>
-<p>* <strong>Q:</strong> What does activate mechanically do? <strong>A:</strong> Prepends the <code>.venv</code> bin folder to the shell's PATH.</p>
-<p>* <strong>Q:</strong> What MUST go into <code>.gitignore</code>? <strong>A:</strong> <code>.venv/</code> (Commit the recipe, never the toolbox).</p>
-<p>* <strong>Q:</strong> What is the rule of thumb for venvs? <strong>A:</strong> One project = one venv, created immediately.</p>
+<ul>
+<li><strong>Q:</strong> What disease do venvs cure? <strong>A:</strong> The "works on my machine" version-conflict disease.</li>
+<li><strong>Q:</strong> What does activate mechanically do? <strong>A:</strong> Prepends the <code>.venv</code> bin folder to the shell's PATH.</li>
+<li><strong>Q:</strong> What MUST go into <code>.gitignore</code>? <strong>A:</strong> <code>.venv/</code> (Commit the recipe, never the toolbox).</li>
+<li><strong>Q:</strong> What is the rule of thumb for venvs? <strong>A:</strong> One project = one venv, created immediately.</li>
+</ul>
 
 <p><strong>Trap One-Liners</strong></p>
 
-<p>* <code>ModuleNotFoundError</code> → You forgot to activate → Run <code>source .venv/bin/activate</code></p>
-<p>* Repo is massive/crashing GitHub → You committed the venv → Add <code>.venv/</code> to <code>.gitignore</code></p>
-<p>* Installed package but freeze shows nothing → You installed globally before activating → Activate and reinstall.</p>
-<p>* Terminal prints packages but no file is made → Forgot the redirect arrow → <code>pip freeze &gt; requirements.txt</code></p>
+<ul>
+<li><code>ModuleNotFoundError</code> → You forgot to activate → Run <code>source .venv/bin/activate</code></li>
+<li>Repo is massive/crashing GitHub → You committed the venv → Add <code>.venv/</code> to <code>.gitignore</code></li>
+<li>Installed package but freeze shows nothing → You installed globally before activating → Activate and reinstall.</li>
+<li>Terminal prints packages but no file is made → Forgot the redirect arrow → <code>pip freeze &gt; requirements.txt</code></li>
+</ul>
 
 <p>⚡ <strong>RECAP:</strong> The compounding engine is built. You can now refresh this entire node in 180 seconds.<hr></p>
 <h2 id="appendix-floor-practice-optional-for-when-you-have-15-minutes-at-the-machine-">APPENDIX — FLOOR PRACTICE (Optional, for when you have 15 minutes at the machine)</h2>

@@ -38,7 +38,7 @@ function getDayNumber(startDateStr) {
 }
 const dayNumber = getDayNumber(siteConfig.start_date);
 
-// Helper to convert Markdown to clean HTML (without external heavy libraries)
+// Helper to convert Markdown to clean HTML with full support for *, -, +, 1., code blocks, tables, blockquotes
 function simpleMarkdownToHtml(md, domain) {
   let html = md;
 
@@ -97,8 +97,8 @@ function simpleMarkdownToHtml(md, domain) {
   html = html.replace(/^\s*####\s+(.*)$/gm, '<h4>$1</h4>');
 
   // Task lists
-  html = html.replace(/^\s*-\s+\[ \]\s+(.*)$/gm, '<li class="task-list-item"><input type="checkbox" disabled /> <span>$1</span></li>');
-  html = html.replace(/^\s*-\s+\[[xX]\]\s+(.*)$/gm, '<li class="task-list-item task-checked"><input type="checkbox" checked disabled /> <span>$1</span></li>');
+  html = html.replace(/^\s*[-*+]\s+\[ \]\s+(.*)$/gm, '<li class="task-list-item"><input type="checkbox" disabled /> <span>$1</span></li>');
+  html = html.replace(/^\s*[-*+]\s+\[[xX]\]\s+(.*)$/gm, '<li class="task-list-item task-checked"><input type="checkbox" checked disabled /> <span>$1</span></li>');
 
   // Inline code: `code`
   html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
@@ -155,22 +155,32 @@ function simpleMarkdownToHtml(md, domain) {
   }
   html = processedLines.join('\n');
 
-  // Lists & Paragraphs handling
+  // Lists & Paragraphs handling (*, -, +, 1. 2.)
   const listLines = html.split(/\r?\n/);
   let inList = false;
+  let listType = 'ul';
   let finalLines = [];
 
   for (let line of listLines) {
     const trimmed = line.trim();
-    if (trimmed.startsWith('- ') && !trimmed.includes('task-list-item')) {
-      if (!inList) {
-        finalLines.push('<ul>');
+    const isUnordered = /^[-*+]\s+/.test(trimmed) && !trimmed.includes('task-list-item');
+    const isOrdered = /^\d+\.\s+/.test(trimmed);
+
+    if (isUnordered || isOrdered) {
+      const targetType = isUnordered ? 'ul' : 'ol';
+      if (!inList || listType !== targetType) {
+        if (inList) finalLines.push(`</${listType}>`);
+        finalLines.push(`<${targetType}>`);
         inList = true;
+        listType = targetType;
       }
-      finalLines.push(`<li>${trimmed.substring(2)}</li>`);
+      const itemText = isUnordered 
+        ? trimmed.replace(/^[-*+]\s+/, '') 
+        : trimmed.replace(/^\d+\.\s+/, '');
+      finalLines.push(`<li>${itemText}</li>`);
     } else {
       if (inList && !trimmed.includes('task-list-item')) {
-        finalLines.push('</ul>');
+        finalLines.push(`</${listType}>`);
         inList = false;
       }
       if (trimmed.length > 0 && 
@@ -194,7 +204,7 @@ function simpleMarkdownToHtml(md, domain) {
     }
   }
   if (inList) {
-    finalLines.push('</ul>');
+    finalLines.push(`</${listType}>`);
   }
 
   html = finalLines.join('\n');
@@ -519,6 +529,7 @@ function buildSite() {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../assets/style.css">
   ${canonicalUrl ? `<link rel="canonical" href="${canonicalUrl}">` : ''}
 </head>
@@ -528,10 +539,10 @@ function buildSite() {
       <a href="../index.html" class="brand">VIZIER</a>
       <div class="day-badge" id="day-badge">${universeBadgeText}</div>
     </header>
-    <nav>
-      <a href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain</a>
+    <nav style="margin-bottom: 24px;">
+      <a href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain Graph</a>
     </nav>
-    <main style="margin-top: 20px;">
+    <main>
       ${contentHtml}
     </main>
   </div>
@@ -606,13 +617,19 @@ function buildSite() {
       noteMeta.title || noteSlug,
       siteConfig.canonical_url ? `${siteConfig.canonical_url}/notes/${noteSlug}.html` : '',
       `
-      <a href="../index.html" class="back-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-right:4px;"><polyline points="15 18 9 12 15 6"/></svg>
-        Back to Brain
-      </a>
-      <article>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px;">
+        <a href="../index.html" class="back-btn" style="margin-bottom:0;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="margin-right:6px;"><polyline points="15 18 9 12 15 6"/></svg>
+          Back to Brain
+        </a>
+        <a href="../index.html?note=${noteSlug}" class="btn-open-app" style="text-decoration:none; padding:7px 14px; border-radius:6px; font-size:0.78rem; font-weight:600; background:rgba(62,226,226,0.15); border:1px solid rgba(62,226,226,0.4); color:var(--accent-bright); display:inline-flex; align-items:center; transition:all 0.2s ease;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="margin-right:6px;"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          Open in App Reader ⚡
+        </a>
+      </div>
+      <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>${noteMeta.title || noteSlug}</h1>
-        <div class="metadata-row">
+        <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
           <span class="tag status-badge status-${(noteMeta.status || 'dark').toLowerCase()}">${(noteMeta.status || 'dark').toUpperCase()}</span>
           <span class="tag">Domain: ${noteMeta.domain || 'none'}</span>
           <span class="tag">v${noteMeta.version || '0.1.0'}</span>
@@ -620,7 +637,7 @@ function buildSite() {
           <span class="tag">Revisions: ${noteMeta.revisions !== undefined ? noteMeta.revisions : 0}</span>
           ${noteMeta.status === 'lit' && noteMeta.lit_date ? `<span class="tag lit-date-badge">Lit on ${noteMeta.lit_date}</span>` : ''}
         </div>
-        <div class="note-body">
+        <div class="note-body md">
           ${noteBodyHtml}
         </div>
       </article>

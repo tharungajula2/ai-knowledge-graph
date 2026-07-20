@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../assets/style.css">
   
 </head>
@@ -16,18 +17,24 @@
       <a href="../index.html" class="brand">VIZIER</a>
       <div class="day-badge" id="day-badge">UNIVERSE 01 · AI ENGINEERING</div>
     </header>
-    <nav>
-      <a href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain</a>
+    <nav style="margin-bottom: 24px;">
+      <a href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain Graph</a>
     </nav>
-    <main style="margin-top: 20px;">
+    <main>
       
-      <a href="../index.html" class="back-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-right:4px;"><polyline points="15 18 9 12 15 6"/></svg>
-        Back to Brain
-      </a>
-      <article>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px;">
+        <a href="../index.html" class="back-btn" style="margin-bottom:0;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="margin-right:6px;"><polyline points="15 18 9 12 15 6"/></svg>
+          Back to Brain
+        </a>
+        <a href="../index.html?note=portfolio-integration" class="btn-open-app" style="text-decoration:none; padding:7px 14px; border-radius:6px; font-size:0.78rem; font-weight:600; background:rgba(62,226,226,0.15); border:1px solid rgba(62,226,226,0.4); color:var(--accent-bright); display:inline-flex; align-items:center; transition:all 0.2s ease;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="margin-right:6px;"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          Open in App Reader ⚡
+        </a>
+      </div>
+      <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Portfolio Integration</h1>
-        <div class="metadata-row">
+        <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
           <span class="tag status-badge status-ghost">GHOST</span>
           <span class="tag">Domain: frontier-capstone</span>
           <span class="tag">v0.1.0</span>
@@ -35,7 +42,7 @@
           <span class="tag">Revisions: 0</span>
           
         </div>
-        <div class="note-body">
+        <div class="note-body md">
           
 
 <!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
