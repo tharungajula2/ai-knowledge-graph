@@ -1,67 +1,62 @@
 # VIZIER 🧠
 
-VIZIER is an interactive knowledge brain dedicated exclusively to **Mastering AI Engineering**, organized around learning universes. Rather than a generic reactive chatbot, it is built as a highly structured personal knowledge graph that grows node-by-node, tracing a rigorous path from deep foundations to the frontier edge.
+VIZIER is an interactive knowledge brain dedicated exclusively to **Mastering AI Engineering**. It is built as a highly structured personal knowledge graph that grows node-by-node, tracing a rigorous path across 228 curriculum nodes across 10 AI domains.
 
 Every published note is subjected to VIZIER's **Gates of Honesty** to ensure rigorous, evidence-based learning:
 1. **Cited**: Every factual claim links directly to primary sources, specifications, or core research papers.
-2. **Challenged**: Every note contains a mandatory section highlighting limits, trade-offs, or potential ways the claims could be incorrect to prevent confirmation bias.
+2. **Challenged**: Every note contains a mandatory section highlighting limits, trade-offs, or potential failure modes.
 
 ---
 
 ## 🗺️ Workspace Directory Layout
 
-The workspace is organized to prioritize learning first, keeping operational systems isolated and frozen:
+The workspace is organized into a clean, intuitive layout:
 
 ```text
 vizier-ai/
-├── brain/               # The heart: markdown learning notes grouped by domain
-├── curriculum/          # Living node-graph syllabus (VIZIER_MASTERY_GRAPH.md & curriculum.json)
-├── site/                # Public D3 visualizer frontend (deployed to Vercel)
-├── posts/               # Content archives and LinkedIn/Twitter draft posts
-├── tools/               # Build pipelines, indexers, AI replanning and scan scripts
-├── docs/                # System specifications, deployment guides, and daily runbooks
-└── _local-secrets/      # Gitignored local credentials, API tokens, and configurations
+├── README.md                # Project introduction & quickstart
+├── VIZIER_OWNERS_MANUAL.md  # Definitive operator manual & single-command guide
+├── PROJECT_TRUTH_vizierai.md# Technical specification & system architecture
+├── CURRICULUM_FULL.md       # Complete 228-node curriculum map
+├── notes/                   # 228 Markdown learning notes in 10 domain folders
+│   ├── 01-foundations/      # 01-01-map-of-ai.md to 01-24-capstone-foundations.md
+│   ├── 02-prompting-apis/   # 02-01-prompt-skeleton.md ...
+│   ├── 03-rag-retrieval/    # 03-01-why-rag.md ...
+│   ├── 04-agents/           # 04-01-what-makes-an-agent.md ...
+│   ├── 05-multi-agent-mcp/  # 05-01-when-many-beats-one.md ...
+│   ├── 06-memory-knowledge/ # 06-01-memory-architectures.md ...
+│   ├── 07-evals-observability/# 07-01-why-evals-rule.md ...
+│   ├── 08-safety-security/  # 08-01-agent-threat-model.md ...
+│   ├── 09-production/       # 09-01-build-fastapi-backend.md ...
+│   └── 10-frontier-capstone/# 10-01-local-models.md ...
+├── curriculum/              # Living node-graph syllabus & locked ledger (.locked/)
+├── site/                    # Public D3 visualizer & Library frontend (Vercel output)
+├── tools/                   # Build scripts, note validator & sync-note CLI
+└── docs/                    # System runbooks & historical reports
 ```
 
 ---
 
-## 🚀 Local Quickstart Guide
+## 🚀 Quickstart & One-Command Sync Ritual
 
-### 1. Prerequisites & Setup
-Ensure you have **Node.js** (v18+) installed. Clone the repository and install the development dependencies:
+### 1. Daily Note Writing Workflow
+Open the note file inside `notes/<domain-folder>/` (e.g. `notes/01-foundations/01-02-how-machines-learn.md`).
+Paste your masterclass notes or build documentation below line 19 (`<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE... -->`).
+
+### 2. Single-Command Sync & Deploy
+In your terminal, run **one command**:
 
 ```bash
-# Clone the repository
-git clone https://github.com/tharungajula2/vizier-ai.git
-cd vizier-ai
+# To sync progress, validate notes, build brain, commit, and push to GitHub:
+npm run sync
 
-# Install root dependencies
-npm install
+# To mark active note as MASTERED & LIT:
+npm run light
 ```
-
-### 2. Configure Local Secrets
-Keep all secrets isolated outside the source code tree. Set up the `_local-secrets/` structure:
-1. Create a `_local-secrets/.env` file containing your private API credentials:
-   ```ini
-   GEMINI_API_KEY="your-gemini-key-here"
-   ```
-
-### 3. Run Build and Validation Scripts
-Run the compiler scripts to scan your markdown notes, calculate network connections, and compile static web assets:
-```bash
-# Compile nodes, update visualizer index, and render markdown files to HTML pages
-npm run build-brain
-```
-
-### 4. Run the Visualizer Locally
-To view the visualizer locally:
-```bash
-# Start the local web server serving the interactive site
-npm run serve
-```
-Open **`http://localhost:8080`** in your browser.
 
 ---
 
-## 🛠️ The Operational Runbook
-For complete instructions on daily learning, content pipeline schedules, and automated curriculum replanning, see [docs/DAILY_RITUAL.md](docs/DAILY_RITUAL.md). For hosting instructions, see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+## 🛠️ Detailed Documentation
+- **[VIZIER_OWNERS_MANUAL.md](VIZIER_OWNERS_MANUAL.md)** — Step-by-step owner's guide and workflow cheat sheet.
+- **[PROJECT_TRUTH_vizierai.md](PROJECT_TRUTH_vizierai.md)** — Architectural specification, tech stack, and feature state.
+- **[CURRICULUM_FULL.md](CURRICULUM_FULL.md)** — Complete 228-node curriculum reference.

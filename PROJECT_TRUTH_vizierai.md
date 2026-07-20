@@ -1,5 +1,5 @@
 # Vizier — PROJECT TRUTH
-Last verified: July 20, 2026, from the active codebase on `main` (merged from `ignition`).
+Last verified: July 20, 2026, from the active codebase on `main`.
 
 ## 1. One-liner
 A self-rewiring interactive curriculum map and notes textbook for mastering AI engineering.
@@ -20,6 +20,7 @@ The project has one part: a static web client displaying an interactive D3 graph
 | :--- | :--- | :--- |
 | **Visualizer & Library** | HTML5, JavaScript (Vanilla ES6), D3.js, SVG, Canvas, CSS | Renders interactive concentric/galaxy graph, Library list/grid, inspector panel, search, gamification UI. |
 | **Build Pipeline** | Node.js | Compiles curriculum markdown → JSON indexes & static HTML notes, parses notes/wikilinks, validates schema/content integrity. |
+| **Automated Sync Tool** | Node.js CLI (`tools/sync-note.js`) | One-command sync (`npm run sync` / `npm run light`) updating frontmatter, running validation, building, committing, and pushing to GitHub. |
 | **In-App Reader** | HTML5, CSS3, Local `highlight.js` | Mobile-first reader overlay with syntax highlighting, copy-code buttons, scrollable code/tables, and `[[wikilink]]` routing. |
 | **Styling** | Vanilla CSS (glassmorphism, dark HSL palette) | Mobile-first 375px responsive dark cosmic theme. |
 | **Deployment** | Vercel (static) | Builds via `npm run build-brain`, serves `site/` as output directory. |
@@ -29,10 +30,10 @@ The project has one part: a static web client displaying an interactive D3 graph
 * **Concentric Ring / Galaxy Graph**: A physics-based D3 visualization mapping 10 domains and 228 nodes with two layout modes (concentric rings with orbital spin, force-directed galaxy), zoom/pan, hover tooltips, and click-to-inspect.
 * **Library View & View Toggle**: Dual-mode engine (`Graph | Library`) with instant graph state preservation. Features progress dashboard, hero "Continue" chapter card, multi-faceted filtering (status, domain, type, ring, size), 5 sorting modes, and touch-friendly 48px+ scannable node rows.
 * **In-App Note Reader**: Mobile-first overlay / desktop panel rendering GitHub-flavored Markdown. Includes offline `highlight.js` syntax highlighting, copy-code buttons, scrollable code blocks/tables, and interactive `[[wikilink]]` navigation.
-* **Strict 1-to-1 Note Architecture**: 228 markdown note files in `notes/` strictly matching curriculum node IDs 1-to-1 (`<node-id>.md`).
+* **10-Domain Notes Structure**: 228 markdown note files organized in 10 domain subdirectories (`notes/01-foundations/` to `notes/10-frontier-capstone/`) numbered domain-wise and chapter-wise (`DD-CC-node-id.md`).
 * **YAML Frontmatter Schema & Guard Rails**: Schema enforcing `id`, `title`, `domain`, `ring`, `type`, `size`, `status` (dark/charging/lit), `version`, `created`, `updated`, `lit_date`, `revisions`, `artifact`, `wikilinks`, `tags`. Build fails loudly via `tools/validate-notes.js` and `tools/site-build/compile-curriculum.js` if any lit node lacks substantive content (Empty-Lit Guard).
 * **Wikilink & Backlink Engine**: The build compiler (`tools/site-build/compile-curriculum.js`) crawls markdown notes, extracts `[[wikilinks]]`, and generates bidirectional edges and backlink lists for the graph inspector and note reader.
-* **Note-Driven Status Automation**: Node status transitions automatically — dark (planned) → charging (pasted/in-progress) → lit (mastered). Status is derived from note frontmatter at build time. Lit nodes are locked and immutable (`curriculum/.locked/<node-id>.json`).
+* **Single-Command Note Sync & Deployment**: `npm run sync` and `npm run light` automate metadata updates, build execution, git commit, and GitHub push.
 * **XP & Level System**: XP computed per lit node by size (S=10, M=25, L=50, capstone=100). Level bar in left panel (1000 XP/level) with titles: Apprentice → Journeyman → Engineer → Architect → Vizier.
 * **Streak Flame**: Daily streak counter with current and best-ever display, driven by git commit/build history.
 * **Boss Nodes**: 10 domain capstone nodes render with a distinct glow and trigger celebration particle physics on first light.
@@ -42,7 +43,7 @@ The project has one part: a static web client displaying an interactive D3 graph
 
 ## 6. Frontmatter Schema & Lighting Rules
 
-Every note file in `notes/<node-id>.md` MUST conform to this frontmatter schema:
+Every note file in `notes/<domain-folder>/<DD>-<CC>-<node-id>.md` MUST conform to this frontmatter schema:
 
 ```yaml
 ---
@@ -65,33 +66,25 @@ tags: [<domain>]
 ```
 
 ### Lighting Rules
-1. **Dark (Default)**: Note contains frontmatter shell and HTML comment comment line `<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE... -->`. Node renders dim on graph/library.
+1. **Dark (Default)**: Note contains frontmatter shell and HTML comment line `<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE... -->`. Node renders dim on graph/library.
 2. **Charging**: Masterclass note content pasted below the HTML comment. `status` set to `charging`. Version bumped to `0.2.0`. Node pulses on graph and shows CHARGING badge in Library.
 3. **Lit (Mastered)**: Mastery verified, explanation written, artifact built (if build type). `status` set to `lit`, `completed: YYYY-MM-DD`, `lit_date: YYYY-MM-DD`, `version: 1.0.0`.
 4. **Empty-Lit Guard**: The build pipeline (`tools/validate-notes.js` and `compile-curriculum.js`) enforces that any note with `status: lit` MUST have at least 3 non-comment, non-heading lines of 20+ characters. If an empty lit node is found, the build fails immediately with exit code 1.
 5. **Immutability Lock**: On first light, `compile-curriculum.json` creates a JSON snapshot in `curriculum/.locked/<node-id>.json`. Any attempt to alter node metadata or downgrade a lit node causes build failure.
 
-## 7. The Paste Ritual
+## 7. The Single-Command Paste Ritual
 
 To light a node during learning sessions:
-1. Open the note file: `notes/<node-id>.md`.
+1. Open the note file: `notes/<01-10-domain>/<DD>-<CC>-<node-id>.md`.
 2. Paste the complete masterclass text directly below line 19 (`<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE... -->`).
-3. Set `status: charging` (if currently studying/editing) or `status: lit` (if mastered).
-4. Update frontmatter dates: `updated: YYYY-MM-DD`, `completed: YYYY-MM-DD`, `lit_date: YYYY-MM-DD`.
-5. Bump `version` (e.g. `0.2.0` for charging, `1.0.0` for lit) and increment `revisions`.
-6. Run the build command:
+3. Run **one command** in terminal:
    ```bash
-   npm run build-brain
+   npm run sync
    ```
-7. Verify build output (`validate-notes PASSED`, zero errors).
-8. Commit and deploy:
-   ```bash
-   git add .
-   git commit -m "learn(<domain>): light <node-id>"
-   git push origin main
-   ```
+   *(or `npm run light` to mark as mastered and lit immediately)*.
+4. The tool automatically validates, builds the brain, commits to Git, and pushes to GitHub/Vercel.
 
-## 8. Feature status table
+## 8. Feature Status Table
 
 | Feature | Status | Evidence / File Path |
 | :--- | :--- | :--- |
@@ -100,10 +93,11 @@ To light a node during learning sessions:
 | **In-App Note Reader** | SHIPPED | `site/index.html` — `#insp` overlay, Markdown renderer, wikilink router. |
 | **Offline Syntax Highlighting** | SHIPPED | `site/assets/highlight.min.js`, `site/assets/highlight.min.css` — bundled syntax highlighting. |
 | **Note Validation Guard Rails** | SHIPPED | `tools/validate-notes.js`, `tools/site-build/compile-curriculum.js` — Empty-Lit Guard & 1-to-1 check. |
-| **1-to-1 Curriculum Notes System** | SHIPPED | `notes/*.md` — 228 markdown note files strictly mapped 1-to-1 to curriculum. |
+| **10-Domain Notes System** | SHIPPED | `notes/01-foundations/` to `10-frontier-capstone/` — 228 markdown notes in 10 domain folders. |
+| **One-Command Auto Sync & Commit** | SHIPPED | `tools/sync-note.js` (`npm run sync` / `npm run light`) — auto metadata, validation, build, git commit & push. |
 | **Wikilink & Backlink Parser** | SHIPPED | `tools/site-build/compile-curriculum.js` — `[[wikilink]]` extraction and edge compiler. |
 | **Note-Driven Status Automation** | SHIPPED | `tools/site-build/compile-curriculum.js` — reads `status`/`lit_date` frontmatter fields. |
-| **Structured Notes Template & Guide** | SHIPPED | `notes/TEMPLATE.md`, `NOTES_GUIDE.md` — paste ritual & frontmatter specification. |
+| **Structured Notes Template & Guide** | SHIPPED | `notes/TEMPLATE.md`, `docs/NOTES_GUIDE.md` — paste ritual & frontmatter specification. |
 | **XP & Level System** | SHIPPED | `site/index.html` — level progress bar, XP counter, rank titles. |
 | **Streak Flame** | SHIPPED | `site/index.html` — streak calculation and flame UI display. |
 | **Boss Node Glow** | SHIPPED | `site/index.html` — capstone nodes render with glow filter & particle burst. |
@@ -128,16 +122,7 @@ To light a node during learning sessions:
   * **XP / Level**: 10 XP, Level 1 (Apprentice). Progress accumulates strictly from real note completion.
   * **Streaks**: Current streak is calculated from real commit history.
 
-## 10. Curriculum philosophy & graph design
-* **Nodes, Not Calendars**: The graph is independent of rigid dates. Progress is asymmetric and honestly tracked.
-* **Node Life-Cycle States**:
-  * **Dark (Ghost)**: Planned. Dim node on graph/library.
-  * **Charging**: In progress. Note content pasted, status: charging, pulsing graph node.
-  * **Lit**: Mastered. Content verified, locked in `curriculum/.locked/`. Immutable.
-* **The 10 Permanent Domains**: Foundations, Prompting & APIs, RAG & Retrieval, Agents, Multi-Agent & MCP, Memory & Knowledge, Evals & Observability, Safety & Security, Production, Frontier & Capstone.
-* **228 Nodes**: 1-to-1 mapping with `notes/<node-id>.md`.
-
-## 11. Full curriculum map
+## 10. Full Curriculum Map
 The complete 228-node curriculum (all 10 domains, every cluster, node ID, type, size, summary, and edge wiring) lives in:
 
 → **[CURRICULUM_FULL.md](CURRICULUM_FULL.md)** (repo root)
