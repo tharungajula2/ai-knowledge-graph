@@ -533,7 +533,7 @@ function buildSite() {
   <link rel="stylesheet" href="../assets/style.css">
   ${canonicalUrl ? `<link rel="canonical" href="${canonicalUrl}">` : ''}
 </head>
-<body>
+<body class="standalone-page">
   <div class="container">
     <header>
       <a href="../index.html" class="brand">VIZIER</a>
