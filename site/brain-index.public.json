@@ -495,7 +495,7 @@
       "lit_date": null,
       "note_revisions": 0,
       "revisions": 0,
-      "has_content": false
+      "has_content": true
     },
     {
       "id": "python-data-shapes",
@@ -621,7 +621,12 @@
       "size": "S",
       "status": "ghost",
       "summary": "branches, commits, history — understand my own daily ritual.",
-      "backlinks": [],
+      "backlinks": [
+        {
+          "id": "python-environments",
+          "title": "Environments & Packages"
+        }
+      ],
       "slug": "git-mastery",
       "started": null,
       "completed": null,
@@ -648,7 +653,12 @@
       "size": "S",
       "status": "ghost",
       "summary": "navigate, pipe, grep — no more fear.",
-      "backlinks": [],
+      "backlinks": [
+        {
+          "id": "python-environments",
+          "title": "Environments & Packages"
+        }
+      ],
       "slug": "terminal-fluency",
       "started": null,
       "completed": null,
@@ -675,7 +685,12 @@
       "size": "M",
       "status": "ghost",
       "summary": "Build a modular package using typing conventions, unit tests with pytest, execution profiling, and metadata packaging; verify with test passes.",
-      "backlinks": [],
+      "backlinks": [
+        {
+          "id": "python-environments",
+          "title": "Environments & Packages"
+        }
+      ],
       "slug": "python-craft-professional",
       "started": null,
       "completed": null,
@@ -6544,6 +6559,36 @@
       "type": "containment"
     },
     {
+      "source": "python-environments",
+      "target": "terminal-fluency",
+      "type": "wikilink"
+    },
+    {
+      "source": "python-environments",
+      "target": "git-mastery",
+      "type": "wikilink"
+    },
+    {
+      "source": "python-environments",
+      "target": "python-craft-professional",
+      "type": "wikilink"
+    },
+    {
+      "source": "python-environments",
+      "target": "terminal-fluency",
+      "type": "wikilink"
+    },
+    {
+      "source": "python-environments",
+      "target": "git-mastery",
+      "type": "wikilink"
+    },
+    {
+      "source": "python-environments",
+      "target": "python-craft-professional",
+      "type": "wikilink"
+    },
+    {
       "source": "domain-foundations",
       "target": "python-data-shapes",
       "type": "containment"
@@ -8690,13 +8735,13 @@
     }
   ],
   "metadata": {
-    "generated_at": "2026-07-20T10:23:16.769Z",
+    "generated_at": "2026-07-20T10:24:43.643Z",
     "plan_version": "1.0.0",
     "node_count": 228,
     "lit_count": 1,
     "charging_count": 2,
     "ghost_count": 225,
-    "edge_count": 469,
+    "edge_count": 475,
     "universe": {
       "number": 1,
       "codename": "AI ENGINEERING",

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updated_at": "2026-07-20T10:23:16.767Z",
+  "updated_at": "2026-07-20T10:24:43.641Z",
   "universe": {
     "number": 1,
     "codename": "AI ENGINEERING",
@@ -409,7 +409,7 @@
       "note_updated": "2026-07-20",
       "lit_date": null,
       "note_revisions": 0,
-      "has_content": false,
+      "has_content": true,
       "status": "ghost",
       "backlinks": []
     },
@@ -546,7 +546,12 @@
       "note_revisions": 0,
       "has_content": false,
       "status": "ghost",
-      "backlinks": []
+      "backlinks": [
+        {
+          "id": "python-environments",
+          "title": "Environments & Packages"
+        }
+      ]
     },
     {
       "id": "terminal-fluency",
@@ -573,7 +578,12 @@
       "note_revisions": 0,
       "has_content": false,
       "status": "ghost",
-      "backlinks": []
+      "backlinks": [
+        {
+          "id": "python-environments",
+          "title": "Environments & Packages"
+        }
+      ]
     },
     {
       "id": "python-craft-professional",
@@ -600,7 +610,12 @@
       "note_revisions": 0,
       "has_content": false,
       "status": "ghost",
-      "backlinks": []
+      "backlinks": [
+        {
+          "id": "python-environments",
+          "title": "Environments & Packages"
+        }
+      ]
     },
     {
       "id": "build-token-cost-calculator",
