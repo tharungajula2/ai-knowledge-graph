@@ -292,6 +292,28 @@ function compileCurriculum() {
     nodeMap[node.id] = node;
   }
   
+  // Recursive index of note files in notes/ and brain/knowledge/
+  const noteFileIndex = {};
+  function indexNotesDir(dir) {
+    if (!fs.existsSync(dir)) return;
+    for (const entry of fs.readdirSync(dir)) {
+      const full = path.join(dir, entry);
+      if (fs.statSync(full).isDirectory()) {
+        indexNotesDir(full);
+      } else if (entry.endsWith('.md')) {
+        const content = fs.readFileSync(full, 'utf-8');
+        const fm = parseFrontmatter(content);
+        const basename = path.basename(entry, '.md');
+        const id = fm.id || basename.replace(/^\d{2}-\d{2}-/, '');
+        if (id) {
+          noteFileIndex[id] = full;
+        }
+      }
+    }
+  }
+  indexNotesDir(path.join(repoRoot, 'brain', 'knowledge'));
+  indexNotesDir(path.join(repoRoot, 'notes'));
+
   // 1. Resolve note statuses, wikilinks, and validate locks
   const filesToExport = [];
   const nodeBacklinks = {};
@@ -302,13 +324,7 @@ function compileCurriculum() {
   const nodeWikilinks = {};
 
   for (const node of nodes) {
-    let notePath = path.join(repoRoot, 'brain', 'knowledge', node.domain, `${node.id}.md`);
-    if (!fs.existsSync(notePath)) {
-      const fallbackPath = path.join(repoRoot, 'notes', `${node.id}.md`);
-      if (fs.existsSync(fallbackPath)) {
-        notePath = fallbackPath;
-      }
-    }
+    let notePath = noteFileIndex[node.id] || path.join(repoRoot, 'notes', `${node.id}.md`);
     node.started = null;
     node.completed = null;
     let resolvedStatus = 'ghost';

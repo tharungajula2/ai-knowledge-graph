@@ -121,11 +121,14 @@ function validateNotes() {
   // 3. Check 1-to-1 Mapping & Duplicates
   const nodeToFileMap = new Map();
   for (const filePath of files) {
-    const filename = path.basename(filePath, '.md');
-    if (!nodeToFileMap.has(filename)) {
-      nodeToFileMap.set(filename, []);
+    const rawContent = fs.readFileSync(filePath, 'utf-8');
+    const fm = parseFrontmatter(rawContent);
+    const basename = path.basename(filePath, '.md');
+    const cleanId = fm.id || basename.replace(/^\d{2}-\d{2}-/, '');
+    if (!nodeToFileMap.has(cleanId)) {
+      nodeToFileMap.set(cleanId, []);
     }
-    nodeToFileMap.get(filename).push(filePath);
+    nodeToFileMap.get(cleanId).push(filePath);
   }
 
   // Check missing notes
@@ -154,13 +157,14 @@ function validateNotes() {
     const relPath    = path.relative(repoRoot, filePath);
     const rawContent = fs.readFileSync(filePath, 'utf-8');
     const fm         = parseFrontmatter(rawContent);
+    const cleanFilename = filename.replace(/^\d{2}-\d{2}-/, '');
 
     // ID Match
     if (!fm.id) {
       console.error(`  [ERROR] ${relPath}: Missing 'id' in frontmatter.`);
       errorCount++;
-    } else if (fm.id !== filename) {
-      console.error(`  [ERROR] ${relPath}: frontmatter id="${fm.id}" does not match filename "${filename}".`);
+    } else if (fm.id !== cleanFilename) {
+      console.error(`  [ERROR] ${relPath}: frontmatter id="${fm.id}" does not match filename "${cleanFilename}".`);
       errorCount++;
     }
 
