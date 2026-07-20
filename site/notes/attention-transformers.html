@@ -38,21 +38,17 @@
         <div class="note-body">
           
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
-<h1 id="attention-amp-transformer-architecture">Attention &amp; Transformer Architecture</h1>
+<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. --><h1 id="attention-amp-transformer-architecture">Attention &amp; Transformer Architecture</h1>
 
-<p>The <strong>Transformer</strong> architecture (Vaswani et al., 2017) revolutionized natural language processing by replacing recurrent neural networks (RNNs) with <strong>Self-Attention</strong> mechanisms.</p>
-<blockquote>"Attention is all you need: parallel processing of tokens across sequence dimensions unlocks scalable deep learning."</blockquote>
-<hr>
+<p>The <strong>Transformer</strong> architecture (Vaswani et al., 2017) revolutionized natural language processing by replacing recurrent neural networks (RNNs) with <strong>Self-Attention</strong> mechanisms.<blockquote>"Attention is all you need: parallel processing of tokens across sequence dimensions unlocks scalable deep learning."</blockquote><hr></p>
 <h2 id="1-scaled-dot-product-attention-formula">1. Scaled Dot-Product Attention Formula</h2>
 
 <p>The core scalar product equation mapping Query ($Q$), Key ($K$), and Value ($V$) matrices:</p>
 
-<p>$$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$</p>
-<h3>Attention Dimension Comparison</h3>
+<p>$$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$<h3>Attention Dimension Comparison</h3></p>
 
-<div class="table-wrapper"><table class="md-table"><thead><tr><th>Component</th><th>Matrix Shape</th><th>Description</th></tr></thead><tbody><tr><td><strong>Query (Q)</strong></td><td>$(B, T, d_k)$</td><td>Token target vectors searching for contextual focus</td></tr><tr><td><strong>Key (K)</strong></td><td>$(B, T, d_k)$</td><td>Sequence key vectors being queried</td></tr><tr><td><strong>Value (V)</strong></td><td>$(B, T, d_v)$</td><td>Token representation vectors aggregated by softmax weights</td></tr><tr><td><strong>Output</strong></td><td>$(B, T, d_v)$</td><td>Context-aware representations</td></tr></tbody></table></div>
-<hr>
+<div class="table-wrapper"><table class="md-table"><thead><tr><th>Component</th><th>Matrix Shape</th><th>Description</th></tr></thead><tbody><tr><td><strong>Query (Q)</strong></td><td>$(B, T, d_k)$</td><td>Token target vectors searching for contextual focus</td></tr><tr><td><strong>Key (K)</strong></td><td>$(B, T, d_k)$</td><td>Sequence key vectors being queried</td></tr><tr><td><strong>Value (V)</strong></td><td>$(B, T, d_v)$</td><td>Token representation vectors aggregated by softmax weights</td></tr></tbody></table></div>
+<p>| <strong>Output</strong> | $(B, T, d_v)$ | Context-aware representations |<hr></p>
 <h2 id="2-python-implementation-pytorch-self-attention-">2. Python Implementation (PyTorch Self-Attention)</h2>
 
 <p>Below is a clean single-head attention implementation with numerical stability checks:</p>
@@ -85,15 +81,8 @@ class ScaledDotProductAttention(nn.Module):
 # Instantiate for d_k = 64
 attn = ScaledDotProductAttention(d_k=64)
 print("Self-Attention module initialized successfully.")</code></pre>
-      </div>
-<hr>
-<h2 id="3-implementation-checklist">3. Implementation Checklist</h2>
-<p><li class="task-list-item task-checked"><input type="checkbox" checked disabled /> <span>Compute Q, K, V linear projections</span></li></p>
-<p><li class="task-list-item task-checked"><input type="checkbox" checked disabled /> <span>Apply scaling factor $\frac{1}{\sqrt{d_k}}$</span></li></p>
-<p><li class="task-list-item task-checked"><input type="checkbox" checked disabled /> <span>Implement causal mask for autoregressive generation</span></li></p>
-<p><li class="task-list-item"><input type="checkbox" disabled /> <span>Implement Multi-Head Attention (MHA) concat layer</span></li></p>
-<p><li class="task-list-item"><input type="checkbox" disabled /> <span>Add rotary position embeddings (RoPE)</span></li></p>
-<hr>
+      </div><hr>
+<h2 id="3-implementation-checklist">3. Implementation Checklist</h2><li class="task-list-item task-checked"><input type="checkbox" checked disabled /> <span>Compute Q, K, V linear projections</span></li><li class="task-list-item task-checked"><input type="checkbox" checked disabled /> <span>Apply scaling factor $\frac{1}{\sqrt{d_k}}$</span></li><li class="task-list-item task-checked"><input type="checkbox" checked disabled /> <span>Implement causal mask for autoregressive generation</span></li><li class="task-list-item"><input type="checkbox" disabled /> <span>Implement Multi-Head Attention (MHA) concat layer</span></li><li class="task-list-item"><input type="checkbox" disabled /> <span>Add rotary position embeddings (RoPE)</span></li><hr>
 <h2 id="4-connections-amp-related-nodes">4. Connections &amp; Related Nodes</h2>
 
 <ul>
