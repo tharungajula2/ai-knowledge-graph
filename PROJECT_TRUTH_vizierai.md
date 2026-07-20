@@ -88,9 +88,10 @@ To light a node during learning sessions:
 
 | Feature | Status | Evidence / File Path |
 | :--- | :--- | :--- |
-| **D3 Graph Visualizer (rings + galaxy)** | SHIPPED | `site/index.html` — D3/SVG/Canvas interactive visualizer. |
-| **Library View Engine** | SHIPPED | `site/index.html` — `#library-view`, progress dashboard, continue hero card, filter/sort list. |
-| **In-App Note Reader** | SHIPPED | `site/index.html` — `#insp` overlay, Markdown renderer, wikilink router. |
+| **Modular Frontend Architecture** | SHIPPED | `site/css/styles.css`, `site/js/config.js`, `site/js/graph-engine.js`, `site/js/library-engine.js`, `site/js/note-reader.js`, `site/js/gamification.js`, `site/js/app.js`. |
+| **D3 Graph Visualizer (rings + galaxy)** | SHIPPED | `site/js/graph-engine.js` — D3/SVG/Canvas interactive concentric and force-directed visualizer. |
+| **Library View Engine** | SHIPPED | `site/js/library-engine.js` — `#library-view`, progress dashboard, continue hero card, filter/sort list. |
+| **In-App Note Reader** | SHIPPED | `site/js/note-reader.js` — `#insp` overlay, Marked renderer, highlight.js syntax highlighting, wikilink router. |
 | **Offline Syntax Highlighting** | SHIPPED | `site/assets/highlight.min.js`, `site/assets/highlight.min.css` — bundled syntax highlighting. |
 | **Note Validation Guard Rails** | SHIPPED | `tools/validate-notes.js`, `tools/site-build/compile-curriculum.js` — Empty-Lit Guard & 1-to-1 check. |
 | **10-Domain Notes System** | SHIPPED | `notes/01-foundations/` to `10-frontier-capstone/` — 228 markdown notes in 10 domain folders. |
