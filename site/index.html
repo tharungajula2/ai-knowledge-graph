@@ -396,22 +396,42 @@
     /* Live mode (ghosts faint) */
     body.live-mode .node.ghost { opacity: 0.12; }
     body.live-mode .node.ghost circle, body.live-mode .node.ghost polygon { stroke: rgba(255,255,255,0.06); stroke-width: 0.8px; filter: none !important; }
-    body.live-mode .node.charging { opacity: 0.65; }
+    /* Charging: amber half-glow — clearly in-between ghost and lit */
+    body.live-mode .node.charging { opacity: 0.72; }
+    body.live-mode .node.charging circle, body.live-mode .node.charging polygon {
+      stroke: rgba(246, 173, 85, 0.55);
+      stroke-width: 1.4px;
+      stroke-dasharray: 4 2;
+      filter: drop-shadow(0 0 5px rgba(246,173,85,0.4));
+    }
     body.live-mode .node.lit { opacity: 1.0; }
 
     /* Vision mode (all visible) */
     body.vision-mode .node.ghost { opacity: 0.65; }
     body.vision-mode .node.ghost circle, body.vision-mode .node.ghost polygon { stroke: rgba(255,255,255,0.25); stroke-width: 1.0px; filter: none !important; }
-    body.vision-mode .node.charging { opacity: 0.85; }
+    /* Charging in vision mode: same amber accent but more visible */
+    body.vision-mode .node.charging { opacity: 0.88; }
+    body.vision-mode .node.charging circle, body.vision-mode .node.charging polygon {
+      stroke: rgba(246, 173, 85, 0.6);
+      stroke-width: 1.5px;
+      stroke-dasharray: 4 2;
+    }
     body.vision-mode .node.lit { opacity: 1.0; }
 
     /* Common node animations */
+    /* Charging: amber dashed-ring slow pulse — distinct from ghost AND lit */
     .node.charging circle, .node.charging polygon {
-      animation: heartbeat 2.5s infinite ease-in-out;
+      animation: charging-pulse 3.0s infinite ease-in-out;
     }
-    @keyframes heartbeat {
-      0%, 100% { transform: scale(0.93); opacity: 0.45; filter: drop-shadow(0 0 1px var(--node-glow, var(--bright))); }
-      50% { transform: scale(1.07); opacity: 0.8; filter: drop-shadow(0 0 7px var(--node-glow, var(--bright))); }
+    @keyframes charging-pulse {
+      0%, 100% {
+        stroke-dashoffset: 0;
+        filter: drop-shadow(0 0 2px rgba(246,173,85,0.3));
+      }
+      50% {
+        stroke-dashoffset: 12;
+        filter: drop-shadow(0 0 9px rgba(246,173,85,0.75));
+      }
     }
     .node.lit circle, .node.lit polygon {
       stroke: #fff;
@@ -820,6 +840,7 @@
     <div class="ctrl-label">Brain Stats</div>
     <div class="stats-box" id="stats">
       <div class="stat-row"><span>Nodes</span><span id="st-nodes">—</span></div>
+      <div class="stat-row"><span>Lit</span><span id="st-lit">0 / 0</span></div>
       <div class="stat-row"><span>Edges</span><span id="st-edges">—</span></div>
       <div class="stat-row"><span>FPS</span><span id="st-fps">60</span></div>
     </div>
@@ -1182,6 +1203,9 @@ function loadData(src) {
     
     const litCount = data.nodes.filter(n => n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length;
     const totalCount = data.metadata ? (data.metadata.node_count ?? 228) : 228;
+    // Update lit stat in HUD
+    const stLit = document.getElementById('st-lit');
+    if (stLit) stLit.textContent = `${litCount} / ${totalCount}`;
     const isUniverseComplete = litCount === totalCount || (data.metadata && data.metadata.universe && data.metadata.universe.status === 'complete');
 
     if (isUniverseComplete) {
