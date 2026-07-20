@@ -319,7 +319,12 @@
       "size": "S",
       "status": "ghost",
       "summary": "the model's short-term memory and what fits.",
-      "backlinks": [],
+      "backlinks": [
+        {
+          "id": "python-async",
+          "title": "Async/Await"
+        }
+      ],
       "slug": "context-windows",
       "started": null,
       "completed": null,
@@ -545,7 +550,12 @@
       "size": "S",
       "status": "charging",
       "summary": "reading real codebases.",
-      "backlinks": [],
+      "backlinks": [
+        {
+          "id": "python-async",
+          "title": "Async/Await"
+        }
+      ],
       "slug": "python-classes-modules",
       "started": null,
       "completed": null,
@@ -581,7 +591,7 @@
       "lit_date": null,
       "note_revisions": 0,
       "revisions": 0,
-      "has_content": false
+      "has_content": true
     },
     {
       "id": "python-typing-pydantic",
@@ -689,6 +699,10 @@
         {
           "id": "python-classes-modules",
           "title": "Classes & Modules"
+        },
+        {
+          "id": "python-async",
+          "title": "Async/Await"
         }
       ],
       "slug": "python-craft-professional",
@@ -6619,6 +6633,36 @@
       "type": "dependency"
     },
     {
+      "source": "python-async",
+      "target": "python-classes-modules",
+      "type": "wikilink"
+    },
+    {
+      "source": "python-async",
+      "target": "python-craft-professional",
+      "type": "wikilink"
+    },
+    {
+      "source": "python-async",
+      "target": "context-windows",
+      "type": "wikilink"
+    },
+    {
+      "source": "python-async",
+      "target": "python-classes-modules",
+      "type": "wikilink"
+    },
+    {
+      "source": "python-async",
+      "target": "python-craft-professional",
+      "type": "wikilink"
+    },
+    {
+      "source": "python-async",
+      "target": "context-windows",
+      "type": "wikilink"
+    },
+    {
       "source": "domain-foundations",
       "target": "python-typing-pydantic",
       "type": "containment"
@@ -8735,13 +8779,13 @@
     }
   ],
   "metadata": {
-    "generated_at": "2026-07-20T11:55:09.032Z",
+    "generated_at": "2026-07-20T12:59:21.192Z",
     "plan_version": "1.0.0",
     "node_count": 228,
     "lit_count": 0,
     "charging_count": 1,
     "ghost_count": 227,
-    "edge_count": 475,
+    "edge_count": 481,
     "universe": {
       "number": 1,
       "codename": "AI ENGINEERING",

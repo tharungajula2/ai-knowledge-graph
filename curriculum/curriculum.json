@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updated_at": "2026-07-20T11:55:09.030Z",
+  "updated_at": "2026-07-20T12:59:21.190Z",
   "universe": {
     "number": 1,
     "codename": "AI ENGINEERING",
@@ -246,7 +246,12 @@
       "note_revisions": 0,
       "has_content": false,
       "status": "ghost",
-      "backlinks": []
+      "backlinks": [
+        {
+          "id": "python-async",
+          "title": "Async/Await"
+        }
+      ]
     },
     {
       "id": "sampling-controls",
@@ -470,7 +475,12 @@
       "note_revisions": 0,
       "has_content": true,
       "status": "charging",
-      "backlinks": []
+      "backlinks": [
+        {
+          "id": "python-async",
+          "title": "Async/Await"
+        }
+      ]
     },
     {
       "id": "python-async",
@@ -495,7 +505,7 @@
       "note_updated": "2026-07-20",
       "lit_date": null,
       "note_revisions": 0,
-      "has_content": false,
+      "has_content": true,
       "status": "ghost",
       "backlinks": []
     },
@@ -614,6 +624,10 @@
         {
           "id": "python-classes-modules",
           "title": "Classes & Modules"
+        },
+        {
+          "id": "python-async",
+          "title": "Async/Await"
         }
       ]
     },
