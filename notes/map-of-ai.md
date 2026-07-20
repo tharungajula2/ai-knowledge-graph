@@ -2,13 +2,18 @@
 id: map-of-ai
 title: "The Map of AI"
 domain: foundations
-cluster: "How AI Works"
-status: in-progress
-started: 2026-07-14
-completed: null
-plan_version: 1.0.0
-tags: []
-links: []
+ring: 1
+type: concept
+size: S
+status: charging
+version: 0.1.0
+created: 2026-07-14
+updated: 2026-07-20
+lit_date: null
+revisions: 0
+artifact: null
+wikilinks: []
+tags: [foundations]
 ---
 
 ## ELI5

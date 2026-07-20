@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Failure Drills & Rollback Protocols — VIZIER Living Brain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="../index.html" class="brand">VIZIER</a>
+      <div class="day-badge" id="day-badge">UNIVERSE 01 · AI ENGINEERING</div>
+    </header>
+    <nav>
+      <a href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg> Brain</a>
+    </nav>
+    <main style="margin-top: 20px;">
+      
+      <a href="../index.html" class="back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-right:4px;"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Brain
+      </a>
+      <article>
+        <h1>Failure Drills & Rollback Protocols</h1>
+        <div class="metadata-row">
+          <span class="tag">Domain: production</span>
+          <span class="tag">Confidence: high</span>
+          <span class="tag">Class: note</span>
+        </div>
+        <div class="note-body">
+          
+
+<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+
+        </div>
+      </article>
+      
+    </main>
+  </div>
+  <script>
+    fetch('../brain-index.public.json')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && data.metadata && data.metadata.universe) {
+          const u = data.metadata.universe;
+          const badge = document.getElementById('day-badge');
+          if (badge) {
+            const litCount = data.nodes ? data.nodes.filter(n => n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length : 0;
+            const totalCount = data.metadata.node_count ?? 228;
+            if (u.status === 'complete' || litCount === totalCount) {
+              badge.textContent = 'UNIVERSE 01 · COMPLETE';
+            } else {
+              badge.textContent = u.title.split(' — ')[0].toUpperCase() + ' · ' + u.codename.toUpperCase();
+            }
+          }
+        }
+      }).catch(() => {});
+  </script>
+</body>
+</html>

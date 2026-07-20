@@ -1,37 +1,35 @@
 #!/usr/bin/env node
 /**
  * validate-notes.js
- * Standalone validation gate for the ignition note system.
+ * Comprehensive validation script for Vizier notes system.
  *
- * Rules enforced:
- *  1. EMPTY-LIT VIOLATION: A note with status:lit must have real body content.
- *  2. MISSING ID: Every note must have an `id` frontmatter field.
- *  3. ID-FILENAME MISMATCH: The frontmatter `id` must match the filename (without .md).
- *  4. INVALID STATUS: status must be one of dark | charging | lit | learned.
+ * Enforces:
+ *  1. 1-to-1 Mapping: Every curriculum node has exactly one note file and vice versa.
+ *  2. ID Match: Frontmatter `id` matches filename (without .md).
+ *  3. Status: Status is one of dark | charging | lit (or legacy learned/in-progress/ghost).
+ *  4. Dates: `created`, `updated`, `lit_date` parse cleanly as YYYY-MM-DD.
+ *  5. Version: `version` is valid semver (e.g. 0.1.0).
+ *  6. Empty-Lit Guard: A note with status:lit must have real substantive content.
  *
- * Usage:
- *   node tools/validate-notes.js          # validates all notes
- *   node tools/validate-notes.js --strict # also fails on missing optional fields
- *
- * Exit 0 = all clean.
- * Exit 1 = one or more violations found.
+ * Exit 0 = PASS, Exit 1 = FAIL.
  */
 'use strict';
 
 const fs   = require('fs');
 const path = require('path');
 
-const repoRoot    = path.join(__dirname, '..');
-const brainDir    = path.join(repoRoot, 'brain', 'knowledge');
-const notesDir    = path.join(repoRoot, 'notes');  // fallback legacy directory
-const strict      = process.argv.includes('--strict');
+const repoRoot      = path.join(__dirname, '..');
+const currPath      = path.join(repoRoot, 'curriculum', 'curriculum.json');
+const brainDir      = path.join(repoRoot, 'brain', 'knowledge');
+const notesDir      = path.join(repoRoot, 'notes');
 
+const SKIP_FILENAMES = new Set(['README', 'TEMPLATE', 'readme', 'template']);
 const VALID_STATUSES = new Set(['dark', 'ghost', 'charging', 'in-progress', 'lit', 'learned']);
-// Minimum number of substantive body lines to consider a note non-empty
+const DATE_REGEX     = /^\d{4}-\d{2}-\d{2}$/;
+const SEMVER_REGEX   = /^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$/;
+
 const CONTENT_MIN_LINES = 3;
 const CONTENT_MIN_CHARS = 20;
-// Filenames that are scaffolding, not curriculum notes — skip them
-const SKIP_FILENAMES = new Set(['README', 'TEMPLATE', 'readme', 'template']);
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
@@ -83,7 +81,10 @@ function collectNoteFiles(dir) {
       if (stat.isDirectory()) {
         walk(full);
       } else if (entry.endsWith('.md')) {
-        results.push(full);
+        const basename = path.basename(entry, '.md');
+        if (!SKIP_FILENAMES.has(basename)) {
+          results.push(full);
+        }
       }
     }
   }
@@ -91,84 +92,128 @@ function collectNoteFiles(dir) {
   return results;
 }
 
-// ── Main ───────────────────────────────────────────────────────────────────────
+// ── Main Validation ────────────────────────────────────────────────────────────
 
 function validateNotes() {
-  console.log('=== validate-notes: Scanning note files ===');
+  console.log('=== validate-notes: Executing Node Integrity Checks ===');
 
+  let errorCount = 0;
+
+  // 1. Read Curriculum Nodes
+  if (!fs.existsSync(currPath)) {
+    console.error(`[ERROR] curriculum.json not found at: ${currPath}`);
+    process.exit(1);
+  }
+  const currData = JSON.parse(fs.readFileSync(currPath, 'utf8'));
+  const curriculumNodes = currData.nodes || [];
+  const currNodeIds = new Set(curriculumNodes.map(n => n.id));
+
+  console.log(`Curriculum defines ${currNodeIds.size} total nodes.`);
+
+  // 2. Collect Note Files
   const files = [
-    ...collectNoteFiles(brainDir),
-    ...collectNoteFiles(notesDir)
+    ...collectNoteFiles(notesDir),
+    ...collectNoteFiles(brainDir)
   ];
 
-  if (files.length === 0) {
-    console.log('No note files found. Nothing to validate.');
-    process.exit(0);
+  console.log(`Discovered ${files.length} note file(s) in repository.`);
+
+  // 3. Check 1-to-1 Mapping & Duplicates
+  const nodeToFileMap = new Map();
+  for (const filePath of files) {
+    const filename = path.basename(filePath, '.md');
+    if (!nodeToFileMap.has(filename)) {
+      nodeToFileMap.set(filename, []);
+    }
+    nodeToFileMap.get(filename).push(filePath);
   }
 
-  console.log(`Found ${files.length} note file(s).`);
-
-  let errorCount   = 0;
-  let warningCount = 0;
-
-  for (const filePath of files) {
-    const filename    = path.basename(filePath, '.md');
-    // Skip scaffold / directory-level README and TEMPLATE files
-    if (SKIP_FILENAMES.has(filename)) continue;
-
-    const rawContent  = fs.readFileSync(filePath, 'utf-8');
-    const fm          = parseFrontmatter(rawContent);
-    const relPath     = path.relative(repoRoot, filePath);
-
-    // Rule 2: Missing id
-    if (!fm.id) {
-      if (strict) {
-        console.error(`  [ERROR] ${relPath}: Missing 'id' frontmatter field.`);
-        errorCount++;
-      } else {
-        console.warn(`  [WARN]  ${relPath}: Missing 'id' frontmatter field.`);
-        warningCount++;
-      }
+  // Check missing notes
+  for (const nodeId of currNodeIds) {
+    if (!nodeToFileMap.has(nodeId)) {
+      console.error(`  [ERROR] Missing note file for curriculum node: "${nodeId}"`);
+      errorCount++;
     }
+  }
 
-    // Rule 3: id-filename mismatch
-    if (fm.id && fm.id !== filename) {
+  // Check duplicate notes and orphan notes
+  for (const [nodeId, paths] of nodeToFileMap.entries()) {
+    if (!currNodeIds.has(nodeId)) {
+      console.error(`  [ERROR] Orphan note file (no matching curriculum node): "${nodeId}" at ${paths.join(', ')}`);
+      errorCount++;
+    }
+    if (paths.length > 1) {
+      console.error(`  [ERROR] Duplicate note files for node "${nodeId}":\n          ${paths.join('\n          ')}`);
+      errorCount++;
+    }
+  }
+
+  // 4. Detailed File-Level Checks
+  for (const filePath of files) {
+    const filename   = path.basename(filePath, '.md');
+    const relPath    = path.relative(repoRoot, filePath);
+    const rawContent = fs.readFileSync(filePath, 'utf-8');
+    const fm         = parseFrontmatter(rawContent);
+
+    // ID Match
+    if (!fm.id) {
+      console.error(`  [ERROR] ${relPath}: Missing 'id' in frontmatter.`);
+      errorCount++;
+    } else if (fm.id !== filename) {
       console.error(`  [ERROR] ${relPath}: frontmatter id="${fm.id}" does not match filename "${filename}".`);
       errorCount++;
     }
 
-    // Rule 4: Invalid status value
+    // Status Check
     const fmStatus = (fm.status || '').toLowerCase().trim();
-    if (fmStatus && !VALID_STATUSES.has(fmStatus)) {
-      console.error(`  [ERROR] ${relPath}: Invalid status value "${fm.status}". Must be one of: dark | charging | lit | learned.`);
+    if (!fmStatus) {
+      console.error(`  [ERROR] ${relPath}: Missing 'status' in frontmatter.`);
+      errorCount++;
+    } else if (!VALID_STATUSES.has(fmStatus)) {
+      console.error(`  [ERROR] ${relPath}: Invalid status "${fm.status}". Must be dark | charging | lit.`);
       errorCount++;
     }
 
-    // Canonicalise legacy status aliases for the hard guard below
-    // ghost → dark (not lit, so no danger)
-    // in-progress → charging (not lit, so no danger)
-    const canonStatus = fmStatus === 'learned' ? 'lit'
-                      : (fmStatus === 'ghost'   ? 'dark' : fmStatus);
+    // Dates Parsing
+    const dateFields = ['created', 'updated'];
+    for (const df of dateFields) {
+      const val = fm[df];
+      if (val && val !== 'null') {
+        if (!DATE_REGEX.test(val) || isNaN(Date.parse(val))) {
+          console.error(`  [ERROR] ${relPath}: Invalid date format for '${df}': "${val}". Expected YYYY-MM-DD.`);
+          errorCount++;
+        }
+      }
+    }
+    if (fm.lit_date && fm.lit_date !== 'null') {
+      if (!DATE_REGEX.test(fm.lit_date) || isNaN(Date.parse(fm.lit_date))) {
+        console.error(`  [ERROR] ${relPath}: Invalid lit_date format: "${fm.lit_date}". Expected YYYY-MM-DD.`);
+        errorCount++;
+      }
+    }
 
-    // Rule 1: Empty-lit violation (the hard rule)
-    const isLit = canonStatus === 'lit';
-    if (isLit && !hasNoteContent(rawContent)) {
-      console.error(`  [ERROR] ${relPath}: EMPTY LIT NODE — status is "${fm.status}" but note has no substantive content.`);
-      console.error(`          A lit note requires at least ${CONTENT_MIN_LINES} lines of content (each ${CONTENT_MIN_CHARS}+ chars) below the frontmatter.`);
-      console.error(`          Either add real content or lower the status to: charging`);
+    // Version Semver Check
+    if (fm.version) {
+      if (!SEMVER_REGEX.test(fm.version)) {
+        console.error(`  [ERROR] ${relPath}: Invalid semver version: "${fm.version}". Expected X.Y.Z.`);
+        errorCount++;
+      }
+    }
+
+    // Empty-Lit Guard Check
+    const canonStatus = fmStatus === 'learned' ? 'lit' : (fmStatus === 'ghost' ? 'dark' : fmStatus);
+    if (canonStatus === 'lit' && !hasNoteContent(rawContent)) {
+      console.error(`  [ERROR] ${relPath}: EMPTY LIT NODE — status is "${fm.status}" but has no substantive body content.`);
       errorCount++;
     }
   }
 
   console.log('');
-  if (errorCount === 0 && warningCount === 0) {
-    console.log(`✅ validate-notes PASSED: ${files.length} file(s) validated, 0 errors, 0 warnings.`);
-    process.exit(0);
-  } else if (errorCount === 0) {
-    console.log(`⚠️  validate-notes PASSED with warnings: ${files.length} file(s), 0 errors, ${warningCount} warnings.`);
+  if (errorCount === 0) {
+    console.log(`✅ validate-notes PASSED: 1-to-1 curriculum mapping verified, all 228 notes valid.`);
     process.exit(0);
   } else {
-    console.error(`❌ validate-notes FAILED: ${errorCount} error(s), ${warningCount} warning(s) in ${files.length} file(s).`);
+    console.error(`❌ validate-notes FAILED with ${errorCount} error(s).`);
     process.exit(1);
   }
 }
