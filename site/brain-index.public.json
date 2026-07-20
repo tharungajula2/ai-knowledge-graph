@@ -513,7 +513,12 @@
       "size": "S",
       "status": "ghost",
       "summary": "functions, dicts, JSON — the shapes of AI data.",
-      "backlinks": [],
+      "backlinks": [
+        {
+          "id": "python-classes-modules",
+          "title": "Classes & Modules"
+        }
+      ],
       "slug": "python-data-shapes",
       "started": null,
       "completed": null,
@@ -538,7 +543,7 @@
       "seq_num": 16,
       "cluster": "The Engineer's Floor",
       "size": "S",
-      "status": "ghost",
+      "status": "charging",
       "summary": "reading real codebases.",
       "backlinks": [],
       "slug": "python-classes-modules",
@@ -549,7 +554,7 @@
       "lit_date": null,
       "note_revisions": 0,
       "revisions": 0,
-      "has_content": false
+      "has_content": true
     },
     {
       "id": "python-async",
@@ -594,7 +599,12 @@
       "size": "S",
       "status": "ghost",
       "summary": "the schema mindset.",
-      "backlinks": [],
+      "backlinks": [
+        {
+          "id": "python-classes-modules",
+          "title": "Classes & Modules"
+        }
+      ],
       "slug": "python-typing-pydantic",
       "started": null,
       "completed": null,
@@ -675,7 +685,12 @@
       "size": "M",
       "status": "ghost",
       "summary": "Build a modular package using typing conventions, unit tests with pytest, execution profiling, and metadata packaging; verify with test passes.",
-      "backlinks": [],
+      "backlinks": [
+        {
+          "id": "python-classes-modules",
+          "title": "Classes & Modules"
+        }
+      ],
       "slug": "python-craft-professional",
       "started": null,
       "completed": null,
@@ -6564,6 +6579,36 @@
       "type": "dependency"
     },
     {
+      "source": "python-classes-modules",
+      "target": "python-data-shapes",
+      "type": "wikilink"
+    },
+    {
+      "source": "python-classes-modules",
+      "target": "python-typing-pydantic",
+      "type": "wikilink"
+    },
+    {
+      "source": "python-classes-modules",
+      "target": "python-craft-professional",
+      "type": "wikilink"
+    },
+    {
+      "source": "python-classes-modules",
+      "target": "python-data-shapes",
+      "type": "wikilink"
+    },
+    {
+      "source": "python-classes-modules",
+      "target": "python-typing-pydantic",
+      "type": "wikilink"
+    },
+    {
+      "source": "python-classes-modules",
+      "target": "python-craft-professional",
+      "type": "wikilink"
+    },
+    {
       "source": "domain-foundations",
       "target": "python-async",
       "type": "containment"
@@ -8690,13 +8735,13 @@
     }
   ],
   "metadata": {
-    "generated_at": "2026-07-20T11:50:26.004Z",
+    "generated_at": "2026-07-20T11:52:45.841Z",
     "plan_version": "1.0.0",
     "node_count": 228,
     "lit_count": 0,
-    "charging_count": 0,
-    "ghost_count": 228,
-    "edge_count": 469,
+    "charging_count": 1,
+    "ghost_count": 227,
+    "edge_count": 475,
     "universe": {
       "number": 1,
       "codename": "AI ENGINEERING",

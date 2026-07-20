@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updated_at": "2026-07-20T11:50:26.002Z",
+  "updated_at": "2026-07-20T11:52:45.839Z",
   "universe": {
     "number": 1,
     "codename": "AI ENGINEERING",
@@ -438,7 +438,12 @@
       "note_revisions": 0,
       "has_content": false,
       "status": "ghost",
-      "backlinks": []
+      "backlinks": [
+        {
+          "id": "python-classes-modules",
+          "title": "Classes & Modules"
+        }
+      ]
     },
     {
       "id": "python-classes-modules",
@@ -463,8 +468,8 @@
       "note_updated": "2026-07-20",
       "lit_date": null,
       "note_revisions": 0,
-      "has_content": false,
-      "status": "ghost",
+      "has_content": true,
+      "status": "charging",
       "backlinks": []
     },
     {
@@ -519,7 +524,12 @@
       "note_revisions": 0,
       "has_content": false,
       "status": "ghost",
-      "backlinks": []
+      "backlinks": [
+        {
+          "id": "python-classes-modules",
+          "title": "Classes & Modules"
+        }
+      ]
     },
     {
       "id": "git-mastery",
@@ -600,7 +610,12 @@
       "note_revisions": 0,
       "has_content": false,
       "status": "ghost",
-      "backlinks": []
+      "backlinks": [
+        {
+          "id": "python-classes-modules",
+          "title": "Classes & Modules"
+        }
+      ]
     },
     {
       "id": "build-token-cost-calculator",
