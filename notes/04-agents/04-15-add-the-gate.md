@@ -5,7 +5,7 @@ domain: agents
 ring: 4
 type: build
 size: M
-status: charging
+status: dark
 version: 0.2.0
 created: 2026-07-20
 updated: 2026-07-20

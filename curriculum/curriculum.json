@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updated_at": "2026-07-20T10:24:43.641Z",
+  "updated_at": "2026-07-20T10:35:10.331Z",
   "universe": {
     "number": 1,
     "codename": "AI ENGINEERING",
@@ -11,8 +11,8 @@
   },
   "metadata": {
     "node_count": 228,
-    "lit_nodes": 1,
-    "total_xp": 25,
+    "lit_nodes": 0,
+    "total_xp": 0,
     "streak": {
       "current": 1,
       "best": 1
@@ -41,7 +41,7 @@
       "lit_date": null,
       "note_revisions": 0,
       "has_content": true,
-      "status": "charging",
+      "status": "ghost",
       "backlinks": []
     },
     {
@@ -183,15 +183,15 @@
       "requires": [
         "embeddings-intuition"
       ],
-      "locked": true,
+      "locked": false,
       "started": null,
       "completed": null,
-      "note_version": "1.0.0",
+      "note_version": "0.1.0",
       "note_updated": "2026-07-20",
-      "lit_date": "2026-07-20",
+      "lit_date": null,
       "note_revisions": 1,
       "has_content": true,
-      "status": "lit",
+      "status": "ghost",
       "backlinks": []
     },
     {
@@ -410,7 +410,7 @@
       "lit_date": null,
       "note_revisions": 0,
       "has_content": true,
-      "status": "ghost",
+      "status": "charging",
       "backlinks": []
     },
     {
@@ -2222,7 +2222,7 @@
       "lit_date": null,
       "note_revisions": 1,
       "has_content": false,
-      "status": "charging",
+      "status": "ghost",
       "backlinks": []
     },
     {

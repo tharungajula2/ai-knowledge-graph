@@ -46,6 +46,29 @@
     </main>
   </div>
   <script>
+    window.copyCodeBlock = function(btn) {
+      const wrapper = btn.closest('.code-block-wrapper');
+      if (!wrapper) return;
+      const codeEl = wrapper.querySelector('code');
+      if (!codeEl) return;
+      const codeText = codeEl.textContent;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(codeText).then(() => {
+          btn.textContent = '✓ Copied!';
+          setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+        });
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = codeText;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      }
+    };
+
     fetch('../brain-index.public.json')
       .then(r => r.ok ? r.json() : null)
       .then(data => {

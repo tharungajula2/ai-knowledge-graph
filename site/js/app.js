@@ -143,7 +143,7 @@ function setupSearch() {
 // Global Event Listeners Initializer
 document.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const initMode = urlParams.get('mode') === 'live' ? 'live' : 'preview';
+  const initMode = urlParams.get('mode') === 'preview' ? 'preview' : 'live';
   setDataMode(initMode, false);
   loadData(initMode === 'live' ? LIVE_SRC : PREVIEW_SRC);
 

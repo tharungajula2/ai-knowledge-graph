@@ -5,7 +5,7 @@ domain: foundations
 ring: 1
 type: concept
 size: S
-status: charging
+status: dark
 version: 0.1.0
 created: 2026-07-14
 updated: 2026-07-20

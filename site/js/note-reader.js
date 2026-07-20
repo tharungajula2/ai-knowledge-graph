@@ -71,18 +71,30 @@ if (typeof marked !== 'undefined') {
   };
 
   markedRenderer.code = function(code, lang) {
-    const cleanLang = (lang || 'text').toLowerCase();
+    let rawCode = '';
+    let rawLang = lang || 'text';
+
+    if (typeof code === 'object' && code !== null) {
+      rawCode = code.text || '';
+      rawLang = code.lang || lang || 'text';
+    } else {
+      rawCode = String(code || '');
+    }
+
+    const cleanLang = (rawLang || 'text').toLowerCase();
     let highlighted = '';
+
     if (window.hljs && typeof window.hljs.highlight === 'function') {
       try {
         const validLang = window.hljs.getLanguage(cleanLang) ? cleanLang : 'plaintext';
-        highlighted = window.hljs.highlight(code, { language: validLang }).value;
+        highlighted = window.hljs.highlight(rawCode, { language: validLang }).value;
       } catch (e) {
-        highlighted = escapeHtml(code);
+        highlighted = escapeHtml(rawCode);
       }
     } else {
-      highlighted = escapeHtml(code);
+      highlighted = escapeHtml(rawCode);
     }
+
     return `<div class="code-block-wrapper">
       <div class="code-block-header">
         <span class="code-lang">${cleanLang}</span>

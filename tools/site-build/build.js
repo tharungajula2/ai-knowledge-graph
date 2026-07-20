@@ -333,18 +333,58 @@ blockquote {
   font-style: italic;
 }
 
-pre {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--panel-border);
-  border-radius: 6px;
-  padding: 16px;
-  overflow-x: auto;
-  margin: 24px 0;
+.code-block-wrapper {
+  position: relative;
+  margin: 18px 0;
+  border: 1px solid rgba(62, 226, 226, 0.25);
+  border-radius: 8px;
+  background: #06090d;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
-
+.code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  background: rgba(15, 23, 30, 0.95);
+  border-bottom: 1px solid rgba(62, 226, 226, 0.2);
+}
+.code-lang {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.btn-code-copy {
+  background: rgba(62, 226, 226, 0.12);
+  border: 1px solid rgba(62, 226, 226, 0.35);
+  border-radius: 4px;
+  color: var(--accent-bright);
+  padding: 3px 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'JetBrains Mono', monospace;
+}
+.btn-code-copy:hover {
+  background: var(--accent-bright);
+  color: #07090c;
+}
+pre {
+  background: transparent;
+  margin: 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+}
 code {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85rem;
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: #e2e8f0;
 }
 
 a {
@@ -496,6 +536,29 @@ function buildSite() {
     </main>
   </div>
   <script>
+    window.copyCodeBlock = function(btn) {
+      const wrapper = btn.closest('.code-block-wrapper');
+      if (!wrapper) return;
+      const codeEl = wrapper.querySelector('code');
+      if (!codeEl) return;
+      const codeText = codeEl.textContent;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(codeText).then(() => {
+          btn.textContent = '✓ Copied!';
+          setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+        });
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = codeText;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      }
+    };
+
     fetch('../brain-index.public.json')
       .then(r => r.ok ? r.json() : null)
       .then(data => {

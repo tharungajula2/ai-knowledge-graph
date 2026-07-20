@@ -28,7 +28,7 @@
       <article>
         <h1>Build: Add the Gate</h1>
         <div class="metadata-row">
-          <span class="tag status-badge status-charging">CHARGING</span>
+          <span class="tag status-badge status-ghost">GHOST</span>
           <span class="tag">Domain: agents</span>
           <span class="tag">v0.2.0</span>
           <span class="tag">Updated: 2026-07-20</span>
@@ -48,6 +48,29 @@
     </main>
   </div>
   <script>
+    window.copyCodeBlock = function(btn) {
+      const wrapper = btn.closest('.code-block-wrapper');
+      if (!wrapper) return;
+      const codeEl = wrapper.querySelector('code');
+      if (!codeEl) return;
+      const codeText = codeEl.textContent;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(codeText).then(() => {
+          btn.textContent = '✓ Copied!';
+          setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+        });
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = codeText;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      }
+    };
+
     fetch('../brain-index.public.json')
       .then(r => r.ok ? r.json() : null)
       .then(data => {

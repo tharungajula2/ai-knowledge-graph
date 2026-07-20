@@ -5,11 +5,11 @@ domain: foundations
 ring: 1
 type: concept
 size: M
-status: lit
-version: 1.0.0
+status: dark
+version: 0.1.0
 created: 2026-07-20
 updated: 2026-07-20
-lit_date: 2026-07-20
+lit_date: null
 revisions: 1
 artifact: null
 wikilinks: [tokens, embeddings-intuition, nlp-transformer-lineage]
