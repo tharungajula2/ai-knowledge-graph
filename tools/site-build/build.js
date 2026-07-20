@@ -45,33 +45,56 @@ function simpleMarkdownToHtml(md, domain) {
   // Clean frontmatter
   html = html.replace(/^---\r?\n[\s\S]*?\r?\n---/, '');
 
-  // Escape HTML tags to prevent XSS / formatting corruption
+  // Code blocks: ```js ... ```
+  const codeBlocks = [];
+  html = html.replace(/```(\w*)\r?\n([\s\S]*?)\r?\n```/g, (match, lang, code) => {
+    const cleanLang = (lang || 'text').toLowerCase();
+    const escapedCode = code
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    const idx = codeBlocks.length;
+    codeBlocks.push(
+      `<div class="code-block-wrapper">
+        <div class="code-block-header">
+          <span class="code-lang">${cleanLang}</span>
+          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
+        </div>
+        <pre><code class="language-${cleanLang}">${escapedCode.trim()}</code></pre>
+      </div>`
+    );
+    return `___CODE_BLOCK_${idx}___`;
+  });
+
+  // Escape remaining basic HTML tags to prevent XSS / formatting corruption
   html = html
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
-  // Restore allowed basic tags like <!-- comment --> if any
+  // Restore allowed basic comments
   html = html.replace(/&lt;!--([\s\S]*?)--&gt;/g, '<!--$1-->');
-
-  // Code blocks: ```js ... ```
-  html = html.replace(/```(\w*)\r?\n([\s\S]*?)\r?\n```/g, (match, lang, code) => {
-    return `<pre><code class="language-${lang}">${code.trim()}</code></pre>`;
-  });
 
   // Blockquotes: > quote
   html = html.replace(/^\s*&gt;\s+(.*)$/gm, '<blockquote>$1</blockquote>');
 
+  // Horizontal rules: --- or ***
+  html = html.replace(/^\s*(---|\*\*\*|___)\s*$/gm, '<hr>');
+
   // Headers: ## Header, ### Header
   html = html.replace(/^\s*##\s+(.*)$/gm, (match, p1) => {
     const cleanId = p1.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    // Specially style "Where this could be wrong" heading
     if (p1.toLowerCase().includes('where this could be wrong') || p1.toLowerCase().includes('debated')) {
       return `<h2 id="${cleanId}" class="section-challenged">${p1}</h2>`;
     }
     return `<h2 id="${cleanId}">${p1}</h2>`;
   });
   html = html.replace(/^\s*###\s+(.*)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^\s*####\s+(.*)$/gm, '<h4>$1</h4>');
+
+  // Task lists
+  html = html.replace(/^\s*-\s+\[ \]\s+(.*)$/gm, '<li class="task-list-item"><input type="checkbox" disabled /> <span>$1</span></li>');
+  html = html.replace(/^\s*-\s+\[[xX]\]\s+(.*)$/gm, '<li class="task-list-item task-checked"><input type="checkbox" checked disabled /> <span>$1</span></li>');
 
   // Bold: **text**
   html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -84,32 +107,78 @@ function simpleMarkdownToHtml(md, domain) {
     const parts = p1.split('|');
     const slug = parts[0].trim().toLowerCase().replace(/\s+/g, '-');
     const label = parts[1] ? parts[1].trim() : parts[0].trim();
-    return `<a class="wiki-link" href="${slug}.html">${label}</a>`;
+    return `<a class="wiki-link" data-node-id="${slug}" href="${slug}.html">${label}</a>`;
   });
 
   // Standard markdown links: [label](url)
   html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
 
-  // Lists: - bullet
-  // Simple paragraph & bullet handling
+  // Table rendering (GFM markdown tables)
   const lines = html.split(/\r?\n/);
-  let inList = false;
-  let finalLines = [];
+  let inTable = false;
+  let tableHeader = [];
+  let tableRows = [];
+  let processedLines = [];
 
   for (let line of lines) {
     const trimmed = line.trim();
-    if (trimmed.startsWith('- ')) {
+    if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
+      const cells = trimmed.split('|').slice(1, -1).map(c => c.trim());
+      if (!inTable) {
+        inTable = true;
+        tableHeader = cells;
+      } else if (cells.every(c => /^:?-+:?$/.test(c))) {
+        // Alignment divider line, ignore
+      } else {
+        tableRows.push(cells);
+      }
+    } else {
+      if (inTable) {
+        processedLines.push(buildTableHtml(tableHeader, tableRows));
+        inTable = false;
+        tableHeader = [];
+        tableRows = [];
+      }
+      processedLines.push(line);
+    }
+  }
+  if (inTable) {
+    processedLines.push(buildTableHtml(tableHeader, tableRows));
+  }
+  html = processedLines.join('\n');
+
+  // Lists & Paragraphs handling
+  const listLines = html.split(/\r?\n/);
+  let inList = false;
+  let finalLines = [];
+
+  for (let line of listLines) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('- ') && !trimmed.includes('task-list-item')) {
       if (!inList) {
         finalLines.push('<ul>');
         inList = true;
       }
       finalLines.push(`<li>${trimmed.substring(2)}</li>`);
     } else {
-      if (inList) {
+      if (inList && !trimmed.includes('task-list-item')) {
         finalLines.push('</ul>');
         inList = false;
       }
-      if (trimmed.length > 0 && !trimmed.startsWith('<h') && !trimmed.startsWith('<pre') && !trimmed.startsWith('<code') && !trimmed.startsWith('<block') && !trimmed.startsWith('&lt;!--') && !trimmed.startsWith('<!--')) {
+      if (trimmed.length > 0 && 
+          !trimmed.startsWith('<h') && 
+          !trimmed.startsWith('<pre') && 
+          !trimmed.startsWith('<code') && 
+          !trimmed.startsWith('<div') && 
+          !trimmed.startsWith('<block') && 
+          !trimmed.startsWith('<hr') &&
+          !trimmed.startsWith('<tr') &&
+          !trimmed.startsWith('<td') &&
+          !trimmed.startsWith('<th') &&
+          !trimmed.startsWith('<table') &&
+          !trimmed.startsWith('&lt;!--') && 
+          !trimmed.startsWith('<!--') &&
+          !trimmed.startsWith('___CODE_BLOCK_')) {
         finalLines.push(`<p>${trimmed}</p>`);
       } else {
         finalLines.push(line);
@@ -122,9 +191,18 @@ function simpleMarkdownToHtml(md, domain) {
 
   html = finalLines.join('\n');
 
-  // No auto-footer appended — notes carry their own honest limits section
+  // Restore Code Blocks
+  codeBlocks.forEach((cb, idx) => {
+    html = html.replace(`___CODE_BLOCK_${idx}___`, cb);
+  });
 
   return html;
+}
+
+function buildTableHtml(header, rows) {
+  const ths = header.map(h => `<th>${h}</th>`).join('');
+  const trs = rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('');
+  return `<div class="table-wrapper"><table class="md-table"><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table></div>`;
 }
 
 // 2. Generate CSS style sheet (assets/style.css)

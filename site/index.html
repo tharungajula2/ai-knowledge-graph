@@ -29,9 +29,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- D3 and Marked -->
+  <!-- D3, Marked, and Local Highlight -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="assets/highlight.min.css">
+  <script src="assets/highlight.min.js"></script>
 
   <style>
     :root {
@@ -302,39 +304,92 @@
       background: rgba(255,255,255,.05); padding: 1px 5px; border-radius: 3px;
     }
 
-    /* ── INSPECTOR ──────────────────────────────────── */
+    /* ── INSPECTOR & NOTE READER ──────────────────────────────────── */
     #insp {
       top: 16px; right: 16px;
-      width: 380px; height: calc(100vh - 32px);
+      width: 520px; max-width: 90vw; height: calc(100vh - 32px);
       padding: 24px;
       display: flex; flex-direction: column; gap: 16px;
-      transform: translateX(420px);
+      transform: translateX(560px);
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       border-left: 2px solid rgba(62,226,226,0.25);
       border-radius: 16px 12px 12px 16px;
       overflow: hidden;
+      z-index: 120;
     }
     #insp.open { transform: translateX(0); }
 
-    .insp-title { font-size: 1.1rem; font-weight: 600; color: var(--bright); }
-    .insp-meta { font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px; }
-    .mtag { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); padding: 2px 7px; border-radius: 4px; }
-    .insp-body { flex: 1; overflow-y: auto; font-size: .83rem; line-height: 1.65; display: flex; flex-direction: column; gap: 14px; padding-right: 4px; }
-    .insp-body::-webkit-scrollbar { width: 4px; }
-    .insp-body::-webkit-scrollbar-thumb { background: rgba(62,226,226,0.2); border-radius: 4px; }
+    .insp-title { font-size: 1.25rem; font-weight: 700; color: #fff; line-height: 1.3; }
+    .insp-meta { font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .mtag { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); padding: 3px 8px; border-radius: 4px; color: var(--muted); font-size: 0.68rem; }
+    .status-badge.status-dark { background: rgba(100, 116, 139, 0.2); border-color: rgba(100, 116, 139, 0.4); color: #94a3b8; }
+    .status-badge.status-charging { background: rgba(246, 173, 85, 0.18); border-color: rgba(246, 173, 85, 0.5); color: #f6ad55; box-shadow: 0 0 8px rgba(246, 173, 85, 0.2); }
+    .status-badge.status-lit { background: rgba(62, 226, 226, 0.2); border-color: #3ee2e2; color: #3ee2e2; box-shadow: 0 0 10px rgba(62, 226, 226, 0.3); }
+    .lit-date-badge { background: rgba(104, 211, 145, 0.15); border-color: #68d391; color: #68d391; }
+
+    .insp-body { flex: 1; overflow-y: auto; font-size: .88rem; line-height: 1.7; display: flex; flex-direction: column; gap: 14px; padding-right: 4px; }
+    .insp-body::-webkit-scrollbar { width: 5px; }
+    .insp-body::-webkit-scrollbar-thumb { background: rgba(62,226,226,0.25); border-radius: 4px; }
     .details-grid {
       display: grid; grid-template-columns: auto 1fr; gap: 7px 14px;
-      background: rgba(0,0,0,.25); padding: 10px; border-radius: 6px;
+      background: rgba(0,0,0,.25); padding: 10px 14px; border-radius: 6px;
       border: 1px solid rgba(255,255,255,.03); font-size: .72rem;
     }
     .gl { color: var(--muted); text-transform: uppercase; font-weight: 500; }
     .gv { color: var(--text); font-family: 'JetBrains Mono', monospace; word-break: break-all; }
-    .insp-preview { border-top: 1px solid rgba(42,127,127,.1); padding-top: 14px; }
-    .md h1,.md h2,.md h3 { color: var(--bright); margin-top: 14px; margin-bottom: 6px; font-weight: 600; }
-    .md h1 { font-size: 1.05rem; } .md h2 { font-size: .92rem; } .md h3 { font-size: .82rem; }
-    .md p { margin-bottom: 9px; }
-    .md ul,.md ol { margin-left: 18px; margin-bottom: 9px; }
-    .md code { background: rgba(0,0,0,.4); padding: 1px 5px; border-radius: 3px; font-family: 'JetBrains Mono',monospace; font-size: .72rem; color: #fc8181; }
+    .insp-preview { border-top: 1px solid rgba(42,127,127,.15); padding-top: 16px; margin-top: 8px; }
+    .md h1,.md h2,.md h3,.md h4 { color: #fff; margin-top: 20px; margin-bottom: 8px; font-weight: 600; letter-spacing: -0.01em; }
+    .md h1 { font-size: 1.25rem; color: var(--bright); }
+    .md h2 { font-size: 1.05rem; }
+    .md h3 { font-size: .95rem; }
+    .md h4 { font-size: .88rem; }
+    .md p { margin-bottom: 14px; color: var(--text); }
+    .md ul,.md ol { margin-left: 20px; margin-bottom: 14px; }
+    .md li { margin-bottom: 4px; }
+    .md li.task-list-item { list-style-type: none; margin-left: -20px; display: flex; align-items: center; gap: 8px; }
+    .md blockquote { border-left: 3px solid var(--teal); padding: 8px 14px; margin: 16px 0; background: rgba(42,127,127,0.05); color: var(--muted); font-style: italic; border-radius: 0 6px 6px 0; }
+    .md hr { border: none; border-top: 1px solid var(--panel-border); margin: 24px 0; }
+
+    /* Code block container */
+    .code-block-wrapper {
+      position: relative; margin: 16px 0;
+      border: 1px solid var(--panel-border); border-radius: 8px;
+      overflow: hidden; background: #090d12;
+    }
+    .code-block-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 12px; background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted);
+    }
+    .btn-code-copy {
+      background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 4px; color: var(--muted); padding: 2px 8px; font-size: 0.68rem;
+      cursor: pointer; transition: all 0.2s; font-family: inherit;
+    }
+    .btn-code-copy:hover { background: var(--teal); color: #fff; }
+    pre {
+      background: #090d12; margin: 0; padding: 14px 16px;
+      overflow-x: auto !important; white-space: pre !important;
+      word-break: normal !important; word-wrap: normal !important;
+      -webkit-overflow-scrolling: touch;
+    }
+    code { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; white-space: pre !important; }
+    .md :not(pre) > code { background: rgba(0,0,0,.4); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono',monospace; font-size: .78rem; color: #fc8181; border: 1px solid rgba(255,255,255,0.05); }
+
+    /* GFM Tables Wrapper */
+    .table-wrapper {
+      overflow-x: auto !important; display: block; width: 100%;
+      margin: 16px 0; border: 1px solid var(--panel-border); border-radius: 8px;
+      -webkit-overflow-scrolling: touch;
+    }
+    table.md-table {
+      width: 100%; min-width: 440px; border-collapse: collapse; font-size: 0.82rem; text-align: left;
+    }
+    table.md-table th, table.md-table td { padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.08); }
+    table.md-table th { background: rgba(42, 127, 127, 0.18); color: var(--bright); font-weight: 600; }
+    table.md-table tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+
     .action-row { display: flex; gap: 8px; margin-top: auto; border-top: 1px solid var(--panel-border); padding-top: 14px; }
     .btn-act {
       flex: 1; background: rgba(42,127,127,.12); border: 1px solid var(--panel-border);
@@ -348,7 +403,7 @@
       background: transparent; border: none; color: var(--muted);
       cursor: pointer; width: 28px; height: 28px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      transition: all .18s;
+      transition: all .18s; z-index: 25;
     }
     .btn-close:hover { background: rgba(255,255,255,.05); color: #fff; }
 
@@ -693,18 +748,21 @@
       }
       
       #insp {
-        position: fixed; top: auto; bottom: 0; right: 0; left: 0;
-        width: 100%; height: 60vh; max-height: 80vh;
-        border-radius: 20px 20px 0 0;
-        border-left: none; border-top: 2px solid rgba(62,226,226,0.25);
+        position: fixed; inset: 0;
+        width: 100vw; height: 100vh; max-height: 100vh;
+        border-radius: 0;
+        border: none;
         transform: translateY(100%);
-        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        z-index: 120;
-        overflow-y: auto;
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 200;
+        background: rgba(7, 9, 12, 0.98);
+        backdrop-filter: blur(20px);
+        display: flex; flex-direction: column;
+        padding: 16px;
       }
       #insp.open { transform: translateY(0); }
-      .insp-title { padding-right: 28px; }
-      .action-row { flex-wrap: wrap; }
+      .insp-title { padding-right: 32px; font-size: 1.15rem; }
+      .action-row { flex-wrap: wrap; margin-top: auto; }
       
       #preview-badge {
         font-size: .62rem; padding: 4px 8px; top: 72px; left: 50%; transform: translateX(-50%);
@@ -712,6 +770,169 @@
 
       /* START HERE label always readable on mobile */
       .start-here-label { font-size: 7px !important; }
+    }
+
+    /* ── TOP VIEW TOGGLE BAR ───────────────────────── */
+    #top-view-bar {
+      position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+      z-index: 100; display: flex; padding: 3px; gap: 4px;
+      border-radius: 20px; border: 1px solid var(--panel-border);
+      background: var(--panel-bg); backdrop-filter: blur(16px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .top-view-btn {
+      background: transparent; border: none; color: var(--muted);
+      padding: 5px 14px; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.06em; cursor: pointer; border-radius: 14px;
+      transition: all 0.2s ease; font-family: inherit; display: flex; align-items: center; gap: 5px;
+    }
+    .top-view-btn.active {
+      background: var(--teal); color: #fff; box-shadow: 0 0 10px var(--teal-glow);
+    }
+    .top-view-btn:hover:not(.active) { color: var(--bright); background: rgba(255,255,255,0.05); }
+
+    /* ── LIBRARY VIEW CONTAINER ────────────────────── */
+    #library-view {
+      position: fixed; inset: 0; z-index: 80;
+      background: var(--bg); display: none; flex-direction: column;
+      overflow-y: auto; padding: 70px 24px 32px 24px;
+      scrollbar-width: thin; scrollbar-color: var(--teal) transparent;
+    }
+    #library-view.active { display: flex; }
+
+    .lib-container {
+      max-width: 1100px; width: 100%; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+
+    /* Library Header & Progress Strip */
+    .lib-header {
+      display: flex; flex-direction: column; gap: 12px;
+      border-bottom: 1px solid var(--panel-border); padding-bottom: 16px;
+    }
+    .lib-header-top {
+      display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 10px;
+    }
+    .lib-title { font-size: 1.4rem; font-weight: 700; color: #fff; letter-spacing: -0.01em; }
+    .lib-subtitle { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+    .lib-progress-card {
+      background: rgba(10, 16, 22, 0.7); border: 1px solid var(--panel-border);
+      border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px;
+    }
+    .lib-progress-meta {
+      display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; flex-wrap: wrap; gap: 8px;
+    }
+    .lib-progress-bar-bg {
+      width: 100%; height: 8px; background: rgba(0, 0, 0, 0.4);
+      border-radius: 4px; overflow: hidden; display: flex; border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .lib-progress-segment { height: 100%; transition: width 0.4s ease; }
+    .seg-lit { background: var(--bright); box-shadow: 0 0 8px rgba(62, 226, 226, 0.5); }
+    .seg-charging { background: #f6ad55; box-shadow: 0 0 8px rgba(246, 173, 85, 0.4); }
+    .seg-dark { background: #334155; }
+
+    /* Continue Hero Card */
+    .lib-continue-card {
+      background: linear-gradient(135deg, rgba(42,127,127,0.15) 0%, rgba(10,16,22,0.85) 100%);
+      border: 1px solid rgba(62,226,226,0.35); border-radius: 14px;
+      padding: 16px 20px; display: flex; justify-content: space-between; align-items: center;
+      gap: 16px; flex-wrap: wrap; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .continue-tag {
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--bright); background: rgba(62,226,226,0.12); padding: 3px 8px; border-radius: 4px;
+      display: inline-block; margin-bottom: 6px;
+    }
+    .continue-node-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .continue-node-meta { font-size: 0.75rem; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn-continue {
+      background: var(--teal); border: 1px solid var(--bright); color: #fff;
+      padding: 8px 18px; font-size: 0.78rem; font-weight: 600; border-radius: 8px;
+      cursor: pointer; transition: all 0.2s; white-space: nowrap; font-family: inherit;
+      display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .btn-continue:hover { background: var(--bright); color: #07090c; box-shadow: 0 0 14px rgba(62,226,226,0.5); }
+
+    /* Filter Controls & Search Bar */
+    .lib-controls-card {
+      background: rgba(10, 16, 22, 0.8); border: 1px solid var(--panel-border);
+      border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .lib-search-row { display: flex; gap: 10px; width: 100%; }
+    .lib-search-input-wrap { flex: 1; position: relative; display: flex; align-items: center; }
+    .lib-search-input-wrap svg { position: absolute; left: 12px; pointer-events: none; }
+    .lib-search-input {
+      width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--panel-border);
+      border-radius: 8px; padding: 9px 12px 9px 36px; color: #fff; font-family: inherit;
+      font-size: 0.85rem; outline: none; transition: border-color 0.2s;
+    }
+    .lib-search-input:focus { border-color: var(--bright); box-shadow: 0 0 10px rgba(62,226,226,0.2); }
+
+    .lib-filter-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; align-items: center;
+    }
+    .lib-filter-group { display: flex; flex-direction: column; gap: 4px; }
+    .lib-filter-label { font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; }
+    .lib-select {
+      background: rgba(0,0,0,0.5); border: 1px solid var(--panel-border);
+      border-radius: 6px; color: var(--text); padding: 6px 10px; font-size: 0.76rem;
+      font-family: inherit; outline: none; cursor: pointer; transition: border-color 0.15s;
+    }
+    .lib-select:focus { border-color: var(--bright); }
+
+    /* Status Pills */
+    .status-pills { display: flex; gap: 4px; flex-wrap: wrap; }
+    .status-pill {
+      background: rgba(0,0,0,0.4); border: 1px solid var(--panel-border);
+      color: var(--muted); padding: 5px 10px; font-size: 0.7rem; font-weight: 600;
+      border-radius: 6px; cursor: pointer; transition: all 0.18s; font-family: inherit;
+    }
+    .status-pill.active { background: var(--teal); color: #fff; border-color: var(--bright); }
+    .status-pill:hover:not(.active) { color: var(--bright); border-color: rgba(62,226,226,0.4); }
+
+    /* Mobile Expandable Filter Toggle */
+    .btn-toggle-filters {
+      display: none; background: rgba(0,0,0,0.4); border: 1px solid var(--panel-border);
+      color: var(--muted); padding: 8px 12px; font-size: 0.75rem; font-weight: 600;
+      border-radius: 8px; cursor: pointer; text-align: center; font-family: inherit;
+    }
+
+    /* Node List Rows */
+    .lib-list-header {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted);
+      padding: 0 6px 6px 6px; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .lib-nodes-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+    .lib-row {
+      background: rgba(10, 16, 22, 0.6); border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px; padding: 10px 14px; min-height: 48px;
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+      cursor: pointer; transition: all 0.2s ease; user-select: none;
+    }
+    .lib-row:hover {
+      background: rgba(42, 127, 127, 0.15); border-color: rgba(62, 226, 226, 0.35);
+      transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    }
+    .lib-row-left { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
+    .lib-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 6px currentColor; }
+    .lib-row-title-wrap { display: flex; flex-direction: column; min-width: 0; }
+    .lib-row-title { font-size: 0.88rem; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .lib-row-sub { font-size: 0.7rem; color: var(--muted); display: flex; gap: 8px; align-items: center; margin-top: 2px; }
+    .lib-row-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+    @media (max-width: 768px) {
+      #top-view-bar { top: 12px; }
+      #library-view { padding: 60px 12px 24px 12px; }
+      .lib-header-top { flex-direction: column; align-items: flex-start; }
+      .lib-continue-card { flex-direction: column; align-items: flex-start; }
+      .btn-continue { width: 100%; justify-content: center; }
+      .btn-toggle-filters { display: block; }
+      .lib-filter-grid { display: none; }
+      .lib-filter-grid.open { display: grid; grid-template-columns: 1fr 1fr; }
+      .lib-row { flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px; }
+      .lib-row-right { width: 100%; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 6px; }
     }
   </style>
 </head>
@@ -727,6 +948,18 @@
   VISION — THE LIVING MAP
 </div>
 
+<!-- Top View Toggle Bar (Graph | Library) -->
+<div id="top-view-bar" role="tablist" aria-label="View selection">
+  <button id="top-btn-graph" class="top-view-btn active" role="tab" aria-selected="true" onclick="switchViewMode('graph')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><line x1="14" y1="10" x2="17.5" y2="7.5"/><line x1="10" y1="14" x2="6.5" y2="16.5"/></svg>
+    GRAPH
+  </button>
+  <button id="top-btn-library" class="top-view-btn" role="tab" aria-selected="false" onclick="switchViewMode('library')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg>
+    LIBRARY
+  </button>
+</div>
+
 <!-- Control panel -->
 <div id="ctrl" class="glass">
   <button id="btn-ctrl-close" aria-label="Close controls">
@@ -735,6 +968,15 @@
   <div class="brand-row">
     <div class="brand">VIZIER</div>
     <div class="day-chip" id="day-chip">UNIVERSE 01 · AI ENGINEERING</div>
+  </div>
+
+  <!-- VIEW MODE -->
+  <div class="ctrl-group">
+    <div class="ctrl-label">View Mode</div>
+    <div class="tog-group">
+      <button class="tog on" id="btn-view-graph" onclick="switchViewMode('graph')">GRAPH</button>
+      <button class="tog" id="btn-view-library" onclick="switchViewMode('library')">LIBRARY</button>
+    </div>
   </div>
 
   <!-- XP & LEVEL PROGRESS -->
@@ -904,16 +1146,17 @@
   <div id="search-results" role="listbox"></div>
 </div>
 
-<!-- Inspector -->
-<div id="insp" class="glass" role="dialog" aria-label="Node inspector">
-  <button class="btn-close" id="btn-close" aria-label="Close inspector">
+<!-- Note Reader Overlay / Panel -->
+<div id="insp" class="glass" role="dialog" aria-label="Note reader">
+  <div id="reading-progress-bar" style="width:0%; height:3px; background:linear-gradient(90deg, var(--teal), var(--bright)); position:absolute; top:0; left:0; transition:width 0.1s ease; z-index:20;"></div>
+  <button class="btn-close" id="btn-close" aria-label="Close note reader">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
   </button>
-  <div class="inspector-header">
+  <div class="inspector-header" id="reader-header">
     <div class="insp-title" id="node-title">-</div>
     <div class="insp-meta" id="node-meta"></div>
   </div>
-  <div class="insp-body">
+  <div class="insp-body" id="insp-body">
     <div class="details-grid" id="node-details"></div>
     <div id="node-reqs"></div>
     <div id="node-backlinks"></div>
@@ -926,7 +1169,7 @@
     </button>
     <button class="btn-act" id="btn-view">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      View Note
+      Standalone Page
     </button>
   </div>
 </div>
@@ -1034,6 +1277,149 @@
     <!-- Background layer for domain nebulae -->
     <g class="nebulae-layer"></g>
   </svg>
+</div>
+
+<!-- Library View Fullscreen Container -->
+<div id="library-view" class="glass" role="region" aria-label="Curriculum Library">
+  <div class="lib-container">
+    
+    <!-- Library Header & Stats Progress Strip -->
+    <div class="lib-header">
+      <div class="lib-header-top">
+        <div>
+          <div class="lib-title">Curriculum Library</div>
+          <div class="lib-subtitle" id="lib-stats-subtitle">228 Planned Nodes · 10 Domains · Zero-Dependency Learning Brain</div>
+        </div>
+      </div>
+
+      <!-- Overall & Filtered Progress Strip -->
+      <div class="lib-progress-card">
+        <div class="lib-progress-meta">
+          <span style="font-weight:600; color:var(--text);" id="lib-progress-label">Learning Progression</span>
+          <span style="font-family:'JetBrains Mono',monospace; color:var(--bright);" id="lib-progress-counts">0 LIT · 0 CHARGING · 228 DARK</span>
+        </div>
+        <div class="lib-progress-bar-bg">
+          <div class="lib-progress-segment seg-lit" id="seg-lit" style="width: 0%;"></div>
+          <div class="lib-progress-segment seg-charging" id="seg-charging" style="width: 0%;"></div>
+          <div class="lib-progress-segment seg-dark" id="seg-dark" style="width: 100%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- "Continue" Hero Affordance Card -->
+    <div id="lib-continue-card" class="lib-continue-card">
+      <div>
+        <span class="continue-tag">⚡ Next Chapter</span>
+        <div class="continue-node-title" id="continue-node-title">Loading next node...</div>
+        <div class="continue-node-meta" id="continue-node-meta"></div>
+      </div>
+      <button class="btn-continue" id="btn-continue-node">
+        <span>Continue Note</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <!-- Search, Filters, and Sort Controls Bar -->
+    <div class="lib-controls-card">
+      <div class="lib-search-row">
+        <div class="lib-search-input-wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" id="lib-search-input" class="lib-search-input" placeholder="Search by title, ID, domain, tag, cluster..." autocomplete="off">
+        </div>
+        <button id="lib-filter-toggle" class="btn-toggle-filters">
+          ⚡ Filters &amp; Sort
+        </button>
+      </div>
+
+      <!-- Filter Controls Grid -->
+      <div id="lib-filter-grid" class="lib-filter-grid">
+        <div class="lib-filter-group">
+          <span class="lib-filter-label">Status</span>
+          <div class="status-pills">
+            <button class="status-pill active" data-status="all">ALL</button>
+            <button class="status-pill" data-status="lit">LIT</button>
+            <button class="status-pill" data-status="charging">CHARGING</button>
+            <button class="status-pill" data-status="dark">DARK</button>
+          </div>
+        </div>
+
+        <div class="lib-filter-group">
+          <span class="lib-filter-label">Domain</span>
+          <select id="lib-filter-domain" class="lib-select">
+            <option value="all">All Domains</option>
+            <option value="foundations">Foundations</option>
+            <option value="prompting-apis">Prompting &amp; APIs</option>
+            <option value="rag-retrieval">RAG &amp; Retrieval</option>
+            <option value="agents">Agents</option>
+            <option value="multi-agent-mcp">Multi-Agent &amp; MCP</option>
+            <option value="memory-knowledge">Memory &amp; Knowledge</option>
+            <option value="evals-observability">Evals &amp; Observability</option>
+            <option value="safety-security">Safety &amp; Security</option>
+            <option value="production">Production</option>
+            <option value="frontier-capstone">Frontier Capstone</option>
+          </select>
+        </div>
+
+        <div class="lib-filter-group">
+          <span class="lib-filter-label">Type</span>
+          <select id="lib-filter-type" class="lib-select">
+            <option value="all">All Types</option>
+            <option value="concept">Concept</option>
+            <option value="build">Build</option>
+            <option value="capstone">Capstone</option>
+            <option value="milestone">Milestone</option>
+          </select>
+        </div>
+
+        <div class="lib-filter-group">
+          <span class="lib-filter-label">Ring</span>
+          <select id="lib-filter-ring" class="lib-select">
+            <option value="all">All Rings</option>
+            <option value="1">Ring 1</option>
+            <option value="2">Ring 2</option>
+            <option value="3">Ring 3</option>
+            <option value="4">Ring 4</option>
+            <option value="5">Ring 5</option>
+            <option value="6">Ring 6</option>
+            <option value="7">Ring 7</option>
+          </select>
+        </div>
+
+        <div class="lib-filter-group">
+          <span class="lib-filter-label">Size</span>
+          <select id="lib-filter-size" class="lib-select">
+            <option value="all">All Sizes</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="XXL">XXL</option>
+          </select>
+        </div>
+
+        <div class="lib-filter-group">
+          <span class="lib-filter-label">Sort By</span>
+          <select id="lib-sort-by" class="lib-select">
+            <option value="curriculum">Curriculum Order</option>
+            <option value="updated">Recently Updated</option>
+            <option value="revisions">Most Revised</option>
+            <option value="ring">Ring Order</option>
+            <option value="alphabetical">A – Z</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scannable Node List Container -->
+    <div class="lib-list-header">
+      <span id="lib-matching-count">Showing 228 nodes</span>
+      <span>Tap node to read</span>
+    </div>
+    <div id="lib-nodes-list" class="lib-nodes-list"></div>
+
+  </div>
 </div>
 
 <script>
@@ -2033,21 +2419,141 @@ svg.on('click', () => {
   closeInspector();
 });
 
+// Global helper for helper escaping HTML in code block renderer
+function escapeHtml(text) {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+// Global Copy Code Handler
+window.copyCodeBlock = function(btn) {
+  const wrapper = btn.closest('.code-block-wrapper');
+  if (!wrapper) return;
+  const codeEl = wrapper.querySelector('code');
+  if (!codeEl) return;
+  const codeText = codeEl.textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(codeText).then(() => {
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    }).catch(() => {
+      fallbackCopy(codeText, btn);
+    });
+  } else {
+    fallbackCopy(codeText, btn);
+  }
+};
+
+function fallbackCopy(text, btn) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  btn.textContent = '✓ Copied!';
+  setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+}
+
+// Global Wikilink Handler
+window.openNoteReaderById = function(targetId) {
+  if (!graphData || !graphData.nodes) return;
+  const cleanTarget = targetId.toLowerCase().trim();
+  const targetNode = graphData.nodes.find(n => n.id === cleanTarget || (n.slug && n.slug.toLowerCase() === cleanTarget));
+  if (targetNode) {
+    onNodeClick(new Event('click'), targetNode);
+  } else {
+    const insp = document.getElementById('insp');
+    document.getElementById('node-title').textContent = targetId;
+    document.getElementById('node-meta').innerHTML = `<span class="mtag status-badge status-dark">DARK</span>`;
+    document.getElementById('node-details').innerHTML = `<span class="gl">ID</span><span class="gv">${targetId}</span>`;
+    document.getElementById('node-preview').innerHTML = `
+      <div class="dark-note-notice" style="background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.15); border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+        <h4 style="color: #f6ad55; margin-top:0; margin-bottom:8px;">⚠️ Node Not Activated</h4>
+        <p style="margin:0; color: var(--muted); font-size: 0.85rem;">Node <code>${targetId}</code> has not been authored yet. Content will be available once the note is activated in curriculum.</p>
+      </div>`;
+    insp.classList.add('open');
+  }
+};
+
+// Configure Marked custom renderer for GFM tables and syntax highlighted code blocks
+if (typeof marked !== 'undefined') {
+  const markedRenderer = new marked.Renderer();
+
+  markedRenderer.table = function(header, body) {
+    return `<div class="table-wrapper"><table class="md-table"><thead>${header}</thead><tbody>${body}</tbody></table></div>`;
+  };
+
+  markedRenderer.code = function(code, lang) {
+    const cleanLang = (lang || 'text').toLowerCase();
+    let highlighted = '';
+    if (window.hljs && typeof window.hljs.highlight === 'function') {
+      try {
+        const validLang = window.hljs.getLanguage(cleanLang) ? cleanLang : 'plaintext';
+        highlighted = window.hljs.highlight(code, { language: validLang }).value;
+      } catch (e) {
+        highlighted = escapeHtml(code);
+      }
+    } else {
+      highlighted = escapeHtml(code);
+    }
+    return `<div class="code-block-wrapper">
+      <div class="code-block-header">
+        <span class="code-lang">${cleanLang}</span>
+        <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
+      </div>
+      <pre><code class="language-${cleanLang}">${highlighted}</code></pre>
+    </div>`;
+  };
+
+  marked.setOptions({ renderer: markedRenderer });
+}
+
+// Reading Progress Bar Scroll Event
+document.addEventListener('DOMContentLoaded', () => {
+  const inspBody = document.getElementById('insp-body');
+  const progressBar = document.getElementById('reading-progress-bar');
+  if (inspBody && progressBar) {
+    inspBody.addEventListener('scroll', () => {
+      const scrollTop = inspBody.scrollTop;
+      const scrollHeight = inspBody.scrollHeight - inspBody.clientHeight;
+      const percent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+      progressBar.style.width = `${Math.min(100, Math.max(0, percent))}%`;
+    });
+  }
+});
+
 function openInspector(d) {
   const insp = document.getElementById('insp');
+  const progressBar = document.getElementById('reading-progress-bar');
+  if (progressBar) progressBar.style.width = '0%';
+  const inspBody = document.getElementById('insp-body');
+  if (inspBody) inspBody.scrollTop = 0;
+
   document.getElementById('node-title').textContent = d.label;
   
-  // Render Meta Tags with upgraded styling (badge chips)
+  // Extract Frontmatter or Fallback Metadata
+  const nodeStatus = (d.status || 'dark').toLowerCase();
+  const nodeVersion = d.version || d.plan_version || '0.1.0';
+  const nodeUpdated = d.updated || d.completed || d.created || '2026-07-20';
+  const nodeRevisions = d.revisions !== undefined ? d.revisions : 0;
+  const nodeLitDate = d.lit_date || null;
+
+  // Render Meta Tags with upgraded status badges and metadata
   const meta = document.getElementById('node-meta');
   const chips = [
-    d.domain ? `Domain: ${d.domain}` : '',
-    d.cluster ? `Cluster: ${d.cluster}` : '',
-    d.type ? `Type: ${d.type}` : '',
-    d.size ? `Size: ${d.size}` : '',
-    d.status ? `Status: ${d.status}` : '',
-    d.plan_version ? `Plan: v${d.plan_version}` : ''
+    `<span class="mtag status-badge status-${nodeStatus}">${nodeStatus.toUpperCase()}</span>`,
+    d.domain ? `<span class="mtag">Domain: ${d.domain}</span>` : '',
+    `<span class="mtag">v${nodeVersion}</span>`,
+    `<span class="mtag">Updated: ${nodeUpdated}</span>`,
+    `<span class="mtag">Revisions: ${nodeRevisions}</span>`,
+    (nodeStatus === 'lit' && nodeLitDate) ? `<span class="mtag lit-date-badge">Lit on ${nodeLitDate}</span>` : ''
   ].filter(Boolean);
-  meta.innerHTML = chips.map(t => `<span class="mtag">${t}</span>`).join('');
+  meta.innerHTML = chips.join('');
   
   // Detailed metadata grid
   const grid = document.getElementById('node-details');
@@ -2095,15 +2601,12 @@ function openInspector(d) {
   const backsDiv = document.getElementById('node-backlinks');
   if (backsDiv) {
     backsDiv.innerHTML = '';
-    // Find all nodes that require the current node
     const requiredBy = graphData?.nodes.filter(n => n.requires && n.requires.includes(d.id)) || [];
-    // Find wiki-links that target this node
     const wikiLinkedBy = graphData?.edges
       .filter(e => e.type === 'wiki-link' && (e.target.id ?? e.target) === d.id)
       .map(e => graphData.nodes.find(n => n.id === (e.source.id ?? e.source)))
       .filter(Boolean) || [];
 
-    // Unique combined list of referencing nodes
     const allBacklinks = Array.from(new Map([...requiredBy, ...wikiLinkedBy].map(n => [n.id, n])).values());
 
     if (allBacklinks.length > 0) {
@@ -2127,26 +2630,81 @@ function openInspector(d) {
   }
 
   // Fetch note content preview
-  document.getElementById('node-preview').innerHTML = '';
-  // Check both slug and id for note fetch
+  document.getElementById('node-preview').innerHTML = '<div style="color:var(--muted); font-size:0.8rem;">Loading note content...</div>';
   const fetchTarget = d.slug || d.id;
   if (fetchTarget) {
     fetch(`notes/${fetchTarget}.md`)
       .then(r => r.ok ? r.text() : null)
       .then(md => {
         if (md) {
-          // Strip frontmatter from markdown before displaying in preview panel
           let cleanMd = md;
+          // Parse frontmatter YAML values if present
+          let parsedFrontmatter = {};
           if (md.startsWith('---')) {
             const nextIdx = md.indexOf('---', 3);
             if (nextIdx !== -1) {
+              const fmContent = md.substring(3, nextIdx);
               cleanMd = md.substring(nextIdx + 3).trim();
+              
+              // Extract frontmatter fields
+              const statusMatch = fmContent.match(/^status:\s*([^\r\n]+)/m);
+              const versionMatch = fmContent.match(/^version:\s*([^\r\n]+)/m);
+              const updatedMatch = fmContent.match(/^updated:\s*([^\r\n]+)/m);
+              const revisionsMatch = fmContent.match(/^revisions:\s*([^\r\n]+)/m);
+              const litDateMatch = fmContent.match(/^lit_date:\s*([^\r\n]+)/m);
+              
+              if (statusMatch) parsedFrontmatter.status = statusMatch[1].trim();
+              if (versionMatch) parsedFrontmatter.version = versionMatch[1].trim();
+              if (updatedMatch) parsedFrontmatter.updated = updatedMatch[1].trim();
+              if (revisionsMatch) parsedFrontmatter.revisions = parseInt(revisionsMatch[1].trim(), 10);
+              if (litDateMatch) parsedFrontmatter.lit_date = litDateMatch[1].trim() !== 'null' ? litDateMatch[1].trim() : null;
             }
           }
-          document.getElementById('node-preview').innerHTML = marked.parse(cleanMd);
+
+          // Update header badges if frontmatter supplied new values
+          const finalStatus = (parsedFrontmatter.status || nodeStatus).toLowerCase();
+          const finalVersion = parsedFrontmatter.version || nodeVersion;
+          const finalUpdated = parsedFrontmatter.updated || nodeUpdated;
+          const finalRevisions = parsedFrontmatter.revisions !== undefined ? parsedFrontmatter.revisions : nodeRevisions;
+          const finalLitDate = parsedFrontmatter.lit_date || nodeLitDate;
+
+          const updatedChips = [
+            `<span class="mtag status-badge status-${finalStatus}">${finalStatus.toUpperCase()}</span>`,
+            d.domain ? `<span class="mtag">Domain: ${d.domain}</span>` : '',
+            `<span class="mtag">v${finalVersion}</span>`,
+            `<span class="mtag">Updated: ${finalUpdated}</span>`,
+            `<span class="mtag">Revisions: ${finalRevisions}</span>`,
+            (finalStatus === 'lit' && finalLitDate) ? `<span class="mtag lit-date-badge">Lit on ${finalLitDate}</span>` : ''
+          ].filter(Boolean);
+          document.getElementById('node-meta').innerHTML = updatedChips.join('');
+
+          // Convert wikilinks [[node-id]] or [[node-id|label]]
+          cleanMd = cleanMd.replace(/\[\[([a-zA-Z0-9\s-_#|]+)\]\]/g, (match, p1) => {
+            const parts = p1.split('|');
+            const targetId = parts[0].trim().toLowerCase().replace(/\s+/g, '-');
+            const label = parts[1] ? parts[1].trim() : parts[0].trim();
+            return `<a class="wiki-link" data-node-id="${targetId}" href="javascript:void(0)" onclick="openNoteReaderById('${targetId}')">${label}</a>`;
+          });
+
+          // Check for dark note or empty placeholder content
+          const isPlaceholder = cleanMd.includes('PASTE MASTERCLASS NOTE BELOW THIS LINE');
+          if (finalStatus === 'dark' || isPlaceholder) {
+            const warningBanner = `
+              <div class="dark-note-notice" style="background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.15); border-radius: 8px; padding: 14px 16px; margin-bottom: 20px;">
+                <div style="color: #94a3b8; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Status: DARK</div>
+                <p style="font-size: 0.82rem; color: var(--muted); margin: 0; line-height: 1.5;">Node note content not yet written. Set status to <code>charging</code> or <code>lit</code> in note frontmatter once masterclass content is pasted.</p>
+              </div>`;
+            document.getElementById('node-preview').innerHTML = warningBanner + marked.parse(cleanMd);
+          } else {
+            document.getElementById('node-preview').innerHTML = marked.parse(cleanMd);
+          }
+        } else {
+          document.getElementById('node-preview').innerHTML = '<div style="color:var(--muted); font-size:0.8rem;">No note file available for this node.</div>';
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        document.getElementById('node-preview').innerHTML = '<div style="color:var(--muted); font-size:0.8rem;">Note file not found.</div>';
+      });
   }
   insp.classList.add('open');
   document.getElementById('search-panel').style.display = 'none';
@@ -2164,7 +2722,6 @@ document.getElementById('btn-copy').addEventListener('click', () => {
     if (label) { label.textContent = '✓ Copied!'; }
     setTimeout(() => { if (label) label.textContent = 'Copy Link'; }, 2200);
   }).catch(() => {
-    // Fallback for non-HTTPS
     const ta = document.createElement('textarea');
     ta.value = deepLink;
     document.body.appendChild(ta);
@@ -2177,7 +2734,7 @@ document.getElementById('btn-copy').addEventListener('click', () => {
 });
 
 document.getElementById('btn-view').addEventListener('click', () => {
-  if (selectedNode?.slug) window.open(`notes/${selectedNode.slug}.html`, '_blank');
+  if (selectedNode?.slug || selectedNode?.id) window.open(`notes/${selectedNode.slug || selectedNode.id}.html`, '_blank');
 });
 
 // ── Search ────────────────────────────────────────────────────────────────────
@@ -2219,6 +2776,259 @@ function setupSearch() {
 
   document.addEventListener('click', e => {
     if (!e.target.closest('#search-panel')) results.style.display = 'none';
+  });
+}
+
+// ── Library View Engine ───────────────────────────────────────────────────────
+let viewMode = 'graph';
+let libSearchQuery = '';
+let libStatusFilter = 'all';
+let libDomainFilter = 'all';
+let libTypeFilter = 'all';
+let libRingFilter = 'all';
+let libSizeFilter = 'all';
+let libSortBy = 'curriculum';
+let continueTargetNode = null;
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+window.openNoteReaderById = function(nodeId) {
+  if (!graphData || !graphData.nodes) return;
+  const target = graphData.nodes.find(n => n.id === nodeId || (n.slug && n.slug === nodeId));
+  if (target) {
+    onNodeClick(new Event('click'), target);
+  }
+};
+
+window.switchViewMode = function(mode) {
+  viewMode = mode;
+  const libView = document.getElementById('library-view');
+  const canvasContainer = document.getElementById('canvas-container');
+  const topGraph = document.getElementById('top-btn-graph');
+  const topLib = document.getElementById('top-btn-library');
+  const ctrlGraph = document.getElementById('btn-view-graph');
+  const ctrlLib = document.getElementById('btn-view-library');
+
+  if (mode === 'library') {
+    if (libView) libView.classList.add('active');
+    if (canvasContainer) canvasContainer.style.display = 'none';
+    if (topGraph) { topGraph.classList.remove('active'); topGraph.setAttribute('aria-selected', 'false'); }
+    if (topLib) { topLib.classList.add('active'); topLib.setAttribute('aria-selected', 'true'); }
+    if (ctrlGraph) ctrlGraph.classList.remove('on');
+    if (ctrlLib) ctrlLib.classList.add('on');
+    renderLibraryView();
+  } else {
+    if (libView) libView.classList.remove('active');
+    if (canvasContainer) canvasContainer.style.display = 'block';
+    if (topGraph) { topGraph.classList.add('active'); topGraph.setAttribute('aria-selected', 'true'); }
+    if (topLib) { topLib.classList.remove('active'); topLib.setAttribute('aria-selected', 'false'); }
+    if (ctrlGraph) ctrlGraph.classList.add('on');
+    if (ctrlLib) ctrlLib.classList.remove('on');
+  }
+};
+
+function setupLibraryControls() {
+  const searchInput = document.getElementById('lib-search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      libSearchQuery = e.target.value.toLowerCase().trim();
+      renderLibraryView();
+    });
+  }
+
+  const filterToggleBtn = document.getElementById('lib-filter-toggle');
+  const filterGrid = document.getElementById('lib-filter-grid');
+  if (filterToggleBtn && filterGrid) {
+    filterToggleBtn.addEventListener('click', () => {
+      filterGrid.classList.toggle('open');
+    });
+  }
+
+  const statusPills = document.querySelectorAll('.status-pill');
+  statusPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      statusPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      libStatusFilter = pill.dataset.status;
+      renderLibraryView();
+    });
+  });
+
+  const domainSel = document.getElementById('lib-filter-domain');
+  if (domainSel) domainSel.addEventListener('change', (e) => { libDomainFilter = e.target.value; renderLibraryView(); });
+
+  const typeSel = document.getElementById('lib-filter-type');
+  if (typeSel) typeSel.addEventListener('change', (e) => { libTypeFilter = e.target.value; renderLibraryView(); });
+
+  const ringSel = document.getElementById('lib-filter-ring');
+  if (ringSel) ringSel.addEventListener('change', (e) => { libRingFilter = e.target.value; renderLibraryView(); });
+
+  const sizeSel = document.getElementById('lib-filter-size');
+  if (sizeSel) sizeSel.addEventListener('change', (e) => { libSizeFilter = e.target.value; renderLibraryView(); });
+
+  const sortSel = document.getElementById('lib-sort-by');
+  if (sortSel) sortSel.addEventListener('change', (e) => { libSortBy = e.target.value; renderLibraryView(); });
+
+  const btnContinue = document.getElementById('btn-continue-node');
+  if (btnContinue) {
+    btnContinue.addEventListener('click', (e) => {
+      if (continueTargetNode) {
+        onNodeClick(e, continueTargetNode);
+      }
+    });
+  }
+}
+
+function renderLibraryView() {
+  if (!graphData || !graphData.nodes) return;
+  const nodes = graphData.nodes;
+
+  // 1. Stats calculation
+  const total = nodes.length;
+  const litCount = nodes.filter(n => n.status === 'lit').length;
+  const chargingCount = nodes.filter(n => n.status === 'charging').length;
+  const darkCount = total - litCount - chargingCount;
+
+  const litPct = total > 0 ? (litCount / total) * 100 : 0;
+  const chargingPct = total > 0 ? (chargingCount / total) * 100 : 0;
+  const darkPct = total > 0 ? (darkCount / total) * 100 : 0;
+
+  const segLit = document.getElementById('seg-lit');
+  const segCharging = document.getElementById('seg-charging');
+  const segDark = document.getElementById('seg-dark');
+  if (segLit) segLit.style.width = `${litPct}%`;
+  if (segCharging) segCharging.style.width = `${chargingPct}%`;
+  if (segDark) segDark.style.width = `${darkPct}%`;
+
+  const countsEl = document.getElementById('lib-progress-counts');
+  if (countsEl) countsEl.textContent = `${litCount} LIT · ${chargingCount} CHARGING · ${darkCount} DARK (${litPct.toFixed(1)}%)`;
+
+  // 2. Continue Affordance (First non-lit node in curriculum order)
+  continueTargetNode = nodes.find(n => n.status !== 'lit' && n.type !== 'center' && n.type !== 'domain') || nodes[0];
+  const contTitleEl = document.getElementById('continue-node-title');
+  const contMetaEl = document.getElementById('continue-node-meta');
+  if (contTitleEl && continueTargetNode) {
+    contTitleEl.textContent = continueTargetNode.label || continueTargetNode.title || continueTargetNode.id;
+    const metaParts = [
+      continueTargetNode.domain ? `Domain: ${continueTargetNode.domain}` : '',
+      continueTargetNode.ring ? `Ring ${continueTargetNode.ring}` : '',
+      continueTargetNode.type ? `Type: ${continueTargetNode.type}` : '',
+      `Status: ${(continueTargetNode.status || 'dark').toUpperCase()}`
+    ].filter(Boolean);
+    if (contMetaEl) contMetaEl.innerHTML = metaParts.map(m => `<span class="mtag">${m}</span>`).join(' ');
+  }
+
+  // 3. Multi-faceted Filter Evaluation
+  let filtered = nodes.filter(n => {
+    if (libSearchQuery) {
+      const matchLabel = (n.label || '').toLowerCase().includes(libSearchQuery);
+      const matchId = (n.id || '').toLowerCase().includes(libSearchQuery);
+      const matchDomain = (n.domain || '').toLowerCase().includes(libSearchQuery);
+      const matchTags = n.tags && n.tags.some(t => t.toLowerCase().includes(libSearchQuery));
+      const matchCluster = (n.cluster || '').toLowerCase().includes(libSearchQuery);
+      if (!matchLabel && !matchId && !matchDomain && !matchTags && !matchCluster) return false;
+    }
+
+    if (libStatusFilter !== 'all') {
+      const nStatus = (n.status || 'dark').toLowerCase();
+      if (nStatus !== libStatusFilter) return false;
+    }
+
+    if (libDomainFilter !== 'all') {
+      if ((n.domain || '').toLowerCase() !== libDomainFilter) return false;
+    }
+
+    if (libTypeFilter !== 'all') {
+      if ((n.type || '').toLowerCase() !== libTypeFilter) return false;
+    }
+
+    if (libRingFilter !== 'all') {
+      const nRing = String(n.ring || '');
+      if (!nRing.includes(libRingFilter)) return false;
+    }
+
+    if (libSizeFilter !== 'all') {
+      if ((n.size || '').toUpperCase() !== libSizeFilter) return false;
+    }
+
+    return true;
+  });
+
+  // 4. Sorting Options
+  if (libSortBy === 'updated') {
+    filtered.sort((a, b) => new Date(b.updated || b.completed || '2000-01-01') - new Date(a.updated || a.completed || '2000-01-01'));
+  } else if (libSortBy === 'revisions') {
+    filtered.sort((a, b) => (b.revisions || 0) - (a.revisions || 0));
+  } else if (libSortBy === 'ring') {
+    filtered.sort((a, b) => {
+      const rA = parseInt(String(a.ring || '99').replace(/\D/g, ''), 10) || 99;
+      const rB = parseInt(String(b.ring || '99').replace(/\D/g, ''), 10) || 99;
+      return rA - rB;
+    });
+  } else if (libSortBy === 'alphabetical') {
+    filtered.sort((a, b) => (a.label || a.id).localeCompare(b.label || b.id));
+  }
+
+  const matchCountEl = document.getElementById('lib-matching-count');
+  if (matchCountEl) matchCountEl.textContent = `Showing ${filtered.length} of ${total} nodes`;
+
+  // 5. Render Node Rows
+  const listEl = document.getElementById('lib-nodes-list');
+  if (!listEl) return;
+
+  if (filtered.length === 0) {
+    listEl.innerHTML = `<div style="text-align:center; padding:32px; color:var(--muted); font-size:0.85rem;">No nodes match the selected filters.</div>`;
+    return;
+  }
+
+  listEl.innerHTML = filtered.map(n => {
+    const dotColor = domainColors[n.domain] || '#3ee2e2';
+    const nStatus = (n.status || 'dark').toLowerCase();
+    const nVersion = n.version || n.plan_version || '0.1.0';
+    const nUpdated = n.updated || n.completed || '2026-07-20';
+    const nRing = n.ring ? `R${n.ring}` : '—';
+    
+    return `
+      <div class="lib-row" data-id="${n.id}" role="button" tabindex="0">
+        <div class="lib-row-left">
+          <div class="lib-dot" style="background:${dotColor}; color:${dotColor};"></div>
+          <div class="lib-row-title-wrap">
+            <div class="lib-row-title">${escapeHtml(n.label || n.title || n.id)}</div>
+            <div class="lib-row-sub">
+              <span>${n.domain ? n.domain.toUpperCase() : 'CORE'}</span>
+              <span>•</span>
+              <span>${nRing}</span>
+              <span>•</span>
+              <span>${n.type || 'concept'}</span>
+              ${n.size ? `<span>• ${n.size}</span>` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="lib-row-right">
+          <span class="mtag status-badge status-${nStatus}">${nStatus.toUpperCase()}</span>
+          <span class="mtag">v${nVersion}</span>
+          <span class="mtag" style="font-size:0.62rem; color:var(--muted);">${nUpdated}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  listEl.querySelectorAll('.lib-row').forEach(row => {
+    row.addEventListener('click', (e) => {
+      const nodeId = row.dataset.id;
+      const targetNode = graphData.nodes.find(n => n.id === nodeId);
+      if (targetNode) {
+        onNodeClick(e, targetNode);
+      }
+    });
   });
 }
 
@@ -2586,6 +3396,11 @@ function initMotivationOverlays(data) {
       triggerCelebration(nodeColor(newCelebration));
     }, 1500);
   }
+
+  // 6. Update Library View stats & list if initialized
+  if (typeof renderLibraryView === 'function') {
+    renderLibraryView();
+  }
 }
 
 function updateLevelBar(xp) {
@@ -2799,6 +3614,11 @@ document.addEventListener('visibilitychange', () => {
     startRingSpin();
   }
 });
+
+// Initialize Library View controls
+if (typeof setupLibraryControls === 'function') {
+  setupLibraryControls();
+}
 </script>
 </body>
 </html>

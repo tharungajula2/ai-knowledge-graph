@@ -26,9 +26,12 @@ The project has one part: a static frontend displaying an interactive D3 graph o
 
 ## 5. Core features
 * **Concentric Ring / Galaxy Graph**: A physics-based D3 visualization mapping 10 domains and 228 nodes with two layout modes (concentric rings with orbital spin, force-directed galaxy), zoom/pan, hover tooltips, and click-to-inspect.
-* **Wikilink & Backlink Engine**: The build compiler (`tools/site-build/compile-curriculum.js`) crawls markdown notes, extracts `[[wikilinks]]`, generates bidirectional edges and backlink lists for the graph inspector.
-* **Note-Driven Status Automation**: Node status transitions automatically — ghost → charging (note exists with `started` date, no `completed` date) → lit (note has `completed` date). Status is derived from note frontmatter at build time. Lit nodes are locked and immutable.
-* **Structured Notes Pipeline**: Notes follow a mandatory template (`notes/TEMPLATE.md`): ELI5, Real Explanation, Why It Matters, Hands-On, Proof, Prove It (5 self-test questions), Wikilinks, Status Log.
+* **Library View & View Toggle**: Multi-view engine (`Graph | Library`) with instant state preservation. Features global progress bar, "Continue" chapter affordance, multi-faceted filtering (status, domain, type, ring, size), 5 sorting options, and scannable node rows.
+* **In-App Note Reader**: Full-screen mobile overlay / wide desktop side panel rendering GitHub-flavored Markdown directly in the graph/library UI. Includes bundled offline `highlight.js` syntax highlighting, copy-code buttons, scrollable tables/code blocks, and interactive `[[wikilink]]` navigation.
+* **Strict 1-to-1 Note Architecture**: 228 markdown note files in `notes/` strictly matching curriculum node IDs 1-to-1 (`<node-id>.md`).
+* **YAML Frontmatter Schema & Guard Rails**: Frontmatter schema enforcing `id`, `title`, `domain`, `ring`, `type`, `size`, `status` (dark/charging/lit), `version`, `created`, `updated`, `lit_date`, `revisions`, `artifact`, `wikilinks`, `tags`. Build fails loudly via `tools/validate-notes.js` if any lit node lacks substantive content (Empty-Lit Guard).
+* **Wikilink & Backlink Engine**: The build compiler (`tools/site-build/compile-curriculum.js`) crawls markdown notes, extracts `[[wikilinks]]`, generates bidirectional edges and backlink lists for graph inspector and note reader.
+* **Note-Driven Status Automation**: Node status transitions automatically — ghost/dark (planned) → charging (pasted/in-progress) → lit (mastered). Status is derived from note frontmatter at build time. Lit nodes are locked and immutable.
 * **XP & Level System**: XP computed per lit node by size (S=10, M=25, L=50, capstone=100). Level bar in left panel (1000 XP/level) with titles: Apprentice → Journeyman → Engineer → Architect → Vizier.
 * **Streak Flame**: Daily streak counter with current and best-ever display, driven by commit/build history.
 * **Boss Nodes**: 10 domain capstone nodes render with a distinct glow and trigger a celebration animation on first light.
@@ -41,27 +44,32 @@ The project has one part: a static frontend displaying an interactive D3 graph o
 
 ## 6. Feature status table
 
-| Feature | Status | Evidence |
+| Feature | Status | Evidence / File Path |
 | :--- | :--- | :--- |
-| **D3 Graph Visualizer (rings + galaxy)** | SHIPPED | `site/index.html` — 2781 lines, full D3/SVG/Canvas renderer. |
+| **D3 Graph Visualizer (rings + galaxy)** | SHIPPED | `site/index.html` — D3/SVG/Canvas interactive visualizer. |
+| **Library View Engine** | SHIPPED | `site/index.html` — `#library-view`, progress strip, continue card, search/filter/sort list. |
+| **In-App Note Reader** | SHIPPED | `site/index.html` — `#node-inspector`, Markdown parser, `[[wikilink]]` click router. |
+| **Offline Syntax Highlighting** | SHIPPED | `site/assets/highlight.min.js`, `site/assets/highlight.min.css` — bundled local syntax highlighting. |
+| **Note Validation Guard Rails** | SHIPPED | `tools/validate-notes.js` — 1-to-1 node mapping, frontmatter semver/date check, empty-lit guard. |
+| **1-to-1 Curriculum Notes System** | SHIPPED | `notes/*.md` — 228 node markdown files strictly mapped to curriculum. |
 | **Wikilink & Backlink Parser** | SHIPPED | `tools/site-build/compile-curriculum.js` — wikilink extraction and edge generation. |
 | **Note-Driven Status Automation** | SHIPPED | `tools/site-build/compile-curriculum.js` — reads frontmatter `status`/`completed` fields. |
-| **Structured Notes Template** | SHIPPED | `notes/TEMPLATE.md` — 7-section mandatory structure. |
-| **XP & Level System** | SHIPPED | `site/index.html` lines 720–730 — level bar, XP counter, title display. |
-| **Streak Flame** | SHIPPED | `site/index.html` lines 732–743 — streak current/best display. |
+| **Structured Notes Template & Guide** | SHIPPED | `notes/TEMPLATE.md`, `NOTES_GUIDE.md` — paste ritual & mastery standards. |
+| **XP & Level System** | SHIPPED | `site/index.html` — level bar, XP counter, title display. |
+| **Streak Flame** | SHIPPED | `site/index.html` — streak current/best display. |
 | **Boss Node Glow** | SHIPPED | `site/index.html` — capstone nodes render with distinct glow filter. |
-| **Trophy Shelf & Badges** | SHIPPED | `site/badges.json` (5 badges defined), `site/index.html` lines 921–955 (modal). |
+| **Trophy Shelf & Badges** | SHIPPED | `site/badges.json`, `site/index.html` — badge modal shelf. |
 | **Domain Progress Rings** | SHIPPED | `site/index.html` — per-domain completion % in ring legend. |
-| **Search** | SHIPPED | `site/index.html` — `#search-panel` with fuzzy matching. |
+| **Search (Graph & Library)** | SHIPPED | `site/index.html` — fuzzy search in graph and library view. |
 | **LIVE / VISION Toggle** | SHIPPED | `site/index.html` — `#btn-live` / `#btn-preview` mode switching. |
 | **Tour Mode** | SHIPPED | `site/index.html` — `#btn-tour` automated domain fly-through. |
-| **Curriculum Compiler** | SHIPPED | `tools/site-build/compile-curriculum.js` — parses `VIZIER_MASTERY_GRAPH.md` → JSON. |
+| **Curriculum Compiler** | SHIPPED | `tools/site-build/compile-curriculum.js` — parses graph and notes → JSON. |
 | **Day-Close Pipeline** | SHIPPED | `tools/day-close.js` — builds, computes streaks, commits, pushes. |
 | **Next-Node / Finish-Node CLI** | SHIPPED | `tools/next-node.js`, `tools/finish-node.js` — node selection and completion workflow. |
 | **Frontier Scanner** | SHIPPED | `tools/frontier-scan.js` — Gemini-powered ghost node update scanner. |
 | **QA Integrity Checker** | SHIPPED | `tools/check-qa-integrity.js` — validates all nodes have required fields, zero orphans. |
 | **Vercel Production Deployment** | SHIPPED | `vercel.json` — `buildCommand: npm run build-brain`, `outputDirectory: site`. |
-| **Mobile Responsive Layout** | SHIPPED | `site/assets/style.css` — `@media (max-width: 768px)` collapsible panels. |
+| **Mobile Responsive Layout (375px)** | SHIPPED | `site/assets/style.css`, `site/index.html` — responsive touch UI for 375px mobile viewports. |
 
 ## 7. Real vs. Demo
 * **What is real**:
