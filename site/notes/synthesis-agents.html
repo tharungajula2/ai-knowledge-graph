@@ -35,17 +35,40 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Synthesis: Chatbot vs Agent</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: agents</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
-
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+          <h2 id="eli5">ELI5</h2>
+<p>The node summary sets the bar: chatbot vs agent, <strong>explained forever</strong> — the distinction rendered so cleanly, at every depth from a 12-year-old to a systems interview, that you'll never fumble it again. Volume 01 explained the machine; Volume 02, the call; Volume 03, the open book. This one explains <strong>the loop</strong> — and everything this ring built around it to make autonomy trustworthy.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p>A chatbot is a single pass: context in, text out, done — however brilliant, it can only <em>tell you things</em>. An agent closes a loop through the world: it <strong>reasons</strong> about a goal, <strong>acts</strong> by requesting a tool call it never executes itself [Vol 02, Ch 7], <strong>observes</strong> reality's reply, and repeats — its own outputs deciding its own next inputs [1]. That loop was first run on paper, by you, feeling the termination temptation and the re-query urge in your own head [2]; then built from bare Python — hand-formatted prompts, regex parsing, a stop sequence to forbid fantasy observations, a max_steps floor [4] — around tools designed like labeled instruments: named consistently, described with negative space, erroring legibly, safety-tagged at birth [3]. The while-loop became a <strong>graph</strong> — state flowing through nodes, decisions living in conditional edges, cycles first-class [5] — which made execution <strong>checkpointable</strong>: pause, resume, survive crashes, time-travel, threads as identity [6]; which made <strong>interrupts</strong> possible: the agent parked in a database, mid-thought, awaiting a human verdict that arrives as one more observation [7]. Patterns organized the loop's ambitions: <strong>plans</strong> pinning goals against drift, replanned only with written reasons — your own Rule 6, in silicon [8]; <strong>reflection</strong> critiquing drafts against rubrics, Reflexion carrying lessons across attempts, always outranked by ground truth [9]; <strong>subgraphs</strong> composing agents into organizations with narrow interfaces and private scratchpads [10] — a <strong>supervisor</strong> routing by schema-enforced intent to four <strong>specialists</strong>, each its own pattern, the async bridge finally crossed [11, 12]; the <strong>scratchpad</strong> named, mapped among three memory horizons, and disciplined with distillation and typed state [13]. Then the real world: a <strong>research agent</strong> planning, searching web and brain, quarantining untrusted pages behind provenance, synthesizing only cited findings with honest gaps [14]; the <strong>gate</strong> promoted from technique to policy at the dispatch chokepoint, batch-approving plans, tripwiring deviations, and writing the audit trail that turns autonomy into a reviewable record [15]; the <strong>failure zoo</strong> — loops, spam, drift, cascades — each specimen named, signatured, and guarded by architecture that was already load-bearing [16]; the <strong>bill</strong> engineered — caps, routing, cache-optimal prefixes, budgets as products with price tags [17]. And at the ring's summit, the loop turned home: an agent that reads the brain, scans the frontier, and <strong>proposes new nodes through its own gate</strong> — learning your curatorial taste from your rejections — the first synapse of The Bridge [18].</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: explained forever.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Three renditions, the ritual: <strong>(a)</strong> The narration, written, ≤700 words, your words, every chapter present and load-bearing. <strong>(b)</strong> The napkin: left panel — the bare loop (reason→act→observe, the world in the circuit); right panel — the full architecture (supervisor, specialists, gate at dispatch, checkpointer beneath, budgets around, audit trail below), with the failure zoo's three families red-arrowed onto where each strikes and the guard that catches it. Photograph into the note. <strong>(c)</strong> The 90-second spoken version — its interview prompt is the field's favorite: <em>"what's the difference between a chatbot and an agent, and what does it take to make agents production-ready?"</em> — the second clause is where candidates die and where your ring-full of guards, gates, and budgets makes you unkillable. Record, critique, re-record. Then the depth test unique to this synthesis: deliver it at three depths — the 12-year-old version (consultant with hands), the engineer version (the loop plus the graph), the architect version (the trust machinery) — each under two minutes. Any depth that wobbles: its chapters know who they are.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Deliver the 90-second version cold — both clauses.</li>
+<li>Trace one run that exercises: routing → specialist → tool error recovered → gate edit → budget-capped honest partial. Name every mechanism and its chapter.</li>
+<li>Place the three memory horizons and the three failure families on your napkin from memory.</li>
+<li>Deliver the 12-year-old version in four sentences.</li>
+<li>Draw the napkin from memory.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="synthesis-agents" href="synthesis-agents.html">synthesis-agents</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

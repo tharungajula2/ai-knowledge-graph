@@ -35,17 +35,61 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>First API Call</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: prompting-apis</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Everything you did in a chat window, a program can do with one HTTPS request. That's the whole revelation of this chapter: <strong>a model is a function you call</strong>. Text goes in over the wire, text comes back, and the moment it's a function, you can compose it — into loops, pipelines, products. Today the magic becomes an object in your terminal.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>What an API call actually is.</strong> An HTTP POST to a provider's endpoint with (1) your <strong>API key</strong> in a header — your identity and your bill, (2) a <strong>JSON body</strong> — model name, messages, settings like temperature and max output tokens, and (3) back comes a <strong>JSON response</strong> — the generated text plus metadata. The SDK (<code>pip install google-genai</code>) is just a polite wrapper around this POST; never forget the HTTP underneath, because when things break, the truth is in the raw request/response.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">from</span> google <span class="tok-kw">import</span> genai
+
+client = genai.<span class="tok-fn">Client</span>(()   <span class="tok-comment"># reads GEMINI_API_KEY from the environment (Vol 01, Ch 20!)</span>
+resp = client.models.<span class="tok-fn">generate_content</span>((
+    model=<span class="tok-str">"gemini-2.5-flash"</span>,
+    contents=<span class="tok-str">"Explain tokens in one sentence."</span>
+)
+<span class="tok-builtin">print</span>(resp.text)</code></pre>
+      </div>
+
+<p><strong>The three laws of API keys</strong> (violating law 1 has cost real people real money): keys live in <strong>environment variables</strong> (<code>export GEMINI_API_KEY=...</code>) or a <code>.env</code> file that is <strong>in <code>.gitignore</code></strong> — never in code, never in a commit (Git history is forever — Vol 01, Ch 19); one key per project so leaks are containable; and rotate any key you even suspect leaked.</p>
+
+<p><strong>Inspect the raw response — the node's real assignment.</strong> <code>resp.text</code> is convenience sugar. Print the full response object and find the anatomy you'll meet on every provider: the <strong>candidates/content/parts</strong> structure (why a list of parts? because responses can mix text, tool calls, and more — foreshadowing Chapter 7), the <strong>finish reason</strong> (<code>STOP</code> = natural end; length-cap and safety endings look different — check this field before trusting truncated-looking output), and <strong>usage metadata</strong> — input tokens, output tokens. That usage block is your <code>tokentools</code> numbers, now official: reconcile the API's count against your Volume 01 calculator on the same text and note the delta.</p>
+
+<p><strong>Statelessness, witnessed.</strong> Make two calls: "My name is Tharun." then "What's my name?" The model has no idea — Vol 01 Chapter 8's whiteboard truth, now demonstrated by your own code. Every "conversation" you build from here on is you re-sending history manually. Chapter 17's chatbot is exactly that loop.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: call Gemini from Python; inspect the raw response.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>In a fresh venv: get a free Gemini API key (AI Studio), set it as an env var, make the call above. Then: print the full raw response and label every field in a comment; check the finish reason; print token usage and compare with <code>tokentools</code>; run the two-call statelessness experiment; and finally set <code>max_output_tokens=10</code>, observe the truncation <em>and</em> the changed finish reason. Five experiments, one script, <code>first_call.py</code> — commit it (key nowhere in sight).</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What are the three components of every LLM API call, at the HTTP level?</li>
+<li>Recite the three laws of API keys and the reason Git makes leaks worse.</li>
+<li>Why is response content a <em>list of parts</em> rather than a string? What does that design anticipate?</li>
+<li>What does the finish reason tell you, and why check it before trusting output?</li>
+<li>Describe your statelessness experiment and its result — and what it obligates every chat app to do.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="context-windows" href="context-windows.html">context-windows</a></p>
+<p><a class="wiki-link" data-node-id="tokens" href="tokens.html">tokens</a></p>
+<p><a class="wiki-link" data-node-id="build-token-cost-calculator" href="build-token-cost-calculator.html">build-token-cost-calculator</a></p>
+<p><a class="wiki-link" data-node-id="roles-and-system-prompts" href="roles-and-system-prompts.html">roles-and-system-prompts</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

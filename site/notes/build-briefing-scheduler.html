@@ -35,17 +35,52 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Briefing Scheduler & Cron</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Not everything happens in response to a request — some things happen <em>on a schedule</em>, in the background, whether anyone's watching or not. The node summary: <strong>build a background cron scheduler that runs periodic briefing builders, aggregating calendars, emails, and notes into structured summaries; verify by triggering manual runs.</strong> This is your agent-lab's morning-briefing engine — the thing that wakes up every morning, gathers your world (calendar, inbox, notes), and produces a summary before you ask. It introduces <em>scheduled background work</em>, a whole category of production capability beyond request/response.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Scheduled work — the category.</strong> Request/response (Ch 1) is <em>reactive</em> — something happens because a user asked. Scheduled work is <em>proactive</em> — something happens because <em>time</em> passed: a nightly report, a periodic sync, a morning briefing. "Cron" (from the classic Unix scheduler) means "run this task on this schedule" (every morning at 6am, every hour, every Monday). Production systems are full of scheduled work, and building a scheduler teaches the pattern: a background process that wakes on a schedule, does work, and sleeps again — independent of any user request.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The briefing builder — the concrete task.</strong> Every morning (say), aggregate the user's world into a structured summary: <em>calendar</em> (today's events — Ch 8's Calendar reader), <em>emails</em> (overnight/unread highlights — Ch 8's Gmail reader), <em>notes</em> (relevant items from your brain — Vol 03/06's retrieval), synthesized by an LLM (your agents, Vol 04) into a briefing. It's a mini-agent pipeline (gather → synthesize → deliver) on a schedule — and it's genuinely useful (a real morning-briefing feature, the kind that makes a product feel alive). The aggregation touches multiple data sources (Ch 7-8's OAuth and readers), the synthesis uses your agent stack, and the delivery pushes to the user (Ch 13's Telegram/webhooks, or the dashboard Ch 11).</p>
+
+<p><strong>The scheduling mechanisms (the how).</strong> <em>Simple</em>: a loop with <code>sleep</code> (crude, fragile — dies if the process dies). <em>APScheduler</em> (a Python scheduling library — cron-like schedules in-process, persistence options — good for a single service). <em>System cron / cloud scheduler</em> (the OS or cloud triggers your endpoint on a schedule — robust, decoupled from your app's lifetime — Cloud Scheduler, GitHub Actions cron, etc.). <em>Task queue with scheduled tasks</em> (Celery beat — Ch 27's workers, with scheduling — the scalable production choice). The tradeoffs: in-process is simple but tied to your app's uptime; external schedulers are robust but add infrastructure. For the agent-lab, an in-process scheduler (APScheduler) or a cloud scheduler hitting an endpoint both work; the build teaches the pattern regardless.</p>
+
+<p><strong>The production concerns (scheduled work has its own failure modes).</strong> <em>Idempotency</em> (Vol 08 Ch 10 — if the briefing job runs twice, does it send two briefings? Make it exactly-once, or safe-to-repeat). <em>Failure handling</em> (the 6am job fails — does it retry? alert? silently skip? — Ch 15's monitoring; a scheduled job that fails silently is worse than no job, because you <em>rely</em> on it). <em>Missed runs</em> (the server was down at 6am — does the job run late when it recovers, or skip? — a real design decision). <em>Observability</em> (Vol 07 — you need to <em>know</em> the job ran, succeeded, and what it produced — scheduled work is invisible unless you instrument it). <em>Manual triggering</em> (the node's verification — a way to run the job on-demand for testing and recovery, decoupled from the schedule).</p>
+
+<p><strong>Verification — manual runs, per the node.</strong> A manual-trigger endpoint/command that runs the briefing builder on-demand (so you can test without waiting for 6am). Assert: the aggregation gathers from all sources (mock them — Ch 16's demo mode), the synthesis produces a valid structured briefing, the delivery works, idempotency holds (run twice, verify safe), and failures are handled (mock a source failure, confirm graceful degradation — a briefing with "calendar unavailable" beats no briefing).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a background cron scheduler that runs periodic briefing builders, aggregating calendars, emails, and notes into structured summaries; verify by triggering manual runs.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1-1.5 days): the briefing builder (aggregate mock calendar/email/notes → LLM synthesis → structured briefing) → the scheduler (APScheduler or a cloud-scheduler-hit endpoint) → manual-trigger endpoint → idempotency (Vol 08 Ch 10) → failure handling (graceful degradation per source) → observability (log every run: started, succeeded, produced) → test via manual runs (all sources, one-source-failure, double-run). This is a RESURRECTION subsystem (Ch 34). Tag <code>prod-v0.2</code>. The briefing builder + the manual-run demo + the graceful-degradation test = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Distinguish reactive (request/response) from proactive (scheduled) work — why do production systems need both?</li>
+<li>Recite the scheduling mechanisms and their tradeoffs (in-process vs external).</li>
+<li>Why is idempotency critical for scheduled jobs, and what's the double-briefing risk?</li>
+<li>Why is a silently-failing scheduled job <em>worse</em> than no job?</li>
+<li>Why is a manual-trigger essential, and what does it enable beyond testing?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-idempotency-audit" href="build-idempotency-audit.html">build-idempotency-audit</a></p>
+<p><a class="wiki-link" data-node-id="gmail-calendar-read" href="gmail-calendar-read.html">gmail-calendar-read</a></p>
+<p><a class="wiki-link" data-node-id="build-async-workers" href="build-async-workers.html">build-async-workers</a></p>
+<p><a class="wiki-link" data-node-id="monitoring-alerting" href="monitoring-alerting.html">monitoring-alerting</a></p>
+<p><a class="wiki-link" data-node-id="build-research-agent" href="build-research-agent.html">build-research-agent</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

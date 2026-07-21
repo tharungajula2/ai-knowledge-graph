@@ -35,17 +35,65 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Memory Taxonomy</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: memory-knowledge</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Not all memory is one thing — and treating it as one thing is why so many "memory" features are just a growing junk drawer. The node summary is the spec and the lesson: <strong>build a semantic memory extraction service that classifies inputs into semantic, episodic, and procedural categories and stores them in Postgres tables; verify with test conversation snippets.</strong> Cognitive science figured out decades ago that human memory has <em>types</em> with different jobs; this build borrows that taxonomy because it turns out to be exactly the right way to organize an agent's store. You start the ring by building the filing cabinet, not the pile.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The three memory types — borrowed from cognitive science, earning their keep in code.</strong></p>
+<ul>
+<li><strong>Semantic memory</strong> — <em>facts about the world and the user</em>, timeless-ish, context-free. "The user's name is Tharun." "Tharun is targeting AI-engineering roles." "The project is called Vizier." These are the <em>what-is</em> memories: true regardless of when or how learned, retrievable as standalone facts. This is where personalization lives (Ch 7).</li>
+<li><strong>Episodic memory</strong> — <em>events, experiences, specific interactions with time and context</em>. "On July 18, the user asked me to plan their week." "Last session we debugged the async bridge together." The <em>what-happened</em> memories: tied to a moment, useful for continuity and for learning from experience (this is Reflexion's lesson-store, Vol 04 Ch 9, formalized as a memory type — you've met the middle horizon before).</li>
+<li><strong>Procedural memory</strong> — <em>how to do things; learned skills and preferences-in-action</em>. "When the user asks for a summary, they prefer bullets under 100 words." "To deploy this project, run these steps." The <em>how-to</em> memories: often the highest-value and most-overlooked; they make an agent get <em>better at working with you</em> over time, not just <em>know more about you</em>.</li>
+</ul>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p>The insight that makes this a build and not a lecture: <strong>different types want different storage, retrieval, and lifecycle.</strong> Semantic facts get updated in place (the user's job changes → overwrite, don't accumulate — Ch 12's temporal problem preview); episodic events accumulate append-only and decay with age (Ch 4); procedural memories are rare, precious, and rarely deleted. One junk-drawer table can't serve three lifecycles; three typed tables can.</p>
+
+<p><strong>The extraction service — the build's engine.</strong> Input: a conversation snippet. Job: an LLM call (your gateway, structured output — Vol 02 Ch 6) that reads the snippet and emits <em>classified memory candidates</em>:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">class</span> <span class="tok-fn">Memory</span>((<span class="tok-type">BaseModel</span>):
+    <span class="tok-builtin">type</span>: <span class="tok-type">Literal</span>[<span class="tok-str">"semantic"</span>, <span class="tok-str">"episodic"</span>, <span class="tok-str">"procedural"</span>]
+    content: <span class="tok-builtin">str</span>                    <span class="tok-comment"># the distilled fact/event/skill, self-contained</span>
+    subject: <span class="tok-builtin">str</span>                    <span class="tok-comment"># who/what it's about (the user, the project, a tool)</span>
+    confidence: <span class="tok-builtin">float</span>               <span class="tok-comment"># extraction certainty (Ch 3 will use this)</span>
+    source_snippet_id: <span class="tok-builtin">str</span>          <span class="tok-comment"># provenance — memory needs receipts too (Vol 03 Ch 10 habit)</span></code></pre>
+      </div>
+<p>The prompt teaches the taxonomy by example (few-shot — Vol 02 Ch 4: show it a fact, an event, a skill, and one snippet that yields <em>nothing</em> worth remembering — the null case, because most conversation is not memory-worthy and an extractor that hoards everything is a junk drawer with extra steps). Store each classified memory in its typed Postgres table (<code>semantic_memory</code>, <code>episodic_memory</code>, <code>procedural_memory</code> — the same Postgres holding your brain and your checkpoints; co-location, the running theme).</p>
+
+<p><strong>Verification — test conversation snippets, per the node.</strong> A fixture set of snippets, each hand-labeled with the memories it <em>should</em> yield (including snippets that should yield <em>none</em>). Assert: correct type classification, self-contained content (a memory that reads "he prefers that" without a resolvable subject is useless — test for danglers), and the null cases produce nothing. This is a classification task, so your Vol 01 Ch 12 metrics apply — precision (did it store junk?) and recall (did it miss real facts?) on memory extraction, the first of many places this ring measures memory like the classifier it is.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a semantic memory extraction service that classifies inputs into semantic, episodic, and procedural categories and stores them in Postgres tables; verify with test conversation snippets.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. half a day): the three typed Postgres tables → the <code>Memory</code> schema → the extraction prompt with few-shots covering all three types plus the null case → the service (snippet in → classified memories out → stored) → the fixture set (~10 snippets, hand-labeled, null cases included) → the classification tests with precision/recall. Then run it on a <em>real</em> transcript — your Vol 03 brain-chat or a genuine conversation — and read what it extracted: are the types right? Did it hoard junk or miss facts? That honest read is the build's real lesson; one paragraph on where your extractor over- and under-remembers goes in the note. Tag <code>memory-v0.1</code> — the store's foundation.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the three memory types with a one-line job and an example each — the what-is, what-happened, how-to.</li>
+<li>Why can't one table serve all three? Give each type's distinct lifecycle.</li>
+<li>Why is the null case (snippets yielding no memory) essential to the extractor's design?</li>
+<li>What must every stored memory carry besides its content, and which Vol 03 habit is that?</li>
+<li>How do precision and recall apply to memory extraction — what does each failure look like?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="scratchpads-working-memory" href="scratchpads-working-memory.html">scratchpads-working-memory</a></p>
+<p><a class="wiki-link" data-node-id="reflection-patterns" href="reflection-patterns.html">reflection-patterns</a></p>
+<p><a class="wiki-link" data-node-id="structured-output" href="structured-output.html">structured-output</a></p>
+<p><a class="wiki-link" data-node-id="memory-architectures" href="memory-architectures.html">memory-architectures</a></p>
+<p><a class="wiki-link" data-node-id="memory-extraction" href="memory-extraction.html">memory-extraction</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

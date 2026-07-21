@@ -37,660 +37,56 @@
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
           <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You don't need to <em>write</em> clever object-oriented code to be an AI engineer — but every codebase you'll open (LangChain, the OpenAI SDK, your own agent-lab) is built from classes and modules, so you must <em>read</em> them like plain English. A class is a blueprint bundling data with the functions that operate on it; a module is just a file you can import. That's 90% of the mystery.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">class</span> <span class="tok-type">Agent</span>:
+    <span class="tok-kw">def</span> <span class="tok-fn">__init__</span>((<span class="tok-kw">self</span>, name: <span class="tok-builtin">str</span>, model: <span class="tok-builtin">str</span>):   <span class="tok-comment"># runs at creation</span>
+        <span class="tok-kw">self</span>.name = name                          <span class="tok-comment"># self = THIS instance</span>
+        <span class="tok-kw">self</span>.history: <span class="tok-builtin">list</span>[<span class="tok-builtin">dict</span>] = []
+    <span class="tok-kw">def</span> <span class="tok-fn">ask</span>((<span class="tok-kw">self</span>, prompt: <span class="tok-builtin">str</span>) <span class="tok-op">-&gt;</span> <span class="tok-builtin">str</span>:
+        <span class="tok-kw">self</span>.history.<span class="tok-fn">append</span>(({<span class="tok-str">"role"</span>: <span class="tok-str">"user"</span>, <span class="tok-str">"content"</span>: prompt})
+        <span class="tok-kw">return</span> <span class="tok-str">f"[{self.name}] would call {self.model} here"</span>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. --><hr>
-<h2 id="phase-0-canon-decompression">PHASE 0 — CANON DECOMPRESSION</h2>
-
-<p>Here is our contract. Every item on this list comes directly from your mentor’s chapter, and I will ensure you master every single one of them by the time we are done.</p>
-
-<ul>
-<li><strong>Concepts &amp; Terms:</strong> Object-oriented code, classes, modules, LangChain, OpenAI SDK, agent-lab, blueprint bundling data with functions, instances, <code>__init__</code> (constructor), <code>self</code>, methods, inheritance, subclass overriding, interfaces, <code>@dataclass</code>, <code>@property</code>, packages (<code>__init__.py</code>), imports, relative imports, instance isolation, composition.</li>
-<li><strong>Code Elements:</strong></li>
-<li><code>class Agent:</code></li>
-<li><code>def __init__(self, name: str, model: str):</code></li>
-<li><code>self.name = name</code></li>
-<li><code>self.history: list[dict] = []</code></li>
-<li><code>def ask(self, prompt: str) -&gt; str:</code></li>
-<li><code>self.history.append({"role": "user", "content": prompt})</code></li>
-<li><code>return f"[{self.name}] would call {self.model} here"</code></li>
-<li><code>bot = Agent("vizier", "claude-sonnet-4-6")</code></li>
-<li><code>bot.ask("hello")</code></li>
-<li><code>class ChatAgent(Agent):</code></li>
-<li><code>class RetrievalAgent(BaseAgent):</code></li>
-<li><code>@dataclass</code></li>
-<li><code>@property</code></li>
-<li><code>from agent import Agent</code></li>
-<li><code>python -m package.module</code></li>
-<li><code>if __name__ == "__main__":</code></li>
-</ul>
-
-
-<ul>
-<li><strong>Artifact:</strong> <code>agent.py</code>, <code>memory.py</code>, <code>main.py</code>, plus the reading rep on your frozen <code>agent-lab/</code>.</li>
-<li><strong>Questions:</strong> 5 exact "Prove It" questions.</li>
-<li><strong>Wikilinks:</strong> <code><a class="wiki-link" data-node-id="python-data-shapes" href="python-data-shapes.html">python-data-shapes</a></code>, <code><a class="wiki-link" data-node-id="python-typing-pydantic" href="python-typing-pydantic.html">python-typing-pydantic</a></code>, <code><a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></code>.</li>
-</ul>
-
-<p>⚡ <strong>RECAP:</strong> The canon is decompressed and the roadmap is locked. We drop nothing.<hr></p>
-<h2 id="phase-1-absolute-zero-concept-amp-intuition-">PHASE 1 — ABSOLUTE ZERO (Concept &amp; Intuition)</h2>
-
-<p>Buddy, imagine you are running a massive AI factory. You have hundreds of AI agents talking to different models, remembering different conversations, and doing different jobs.</p>
-
-<p>If you just had a massive pile of random variables—<code>agent_1_name</code>, <code>agent_1_memory</code>, <code>agent_2_name</code>, <code>agent_2_memory</code>—your factory would instantly collapse into chaos. You need a way to organize this.</p>
-
-<p>This is exactly why <strong>classes</strong> exist.</p>
-
-<p>The chapter gives you the perfect framing: <strong>A class is a blueprint bundling data with the functions that operate on it.</strong></p>
-<p>Think of a class as the factory's blueprint for an "Agent". The blueprint itself isn't a physical robot; it's just the design. When you actually build a robot from that blueprint, you get an <strong>instance</strong>.</p>
-
-<ul>
-<li><strong>The Blueprint (Class):</strong> Tells the factory, "Every agent needs a name, a memory, and the ability to ask a question."</li>
-<li><strong>The Physical Robot (Instance):</strong> The actual, working agent. You can build one named "vizier" and another named "jarvis", both from the exact same blueprint.</li>
-</ul>
-
-<p>A <strong>module</strong> is simply how you organize these blueprints into different filing cabinets. Every single <code>.py</code> file on your computer is a module. It's just a file you can import. If you put a blueprint in <code>agent.py</code>, you can open <code>main.py</code> and say, "Go look in the agent file and grab that blueprint."</p>
-
-<p>Without classes and modules, you cannot build AI systems. Period. LangChain, the OpenAI SDK, and your own <code>agent-lab</code> are entirely constructed out of these blueprints and files. We aren't learning this to be clever; we are learning this to survive the codebase.</p>
-
-<p>⚡ <strong>RECAP:</strong> A class is a blueprint that combines data and actions; an instance is the actual object built from it; a module is just a file where blueprints live.<hr></p>
-<h2 id="phase-2-the-escalator-syntax-micro-steps-">PHASE 2 — THE ESCALATOR (Syntax, Micro-Steps)</h2>
-
-<p>We assume zero background. We are going to build your syntax muscle line by line before we ever touch the God-Mode artifact. Read the code, read the output, read the mental trace. Do not skip a single step.</p>
-
-<p><strong>1. Variables and Strings</strong></p>
-<p>In Python, we store information in variables. A string is just text, wrapped in quotes.</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">agent_name = "vizier"
-print(agent_name)</code></pre>
+bot = <span class="tok-fn">Agent</span>((<span class="tok-str">"vizier"</span>, <span class="tok-str">"claude-sonnet-4-6"</span>)        <span class="tok-comment"># instantiate → __init__ fires</span>
+bot.<span class="tok-fn">ask</span>((<span class="tok-str">"hello"</span>)                                   <span class="tok-comment"># method call; self is bot</span></code></pre>
       </div>
+<p>Decoder ring for reading real code: <code>__init__</code> = constructor; <code>self</code> = "this particular object"; <code>bot.ask(...)</code> = function that lives on the object and can touch its data; <code>class ChatAgent(Agent):</code> = inheritance — ChatAgent <em>is an</em> Agent plus overrides (this is how LangChain's hundred retriever/LLM variants all share one interface — recognizing "subclass overriding a base method" unlocks that whole codebase style). You'll also constantly see <code>@dataclass</code> (auto-writes <code>__init__</code> for data-holding classes) and <code>@property</code> — recognize, don't memorize.</p>
 
-<p><strong>[OUTPUT]</strong></p>
-<p>vizier</p>
-<p><strong>[MENTAL TRACE]</strong> Python creates a box named <code>agent_name</code>. It puts the text <code>"vizier"</code> inside it. The <code>print</code> command looks inside the box and pushes its contents to the screen.</p>
-
-<p><strong>2. Lists, Dictionaries, and <code>.append()</strong></code></p>
-<p>A list <code>[]</code> is an ordered line of items. A dictionary <code>{}</code> is a collection of key-value pairs. You can add items to a list using the <code>.append()</code> action. The syntax <code>list[dict]</code> is a <strong>type hint</strong>—it tells other engineers, "This is a list that contains dictionaries." It doesn't change how the code runs, it just documents it.</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">history: list[dict] = []
-history.append({"role": "user", "content": "hello"})
-print(history)</code></pre>
-      </div>
-
-<p><strong>[OUTPUT]</strong></p>
-<p>[{'role': 'user', 'content': 'hello'}]</p>
-<p><strong>[MENTAL TRACE]</strong> Python creates an empty list called <code>history</code>. The type hint <code>list[dict]</code> notes it will hold dictionaries. We use <code>.append()</code> to push a new dictionary <code>{"role": "user", "content": "hello"}</code> into that list. Printing it shows the list now holds one dictionary.</p>
-
-<p><strong>3. Functions (<code>def</code>, <code>-&gt;</code>) and f-strings (<code>f"..."</code>)</strong></p>
-<p>A function is a reusable block of code. We define it with <code>def</code>. The <code>-&gt; str:</code> is another type hint promising the function will give back a string. An f-string (<code>f"..."</code>) lets you inject variables directly into text using curly braces <code>{}</code>.</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">def greet(name: str) -&gt; str:
-    return f"[{name}] is online."
-
-message = greet("vizier")
-print(message)</code></pre>
-      </div>
-
-<p><strong>[OUTPUT]</strong></p>
-<p>[vizier] is online.</p>
-<p><strong>[MENTAL TRACE]</strong> Python memorizes a function named <code>greet</code> that expects a <code>name</code>. We call <code>greet("vizier")</code>. Inside the function, the f-string replaces <code>{name}</code> with <code>"vizier"</code>, creating <code>"[vizier] is online."</code>. The function returns this string to the <code>message</code> variable, which is then printed.</p>
-
-<p><strong>4. The <code>class</code> Keyword</strong></p>
-<p>Now we create a blueprint using <code>class</code>. By convention, class names start with a capital letter.</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">class SimpleBlueprint:
-    pass
-
-thing = SimpleBlueprint()
-print(thing)</code></pre>
-      </div>
-
-<p><strong>[OUTPUT]</strong></p>
-<p>&lt;<strong>main</strong>.SimpleBlueprint object at 0x...&gt;</p>
-<p><strong>[MENTAL TRACE]</strong> Python reads <code>class SimpleBlueprint:</code> and registers the empty blueprint (the <code>pass</code> keyword just means "do nothing"). We use <code>SimpleBlueprint()</code> to build an instance (an object) and assign it to <code>thing</code>. Printing it shows it is an object residing at a specific memory address in the computer.</p>
-
-<p><strong>5. The Constructor (<code>__init__</code>) and <code>self</strong></code></p>
-<p>This is the core of object-oriented code. <code>__init__</code> (short for initialize) is a special function called a <strong>constructor</strong>. It fires automatically the exact millisecond an instance is created. <code>self</code> is the master key—it refers to "THIS particular instance." It is how the object remembers its own data.</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">class BasicAgent:
-    def __init__(self, name: str):
-        self.name = name
-
-bot = BasicAgent("jarvis")
-print(bot.name)</code></pre>
-      </div>
-
-<p><strong>[OUTPUT]</strong></p>
-<p>jarvis</p>
-<p><strong>[MENTAL TRACE]</strong> We define a class <code>BasicAgent</code>. We instantiate it with <code>bot = BasicAgent("jarvis")</code>. This instantly triggers <code>__init__</code>. The word <code>"jarvis"</code> gets passed as <code>name</code>. Inside <code>__init__</code>, <code>self.name = name</code> executes. Since <code>self</code> means "this specific object," the bot permanently attaches the name "jarvis" to itself. We print that attached data.</p>
-
-<p><strong>6. THE CANON CHAPTER SNIPPET (Unchanged)</strong></p>
-<p>Here is the exact code from your primary mentor. Read it carefully.</p>
-<p><em>(Note: As we run this in our mental trace, pay attention to <code>self.model</code>. The blueprint takes <code>model</code> in the constructor, but it doesn't attach it to <code>self</code> before trying to use it later. In our final artifact, we will add that attachment to ensure the code executes perfectly).</em></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">class Agent:
-    def __init__(self, name: str, model: str):   # runs at creation
-        self.name = name                          # self = THIS instance
-        self.history: list[dict] = []
-    def ask(self, prompt: str) -&gt; str:
-        self.history.append({"role": "user", "content": prompt})
-        return f"[{self.name}] would call {self.model} here"
-
-bot = Agent("vizier", "claude-sonnet-4-6")        # instantiate → __init__ fires
-bot.ask("hello")                                   # method call; self is bot</code></pre>
-      </div>
-
-<p><strong>[OUTPUT]</strong></p>
-<p>AttributeError: 'Agent' object has no attribute 'model'</p>
-<p><strong>[MENTAL TRACE]</strong> Python memorizes the <code>Agent</code> class. We instantiate <code>bot = Agent("vizier", "claude-sonnet-4-6")</code>. The <code>__init__</code> constructor fires. It attaches <code>"vizier"</code> to <code>self.name</code>, and sets up an empty list for <code>self.history</code>. Notice it does <em>not</em> save the <code>model</code> argument to <code>self.model</code>. Next, we call the <strong>method</strong> <code>bot.ask("hello")</code>. The method adds the prompt to the history list. Then, it attempts to return an f-string using <code>{self.model}</code>. Because <code>self.model</code> was never saved during <code>__init__</code>, Python throws an <code>AttributeError</code> and crashes. We will explicitly patch this in Phase 3 by adding <code>self.model = model</code> to the constructor.</p>
-
-<p><strong>7. Inheritance (<code>class ChatAgent(Agent):</code>)</strong></p>
-<p>Inheritance is how we say "I want a new blueprint that is exactly like the old blueprint, but with a few extra features." The new class goes in parentheses.</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">class Animal:
-    def speak(self) -&gt; str:
-        return "noise"
-
-class Dog(Animal):
-    def speak(self) -&gt; str:
-        return "bark"
-
-pet = Dog()
-print(pet.speak())</code></pre>
-      </div>
-
-<p><strong>[OUTPUT]</strong></p>
-<p>bark</p>
-<p><strong>[MENTAL TRACE]</strong> We make an <code>Animal</code> class with a <code>speak</code> method. We make a <code>Dog</code> class that inherits from <code>Animal</code> by writing <code>class Dog(Animal):</code>. The <code>Dog</code> has its own <code>speak</code> method, which is called <strong>subclass overriding</strong>—it overwrites the parent's default behavior. We make a <code>Dog</code> instance, call <code>speak</code>, and get "bark". This is exactly how LangChain creates hundreds of AI variants from one base interface!</p>
-
-<p><strong>8. Decorators: <code>@dataclass</code> and <code>@property</strong></code></p>
-<p>A decorator (starts with <code>@</code>) is a magic tag placed above a function or class that modifies its behavior.</p>
-
-<ul>
-<li><code>@dataclass</code>: Auto-writes the <code>__init__</code> method for you so you don't have to type <code>self.x = x</code> repeatedly.</li>
-<li><code>@property</code>: Turns a method into something that looks and acts like a piece of data.</li>
-</ul>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">from dataclasses import dataclass
-
-@dataclass
-class User:
-    username: str
-
-    @property
-    def url(self) -&gt; str:
-        return f"site.com/{self.username}"
-
-u = User("buddy")
-print(u.username)
-print(u.url)</code></pre>
-      </div>
-
-<p><strong>[OUTPUT]</strong></p>
-<p>buddy</p>
-<p><a href="https://www.google.com/search?q=https://site.com/buddy" target="_blank">site.com/buddy</a></p>
-<p><strong>[MENTAL TRACE]</strong> We import the <code>dataclass</code> tool. We tag the <code>User</code> class with <code>@dataclass</code>, which automatically builds an <code>__init__</code> that expects a <code>username</code>. We tag the <code>url</code> method with <code>@property</code>. We instantiate <code>u = User("buddy")</code>. We print <code>u.username</code>. Because of <code>@property</code>, we can print <code>u.url</code> without parentheses <code>()</code>, treating the method as if it were just a piece of data.</p>
-
-<p><strong>9. Modules, Imports, and Instance Isolation</strong></p>
-<p>Every <code>.py</code> file is a module. If I have a file named <code>tools.py</code> with a class in it, I can bring it into my current file using <code>from tools import ClassName</code>. When you build two different objects from the same class, they are completely isolated.</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python"># Imagine this is happening after importing a blueprint
-class Counter:
-    def __init__(self):
-        self.count = 0
-
-a = Counter()
-b = Counter()
-a.count = 5
-print(f"a is {a.count}, b is {b.count}")</code></pre>
-      </div>
-
-<p><strong>[OUTPUT]</strong></p>
-<p>a is 5, b is 0</p>
-<p><strong>[MENTAL TRACE]</strong> Python creates the <code>Counter</code> blueprint. We build two totally separate instances: <code>a</code> and <code>b</code>. The <code>__init__</code> constructor gives each one its own isolated <code>count</code> variable starting at 0. We change <code>a</code>'s count to 5. We print both. <code>b</code>'s count remains 0. This is <strong>instance isolation</strong>.</p>
-
-<p><strong>10. The Execution Guard (<code>if __name__ == "__main__":</code>)</strong></p>
-<p>When you import a file, Python quietly runs the entire file from top to bottom just to load everything into memory. If that file had <code>print("hello")</code> in it, it would print just from being imported! We use this block to say, "run this code ONLY when I execute this file directly, NOT when someone else imports it."</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">def main():
-    print("Script is running directly!")
-
-if __name__ == "__main__":
-    main()</code></pre>
-      </div>
-
-<p><strong>[OUTPUT]</strong></p>
-<p>Script is running directly!</p>
-<p><strong>[MENTAL TRACE]</strong> Python defines the <code>main</code> function. Then it reaches the <code>if</code> statement. A hidden Python variable called <code>__name__</code> tracks how the file is being used. If the file is run directly from the terminal, <code>__name__</code> is set to the string <code>"__main__"</code>. Since it is, the condition is true, and the <code>main()</code> function executes.</p>
-
-<p>⚡ <strong>RECAP:</strong> You now possess every syntactic weapon required to build and read object-oriented Python. Syntax audit complete.<hr></p>
-<h2 id="phase-3-god-mode-artifact-the-build-narrated-">PHASE 3 — GOD-MODE ARTIFACT (The Build, Narrated)</h2>
-
-<p>The chapter commands a strict hands-on build: "Split the Agent example across files: <code>agent.py</code> (the class), <code>memory.py</code> (a Memory class the agent holds — composition), and <code>main.py</code> importing both, creating two agents, and printing their separate histories". It also commands a reading rep against your frozen <code>agent-lab/</code>.</p>
-
-<p>Because I cannot see into your local repo, I am using Law 0 to simulate the <code>agent-lab/</code> file as <code>sample_lab_agent.py</code>. You will apply this exact reading strategy to your real files on the floor. To ensure the chapter's <code>Agent</code> code operates flawlessly, I am adding the <code>self.model = model</code> assignment to the constructor.<h3>File 1: <code>memory.py</code></h3></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">class Memory:
-    def __init__(self):
-        # We start with an empty list for this specific instance's history
-        self.history: list[dict] = []
-        
-    def add(self, prompt: str) -&gt; None:
-        # Appends a new dictionary to this instance's isolated list
-        self.history.append({"role": "user", "content": prompt})</code></pre>
-      </div><h3>File 2: <code>agent.py</code></h3>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python"># We import the Memory blueprint from our memory.py module
-from memory import Memory
-
-class Agent:
-    def __init__(self, name: str, model: str):
-        self.name = name
-        # Added per professional standards: we must save the model to use it later!
-        self.model = model
-        # COMPOSITION: The Agent instance creates and holds its own Memory instance
-        self.memory = Memory()
-        
-    def ask(self, prompt: str) -&gt; str:
-        # The agent delegates the storage task to its internal memory object
-        self.memory.add(prompt)
-        # Using f-strings to format the response as dictated by the canon
-        return f"[{self.name}] would call {self.model} here"</code></pre>
-      </div><h3>File 3: <code>main.py</code></h3>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python"># We import the Agent blueprint from our agent.py module
-from agent import Agent
-
-def main():
-    # Instantiate two separate agents (proving instance isolation)
-    bot1 = Agent("vizier", "claude-sonnet-4-6")
-    bot2 = Agent("jarvis", "gpt-4o")
-    
-    # Run the ask method on both instances
-    print(bot1.ask("What is the mission?"))
-    print(bot2.ask("Initiate protocol."))
-    
-    # Print their separate histories to prove they do not collide
-    print(f"{bot1.name}'s history: {bot1.memory.history}")
-    print(f"{bot2.name}'s history: {bot2.memory.history}")
-
-# The module execution entry point (runs only if main.py is executed directly)
-if __name__ == "__main__":
-    main()</code></pre>
-      </div><h3>File 4: <code>sample_lab_agent.py</code> (Simulating your <code>agent-lab/</code> Reading Rep)</h3>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">from base import BaseAgent
-from dataclasses import dataclass
-
-@dataclass
-class DatabaseRetriever(BaseAgent):
-    connection_string: str
-    
-    def fetch_records(self, query: str) -&gt; list:
-        return [f"record_for_{query}"]</code></pre>
-      </div>
-
-<p><strong>Plain-English Summary (The Reading Rep):</strong></p>
-
-<ul>
-<li><strong>What data it holds:</strong> Because of <code>@dataclass</code>, its <code>__init__</code> is auto-generated to hold a single piece of data: <code>connection_string</code>.</li>
-<li><strong>What it can do (methods):</strong> It has one method, <code>fetch_records</code>, which takes a text query and returns a list of records.</li>
-<li><strong>What it inherits:</strong> It inherits from <code>BaseAgent</code>, meaning it receives all the default abilities of a base agent and acts as a specialized subclass.<h3>The Full Execution</h3></li>
-</ul>
-
-<p><strong>[OUTPUT of running <code>python main.py</code>]</strong></p>
-<p>[vizier] would call claude-sonnet-4-6 here</p>
-<p>[jarvis] would call gpt-4o here</p>
-<p>vizier's history: [{'role': 'user', 'content': 'What is the mission?'}]</p>
-<p>jarvis's history: [{'role': 'user', 'content': 'Initiate protocol.'}]</p>
-
-<p><strong>[MENTAL TRACE of <code>main.py</code>]</strong></p>
-
+<p><strong>Modules &amp; imports.</strong> Every <code>.py</code> file is a module; a folder with <code>__init__.py</code> is a package. <code>from agent import Agent</code> runs <code>agent.py</code> and pulls the name in. Two things that bite beginners: imports resolve relative to where you <em>run</em> from (hence running as <code>python -m package.module</code> from the project root), and the <code>if __name__ == "__main__":</code> block means "run this only when executed directly, not when imported" — it's how one file is both a library and a script.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: reading real codebases.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Split the Agent example across files: <code>agent.py</code> (the class), <code>memory.py</code> (a <code>Memory</code> class the agent holds — composition), and <code>main.py</code> importing both, creating two agents, and printing their separate histories (proving instance isolation). Then the reading rep that matters most: open your frozen <code>agent-lab/</code>, find one class, and write a 5-line plain-English summary: what data it holds (<code>__init__</code>), what it can do (methods), what it inherits.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
 <ol>
-<li>Python reads <code>main.py</code> and hits <code>from agent import Agent</code>. It secretly opens <code>agent.py</code>.</li>
-<li>Inside <code>agent.py</code>, it hits <code>from memory import Memory</code>. It secretly opens <code>memory.py</code>, memorizes the <code>Memory</code> blueprint, and returns to <code>agent.py</code>.</li>
-<li>It memorizes the <code>Agent</code> blueprint, and returns to <code>main.py</code>.</li>
-<li>Python reads down to <code>if __name__ == "__main__":</code>, confirms it is running directly, and triggers <code>main()</code>.</li>
-<li><code>bot1 = Agent("vizier", "claude-sonnet-4-6")</code> executes. The <code>Agent</code> constructor runs, attaching the name and model. It also creates a brand new <code>Memory()</code> object and assigns it to <code>bot1.memory</code>.</li>
-<li><code>bot2 = Agent("jarvis", "gpt-4o")</code> executes. A completely separate <code>Agent</code> is built, with a completely separate <code>Memory()</code> object attached to <code>bot2.memory</code>.</li>
-<li><code>bot1.ask(...)</code> runs. <code>bot1</code> reaches into its own <code>Memory</code> instance and appends the prompt. It returns the formatted string, which is printed.</li>
-<li><code>bot2.ask(...)</code> runs. <code>bot2</code> reaches into its own <em>different</em> <code>Memory</code> instance and appends its prompt. It returns its string, which is printed.</li>
-<li>We print <code>bot1.memory.history</code>. It contains only "What is the mission?".</li>
-<li>We print <code>bot2.memory.history</code>. It contains only "Initiate protocol.". Instance isolation is proven.</li>
+<li>What is <code>self</code>, and how do two instances of one class not collide?</li>
+<li>What does <code>__init__</code> do and when does it run?</li>
+<li>Read <code>class RetrievalAgent(BaseAgent):</code> aloud — what does it promise about RetrievalAgent's abilities?</li>
+<li>What is the <code>if __name__ == "__main__":</code> idiom for?</li>
+<li>Why does an AI engineer need to <em>read</em> classes fluently even if they rarely write them?</li>
 </ol>
-
-<p>⚡ <strong>RECAP:</strong> Composition (an object holding another object) and instance isolation (objects keeping their own distinct data) are the twin engines of robust architecture.<hr></p>
-<h2 id="phase-4-pro-tips-hacks-amp-beginner-traps">PHASE 4 — PRO-TIPS, HACKS &amp; BEGINNER TRAPS</h2>
-
-<p>Here are the fatal crashes that happen when you don't respect the laws of object-oriented programming. Read the errors, understand the cause, memorize the fix.</p>
-
-<p><strong>Trap 1: The Missing <code>self</code> Crash (The Canon Catch)</strong></p>
-
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="python-data-shapes" href="python-data-shapes.html">python-data-shapes</a></p>
+<p><a class="wiki-link" data-node-id="python-typing-pydantic" href="python-typing-pydantic.html">python-typing-pydantic</a></p>
+<p><a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></p>
+<h2 id="status-log">Status log</h2>
 <ul>
-<li><strong>Error Message:</strong> <code>AttributeError: 'Agent' object has no attribute 'model'</code></li>
-<li><strong>Trigger Code:</strong></li>
-</ul>
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">class Agent:
-    def __init__(self, model):
-        pass # Forgot to save it!
-    def print_model(self):
-        print(self.model)</code></pre>
-      </div>
-
-
-<ul>
-<li><strong>Why it happens:</strong> You passed data into the constructor, but you didn't physically staple it to the instance using <code>self.</code>. When the method later tries to look for <code>self.model</code>, the object has no idea what you are talking about.</li>
-<li><strong>The Fix:</strong> Always write <code>self.model = model</code> inside <code>__init__</code>.</li>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
 </ul>
 
-<p><strong>Trap 2: The Missing Argument Crash</strong></p>
-
-<ul>
-<li><strong>Error Message:</strong> <code>TypeError: __init__() missing 1 required positional argument: 'model'</code></li>
-<li><strong>Trigger Code:</strong></li>
-</ul>
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">class Agent:
-    def __init__(self, name, model):
-        self.name = name
-        self.model = model
-bot = Agent("vizier") # Missing the second argument!</code></pre>
-      </div>
-
-
-<ul>
-<li><strong>Why it happens:</strong> The blueprint explicitly demanded two pieces of materials (name and model) to construct the instance. You only provided one.</li>
-<li><strong>The Fix:</strong> Pass all required arguments: <code>bot = Agent("vizier", "claude")</code>.</li>
-</ul>
-
-<p><strong>Trap 3: The Relative Import Crash (Called out in Canon)</strong></p>
-
-<ul>
-<li><strong>Error Message:</strong> <code>ImportError: attempted relative import with no known parent package</code></li>
-<li><strong>Trigger Code:</strong> Running a file directly via <code>python my_folder/module.py</code> when that file contains an import like <code>from .sibling_module import Tool</code>.</li>
-<li><strong>Why it happens:</strong> The chapter explicitly warns about this: imports resolve relative to where you run from. When you run a file directly by its path, Python forgets it is part of a larger package structure.</li>
-<li><strong>The Fix:</strong> Run it as a module from the project root using the <code>-m</code> flag: <code>python -m my_folder.module</code>.</li>
-</ul>
-
-<p><strong>Trap 4: The Shared List Trap</strong></p>
-
-<ul>
-<li><strong>Error Message:</strong> (No crash, just catastrophic silent failure where all agents share one memory).</li>
-<li><strong>Trigger Code:</strong></li>
-</ul>
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">class Agent:
-    history = [] # Defined outside __init__!
-    def __init__(self, name):
-        self.name = name</code></pre>
-      </div>
-
-
-<p><em> <strong>Why it happens:</strong> Variables defined directly under <code>class</code> (outside <code>__init__</code>) are shared by </em>every single instance* of that class.</p>
-<ul>
-<li><strong>The Fix:</strong> Always define instance-specific variables inside <code>__init__</code> using <code>self.</code>.</li>
-</ul>
-
-<p><strong>Pro Habits:</strong></p>
-
-<ol>
-<li><strong>Composition over Inheritance:</strong> The chapter shows <code>Agent</code> holding a <code>Memory</code> class. This is composition. It is generally safer and more flexible than making deeply nested inheritance chains (e.g., <code>MemoryAgent(Agent)</code>).</li>
-<li><strong>Type Hint Relentlessly:</strong> You saw <code>list[dict]</code> and <code>-&gt; str</code>. In complex AI factories, if you don't type hint your data structures, your IDE goes blind and your code becomes unreadable.</li>
-</ol>
-
-<p>⚡ <strong>RECAP:</strong> Bind everything to <code>self</code> in the constructor, respect module execution paths (<code>python -m</code>), and protect your instance isolation.<hr></p>
-<h2 id="phase-5-the-feynman-breakdown-answers-note-">PHASE 5 — THE FEYNMAN BREAKDOWN (Answers + Note)</h2><h3>The Prove It Answers (Verbatim from Chapter)</h3>
-
-<p><strong>1. What is <code>self</code>, and how do two instances of one class not collide?</strong></p>
-<code>self</code> is a variable that represents "this exact, specific instance." When you create two objects, Python allocates completely separate blocks of memory for them. When <code>bot1</code> calls a method, Python secretly passes <code>bot1</code>'s memory address in as <code>self</code>. When <code>bot2</code> calls it, Python passes <code>bot2</code>'s address. They don't collide because <code>self</code> guarantees they are only looking in their own memory box.
-
-<p><strong>2. What does <code>__init__</code> do and when does it run?</strong></p>
-<code>__init__</code> is the constructor. Its job is to take raw data and attach it to the newly created instance using <code>self</code>. It runs automatically the exact millisecond the class is instantiated (e.g., when you write <code>Agent()</code>).
-
-<p><strong>3. Read <code>class RetrievalAgent(BaseAgent):</code> aloud — what does it promise about RetrievalAgent's abilities?</strong></p>
-<p>"RetrievalAgent inherits from BaseAgent." It promises that <code>RetrievalAgent</code> automatically possesses every single piece of data and every single method that <code>BaseAgent</code> has, while reserving the right to add new abilities or override (overwrite) the base ones.</p>
-
-<p><strong>4. What is the <code>if __name__ == "__main__":</code> idiom for?</strong></p>
-<p>It is an execution guard. It prevents a file's main logic from running when the file is imported by someone else. It means "run this code block ONLY when this file is executed directly as a script." It allows a single <code>.py</code> file to be both a reusable library and an executable script.</p>
-
-<p><strong>5. Why does an AI engineer need to read classes fluently even if they rarely write them?</strong></p>
-<p>Because the modern AI ecosystem (LangChain, OpenAI SDK, LlamaIndex) is entirely built on object-oriented interfaces. You don't interact with these tools via loose functions; you instantiate their classes, inherit from their base models, and override their methods. If you cannot read a class, you cannot read the source code, which means you are flying blind.<h3>Interview Readiness</h3></p>
-
-<p><strong>Q: Explain the difference between Composition and Inheritance.</strong></p>
-<p><em>Answer:</em> Inheritance is an "is-a" relationship (a <code>ChatAgent</code> <em>is an</em> <code>Agent</code>). Composition is a "has-a" relationship (an <code>Agent</code> <em>has a</em> <code>Memory</code>). Professional engineers prefer composition because it allows you to plug-and-play different components (like swapping <code>ShortTermMemory</code> for <code>LongTermMemory</code>) without rewriting the whole class tree.</p>
-
-<p><strong>Q: If I see a class labeled with <code>@dataclass</code>, what do I immediately know?</strong></p>
-<p><em>Answer:</em> I know the class exists primarily to hold data. I also know I don't have to look for an <code>__init__</code> method, because the <code>@dataclass</code> decorator automatically generates one behind the scenes based on the class variables.</p>
-
-<p><strong>Q: What is a package in Python, and how does it differ from a module?</strong></p>
-<p><em>Answer:</em> A module is just a single <code>.py</code> file. A package is a folder containing multiple modules, specifically marked with an <code>__init__.py</code> file. It allows for hierarchical organization of code.<h3>The Feynman Note</h3><blockquote><strong>Classes &amp; Modules</strong></blockquote><blockquote>Imagine you want to bake cookies. You don't build each cookie from scratch by hand. You make a cookie cutter (the <strong>Class</strong>). The class is a blueprint that dictates the shape. When you press it into dough, you get an actual cookie (the <strong>Instance</strong>). Every cookie has its own unique sprinkles and chips attached to it (its <strong>self</strong> data), handled by the factory initialization step (<strong>init</strong>). Because you'll eventually have hundreds of cookie cutters, you organize them into labeled filing cabinets (<strong>Modules</strong>). By importing these blueprints across different files, you can build massive, complex systems like LangChain without drowning in millions of loose variables.</blockquote></p>
-
-<p>Wikilinks: <a class="wiki-link" data-node-id="python-data-shapes" href="python-data-shapes.html">python-data-shapes</a> · <a class="wiki-link" data-node-id="python-typing-pydantic" href="python-typing-pydantic.html">python-typing-pydantic</a> · <a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></p>
-
-<p>⚡ <strong>RECAP:</strong> You can now verbally defend every concept in this node against senior engineers.<hr></p>
-<h2 id="phase-6-rapid-revision-sheet-the-compounding-engine-">PHASE 6 — RAPID REVISION SHEET (The Compounding Engine)</h2>
-
-<ul>
-<li><strong>Class:</strong> A blueprint bundling data with the functions that operate on it.</li>
-<li><strong>Instance:</strong> The actual, concrete object created from the class blueprint.</li>
-<li><strong>Module:</strong> A single <code>.py</code> file that can be imported.</li>
-<li><strong>Package:</strong> A folder of modules marked by an <code>__init__.py</code> file.</li>
-<li><strong>Method:</strong> A function that lives inside a class and operates on <code>self</code>.</li>
-<li><strong>Constructor:</strong> The <code>__init__</code> method that fires upon instantiation to set up the object.</li>
-<li><strong>Inheritance:</strong> Creating a subclass that takes on the traits of a parent class (<code>class Child(Parent):</code>).</li>
-<li><strong>Composition:</strong> A class holding an instance of another class (<code>self.memory = Memory()</code>).</li>
-<li><strong>Subclass Overriding:</strong> A child class redefining a method that existed in the parent.</li>
-<li><code>class Agent:</code> → Defines a new blueprint.</li>
-<li><code>def __init__(self, name):</code> → The constructor; fires instantly on creation.</li>
-<li><code>self.name = name</code> → Attaches data specifically to THIS instance.</li>
-<li><code>bot = Agent("vizier")</code> → Instantiates the class into a concrete object.</li>
-<li><code>class ChatAgent(Agent):</code> → Inherits from <code>Agent</code>.</li>
-<li><code>@dataclass</code> → Auto-generates the <code>__init__</code> method for data-heavy classes.</li>
-<li><code>@property</code> → Allows accessing a method as if it were a simple attribute without <code>()</code>.</li>
-<li><code>from agent import Agent</code> → Imports a specific class from a module file.</li>
-<li><code>if __name__ == "__main__":</code> → Ensures code only runs when executed directly.</li>
-<li><strong>Q: What is <code>self</code>?</strong> → A reference to the specific instance calling the code.</li>
-<li><strong>Q: How do instances stay isolated?</strong> → Each instance is allocated separate memory; <code>self</code> points only to that instance's memory.</li>
-<li><strong>Q: Why use <code>if __name__ == "__main__":</code>?</strong> → So a file can be imported safely without executing its script logic.</li>
-<li><strong>Q: How does LangChain build 100 variants of an Agent?</strong> → Subclass overriding; they all inherit from a base class and change specific methods.</li>
-<li><strong>AttributeError 'X' has no attribute 'Y'</strong> → Cause: Forgot to save <code>self.Y = Y</code> in <code>__init__</code> → Fix: Add it to the constructor.</li>
-<li><strong>TypeError missing 1 required positional argument</strong> → Cause: Didn't pass enough data when instantiating → Fix: Provide all arguments <code>Agent("name", "model")</code>.</li>
-<li><strong>ImportError attempted relative import...</strong> → Cause: Ran a script directly instead of as a module → Fix: Use <code>python -m folder.script</code>.</li>
-</ul>
-
-<p>⚡ <strong>RECAP:</strong> Read this sheet whenever the node drops from "lit" to "charging". Five minutes is all it takes to reset to god mode.<hr></p>
-<h2 id="appendix-floor-practice-optional-for-when-i-m-at-the-machine-">APPENDIX — FLOOR PRACTICE (Optional, for when I'm at the machine)</h2>
-
-<p>Buddy, this is your muscle-memory execution block. When you have 15 minutes at the keyboard, open Git Bash, navigate to your root directory, and hammer this out exactly as written. This builds the God-Mode Artifact.</p>
-
-<p><strong>1. Create the environment:</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">bash</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-bash">mkdir -p vizier-floor/classes-modules
-cd vizier-floor/classes-modules</code></pre>
-      </div>
-
-<p><strong>2. Create the Memory module:</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">bash</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-bash">cat &lt;&lt; 'EOF' &gt; memory.py
-class Memory:
-    def __init__(self):
-        self.history: list[dict] = []
-        
-    def add(self, prompt: str) -&gt; None:
-        self.history.append({"role": "user", "content": prompt})
-EOF</code></pre>
-      </div>
-
-<p><strong>3. Create the Agent module (Composition):</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">bash</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-bash">cat &lt;&lt; 'EOF' &gt; agent.py
-from memory import Memory
-
-class Agent:
-    def __init__(self, name: str, model: str):
-        self.name = name
-        self.model = model
-        self.memory = Memory()
-        
-    def ask(self, prompt: str) -&gt; str:
-        self.memory.add(prompt)
-        return f"[{self.name}] would call {self.model} here"
-EOF</code></pre>
-      </div>
-
-<p><strong>4. Create the execution Entry Point:</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">bash</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-bash">cat &lt;&lt; 'EOF' &gt; main.py
-from agent import Agent
-
-def main():
-    bot1 = Agent("vizier", "claude-sonnet-4-6")
-    bot2 = Agent("jarvis", "gpt-4o")
-    
-    print(bot1.ask("What is the mission?"))
-    print(bot2.ask("Initiate protocol."))
-    
-    print(f"{bot1.name}'s history: {bot1.memory.history}")
-    print(f"{bot2.name}'s history: {bot2.memory.history}")
-
-if __name__ == "__main__":
-    main()
-EOF</code></pre>
-      </div>
-
-<p><strong>5. Execute the artifact:</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">bash</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-bash">python main.py</code></pre>
-      </div>
-
-<p><strong>6. Success Output Confirmation:</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">text</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-text">[vizier] would call claude-sonnet-4-6 here
-[jarvis] would call gpt-4o here
-vizier's history: [{'role': 'user', 'content': 'What is the mission?'}]
-jarvis's history: [{'role': 'user', 'content': 'Initiate protocol.'}]</code></pre>
-      </div>
-
-<p>You are unstoppable. End of transmission.</p>
         </div>
       </article>
       

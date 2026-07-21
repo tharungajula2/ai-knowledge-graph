@@ -35,17 +35,58 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Chat With My Brain</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: rag-retrieval</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The node summary says it best: <em>meta and glorious.</em> Every component this volume built — the pipeline, the hybrid engine, the reranker, the citations, the filters, the query surgery — assembles into one product: <strong>a conversational interface to your own accumulated knowledge.</strong> You will ask your brain questions and it will answer <em>from your notes, citing them, filtered by domain.</em> The system you're building to learn AI now answers questions about learning AI. The snake eats its tail; the demo sells itself in interviews forever.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The chassis:</strong> Vol 02 Ch 17's CLI chatbot — persona, streaming, memory loop, token-budget trimming, <code>/usage</code> — forked and rewired: the gateway call is replaced by the full RAG stack over your Postgres-seeded brain (Ch 15). Every turn: conversational rewrite → retrieve → generate grounded → render cited.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The retrieval turn, composed (the whole volume in one function):</strong></p>
+<ol>
+<li><strong>Conversational rewriting</strong> (Ch 13's medicine #2, mandatory): history + new message → standalone query via a cheap gateway call. Without this, every follow-up dies; with it, "and how do I test that?" just works. Show the rewritten query in <code>--show-work</code> — debugging starts at the query now, not the chunks.</li>
+<li><strong>Optional filter parsing</strong> (Ch 12's horizon, made real): a structured-output call maps "in the agents domain" / "from this month" → <code>Filters</code>; slice-size visibility and empty-slice fallback ship as built.</li>
+<li><strong>Hybrid retrieve → rerank</strong> (Ch 7 + Ch 9): top-20 fused, cross-encoder to top-5. Wired through the <em>same</em> decomposable <code>retrieve()</code> — every mode still callable for debugging.</li>
+<li><strong>Grounded generation with structural citations</strong> (Ch 10): claims + chunk_ids, validated, repaired, rendered as <code>[source.md &gt; heading-path]</code>, <code>--sources</code> on demand, NOT-IN-NOTES proud and honest.</li>
+<li><strong>The answer enters chat history</strong> — and here's the L-node's subtle design problem, worth real thought: retrieved chunks are <em>per-turn scaffolding</em>, not conversation — append full chunks to history and three turns will devour your token budget (Vol 01, Ch 8 arithmetic). Ship the sane default: history keeps the user's message and the <em>answer text only</em>; chunks are re-retrieved fresh each turn (the rewriter makes follow-ups retrievable, so this works). Document the tradeoff you're accepting: an answer referencing "the chunk above" loses its referent — note it, live with it, revisit in Domain 06 (this exact tension is a memory-architecture problem, and naming-it-now is the setup).</li>
+</ol>
+
+<p><strong>Commands for a brain:</strong> <code>/domains</code> (list rings with chunk counts — the corpus introduces itself), <code>/filter agents</code> (session-sticky filter), <code>/sources</code> (last answer's chunks in full), <code>/sync</code> (invoke the Ch 15 pipeline in-place — edit a note mid-conversation, sync, ask again, watch the answer update: <em>the freshest demo move you own</em>), <code>/usage</code> (gateway ledger: this conversation's cost).</p>
+
+<p><strong>Engineering standards — L-node means no shortcuts:</strong> every component behind interfaces, config in one place (models, k values, budgets — you <em>will</em> tune), the full pytest suite green across the composed stack (the component tests from Chs 5–15 all still run — composition must not break them; plus new integration tests: rewrite→retrieve→cite end-to-end on fixture notes), and the ledger tracking per-turn cost — a RAG turn is now ~4 LLM calls (rewrite, filter-parse, generate, judge-nothing-yet) plus retrieval; <em>know</em> what your brain costs per question (<code>tokentools</code>, forever).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: RAG over my own notes, with citations + domain filters — meta and glorious.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Assemble it (est. 2–3 honest days) — then the inaugural session, transcribed into the note: 15 real questions across at least 4 domains, including 3 follow-ups (rewriter test), 2 filtered queries, 1 deliberate out-of-corpus question (honest refusal test), and 1 live-sync demo (edit → <code>/sync</code> → re-ask). Label every turn with the Ch 11 taxonomy where anything wobbles — those labels are Ch 18's golden-set seeds, and <em>that</em> is why the transcription matters. Tag <code>brain-chat-v1.0</code>. Then record a 90-second screen capture of the sync demo and the citations — capstone ammunition, and honestly, portfolio ammunition.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Trace one follow-up question through all five stages, naming the chapter behind each.</li>
+<li>Defend the chunks-are-scaffolding decision with token arithmetic, and state the tradeoff accepted and its future domain.</li>
+<li>Why must component tests survive composition, and what does a green composed suite certify?</li>
+<li>What is your per-turn cost and its breakdown by call?</li>
+<li>Why is <code>/sync</code> mid-conversation the sharpest demo move — which ring-1 disease does it visibly cure?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-cli-chatbot" href="build-cli-chatbot.html">build-cli-chatbot</a></p>
+<p><a class="wiki-link" data-node-id="ingestion-pipelines" href="ingestion-pipelines.html">ingestion-pipelines</a></p>
+<p><a class="wiki-link" data-node-id="query-rewriting-hyde" href="query-rewriting-hyde.html">query-rewriting-hyde</a></p>
+<p><a class="wiki-link" data-node-id="citations-grounding" href="citations-grounding.html">citations-grounding</a></p>
+<p><a class="wiki-link" data-node-id="metadata-filters" href="metadata-filters.html">metadata-filters</a></p>
+<p><a class="wiki-link" data-node-id="reranking" href="reranking.html">reranking</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

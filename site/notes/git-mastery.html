@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Git Mastery</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Git is a time machine with parallel universes. Every <strong>commit</strong> is a snapshot you can return to forever; every <strong>branch</strong> is a parallel universe where you experiment without endangering the main timeline; <strong>merge</strong> brings a successful experiment home. You already <em>use</em> the ritual daily — this chapter is about finally <em>understanding</em> the machine, so nothing Git does ever scares you again.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The three rooms.</strong> Every file change moves through: <strong>working directory</strong> (your messy desk) → <code>git add</code> → <strong>staging area</strong> (the photo studio — <em>choose</em> what enters the next snapshot) → <code>git commit</code> → <strong>repository</strong> (the permanent album). Staging exists so one desk of changes can become several clean, single-purpose commits — the difference between a readable history and an archaeology dig. <code>git status</code> tells you which room everything is in; when lost, <code>status</code> first, always.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The daily ten, understood not memorized:</strong> <code>status</code> / <code>diff</code> (what changed) / <code>add -p</code> (stage by hunk — the pro move) / <code>commit -m</code> / <code>log --oneline --graph</code> (the timeline map) / <code>branch</code> / <code>switch -c feature-x</code> (new universe) / <code>merge</code> / <code>push</code> / <code>pull</code>. A branch is just a movable sticker pointing at a commit — creating one is free and instant, which is why the pro habit is: <em>never</em> experiment on <code>main</code>; every idea gets a branch; merge when proven, delete after.</p>
+
+<p><strong>The undo table — memorize this and lose all fear:</strong> unstage a file → <code>git restore --staged f</code>; discard uncommitted mess → <code>git restore f</code> (careful: gone-gone); fix the last commit's message or add a forgotten file → <code>git commit --amend</code>; <em>safely</em> undo a pushed commit → <code>git revert &lt;sha&gt;</code> (adds an anti-commit; history stays true); move your branch pointer back in time → <code>git reset</code> (fine locally, dangerous on shared history); "I deleted my work!!" → <code>git reflog</code>, the secret journal of everywhere HEAD has been — commits are almost never truly lost. Rule of thumb: <code>revert</code> for public history, <code>reset</code> for private.</p>
+
+<p><strong>Merge conflicts, demystified.</strong> A conflict is not an error — it's Git honestly saying "both universes edited the same lines; a human must choose." The <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; ======= &gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> markers show both versions; you edit to the truth, <code>add</code>, <code>commit</code>. That's all a conflict has ever been.</p>
+
+<p><strong>Why this is load-bearing:</strong> your brain's own laws (lit nodes immutable, changelog-gated replans) are Git-shaped thinking; your milestone plan starts with tagging (<code>git tag pre-brain-simplification</code>) — Chapter 24's capstone will have you tagging releases of your own knowledge.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: branches, commits, history — understand my own daily ritual.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>In <code>vizier-floor/</code>, run the full drama: <code>git init</code>, commit <code>main.py</code>, branch <code>experiment</code>, change a line, commit, switch back to <code>main</code>, change the <em>same</em> line differently, commit, merge <code>experiment</code> → hit the conflict on purpose → resolve it, commit. Then time-travel: <code>log --oneline</code>, <code>revert</code> the merge, watch the file change back, then <code>reflog</code> and observe your whole journey recorded. Screenshot the graph — artifact done.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the three rooms and what <code>add</code> and <code>commit</code> each move between them.</li>
+<li>What <em>is</em> a branch, physically, and why does that make branching free?</li>
+<li>Revert vs reset — which for shared history and why?</li>
+<li>A merge conflict appears. Narrate your exact steps, unafraid.</li>
+<li>What is reflog, and what fear does it delete?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="terminal-fluency" href="terminal-fluency.html">terminal-fluency</a></p>
+<p><a class="wiki-link" data-node-id="python-environments" href="python-environments.html">python-environments</a></p>
+<p><a class="wiki-link" data-node-id="capstone-foundations" href="capstone-foundations.html">capstone-foundations</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

@@ -35,17 +35,48 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Small & Distilled Models</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: frontier-capstone</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>For years the field's slogan was "bigger is better." Then a quieter counter-current: a 3B model, trained <em>well</em>, on data <em>curated by a bigger model</em>, started beating last year's 70B at specific jobs. Why are tiny models eating the edge? Because most real workloads don't need a philosopher — they need a fast, cheap, reliable clerk. And because big models can now <em>teach</em> small ones.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The two forces.</strong> (1) <strong>Data quality beats parameter count</strong> past a threshold: a small model trained on carefully filtered, textbook-quality tokens punches far above its weight class. (2) <strong>Distillation</strong> — the big idea you'll formalize in Chapter 12: use a large "teacher" model to generate training data (or soft probability targets) for a small "student." The student inherits a compressed slice of the teacher's ability at a fraction of the serving cost. Much of the small-model boom is teachers quietly educating students at industrial scale.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The permanent decision frame — capability density.</strong> Ask of any workload: what's the <em>minimum</em> capability that clears the quality bar (your evals define the bar — Vol 07's whole point)? Route to the smallest model that clears it. This is your gateway's routing policy (Vol 02) and the cost lever from Vol 04 Ch 17, now with a principled basis: frontier model for hard reasoning, small model for classification/extraction/formatting, local model for private/cheap. The engineer's edge isn't knowing the biggest model; it's knowing the <em>cheapest sufficient</em> one — and proving sufficiency with a golden set, not vibes.</p>
+
+<p><strong>Where small wins structurally.</strong> Edge devices (phones, laptops — Chapter 1's world), high-volume pipelines (millions of cheap calls), latency-critical paths (voice — Chapter 3 will demand this), and privacy-bound workloads. Where small loses: long-horizon reasoning, broad world knowledge, and graceful handling of the weird — exactly the failure shapes your evals catch.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: why tiny models are eating the edge.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Take one real task from your own system — the memory-extraction classification from Vol 06 is perfect (semantic/episodic/procedural is a clerk's job). Run its golden set against three tiers: a frontier model, a small hosted model, and your Chapter 1 local model. Build the honest table: quality score, cost per 1K calls (tokentools prices it — Vol 01's package still paying rent in the final ring), latency. Write the routing verdict in your note. If the small model clears the bar: change the route in your gateway config <em>for real</em>.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Explain distillation to a 12-year-old (a great teacher writing a summary textbook for a young student works).</li>
+<li>What are the two forces that made small models good, and which one is under your control as an app engineer?</li>
+<li>Define "cheapest sufficient model" and name what makes sufficiency <em>provable</em> rather than vibes.</li>
+<li>From your table: where did the small model break, and was the break predictable from this chapter's "where small loses" list?</li>
+<li>Why do small models matter <em>more</em> as agent systems scale? (Hint: Vol 04 Ch 17's cost integral — many loop iterations × per-call cost.)</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="preference-tuning-distillation" href="preference-tuning-distillation.html">preference-tuning-distillation</a></p>
+<p><a class="wiki-link" data-node-id="local-models" href="local-models.html">local-models</a></p>
+<p><a class="wiki-link" data-node-id="build-gateway" href="build-gateway.html">build-gateway</a></p>
+<p><a class="wiki-link" data-node-id="cost-latency-budgets" href="cost-latency-budgets.html">cost-latency-budgets</a></p>
+<p><a class="wiki-link" data-node-id="build-golden-dataset" href="build-golden-dataset.html">build-golden-dataset</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

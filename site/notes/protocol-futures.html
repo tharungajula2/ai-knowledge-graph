@@ -35,17 +35,46 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Protocol Futures</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: frontier-capstone</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>This node is marked <code>frontier</code> in your graph — one of the five explicit placeholders Rule 7 protects. Its job is not to tell you where protocols <em>are</em> (that answer rots in months) but to arm you with the permanent questions that let you read <em>any</em> protocol landscape, this year or in five. In Vol 05 you learned MCP as "the USB-C of AI" — one standard for model↔tool connectivity. The frontier question is: what else is getting a USB-C?</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Axis 1 — What layer is being standardized?</strong> Model↔tool (MCP's territory — Vol 05); agent↔agent (delegation, discovery, task lifecycle between <em>peers</em> — the A2A-shaped problem: how does one agent find another, trust it, hand off work, get results back?); agent↔payment/identity (who is this agent acting for, and can it spend money?); agent↔web (how sites signal what agents may do — the browser-agent world of Chapter 4 begging for rules). Each layer will attract competing standards; layers, not logos, are the permanent map.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Axis 2 — The adoption physics.</strong> Protocols win by network effects, not elegance (worse-but-adopted beats better-but-lonely — the permanent lesson of every standards war in computing). Read the signals you'd read for MCP: who ships servers/clients, which big platforms commit, does an open governance body exist, is there a killer integration. <strong>Axis 3 — The security surface.</strong> Every new protocol layer is a new Vol 08 chapter waiting to be written: MCP brought tool poisoning and confused deputies (Vol 05 Ch 6); agent↔agent brings impersonation and delegation-chain attacks; payments bring the obvious. The permanent rule: <em>a protocol's security model matters more than its feature list</em>, because you'll be plugging it into systems holding your private data. <strong>Axis 4 — What it means for VIZIER.</strong> Your brain already speaks MCP (Vol 05's brain-MCP-server). Each new layer is a question: would v2 expose itself there, and what would the gate guard?</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: where MCP/A2A and successors are heading — live view.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Run the frontier-scan <em>now</em>, as the node demands: 60–90 minutes of current reading (official specs and announcements over commentary — Vol 04 Ch 14's provenance discipline applies to your own research too). Produce the one-page <strong>Protocol Landscape Memo</strong>, structured by the four axes: what layers have live standards today, adoption signals per contender, the security surface you'd fear, and one concrete v2 decision this scan informs. Date-stamp it. That memo <em>is</em> the node's artifact — and per Rule 7, if months pass before you light this, scan again and diff.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the four permanent axes without looking.</li>
+<li>Why do layers beat logos as the map? What happened to your memo the day a new protocol launched — did it survive?</li>
+<li>State the adoption-physics rule and the three signals you weight most.</li>
+<li>For one protocol from your scan: its security surface in two sentences, and the Vol 08 concept it rhymes with.</li>
+<li>The one v2 decision your memo informed — what, and why now rather than later?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="mcp-fundamentals" href="mcp-fundamentals.html">mcp-fundamentals</a></p>
+<p><a class="wiki-link" data-node-id="protocol-landscape" href="protocol-landscape.html">protocol-landscape</a></p>
+<p><a class="wiki-link" data-node-id="mcp-security" href="mcp-security.html">mcp-security</a></p>
+<p><a class="wiki-link" data-node-id="build-brain-mcp-server" href="build-brain-mcp-server.html">build-brain-mcp-server</a></p>
+<p><a class="wiki-link" data-node-id="agent-threat-model" href="agent-threat-model.html">agent-threat-model</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

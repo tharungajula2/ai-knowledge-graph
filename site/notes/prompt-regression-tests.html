@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Prompt Regression Tests</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You've tuned a prompt to perfection (Vol 02 Ch 16). Weeks later, you tweak it to fix one edge case — and silently break three cases that used to work. You won't notice until a user does. The node summary: <strong>freeze behavior; catch silent breakage.</strong> Prompt regression tests are the safety net that makes prompt-editing <em>safe</em> — the same way unit tests made code-refactoring safe (Vol 01 Ch 21). This small build installs the reflex that lets you change prompts fearlessly, because breakage gets caught the instant it happens, not in production.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The regression problem, AI edition.</strong> In deterministic code, a regression test asserts <code>f(x) == known_good</code> and catches any change that breaks it. Prompts have the same regression risk — a change that fixes case A breaks case B (prompt whack-a-mole, Vol 02 Ch 16, is <em>real</em> and <em>invisible</em> without tests) — but the non-determinism wall (Ch 1) means you can't <code>assert output == frozen_string</code>. So a prompt regression test <em>freezes behavior</em> differently: it asserts the output still <em>satisfies the same criteria</em> it used to (via your judge, Ch 3, or programmatic checks) on a <em>frozen set of cases</em> — catching when a change drops a previously-passing case below its bar.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The mechanism — golden set as regression suite.</strong> Your golden dataset (Ch 2) <em>is</em> your regression suite: (1) establish a <em>baseline</em> — run the current prompt, record which cases pass and their scores; (2) on any prompt change, <em>re-run the whole set</em>; (3) <em>diff</em> against baseline — which cases <em>flipped</em> (passing → failing is a regression; failing → passing is a fix); (4) the change ships only if the net is positive <em>and</em> no critical case regressed (a fix that breaks an important case is not a fix). The key output isn't the aggregate score — it's the <em>per-case flip list</em> (Vol 02 Ch 16's row-level diffs, now automated): "this change fixed the 2 vocabulary cases but broke the empty-input case" is the actionable sentence, and only per-case tracking surfaces it.</p>
+
+<p><strong>Freezing behavior for the deterministic parts.</strong> Some prompt behaviors <em>can</em> be frozen exactly (Vol 02 Ch 6): does it still return valid JSON? Does it still include the required disclaimer? Does it still refuse the out-of-scope case? These are <code>assert</code>-able (programmatic, no judge, no non-determinism at temperature 0 for the checkable structural properties) — freeze them hard as fast, cheap, deterministic regression guards. Reserve the judge (Ch 3) for the quality regressions that need it. A good regression suite is mostly cheap programmatic freezes plus a few judge-scored quality checks.</p>
+
+<p><strong>Why this is the bridge to CI (Ch 9).</strong> A regression suite that runs on demand is useful; one that runs <em>automatically on every change</em> is transformative — it moves quality-checking from "something you remember to do" to "something that can't be skipped" (Ch 9's CI gates). The regression suite is the <em>content</em>; CI is the <em>enforcement</em>. Build the suite here; wire it into merge-blocking next chapter. Together they're how AI systems stop silently rotting: every change is measured against frozen behavior before it can ship.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: freeze behavior; catch silent breakage.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. half a day): baseline your research agent (or brain-chat) on the golden set — record pass/fail + scores per case → the diff tool (given a new run, show flipped cases vs baseline) → freeze the deterministic behaviors as programmatic asserts (valid output shape, required refusals, format compliance) → then <em>make a deliberate prompt change</em> that fixes one case and (likely) breaks another, run the regression, and watch the diff catch the breakage you'd have shipped blind. That caught regression is the build's proof. Tag <code>eval-v0.3</code>. The baseline + the diff tool + the caught-regression demo = the note; Ch 9 wires this into CI.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why can't a prompt regression test assert <code>output == frozen_string</code>, and what does it assert instead?</li>
+<li>Walk the four-step regression mechanism, and why is the per-case flip list more valuable than the aggregate?</li>
+<li>Which prompt behaviors <em>can</em> be frozen exactly, and why are they the cheap fast guards?</li>
+<li>What does "a fix that breaks a critical case is not a fix" mean for the ship decision?</li>
+<li>How does the regression suite relate to CI gates — content vs enforcement?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="prompt-quality" href="prompt-quality.html">prompt-quality</a></p>
+<p><a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></p>
+<p><a class="wiki-link" data-node-id="build-golden-dataset" href="build-golden-dataset.html">build-golden-dataset</a></p>
+<p><a class="wiki-link" data-node-id="ci-gates-for-ai" href="ci-gates-for-ai.html">ci-gates-for-ai</a></p>
+<p><a class="wiki-link" data-node-id="failure-to-golden-loop" href="failure-to-golden-loop.html">failure-to-golden-loop</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

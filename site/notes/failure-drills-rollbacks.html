@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Failure Drills & Rollback Protocols</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Everything fails eventually — the question is whether you've <em>practiced</em> for it. The node summary: <strong>chaos engineering drills, automated rollback protocols, and database migration backup strategy.</strong> Failure drills deliberately <em>break</em> your system (in a controlled way) to verify it recovers; rollback protocols let you <em>undo</em> a bad change fast; migration backups protect your data through schema changes. This chapter is the resilience discipline — building a system that not only works but <em>recovers</em>, and a <em>you</em> who's rehearsed the recovery before the real incident.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Chaos engineering — practicing failure (the counterintuitive discipline).</strong> The idea (pioneered by Netflix's Chaos Monkey): <em>deliberately inject failures</em> into your system — kill a server, drop a database connection, make a dependency slow, cut the network — <em>on purpose</em>, in a controlled way, to verify the system <em>handles</em> it. Why deliberately break things: because failures <em>will</em> happen (Vol 08 Ch 14's assume-breach, for reliability), and the only way to <em>know</em> your system recovers is to <em>test</em> that it does — before the real failure, at 3am, unrehearsed. Chaos drills reveal the resilience gaps (the dependency with no fallback Vol 02 Ch 11, the retry that isn't idempotent Vol 08 Ch 10, the single point of failure) <em>while you're watching and calm</em>, not while users are down and you're panicking. It's the fire drill for production: you practice the emergency so the real one is routine.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Rollback protocols — undoing bad changes fast (the incident lifesaver).</strong> A deploy (Ch 22) goes wrong — the new version is broken, slow, or wrong. The <em>rollback protocol</em> is your fast, rehearsed path back to the last-good version: <em>versioned deploys</em> (Ch 19's tagged images — you can redeploy the previous version instantly), <em>automated rollback</em> (detect a bad deploy — error spike Ch 15, failed health check Ch 19 — and <em>automatically</em> revert), and <em>the practiced manual rollback</em> (one command/click to the previous version, rehearsed so it's fast under pressure). Why it matters: in an incident, <em>mean-time-to-recovery</em> is everything (Ch 28's SLOs — every minute down burns error budget and user trust), and a fast rollback ("revert to the version that worked") is usually faster and safer than a forward-fix ("debug and patch under pressure"). The discipline: <em>make rollback trivial and rehearsed</em>, so the incident response is "roll back, breathe, then diagnose calmly" not "debug live while users suffer."</p>
+
+<p><strong>Database migration backups — protecting the irreplaceable (Ch 4's migrations, made safe).</strong> Code rolls back easily (redeploy the old version); <em>data</em> doesn't (a migration Ch 4 that corrupts or drops data is often <em>irreversible</em> — you can't redeploy your way back to deleted rows). So schema changes need special care: <em>backup before migrating</em> (a restore point before any schema change — the safety net); <em>reversible migrations</em> (Ch 4 — each migration has a <em>down</em> that undoes it, where possible); <em>test migrations on a copy</em> (run the migration on a production-data copy first, verify it's safe, before touching real data); and <em>the backup-and-restore drill</em> (practice restoring from backup — an untested backup is a hope, not a protection — the classic "we had backups but never tested the restore and it didn't work" disaster). Data is the irreplaceable asset (code is reproducible, data isn't) — migration backups are how you change the schema without risking it.</p>
+
+<p><strong>Building the resilience habit.</strong> These practices share a mindset: <em>assume failure, rehearse recovery, make undo trivial</em> (Vol 08 Ch 14's assume-breach, for reliability). Concretely for your agent-lab: run a chaos drill (kill the database mid-request — does it degrade gracefully or crash? Vol 02 Ch 11's fallbacks, tested); build a rollback protocol (tagged deploys Ch 19, one-command revert, rehearsed); and a migration backup strategy (backup-before-migrate, tested restore). A system with rehearsed failure-recovery is <em>operationally mature</em> — it's the difference between "an incident is a catastrophe" and "an incident is a rehearsed procedure." And it's a senior signal (you think about failure, not just success).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Chaos engineering drills, automated rollback protocols, and database migration backup strategy.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build resilience (concept node, concrete): (1) Run a chaos drill on your system: deliberately break something (kill the DB connection, make the LLM API fail Vol 02 Ch 11, drop a worker Ch 26) and observe — does it degrade gracefully (fallback, honest error) or fall over? Fix one resilience gap the drill exposes. (2) Build a rollback protocol: tagged deploys (Ch 19), a one-command revert to the previous version, and rehearse it (time yourself — how fast can you roll back?). (3) Design the migration backup strategy: backup-before-migrate, reversible migrations (Ch 4), tested restore. The chaos-drill-and-fix + the rehearsed rollback + the migration-backup strategy = the note; this is the hardening pass (Ch 36) foundation.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What is chaos engineering, and why deliberately break your own system?</li>
+<li>Why is fast rollback usually better than forward-fix in an incident? Connect to MTTR and error budget.</li>
+<li>Why does data need special protection that code doesn't, and what are the migration-backup practices?</li>
+<li>What's the "untested backup" disaster, and how do you avoid it?</li>
+<li>State the shared resilience mindset, and why rehearsed failure-recovery is a senior signal.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="observability-slos" href="observability-slos.html">observability-slos</a></p>
+<p><a class="wiki-link" data-node-id="build-migration-runner" href="build-migration-runner.html">build-migration-runner</a></p>
+<p><a class="wiki-link" data-node-id="fallbacks-graceful-degradation" href="fallbacks-graceful-degradation.html">fallbacks-graceful-degradation</a></p>
+<p><a class="wiki-link" data-node-id="hardening-pass" href="hardening-pass.html">hardening-pass</a></p>
+<p><a class="wiki-link" data-node-id="monitoring-alerting" href="monitoring-alerting.html">monitoring-alerting</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

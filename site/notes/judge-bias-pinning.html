@@ -35,17 +35,48 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Judge Bias & Pinning</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your judge (Ch 3) is an LLM — which means it has all the biases and unreliability of an LLM, now pointed at <em>grading</em>. The node summary names both problems: <strong>when the judge is wrong; version-pin the judge.</strong> A judge you trust blindly will confidently mis-measure your whole system, sending you optimizing in the wrong direction — and worse, if the judge <em>itself</em> changes (a model update), your eval scores shift for reasons that have nothing to do with your system. This chapter is the skepticism and the discipline that keep the judge honest.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The judge's biases — the known failure modes (calibrate against these specifically).</strong> <em>Verbosity bias</em>: judges favor longer, more detailed answers even when a terse answer is better (Ch 3's probe — the eloquent-but-wrong winner). <em>Position bias</em>: when comparing two answers, judges favor whichever comes first (or last) regardless of quality — so A/B comparisons must randomize order or the position decides the winner. <em>Self-preference</em>: a judge favors outputs in its own style / from its own model family (a GPT judge subtly prefers GPT answers — a real problem when judge and system share a model). <em>Sycophancy toward confidence</em>: confidently-stated wrong answers score higher than hedged correct ones (Vol 01 Ch 10's calibration failure, now in the <em>grader</em> — doubly dangerous). <em>Formatting bias</em>: nice markdown scores higher than plain text of equal substance. <em>Leniency/scale compression</em>: judges cluster scores in the middle or skew generous, compressing the range you're trying to measure. Each is a <em>systematic</em> error (not random noise), which means it <em>biases your optimization</em> — if the judge rewards verbosity, you'll "improve" your system by making it verbose, measuring the bias instead of the quality.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Mitigations — how to judge the judge.</strong> <em>Calibration</em> (Ch 3, the foundation — measure agreement with humans, which surfaces bias as disagreement patterns). <em>Bias-aware rubrics</em> (explicitly instruct: "penalize unnecessary length," "ignore formatting," "reward calibrated uncertainty" — name the bias to counter it). <em>Order randomization</em> (for comparisons — kill position bias mechanically). <em>Different judge model</em> (don't judge a model with itself — cross-model judging reduces self-preference; Vol 04 Ch 9's "different critic" insight, at eval scale). <em>Multiple judges / ensemble</em> (for high-stakes evals, several judges vote — expensive, Vol 05 Ch 6's debate economics, but reduces single-judge bias). <em>Ground truth wherever possible</em> (the undefeated move, Vol 04 Ch 9 — a programmatic check has no bias; prefer it over any judge when the thing is checkable). The meta-principle: <strong>the judge is a fallible instrument; treat its scores as measurements-with-error, not truth, and characterize the error before trusting the measurement.</strong></p>
+
+<p><strong>Version-pinning — the reproducibility discipline (the node's second theme, and the subtler one).</strong> Here's the trap that ruins eval programs: your judge is <code>gemini-2.5-flash</code> (or whatever); the provider silently updates the model behind that name; suddenly your eval scores shift — and you <em>cannot tell</em> whether your <em>system</em> got worse or the <em>judge</em> changed. Your entire measurement baseline has moved under you, invisibly. The fix: <strong>pin the judge's version</strong> (use a specific dated model snapshot where the provider offers one — Vol 01 Ch 11), record <em>which judge version</em> produced <em>which scores</em> (in the eval report — provenance for measurements, Vol 03 Ch 10's habit at the eval layer), and when you <em>must</em> upgrade the judge, <em>re-baseline</em> (re-run past evals with the new judge to establish the offset, so old and new scores are comparable). Unpinned judges make eval history meaningless — a score from March and a score from June aren't comparable if the judge changed between them. This is Ch 11's data-versioning/reproducibility, applied to the most important variable in your eval: the grader itself.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: when the judge is wrong; version-pin the judge.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Interrogate your Ch 3 judge (concept node, concrete): (1) The bias battery — construct paired test cases probing each bias: verbose-vs-terse (equal substance), correct-first vs correct-second (position), confident-wrong vs hedged-right (sycophancy), pretty-vs-plain (formatting). Run your judge on each pair; document which biases it exhibits and how strongly. This is your judge's <em>bias profile</em> — know your instrument's systematic errors. (2) Apply mitigations to the worst bias you found (bias-aware rubric clause, or order randomization) and re-test — measure the improvement. (3) The pinning audit: check whether your judge model is pinned or floating; write the pinning + re-baselining policy for your eval program. The bias profile + the mitigation result + the pinning policy = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name five judge biases, and why does each <em>systematically</em> mislead optimization (vs random noise)?</li>
+<li>Why is sycophancy-toward-confidence doubly dangerous in a judge?</li>
+<li>Recite the mitigations, ending with the undefeated one.</li>
+<li>Explain the version-pinning trap: what shifts, and why can't you tell what caused it?</li>
+<li>What is re-baselining, and why does an unpinned judge make eval history meaningless?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-eval-judge" href="build-eval-judge.html">build-eval-judge</a></p>
+<p><a class="wiki-link" data-node-id="hallucination" href="hallucination.html">hallucination</a></p>
+<p><a class="wiki-link" data-node-id="reflection-patterns" href="reflection-patterns.html">reflection-patterns</a></p>
+<p><a class="wiki-link" data-node-id="data-versioning-reproducibility" href="data-versioning-reproducibility.html">data-versioning-reproducibility</a></p>
+<p><a class="wiki-link" data-node-id="model-landscape" href="model-landscape.html">model-landscape</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

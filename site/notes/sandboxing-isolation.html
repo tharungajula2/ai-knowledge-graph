@@ -35,17 +35,53 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Sandboxing & Isolation</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: safety-security</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The node summary names the mindset: <strong>blast-radius thinking for tools.</strong> When an agent runs code, executes a tool, or processes untrusted content, the question isn't only "will it misbehave?" but "<em>if</em> it misbehaves, how much damage can it do?" Sandboxing is the discipline of <em>containing</em> an agent's operations so that when something goes wrong — a malicious payload succeeds, a tool is exploited, generated code is harmful — the damage is <em>bounded</em> to an isolated environment. It's defense in depth's foundation: assume breach, contain the blast.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The blast-radius mindset — assume breach.</strong> Every other defense tries to <em>prevent</em> the bad thing; sandboxing accepts that prevention sometimes fails (the arms race, Ch 4) and asks "when it fails, what's the damage?" — then works to <em>minimize</em> that damage. This is the mature security posture (Vol 02 Ch 12's "assume-breach thinking," now central): you can't guarantee no attack succeeds, but you <em>can</em> guarantee that a successful attack is <em>contained</em> — the agent that gets injected can only harm its sandbox, the generated code that's malicious can only affect its isolated environment, the exploited tool can only reach what its sandbox permits. Blast-radius thinking turns "catastrophe if breached" into "contained incident if breached" — the difference between a bounded mess and an unbounded disaster.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>What needs sandboxing (the high-risk operations).</strong> <em>Code execution</em> (the sharpest — an agent that runs generated or user-provided code is running <em>arbitrary code</em>, Vol 01 Ch 20's power with Vol 08's stakes; a code-interpreter tool is a remote-code-execution surface by design). <em>Untrusted content processing</em> (the quarantine agent, Ch 7's Rule of Two — the agent handling web pages/documents runs isolated, with no private data and no exfil, so injection can't escape). <em>Tool execution</em> generally (a tool that touches the filesystem, network, or external systems — confine it, Vol 05 Ch 9's path-confinement generalized). <em>Third-party/MCP servers</em> (Vol 05 Ch 13 — a server you don't fully trust runs isolated). The rule: <em>the higher the operation's risk and the lower your trust in what it processes, the tighter the sandbox.</em></p>
+
+<p><strong>The isolation techniques (the containment spectrum).</strong> <em>Process isolation</em> (run the risky operation in a separate process — a crash or compromise doesn't take down the main system). <em>Container isolation</em> (Docker and kin, Vol 09's territory — the operation runs in a container with limited filesystem, network, and resources; the standard for code execution — a container the generated code can trash is thrown away, blast contained). <em>VM/microVM isolation</em> (stronger — gVisor, Firecracker — for higher-risk code execution; the boundary is harder to escape). <em>Network isolation</em> (the sandbox has no network, or only an allowlist — removes the exfil path, Ch 7, at the infrastructure level — injected code can't phone home). <em>Resource limits</em> (CPU, memory, time caps — Vol 04 Ch 17's budgets as <em>security</em> controls: an operation that can't consume unbounded resources can't be a denial-of-service, Ch 1's cost-attack). <em>Filesystem confinement</em> (the operation sees only a scoped, ephemeral filesystem — nothing sensitive, nothing persistent). The technique matches the risk: a low-risk tool gets process isolation, arbitrary code execution gets container-plus-no-network-plus-resource-limits.</p>
+
+<p><strong>The unifying principle — isolation makes the trifecta and least-privilege physical.</strong> Sandboxing is where Ch 7's "remove exfil paths" and Ch 8's "scope capabilities" become <em>infrastructure</em>: a network-isolated sandbox <em>physically</em> removes the exfil path (not "the agent shouldn't send data out" but "there is no network to send it through"); a filesystem-confined sandbox <em>physically</em> removes private-data access (not "the agent shouldn't read secrets" but "the secrets aren't in this filesystem"). Sandboxing turns the <em>policy</em> of least-privilege and the <em>discipline</em> of the trifecta into <em>physical, enforced boundaries</em> — the strongest form of "security is architecture," because the architecture is now the actual runtime environment, not just the code. And it's the foundation of defense in depth (Ch 19): even if every other layer fails and the attacker fully controls the agent, the sandbox bounds what "fully controlling the agent" can achieve. Assume breach; contain the blast; sleep at night.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: blast-radius thinking for tools.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Apply blast-radius thinking (concept node, concrete): (1) For each risky operation in your systems (does any agent run code? process untrusted web content? call filesystem/network tools?), assess the current blast radius: if this operation were fully compromised, what's the damage? (2) Design the sandbox for the riskiest one: which isolation techniques (process/container/network/resource/filesystem) would contain it, and how does each map to removing a trifecta ingredient (Ch 7) or scoping a privilege (Ch 8)? (3) If you have a code-execution or untrusted-content operation, prototype one isolation layer (a network-less container, a resource-limited subprocess, a confined filesystem) and verify the containment (try to make the sandboxed operation reach outside — confirm it can't). The blast-radius assessment + the sandbox design + the containment verification = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>State the blast-radius mindset — how does it differ from prevention, and what's the assume-breach posture?</li>
+<li>Name the high-risk operations that need sandboxing, and the rule for how tight.</li>
+<li>Recite the isolation techniques from process to filesystem confinement, matched to risk.</li>
+<li>How does sandboxing make the trifecta and least-privilege <em>physical</em> rather than policy?</li>
+<li>Why is sandboxing the foundation of defense in depth — what does it bound even in total compromise?</li>
+</ol>
+<hr>
+<h1 id="part-iii-prove-it">PART III — PROVE IT</h1>
+<p><em>6 chapters. The ring's proof: attack your own agent, fix what broke, lock it with a permanent test suite, understand responsible shipping, synthesize defense in depth, and close.</em></p>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="lethal-trifecta" href="lethal-trifecta.html">lethal-trifecta</a></p>
+<p><a class="wiki-link" data-node-id="least-privilege-tools" href="least-privilege-tools.html">least-privilege-tools</a></p>
+<p><a class="wiki-link" data-node-id="terminal-fluency" href="terminal-fluency.html">terminal-fluency</a></p>
+<p><a class="wiki-link" data-node-id="cost-latency-budgets" href="cost-latency-budgets.html">cost-latency-budgets</a></p>
+<p><a class="wiki-link" data-node-id="synthesis-safety" href="synthesis-safety.html">synthesis-safety</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

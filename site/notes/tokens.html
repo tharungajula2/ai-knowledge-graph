@@ -35,17 +35,49 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Tokens</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Models don't read letters and don't read words. They read <strong>tokens</strong> — Lego bricks of text, somewhere between a letter and a word. "unbelievable" might be three bricks: <code>un</code> + <code>believ</code> + <code>able</code>. Every price you pay, every context limit you hit, and several famous model failures are all about these bricks.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Why not letters or words?</strong> Letters make sequences brutally long (every extra position costs compute). A dictionary of whole words explodes into millions of entries and dies on typos and new words. The compromise: <strong>subword tokenization</strong> (the common algorithm family is BPE — byte-pair encoding). Build a vocabulary of ~50k–200k frequent <em>chunks</em>: common words stay whole (<code>the</code>, <code> house</code>), rare words split into pieces (<code>electro</code> + <code>magnet</code> + <code>ism</code>), and anything — any typo, any emoji — is representable from small pieces. Note the leading spaces: <code> house</code> (with space) and <code>house</code> are different tokens.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The rules of thumb you'll use weekly.</strong> In English, 1 token ≈ 4 characters ≈ ¾ of a word; 1,000 tokens ≈ 750 words. Code tokenizes less efficiently (lots of symbols and whitespace); non-English languages can cost 2–4× more tokens for the same meaning — a real cost and latency issue for multilingual products.</p>
+
+<p><strong>Why tokens explain famous failures.</strong> "How many r's in strawberry?" — the model may see <code>straw</code> + <code>berry</code> as two opaque bricks; it never sees letters, so counting letters is like asking you how many atoms are in a chair. Same root cause for weakness at reversing strings, rhyming precisely, and arithmetic on long numbers (digits get chunked inconsistently: <code>1234</code> might be one token, <code>12345</code> might be <code>123</code> + <code>45</code>).</p>
+
+<p><strong>Why an engineer cares.</strong> (1) <strong>Money</strong> — APIs bill per token, in and out. (2) <strong>Limits</strong> — the context window (Chapter 8) is measured in tokens. (3) <strong>Latency</strong> — output is generated token-by-token, so long answers are slow answers. You'll turn all three into working code in the Build: Token &amp; Cost Calculator chapter.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p><strong>Why an engineer cares.</strong> (1) <strong>Money</strong> — APIs bill per token, in and out. (2) <strong>Limits</strong> — the context window (Chapter 8) is measured in tokens. (3) <strong>Latency</strong> — output is generated token-by-token, so long answers are slow answers. You'll turn all three into working code in the Build: Token &amp; Cost Calculator chapter.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Open a tokenizer playground in your browser (OpenAI's tokenizer page, or the <code>tiktoken</code> library later). Type and observe: your full name (rare names shatter into many pieces), "strawberry", a Python snippet, the same sentence in English vs Telugu/Hindi, a long number like 8675309. For each, write one line on <em>why</em> it split the way it did.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why subword tokens instead of characters or whole words? Give one failure of each extreme.</li>
+<li>State the English rules of thumb: tokens per word, tokens per 1,000 words.</li>
+<li>Explain the strawberry failure mechanically, using the word "opaque."</li>
+<li>Name the three engineering costs measured in tokens.</li>
+<li>Why can serving a Hindi-language product cost multiples of the English version?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="what-is-a-language-model" href="what-is-a-language-model.html">what-is-a-language-model</a></p>
+<p><a class="wiki-link" data-node-id="context-windows" href="context-windows.html">context-windows</a></p>
+<p><a class="wiki-link" data-node-id="build-token-cost-calculator" href="build-token-cost-calculator.html">build-token-cost-calculator</a></p>
+<p><a class="wiki-link" data-node-id="embeddings-intuition" href="embeddings-intuition.html">embeddings-intuition</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

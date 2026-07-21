@@ -35,17 +35,56 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Cost & Latency Budgets</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: agents</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your Ch 14 ledger line already told you: agents are the most expensive artifacts you've built. The node summary is blunt — <strong>agents burn tokens; engineer the bill</strong> — and the arithmetic is unforgiving: a chatbot turn is one call; an agent run is a <em>loop of calls, each re-sending a growing scratchpad</em>. Left unengineered, that's quadratic-flavored spend wrapped in unpredictable latency. This chapter turns Vol 01 Ch 8's economics and Vol 02's machinery into agent-shaped budget engineering — the difference between a demo that wows and a product that survives its own success.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The anatomy of an agent's bill — know where the money goes.</strong> Per step: input tokens = system prompt + tool catalog + <em>the entire scratchpad so far</em> + the new observation; output = the thought/action. The scratchpad grows every step (Ch 13's curve — you plotted it), so per-step cost <em>climbs</em> through a run: a 12-step run doesn't cost 12× step one; it costs the area under your growth curve (you have literally drawn the integral — now read it as rupees). Add the pattern surcharges: reflection doubles calls per round (Ch 9's caveat), replanning adds checks (cheap) and replans (not), multi-agent adds the supervisor's calls <em>around</em> every specialist's, and reasoning-mode models multiply output tokens precisely when tasks get hard (Vol 02, Ch 5's routing economics). Latency mirrors cost, with a twist: steps are <em>sequential</em> — an agent's wall-clock is the sum of its calls plus its tools, and no streaming trick hides a 40-call run (Vol 02 Ch 8's TTFT medicine treats perceived latency of <em>one</em> call; agents need different medicine: progress visibility — stream the <em>thoughts and actions</em> as they happen, so the user watches work instead of a spinner; you've had this since Ch 4's transcripts — productize it).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The budget stack — engineering, layer by layer (every layer already in your codebase; this chapter promotes them from guards to policy).</strong></p>
+<ul>
+<li><strong>Hard caps</strong>: max_steps per run, max iterations per plan-step (Ch 14's nesting), max tool-calls, max total tokens, max wall-clock — <em>and a max spend in currency</em>, computed live from the ledger (tokentools' finest hour: the run halts at ₹X, gracefully, returning partial findings + gaps rather than dying — budget exhaustion as an <em>honest outcome</em>, the NOT-IN-NOTES philosophy applied to money).</li>
+<li><strong>Model routing</strong>: the biggest lever, and you own every piece — cheap models for the router (Ch 11 — classification doesn't need a frontier model), for replan-checks and repetition-breaking, for critique rubrics; frontier models for planning and synthesis where quality compounds; the gateway (Vol 02, Ch 11) makes per-call routing a parameter, not a refactor. Typical production splits put 70–90% of calls on cheap models; measure your own split from the ledger and tune.</li>
+<li><strong>Scratchpad economics</strong>: Ch 13's ladder <em>is</em> cost engineering — distill-and-replace and typed state don't just fight lost-in-the-middle; they flatten the growth curve you're paying the integral of. And prompt caching (Vol 02, Ch 10) applies to agents beautifully <em>if</em> you honor the prefix rule: stable system prompt + tool catalog first, volatile scratchpad last — an agent's re-sent prefix is huge and identical every step; caching it is the single cheapest large win available. Check your prompt assembly order today.</li>
+<li><strong>Parallelism for latency</strong>: independent plan steps and parallel tool calls via gather (Vol 01 Ch 17; Ch 5's reducers making parallel writes safe) — latency falls, cost doesn't; know which problem you're solving.</li>
+<li><strong>Caching for repeats</strong>: semantic caching (Vol 03, Ch 20) at the run level for repeated questions, and tool-result caching (same search this session? — the exact-match dict, Vol 02 Ch 10) inside runs.</li>
+</ul>
+
+<p><strong>The budget as product design — the reframe that matters.</strong> A budget isn't a limp constraint; it's a <em>contract with the user</em>: "quick answer (₹2, 30s, shallow)" vs "deep research (₹40, 8 min, cited briefing)" are different products from the same agent at different budget settings — and showing estimated cost <em>before</em> the run (the plan's previewable budget, Ch 8's promise, cashed) plus actual cost after (the ledger line) is trust-building of the same species as citations. Per-run unit economics — what does a briefing cost, what would a user pay — is the production domain's bread; the reflex starts here.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: agents burn tokens; engineer the bill.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Instrument and engineer your research agent (~half a day): (1) <em>The autopsy</em> — rerun a Ch 14 briefing with per-step ledger logging: table of step, model, input/output tokens, cost; identify the three most expensive steps and <em>why</em> (it will be scratchpad size, not output). (2) <em>Three interventions, measured one at a time</em> (the discipline): route the replan-check + repetition-breaker to your cheapest model; verify prompt assembly is cache-optimal (stable prefix first) and enable caching; tighten the scratchpad ladder one notch. Before/after cost and wall-clock per intervention. (3) <em>The two products</em> — define quick vs deep budget configs; run the same question under both; present the two briefings side by side with their price tags. (4) <em>The halt test</em> — set an absurdly low spend cap; verify graceful partial-return with gaps, not a crash. Autopsy table + three deltas + the two-product comparison = the note; total savings percentage goes in your capstone post.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why does an agent's cost curve climb within a run? Read your own curve as an integral.</li>
+<li>Recite the budget stack and identify the biggest lever — with your measured split.</li>
+<li>Why doesn't streaming fix agent latency, and what does? What falls with parallelism and what doesn't?</li>
+<li>State the prefix rule as it applies to agent prompt assembly, and what you found when you checked yours.</li>
+<li>Deliver the budget-as-product reframe with your own two products' price tags.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="context-windows" href="context-windows.html">context-windows</a></p>
+<p><a class="wiki-link" data-node-id="rate-limits-caching" href="rate-limits-caching.html">rate-limits-caching</a></p>
+<p><a class="wiki-link" data-node-id="build-gateway" href="build-gateway.html">build-gateway</a></p>
+<p><a class="wiki-link" data-node-id="scratchpads-working-memory" href="scratchpads-working-memory.html">scratchpads-working-memory</a></p>
+<p><a class="wiki-link" data-node-id="build-token-cost-calculator" href="build-token-cost-calculator.html">build-token-cost-calculator</a></p>
+<p><a class="wiki-link" data-node-id="semantic-caching" href="semantic-caching.html">semantic-caching</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

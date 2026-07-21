@@ -35,17 +35,56 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Manual Container Deployment</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Theory becomes real here: you take your containerized backend (Ch 5) and <em>put it on the internet</em>. The node summary: <strong>build a Docker image, push it to a registry, and manually deploy it to a serverless container service (e.g., Cloud Run); verify with curl endpoint test.</strong> This is the first time your code runs <em>in the cloud, reachable by anyone</em> — a genuine milestone. Doing it <em>manually</em> first (before automating it in CI, Ch 22) means you understand every step, so when the pipeline does it for you, it's not magic.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The deployment pipeline, by hand (understand each step before automating it).</strong> The path from code to live URL:</p>
+<ol>
+<li><em>Build the image</em> (Ch 5 — <code>docker build</code> produces your container image locally).</li>
+<li><em>Push to a registry</em> — a <em>container registry</em> (Docker Hub, GCP Artifact Registry, etc.) is where images live so the cloud can pull them (Vol 01 Ch 19's Git-remote intuition, for images): <code>docker push</code> uploads your image to the registry, tagged with a version (Vol 07 Ch 11's versioning — tag images, don't just use <code>latest</code>, so you know what's deployed and can roll back Ch 32). The registry is the hand-off point between "built" and "deployable."</li>
+<li><em>Deploy to the service</em> — point the serverless container service (Cloud Run, Ch 18) at your registry image; it pulls the image and runs it, giving you a public URL. Configure: the container's port (Ch 1's server), environment variables (secrets, Ch 24 — injected at runtime, Ch 5), resource limits (CPU/memory), and scaling (min/max instances, scale-to-zero Ch 6).</li>
+<li><em>It's live</em> — your backend answers requests at a public HTTPS URL.</li>
+</ol>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>What you learn by doing it manually (the point of the "manual").</strong> Automating deployment (Ch 22's CI/CD) is the goal, but <em>manual first</em> teaches what the automation <em>does</em>: you feel the build→push→deploy sequence, hit the real errors (the image won't start because a secret's missing — Ch 1's fail-loud config; the port's wrong; the resource limit's too low and it OOMs), and understand the moving parts (registry, image tags, runtime config, scaling settings). When Ch 22's pipeline does this automatically, you'll <em>understand</em> it (and debug it when it breaks — Vol 07 Ch 14's trace-reading, for deploys) rather than treating it as an opaque incantation. This is the curriculum's bet again: do it by hand once, own it forever.</p>
+
+<p><strong>The production configuration that matters.</strong> <em>Environment variables / secrets</em> (Ch 24 — your API keys, DB URL, injected at deploy, never in the image Ch 5); <em>resource allocation</em> (CPU/memory — too little and it's slow or crashes, too much and it's wasteful, Vol 04 Ch 17 cost); <em>scaling config</em> (min instances — 0 for scale-to-zero cheapness Ch 6, or 1+ to avoid cold-start latency; max instances — a cap so a traffic spike or loop Vol 04 Ch 16 doesn't scale you into a huge bill, Ch 17's budget-as-architecture); <em>health checks</em> (the service pings your app to know it's alive — Ch 1's <code>/status</code>, Ch 15's monitoring foundation); <em>the request timeout</em> (Ch 6 — long enough for your agents' multi-second calls). Getting these right is the difference between a deploy that works and one that crashes, costs too much, or times out your agents.</p>
+
+<p><strong>Verification — curl endpoint test, per the node.</strong> The deployed service works from the public internet: <code>curl https://your-service-url/status</code> returns healthy; <code>curl</code> your chat/agent endpoint returns a real response (the whole stack, live — your agents answering over the internet). Test the streaming endpoint (Ch 2 — does SSE work through the platform? Ch 6's buffering concern, live). Test that secrets loaded (no missing-config crash). Test scaling (hit it, watch it scale; leave it, watch it scale to zero). The curl-returns-a-real-agent-response from a public URL is the milestone — your system is <em>live</em>.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a Docker image, push it to a registry, and manually deploy it to a serverless container service (e.g., Cloud Run); verify with curl endpoint test.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Deploy for real (est. 1 day, a genuine milestone): build your image (Ch 5) → push to a registry (tagged, versioned) → deploy to Cloud Run (or equivalent, per Ch 6's decision) → configure runtime (secrets Ch 24, resources, scaling with a max cap, health check, timeout) → <strong>curl the live URL</strong> and get a real agent response → test streaming, secrets, and scale-to-zero. Hit and fix the real errors (missing config, wrong port, timeout). This is the dress rehearsal for RESURRECTION (Ch 34). Tag <code>prod-v0.12</code>. The live public URL + the curl-response demo + the config-you-had-to-get-right = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Walk the four deployment steps (build → push → deploy → live), and what the registry is for.</li>
+<li>Why deploy <em>manually</em> first — what does it teach that automation would hide?</li>
+<li>Why tag images with versions rather than <code>latest</code>?</li>
+<li>Name the production config that matters (secrets, resources, scaling cap, health check, timeout) and what each prevents.</li>
+<li>Why is a max-instances cap a budget-as-architecture control?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="docker-for-ai" href="docker-for-ai.html">docker-for-ai</a></p>
+<p><a class="wiki-link" data-node-id="deploying-backends" href="deploying-backends.html">deploying-backends</a></p>
+<p><a class="wiki-link" data-node-id="secrets-cost-engineering" href="secrets-cost-engineering.html">secrets-cost-engineering</a></p>
+<p><a class="wiki-link" data-node-id="build-github-actions-pipeline" href="build-github-actions-pipeline.html">build-github-actions-pipeline</a></p>
+<p><a class="wiki-link" data-node-id="cost-latency-budgets" href="cost-latency-budgets.html">cost-latency-budgets</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

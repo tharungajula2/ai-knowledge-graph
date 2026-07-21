@@ -35,17 +35,54 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Ingestion Pipeline & Seeder</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: rag-retrieval</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Everything so far ingested a handful of files with a script you ran by hand and trusted on faith. Production RAG lives or dies at ingestion — Ch 11 taught you that poisoned-at-birth failures are unfixable downstream — and <em>your</em> production corpus is the brain itself: hundreds of markdown notes, growing weekly for years. This build, per the node summary: <strong>parse markdown notes → clean semantic chunks → embeddings → seed pgvector — verified with chunk-length assertions.</strong> The pipeline you build today is the one your brain will actually run on; treat it like the permanent infrastructure it is.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Stage 1 — Parse (markdown-aware, wikilink-aware).</strong> Walk the notes directory; per file, parse <em>structure</em>: frontmatter/metadata if present, header tree, code blocks (atomic — never split, per Ch 3's craft rules), and — the corpus's soul — <strong><a class="wiki-link" data-node-id="wikilinks" href="wikilinks.html">wikilinks</a></strong>: extract every one into the chunk's metadata (<code>links_to: list[str]</code>). You're not using them for retrieval yet; you're <em>preserving the graph</em> at ingestion so Ch 19 (GraphRAG) inherits a corpus that already knows its own edges. Ingestion decisions echo for rings — this one is deliberate foresight.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Stage 2 — Chunk (clean and semantic, as the node demands).</strong> Ch 3's header-aware strategy, industrialized: split on the header tree, prepend the full heading-path, respect atomic units, apply a token-budget ceiling per chunk (oversized sections get recursive sub-splitting with overlap), and <em>drop</em> junk (empty sections, pure-link stubs below a floor). "Clean" is enforced, not hoped — see verification.</p>
+
+<p><strong>Stage 3 — Embed (batched, resumable).</strong> Local model (Ch 2), batched properly — and here's where a real pipeline diverges from a script: <strong>content-hash idempotency.</strong> Per chunk, compute <code>hash(content)</code>; store it; on re-runs, <em>skip unchanged chunks</em> — re-embedding 400 untouched notes because one changed is amateur hour. This single design choice makes the pipeline safely re-runnable forever, turns "sync my brain" into a cheap incremental operation, and is the direct cure for Ch 11's stale-index disease: re-run often <em>because</em> re-running is nearly free. (Deleted/renamed notes: chunks whose source file vanished get purged — staleness works in both directions.)</p>
+
+<p><strong>Stage 4 — Seed pgvector.</strong> The Ch 4 schema, real at last: Docker Postgres + pgvector (your Ch 8 muscle memory), the <code>chunks</code> table with content, source, heading_path, domain, links_to, content_hash, created/updated timestamps, <code>vector(384)</code> — plus the <code>tsvector</code> column for the keyword path (Ch 6's co-location argument, cashed in: one table, both modalities) and an HNSW index. Batched upserts keyed on (source, chunk-index) — the pipeline <em>updates</em>, never blindly duplicates. Repoint your retrieval layer from the JSON store to Postgres behind the same <code>retrieve()</code> interface — if Chs 5–13's machinery runs unchanged on the new store, your abstraction was honest; that seamless swap is itself a verification.</p>
+
+<p><strong>Stage 5 — Verify (the node's own criterion: chunk-length assertions, and friends).</strong> A <code>verify()</code> stage that <em>fails the pipeline loudly</em> on violation — pipeline QA as code, not eyeballs: every chunk within [min_tokens, max_tokens] (the literal chunk-length assertion — catches both severed fragments and unsplit giants); no chunk begins mid-sentence (heuristic: first char uppercase-or-code); every chunk carries source + heading_path + domain; code blocks intact (backtick parity); wikilink extraction count matches a regex recount; DB row count == chunk count; and a <strong>spot-check retrieval smoke test</strong> — three known query→chunk pairs must hit at rank ≤3, or the seed is declared bad. Plus the report: per-run summary printed and logged — files seen, chunks new/updated/skipped/purged, token stats, timing. Observability at ingestion (the ledger habit from Vol 02 Ch 11, applied to a pipeline).</p>
+
+<p><strong>Tests</strong> (beyond the built-in verify): parser on a fixture note with nasty structure (nested headers, code containing <code>##</code>, wikilinks inside headers); idempotency (run twice → second run reports all-skipped, DB row count unchanged — <em>the</em> test that proves the hash design); the purge path; oversized-section sub-splitting respects overlap.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build an ingestion pipeline that parses markdown note files, splits them into clean semantic chunks, generates vector embeddings, and seeds a pgvector database; verify with chunk length assertions.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it as a real CLI: <code>python -m brainseed sync --notes ./brain --verify</code>. Then the inaugural full seed of your actual brain notes → read the report → run the smoke test → then the ritual that proves the design: edit one note, <code>sync</code> again, and watch the report say "1 file changed, 3 chunks updated, 400 skipped, 0.8s." That line is the build's trophy — screenshot it into the note. Repoint retrieval to Postgres, rerun your Ch 7 twelve-query table one more time as a regression check (the numbers should hold or improve; investigate any drop — real pipelines earn trust through regression, not vibes). Tag <code>rag-v0.5</code>. This pipeline now runs for the rest of your journey — you have just built the brain's digestive system.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why must wikilinks be captured at ingestion, and which chapter inherits them?</li>
+<li>Explain content-hash idempotency: the mechanism, the cost it kills, and the Ch 11 disease it cures.</li>
+<li>What does the seamless store-swap verify about your architecture?</li>
+<li>Recite five verify-stage assertions and what specific birth-defect each catches.</li>
+<li>Why is "pipeline QA as code that fails loudly" superior to eyeballing chunks — and where did eyeballing still appear in this volume, legitimately?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="chunking" href="chunking.html">chunking</a></p>
+<p><a class="wiki-link" data-node-id="vector-databases" href="vector-databases.html">vector-databases</a></p>
+<p><a class="wiki-link" data-node-id="keyword-fulltext-search" href="keyword-fulltext-search.html">keyword-fulltext-search</a></p>
+<p><a class="wiki-link" data-node-id="rag-failure-modes" href="rag-failure-modes.html">rag-failure-modes</a></p>
+<p><a class="wiki-link" data-node-id="build-chat-with-my-brain" href="build-chat-with-my-brain.html">build-chat-with-my-brain</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

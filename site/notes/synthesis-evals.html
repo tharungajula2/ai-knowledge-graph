@@ -35,17 +35,40 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Synthesis: Eval-Driven Development</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
-
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+          <h2 id="eli5">ELI5</h2>
+<p>The node summary names the internalized discipline: <strong>the full EDD loop, internalized.</strong> Test-driven development (TDD) revolutionized software by writing tests <em>first</em>; eval-driven development (EDD) does the same for AI — evals <em>drive</em> the work, not decorate it. When you can articulate and <em>live</em> the full EDD loop, you've absorbed this ring's deepest lesson: that for non-deterministic systems, measurement isn't a phase — it's the <em>method</em>.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p>It begins with a refusal to believe: <code>assert output == expected</code> is dead for AI, because the same input gives different outputs and "correct" is a spectrum [1] — so you replace belief with measurement. You build a <strong>golden set</strong> — fixed, covered, hand-authored, adversarial, made to <em>find</em> failures not confirm successes [2] — and a <strong>judge</strong> to score against it, calibrated against your own judgment because an unvalidated instrument produces fiction, and pinned because a drifting judge makes history meaningless [3, 4]. You measure not just answers but <strong>trajectories</strong> — the path, the efficiency, the reasoning [5] — and <strong>tool use</strong> — right tool, right args, right time, each pointing at its own fix [6]. You reach for <strong>frameworks</strong> where they beat hand-rolling, evaluating the evaluator against what you built bare [7]. You freeze behavior with <strong>regression tests</strong> so a fix for A can't silently break B [8], and enforce it with <strong>CI gates</strong> so quality becomes structural, unshippable-if-broken [9]. You ground it in the broader lifecycle — <strong>experiment tracking</strong> for reproducible runs, <strong>data versioning</strong> and model cards for reproducibility and honesty, <strong>serving patterns</strong> matched to use [10, 11, 12]. Then you see <em>inside</em>: <strong>tracing</strong> turns the black box into a span tree mirroring your architecture [13], <strong>read</strong> to debug from the trace not by guessing [14], score <strong>production traffic</strong> continuously for the failures your golden set never imagined and the drift no snapshot catches [15], <strong>A/B test</strong> changes on real users because offline is a proxy [16], and <strong>dashboard</strong> the money and milliseconds so the invisible economics become actionable [17]. It all unifies in <strong>the harness</strong> — one command, every eval, around your most important agent [18] — powered by <strong>error analysis</strong> that finds the pattern behind the failures [19] and the <strong>failure→golden loop</strong> that makes every bug a permanent guard, the ratchet that turns quality monotonically upward [20]. The internalized truth: <strong>evals aren't a phase after building; they're how you build</strong> — write the eval, measure the baseline, change one thing, re-measure, ship only on evidence, and let every failure permanently tighten the net.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: the full EDD loop, internalized.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Three renditions, the ritual: <strong>(a)</strong> The narration, written, ≤700 words, your words, every node present as part of one method. <strong>(b)</strong> The EDD loop diagram — the cycle: <em>define evals → baseline → change one thing → measure → decide by evidence → ship (CI-gated) → monitor (online) → failures feed back as golden cases → repeat</em> — drawn as a flywheel with each stage labeled by its chapter, the failure→golden loop as the ratchet that makes the wheel only turn forward. Photograph into the note. <strong>(c)</strong> The 90-second spoken version — its interview home is the ring's title question: <em>"how do you test software that's never the same twice?"</em> — a question that separates people who've <em>built</em> AI from people who've <em>used</em> it, and your layered answer (golden sets, calibrated judges, trajectory evals, CI gates, online monitoring, the failure flywheel) marks you unmistakably as the former. Record, critique, re-record.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Deliver the 90-second version cold — the "never the same twice" answer.</li>
+<li>Contrast TDD and EDD, and state what "evals are how you build, not a phase" means concretely.</li>
+<li>Trace one prompt change through the full EDD loop — from golden set to CI to production to failure-feedback.</li>
+<li>Draw the EDD flywheel from memory, with the ratchet.</li>
+<li>Draw the full loop from memory.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="synthesis-evals" href="synthesis-evals.html">synthesis-evals</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

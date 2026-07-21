@@ -35,17 +35,52 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Checkpointers</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: agents</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your agent is six steps into a ten-step task and the process dies — laptop sleeps, deploy restarts, API hiccup escalates. Without persistence: everything gone, start over, pay again. With a <strong>checkpointer</strong>: the run resumes at step seven as if nothing happened. The node summary — pause, resume, survive crashes — is the humble version. The ambitious version: checkpointing is what turns an agent from a <em>process</em> into a <em>durable conversation with the world</em>, and it's the load-bearing wall under human-in-the-loop (next chapter), long-running tasks, and time-travel debugging.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The mechanism — a save file after every node.</strong> Because LangGraph state is explicit and steps are discrete (Ch 5's design, cashing in immediately), the framework can serialize the <em>entire state</em> after each node executes and store it. That's a checkpointer: a pluggable store writing <code>(thread_id, checkpoint_n) → state snapshot</code>. In-memory for dev; <strong>SQLite/Postgres for real</strong> — and yes, the same Postgres already running your brain (Vol 03, Ch 15) can hold your agents' checkpoints; one database, another table, the co-location argument again.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Threads — the identity primitive.</strong> Every run carries a <code>thread_id</code>. Same thread → the graph loads the latest checkpoint and <em>continues</em>; new thread → fresh state. This one primitive quietly delivers three products: (1) <strong>crash recovery</strong> — the node's headline: re-invoke with the same thread_id after any death, resume mid-graph; (2) <strong>multi-session memory</strong> — a conversation that picks up tomorrow where it stopped today is just a thread resumed (the statelessness you've hand-managed since Vol 02 Ch 17's chatbot — the message-list-resending ritual — is now the persistence layer's job; the API is still stateless, but your <em>application</em> no longer is); (3) <strong>concurrent users</strong> — thread-per-user isolates state without any code from you. Note for the homecoming file: your agent-lab's "thread state tracking" — one of its opaque phrases — is exactly this, and it just became a thing you can explain to anyone.</p>
+
+<p><strong>Time travel — the debugging superpower.</strong> Checkpoints form a history: you can list them, inspect state at any past step ("what did the agent believe before step 5?"), <strong>fork</strong> from an earlier checkpoint with edited state, and replay forward. Practically: your agent derailed at step 7 of 12 — instead of re-running (₹, minutes, nondeterminism), rewind to checkpoint 6, fix the poisoned observation in state, resume. This is the agent-debugging equivalent of Git (Vol 01, Ch 19 — snapshots, branches, reflog for your agent's mind; the metaphor is nearly exact and worth writing down).</p>
+
+<p><strong>What checkpointing is <em>not</em> — the boundary that heads off confusion.</strong> It persists <em>state</em>, not <em>side effects</em>. If step 4 sent an email and you rewind to step 3 and replay, the email does not unsend — and a naive replay sends it <em>twice</em>. The idempotency question (Vol 02, Ch 9 — "is this safe to retry?") returns with force: durable execution demands that write-tools be idempotent, deduplicated, or gated. File this as an open wound; Ch 15's gate and Ch 16's failure modes both press on it. Also not-this: checkpointing ≠ long-term memory — a thread remembers <em>its own run</em>; cross-thread knowledge ("what did we learn last week?") is Domain 06's subject. Scratchpad vs checkpoint vs memory — Ch 13 draws the full map.</p>
+
+<p><strong>When to reach for it — the honest tiers.</strong> Dev toys: in-memory, don't overthink. Anything a human waits on, anything multi-session, anything expensive mid-run, anything with an interrupt (next chapter <em>requires</em> a checkpointer — an interrupt without persistence is just a crash with manners): durable checkpointer, non-negotiable. The cost is a serialization write per node — milliseconds against the hours it insures.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: pause, resume, survive crashes.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Three experiments on your Ch 5 graph (~30 lines total): (1) <em>Survival</em> — add a SQLite checkpointer + thread_id; mid-run (drop a <code>breakpoint()</code> or sleep in a node), kill the process dead; re-invoke same thread; watch it resume mid-graph. Transcript the resume. (2) <em>Threads</em> — run tasks on threads "A" and "B" interleaved; verify total isolation; then resume thread A after restarting Python entirely — multi-session memory, witnessed. (3) <em>Time travel</em> — list thread A's checkpoints, print state-at-step-2, fork from it with one field edited, resume, and diff the two futures. Screenshot the checkpoint list. Then one paragraph in the note: which of your agent-lab's behaviors that once looked like magic is just these three experiments composed?</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What exactly is saved, when, keyed by what — and why did Ch 5's design make this possible at all?</li>
+<li>Name the three products the thread primitive delivers, with one sentence each.</li>
+<li>Explain time-travel debugging via the Git metaphor, and give the rewind-instead-of-rerun economics.</li>
+<li>State the side-effects boundary and construct the double-send scenario it warns about.</li>
+<li>Which chapter <em>requires</em> a checkpointer to even function, and why?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="langgraph-state" href="langgraph-state.html">langgraph-state</a></p>
+<p><a class="wiki-link" data-node-id="hitl-interrupts" href="hitl-interrupts.html">hitl-interrupts</a></p>
+<p><a class="wiki-link" data-node-id="git-mastery" href="git-mastery.html">git-mastery</a></p>
+<p><a class="wiki-link" data-node-id="errors-retries-backoff" href="errors-retries-backoff.html">errors-retries-backoff</a></p>
+<p><a class="wiki-link" data-node-id="scratchpads-working-memory" href="scratchpads-working-memory.html">scratchpads-working-memory</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

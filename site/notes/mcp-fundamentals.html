@@ -35,17 +35,52 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>MCP: The USB-C of AI</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: multi-agent-mcp</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Before USB-C, every device had its own charger — a drawer full of incompatible cables. One standard replaced the drawer. The node summary makes the analogy the title: <strong>why one protocol won tool connectivity.</strong> Before MCP (the Model Context Protocol), every AI app wired every tool integration by hand, bespoke, non-reusable — an M×N explosion of glue code. MCP is the USB-C: one protocol so that any AI client can talk to any tool server. Your agent-lab already speaks it; this chapter is where you finally understand the language.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The problem MCP solves — the M×N explosion.</strong> Before a standard: M AI applications each needing to connect to N tools/data-sources means M×N bespoke integrations — every app re-implements Slack access, GitHub access, filesystem access, each slightly differently, none reusable. MCP collapses this to <strong>M+N</strong>: each tool is wrapped <em>once</em> as an MCP <em>server</em>; each AI app implements the MCP <em>client</em> <em>once</em>; any client talks to any server through the shared protocol. This is the exact economic logic of every successful protocol (USB, HTTP, LSP for code editors — MCP is explicitly LSP-inspired): standardize the interface, and the integration count goes from multiplicative to additive. That collapse is why MCP won adoption fast — the incentive is overwhelming.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The architecture — three roles.</strong> <em>Host</em>: the AI application the user interacts with (a chat app, an IDE, your agent). <em>Client</em>: the MCP connector <em>inside</em> the host — one client per server connection, speaking the protocol. <em>Server</em>: the wrapper exposing a specific capability (a filesystem server, a GitHub server, your brain server — Ch 16). The host may run many clients, each connected to one server; servers are independent processes the host discovers and connects to. Critically, <strong>servers are reusable across hosts</strong> — write a brain MCP server once (Ch 16) and Claude Desktop, your agent, and any future MCP client can all use it unchanged. That reusability is the whole point.</p>
+
+<p><strong>What a server exposes — three primitives (full spec in Ch 12; the shape now).</strong> <em>Tools</em> — functions the model can call (Vol 04 Ch 7's tool-calling, now standardized over a protocol — the model requests, the server executes, the result returns; same mechanic, wire-standardized). <em>Resources</em> — data the client can read (files, records, context — GET-like, read-only). <em>Prompts</em> — reusable prompt templates the server offers the client. Most people meet MCP as "standardized tools" and stop there; the resources and prompts primitives are the underused depth (Ch 12).</p>
+
+<p><strong>The transport — how bytes actually move (Ch 9–11 build on this).</strong> MCP defines <em>transports</em> carrying JSON-RPC messages between client and server. <em>stdio</em> — the server is a subprocess; client and server talk over standard in/out (the local-tools default — your Ch 9 build uses exactly this; simple, no network, the server is just a process the host spawns). <em>HTTP-based transports</em> (Server-Sent Events / streamable HTTP) — for remote servers over a network. The messages themselves are <strong>JSON-RPC 2.0</strong> (a simple request/response format over any transport) — which means MCP is, under the hood, structured messages (Vol 02 Ch 6's world) over a pipe or a socket. Nothing magic; everything you know.</p>
+
+<p><strong>Why this matters for your trajectory (three reasons).</strong> (1) <em>Your agent-lab's async MCP bridge</em> — one of its two great hurdles — was solving the stdio-transport-meets-sync-LangGraph problem (Ch 10 rebuilds it, and now you know what it was bridging). (2) <em>Ecosystem leverage</em>: speaking MCP means your agent instantly gains every existing MCP server (filesystem, GitHub, databases, hundreds more) without bespoke integration — the M+N dividend, yours. (3) <em>Your brain as infrastructure</em>: exposing your brain as an MCP server (Ch 16) makes your learning queryable by <em>any</em> AI client — the moment your closed system becomes connectable infrastructure, which is this whole volume's thesis.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: why one protocol won tool connectivity.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Understand before building: (1) Draw the M×N → M+N collapse for a concrete case — 4 AI apps × 5 tools, before (count the bespoke integrations) and after (count the servers + clients). The number <em>is</em> the argument. (2) Map the three roles onto systems you'll build: for your Ch 16 brain server, who's the host, client, server? For Claude Desktop using it? (3) Trace a tool call end-to-end on paper: user asks the host something → host's LLM decides to call a tool → client sends a JSON-RPC request over stdio → server executes → result returns → LLM uses it. Label every hop with its role and message type. (4) Open your agent-lab's MCP code and find the transport (stdio? HTTP?) and the primitives it exposes (tools? resources?) — annotate what you now recognize. The collapse diagram + the role mapping + the traced call + the agent-lab annotation = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Explain the M×N → M+N collapse and why it drove fast adoption — name two sibling protocols.</li>
+<li>Define host, client, server, and the reusability property that makes servers valuable.</li>
+<li>Name the three server primitives and which two most people ignore.</li>
+<li>What is the stdio transport, what's underneath it (message format), and which of your builds uses it?</li>
+<li>Give the three reasons MCP matters for your specific trajectory.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="tool-calling" href="tool-calling.html">tool-calling</a></p>
+<p><a class="wiki-link" data-node-id="build-mcp-server" href="build-mcp-server.html">build-mcp-server</a></p>
+<p><a class="wiki-link" data-node-id="mcp-resources-prompts" href="mcp-resources-prompts.html">mcp-resources-prompts</a></p>
+<p><a class="wiki-link" data-node-id="build-brain-mcp-server" href="build-brain-mcp-server.html">build-brain-mcp-server</a></p>
+<p><a class="wiki-link" data-node-id="protocol-landscape" href="protocol-landscape.html">protocol-landscape</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

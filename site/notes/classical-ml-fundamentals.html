@@ -35,17 +35,48 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Classical ML Fundamentals</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Before you're allowed to summon dragons, you learn why swords have two edges. Classical ML is where the field's permanent laws were discovered — and those laws (generalize, don't memorize; measure honestly; know your error types) apply <em>unchanged</em> to every LLM system you will ever ship. Interviewers probe here deliberately: it separates people who understand ML from people who've only used ChatGPT.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Train/test split — the iron law.</strong> A student who memorizes past exam papers aces those papers and fails the real exam. To know if a model <em>generalized</em> rather than memorized, you must evaluate it on data it never saw. So: split your data (classically 80/20), train on one part, measure on the held-out part, and <em>never let the test set influence any decision during development</em> (use a third split — validation — for tuning). The moment test data leaks into training, your accuracy number is fiction. This law reappears in LLM-land as "did the benchmark leak into pretraining?" — same disease, planetary scale.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Overfitting &amp; regularization.</strong> Overfitting = the memorizing student: training error keeps falling while held-out error rises, because the model started fitting the <em>noise</em> of the training set. Cures share one spirit — constrain the model's freedom: penalize large weights (L1/L2 regularization), randomly disable neurons during training (dropout), stop training when validation error turns upward (early stopping), or simply get more data. The underfitting/overfitting seesaw (too simple ↔ too memorized) is the bias–variance tradeoff, and you'll feel it again the day you fine-tune with QLoRA and watch a model overfit 500 examples in three epochs.</p>
+
+<p><strong>Precision, recall, F1 — because "accuracy" lies.</strong> A fraud model that predicts "not fraud" always is 99.9% accurate and 100% useless. On imbalanced problems you must split the error types: <strong>Precision</strong> = of everything I flagged, how much was truly positive? (cost of false alarms). <strong>Recall</strong> = of all true positives out there, how many did I catch? (cost of misses). They trade off against each other via your decision threshold: cancer screening wants recall (a miss is a death; a false alarm is a follow-up test); spam filtering wants precision (a false alarm eats a real email). <strong>F1</strong> is their harmonic mean — a single balanced number, harsh on whichever is weaker. You will use precisely these words to evaluate RAG retrieval ("did we <em>recall</em> the relevant chunks?") and agent guardrails ("what's the <em>precision</em> of the injection detector?" — yes, the one in your own agent-lab).</p>
+
+<p><strong>Confusion matrix — the 2×2 that generates everything.</strong> Rows = truth, columns = prediction: True Positives, False Positives (false alarm), False Negatives (miss), True Negatives. Every metric above is arithmetic on these four cells (Precision = TP/(TP+FP), Recall = TP/(TP+FN)). Drawing this matrix from memory and deriving the metrics is a 90-second interview classic. Make it reflex.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Train/test splits, overfitting/regularization, precision/recall/F1, and confusion matrices.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Take a concrete scenario: 1,000 emails, 50 are spam; your filter flags 60 emails, of which 40 are actually spam. Build the full confusion matrix (TP=40, FP=20, FN=10, TN=930), then compute accuracy, precision, recall, and F1 by hand. Then answer: your boss says "just maximize accuracy" — write two sentences on why that's a trap here. Finally, name which metric you'd prioritize for: airport weapons screening; a court's guilty verdict; your agent-lab's prompt-injection scanner.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>State the iron law of the train/test split and the disease it prevents. What's its LLM-era echo?</li>
+<li>Describe overfitting via the two error curves, and name three cures with their shared spirit.</li>
+<li>Precision vs recall: define both from the confusion matrix cells, and give one domain that maximizes each.</li>
+<li>Why is accuracy a lying metric on imbalanced data? Use the fraud example.</li>
+<li>Draw the confusion matrix from memory and derive precision, recall, F1.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="how-machines-learn" href="how-machines-learn.html">how-machines-learn</a></p>
+<p><a class="wiki-link" data-node-id="map-of-ai" href="map-of-ai.html">map-of-ai</a></p>
+<p><a class="wiki-link" data-node-id="nlp-transformer-lineage" href="nlp-transformer-lineage.html">nlp-transformer-lineage</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Supabase Deep Dive</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You've used Postgres directly (Vol 03, Vol 06, Ch 4); Supabase wraps Postgres in a <em>platform</em> that gives you auth, realtime, storage, and row-level security out of the box. The node summary: <strong>auth, RLS, realtime — the whole platform.</strong> For a solo builder shipping fast (the 45-day mission), Supabase is a force multiplier — it turns "I need to build auth and realtime and access-control from scratch" into "I configure them" — and understanding the whole platform lets you use it deliberately rather than as magic.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>What Supabase is — Postgres-plus.</strong> At its core, Supabase <em>is</em> a real Postgres database (your Vol 03 pgvector, your Vol 06 memory tables, your Vol 08 audit tables all live here happily — no lock-in on the data model, it's just Postgres). Around that core, it layers <em>platform services</em>: <strong>Auth</strong> (user sign-up/login, JWT issuance, OAuth providers — Ch 30's authn, managed), <strong>Row-Level Security</strong> (per-row access control enforced <em>in the database</em> — the key feature, below), <strong>Realtime</strong> (subscribe to database changes over websockets — Ch 10's whole build), <strong>Storage</strong> (file/object storage — Ch 25's static assets), and <strong>auto-generated APIs</strong> (REST and GraphQL over your tables — instant CRUD without writing endpoints). The value: the boring-but-essential platform work (auth, access control, realtime) is <em>configured</em>, not <em>built</em> — you spend your 45 days on your agents, not on reinventing login.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Row-Level Security — the crown feature (and Ch 26's multi-tenancy foundation).</strong> RLS is access control enforced <em>at the database row level</em>: a policy like "users can only read rows where <code>user_id = auth.uid()</code>" means the database <em>itself</em> refuses to return another user's data — even if your application code has a bug. This is Vol 08's "security is architecture" as <em>database policy</em>: instead of trusting every query in your app to filter correctly (vigilance, one forgotten <code>WHERE</code> clause from a breach), the <em>database</em> enforces isolation structurally (architecture, impossible to forget). For multi-tenancy (Ch 26 — many users' data in one database), RLS is the isolation mechanism: each tenant's data is invisible to others <em>by database policy</em>, not by application discipline. It's the confused-deputy defense (Vol 05 Ch 13, Vol 08 Ch 8) at the data layer — the query <em>cannot</em> reach data the policy forbids.</p>
+
+<p><strong>Realtime — the reactive layer (Ch 10's foundation).</strong> Supabase Realtime lets clients <em>subscribe</em> to database changes: when a row is inserted/updated/deleted, subscribed clients are <em>notified over websockets</em> instantly. This is how your approvals UI (Ch 10) updates the moment the agent creates a proposal (Vol 08 Ch 9's queue) — no polling (Ch 12's poller is the alternative), no refresh; the database change <em>pushes</em> to the UI. It turns your database into an event source (Vol 05 Ch 4's message-passing, as a platform feature), and it's what makes a dashboard feel <em>live</em>.</p>
+
+<p><strong>The deliberate-use judgment (platform vs magic).</strong> Supabase's convenience has the framework tradeoff (Vol 04 Ch 5, Vol 06 Ch 5): it makes decisions for you (its auth model, its realtime protocol), and leaning on it is lock-in-ish (though the Postgres core is portable). The mature stance: use Supabase for the <em>commodity</em> platform work (auth, RLS, realtime — genuinely hard to build well, and Supabase does it well) while keeping your <em>core logic</em> (agents, RAG, memory) in your own code (portable, understood). For your agent-lab, Supabase handling auth + RLS + realtime while your FastAPI backend (Ch 1) handles the agents is a clean division — and it's exactly the kind of build-vs-buy judgment (Vol 06 Ch 5, Vol 07 Ch 7) that ships fast without surrendering understanding.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: auth, RLS, realtime — the whole platform.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Explore the platform (concept node, concrete): (1) Set up a Supabase project and connect your existing Postgres schemas (Vol 03/06/08 tables) — confirm it's just Postgres underneath (run your existing queries). (2) Write one RLS policy (users see only their own rows) and <em>test the architecture</em>: try to read another user's data and confirm the <em>database</em> refuses — feel security-as-database-policy. (3) Map the platform to your agent-lab: which services (auth, RLS, realtime, storage) would you use, which would you keep in your own code, and why — the build-vs-buy division. The RLS test + the platform-division decision = the note; this underpins Ch 10 (realtime), Ch 26 (multi-tenancy), Ch 30 (auth).</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What is Supabase relative to raw Postgres — the core plus what layered services?</li>
+<li>Explain Row-Level Security and why it's "security is architecture" at the data layer.</li>
+<li>Why is RLS the foundation of multi-tenancy, and what breach does it prevent structurally?</li>
+<li>How does Realtime make a dashboard live, and how does it differ from polling?</li>
+<li>State the deliberate-use judgment — what to lean on Supabase for, what to keep in your own code.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="vector-databases" href="vector-databases.html">vector-databases</a></p>
+<p><a class="wiki-link" data-node-id="multi-tenancy-design" href="multi-tenancy-design.html">multi-tenancy-design</a></p>
+<p><a class="wiki-link" data-node-id="realtime-subscriptions" href="realtime-subscriptions.html">realtime-subscriptions</a></p>
+<p><a class="wiki-link" data-node-id="authn-vs-authz" href="authn-vs-authz.html">authn-vs-authz</a></p>
+<p><a class="wiki-link" data-node-id="least-privilege-tools" href="least-privilege-tools.html">least-privilege-tools</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

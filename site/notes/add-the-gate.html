@@ -35,19 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Add the Gate</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: agents</span>
-          <span class="tag">v0.2.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
-          <span class="tag">Revisions: 1</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
+          <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The research agent works — and it writes. <code>save_finding</code> today; tomorrow (Ch 18) it proposes changes to your brain itself. Before any agent earns write access to things you care about, the law arrives: <strong>HITL approval before it saves anything</strong> — the node summary, and the direct descendant of your agent-lab's most important organ. You built the mechanism in Ch 7 as a technique; today it becomes <em>policy</em>, wired into a real agent, with the audit trail that makes autonomy trustworthy.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>From technique to policy — the promotion.</strong> Ch 7 built <em>an</em> interrupt; this build makes gating a <strong>property of the system</strong>: a single gate layer through which <em>every</em> write-tagged tool call must pass, on every agent, with no specialist able to opt out. Implementation shape: the gate is not a node you remember to add per graph — it's wired into <strong>dispatch itself</strong> (the one chokepoint every tool call already crosses, Ch 4's architecture paying off): dispatch checks the tool's safety tag; reads pass; writes trigger the Ch 7 interrupt with the full payload (proposed action, args, rationale from the scratchpad, <em>and the step's findings context</em> — the human sees what the agent saw). One chokepoint, one policy, zero exceptions — security as architecture, not discipline (the Vol 02 Ch 12 lesson: capability design beats prompt design; an agent whose writes <em>structurally cannot</em> skip the gate is safe in a way no instruction can make it).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. --><h1 id="smoke-test-charging-note-content">Smoke Test — Charging Note Content</h1>
+<p><strong>The audit trail — approval's other half.</strong> Every gated decision writes a ledger row: timestamp, thread, agent, proposed action, rationale shown, verdict (approve/edit/reject), the human's edit or reason, and execution result. Postgres table beside your checkpoints (the co-location habit). Why this matters beyond tidiness, three arguments to own: (1) <em>trust is built on reviewability</em> — "what has this agent actually done with its write access?" must be a query, not a vibe; (2) <em>rejections are training data</em> — the reasons humans reject are precisely the lessons a Reflexion loop (Ch 9) or a future fine-tune (Vol 01 Ch 7's behavior territory) would learn from; the trail is the dataset accumulating for free; (3) <em>edits reveal calibration</em> — a high edit-rate on one tool means its args-construction needs work (a Ch 3 description fix, found by data). The gate isn't just a brake; it's an instrument.</p>
 
-<p>This is a charging note content test for node <code>add-the-gate</code>.</p>
+<p><strong>Batch approval — the fatigue medicine at scale.</strong> Ch 7 warned: approval fatigue kills gates. The research agent's shape offers the cure Ch 8 predicted: <strong>gate the plan, not each action</strong> where the plan enumerates its writes — "this run will save ~4 findings to scratch storage" approved once up front, with per-action gating reserved for <em>dangerous</em>-tagged tools and for writes that <em>deviate from the approved plan</em> (a save the plan didn't forecast re-triggers the gate — deviation detection as the tripwire). Implement both modes: <code>gate_mode: per_action | plan_level</code> in config; the deviation check compares proposed writes against the approved plan's declared writes. This two-tier design — coarse consent plus fine-grained exception — is how real production systems keep humans meaningfully in loops they'd otherwise rubber-stamp; it's also, notice, exactly how your Ch 18 Node-Proposer must work (propose a <em>batch</em> of nodes; the human reviews the batch).</p>
+
+<p><strong>Verification.</strong> All Ch 7 tests re-run against the dispatch-level gate (the promotion must not break the mechanism); no-bypass test — <em>every</em> specialist's write path interrupts (iterate the toolbox, attempt each write, assert interrupts fire — the policy test); plan-level mode: declared writes flow after one approval, an undeclared write trips per-action gating (the deviation tripwire test — the suite's crown); audit rows written correctly for all verdict types; kill-and-resume through a pending gate (durability, always).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: HITL approval before it saves anything.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): safety-tag audit across the full toolbox (every tool declares; untagged = build error — make the type system enforce the policy) → gate-in-dispatch → audit table + writer → batch mode + deviation check → tests green. Then live fire: run the research agent in per-action mode on a real question and <em>feel the fatigue yourself</em> within one run (the design lesson no reading delivers); switch to plan-level; run again; write the comparison paragraph. Then query your own audit trail: <code>SELECT verdict, count(*) ...</code> — read your first agent-governance report. Tag <code>agent-v0.7</code>. Homecoming: agent-lab's gate, read cold, one last time — annotate its policy scope (what does it gate?), its payload (what does the human see?), its trail (what does it record?) against today's build. The comparison table goes in the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What distinguishes policy from technique, and where does the gate live architecturally? Why that chokepoint?</li>
+<li>Deliver the capability-design-beats-prompt-design argument in this build's terms.</li>
+<li>Three arguments for the audit trail — trust, training data, calibration — one sentence each.</li>
+<li>Explain two-tier gating and the deviation tripwire; connect it to Ch 18's coming shape.</li>
+<li>From your live-fire: the fatigue paragraph's conclusion, and one number from your governance query.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="hitl-interrupts" href="hitl-interrupts.html">hitl-interrupts</a></p>
+<p><a class="wiki-link" data-node-id="designing-tools" href="designing-tools.html">designing-tools</a></p>
+<p><a class="wiki-link" data-node-id="build-research-agent" href="build-research-agent.html">build-research-agent</a></p>
+<p><a class="wiki-link" data-node-id="build-node-proposer" href="build-node-proposer.html">build-node-proposer</a></p>
+<p><a class="wiki-link" data-node-id="reflection-patterns" href="reflection-patterns.html">reflection-patterns</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Red-Team My Agent</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: safety-security</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Every defense in Part II is a hypothesis until you <em>attack</em> and see if it holds. The node summary: <strong>attack my own agent with injection payloads.</strong> This is red-teaming (Ch 4) as a build — a systematic, documented adversarial campaign against your <em>own</em> most capable agent, using everything you've learned about attacks (Part I) to find where your defenses (Part II) actually fail. It's the moment of truth for the ring: not "I built defenses" but "I attacked my defenses and here's what I found." And it will find things — it always does.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The target and the campaign.</strong> Aim at your most capable, highest-blast-radius agent (the research agent with memory and tools, or the node-proposer — the ones your Ch 1 threat model ranked riskiest). The campaign is <em>systematic</em> (Ch 4's "not random"): work the threat model — for each entry point (user message, web content, RAG docs, memory, MCP, tool results), each attack class (direct injection Ch 2, indirect injection Ch 3, jailbreaks Ch 4), and each objective (exfiltrate data, take unauthorized action, escalate privilege, cause cost/denial), craft and launch attacks. The goal is <em>coverage</em> — attack every square of the threat-model grid — and <em>creativity</em> — the attacks that find real holes are the ones the builder didn't anticipate (so combine techniques, iterate on near-misses, think like the adversary who wants <em>in</em>).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The high-value attack scenarios (where real breaches live).</strong> Prioritize the <em>lethal-trifecta</em> scenarios (Ch 7 — the catastrophic ones): can you plant content (in a web page the agent fetches, a document it retrieves, a memory it holds) that makes it <em>read private data and exfiltrate it</em>? That's the crown-jewel attack — if it works, you've found a genuine vulnerability; if your architecture prevented it (you removed an ingredient), you've <em>validated</em> your trifecta defense empirically. Also high-value: <em>confused deputy</em> (Vol 05 Ch 13 — make the agent misuse its legitimate authority), <em>gate bypass</em> (Ch 9 — get a consequential action to execute without approval), <em>idempotency violation</em> (Ch 10 — cause a double-execution), <em>guardrail evasion</em> (Ch 11 — get harmful content past the output check), <em>PII exfiltration</em> (Ch 12 — extract personal data the redactor missed), and <em>persistent compromise</em> (Vol 06 — plant a malicious memory that affects future sessions). Each targets a specific defense; each success is a specific fix (Ch 16).</p>
+
+<p><strong>Documentation — the campaign's real product.</strong> Every attack, recorded (Ch 4's discipline): the attack (payload, technique, entry point, objective), the result (succeeded / partially / blocked), and <em>why</em> (which defense caught it, or which assumption it violated). Successes become fixes (Ch 16) and permanent tests (Ch 17); blocks validate defenses (and tell you which layers are working — evidence your architecture holds). The output: a <em>red-team report</em> — the attack grid with results, the successful breaches with severity, the validated defenses, and the attack-success-rate (Ch 4's metric — your baseline, which Ch 16 will drive down). This report is the ring's centerpiece artifact and, honestly, a striking portfolio piece: "I systematically attacked my own AI agent and here's the vulnerability report" is rare, senior, and credible in a way no feature demo is.</p>
+
+<p><strong>The mindset check — adversarial honesty.</strong> The hardest part isn't technical; it's <em>psychological</em> (Ch 4, Vol 06 Ch 16): the temptation to not-really-try, to test the attacks you know will fail, to protect your baby. Resist it. The red-team that finds nothing either has a perfect agent (you don't) or a lazy red-teamer (don't be). <em>Try to break it.</em> A successful attack against your own agent isn't a failure — it's the whole point; it's a vulnerability found <em>by you</em> instead of by an attacker in production. Celebrate the breaches; they're the ring working.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: attack my own agent with injection payloads.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Run the campaign (est. 1-1.5 days, genuinely valuable): (1) Systematic attack across the threat-model grid — aim for <em>30+ documented attacks</em> spanning entry points, attack classes, and objectives, prioritizing the lethal-trifecta and gate-bypass scenarios. (2) For each: payload, technique, result, why. Be adversarially honest — <em>try</em> to break it. (3) The red-team report: the attack grid with results, the successful breaches ranked by severity, the validated defenses, and the baseline attack-success-rate. (4) Triage the breaches for Ch 16 (fix priority by severity). Tag <code>safety-v0.5</code>. The red-team report + the ranked breaches + the baseline success-rate = the note; Ch 16 fixes what this found, Ch 17 makes it permanent.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>How is the campaign <em>systematic</em> — what grid do you work, and why coverage plus creativity?</li>
+<li>What are the crown-jewel attack scenarios, and why does a lethal-trifecta success (or prevention) matter most?</li>
+<li>Why is documentation the campaign's real product — what does each result become?</li>
+<li>Why is adversarial honesty the hardest part, and why is a successful self-attack a <em>success</em>?</li>
+<li>What's in the red-team report, and why is it a rare, credible portfolio artifact?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="jailbreaks-redteaming" href="jailbreaks-redteaming.html">jailbreaks-redteaming</a></p>
+<p><a class="wiki-link" data-node-id="agent-threat-model" href="agent-threat-model.html">agent-threat-model</a></p>
+<p><a class="wiki-link" data-node-id="lethal-trifecta" href="lethal-trifecta.html">lethal-trifecta</a></p>
+<p><a class="wiki-link" data-node-id="fix-what-broke" href="fix-what-broke.html">fix-what-broke</a></p>
+<p><a class="wiki-link" data-node-id="build-injection-suite" href="build-injection-suite.html">build-injection-suite</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

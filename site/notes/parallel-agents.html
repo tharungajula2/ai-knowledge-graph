@@ -35,17 +35,55 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Parallel Agents</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: multi-agent-mcp</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Three researchers investigating three independent leads finish in the time of one — <em>if</em> the leads are truly independent. The node summary is two ideas in tension: <strong>fan-out/fan-in; what's safe to parallelize.</strong> Parallelism is the multi-agent superpower for latency (Ch 1's reason 3), and it's a minefield of subtle bugs the moment tasks touch each other. This chapter is the discipline of knowing which is which.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Fan-out / fan-in — the pattern.</strong> <em>Fan-out</em>: the orchestrator splits work into N independent subtasks and dispatches them <em>concurrently</em> — not sequentially. <em>Fan-in</em>: it waits for all (or enough) to complete and <em>aggregates</em> the results. The machinery you already own: <code>asyncio.gather</code> (Vol 01 Ch 17 — this was always the destination) runs the N agent calls concurrently; LangGraph expresses fan-out as multiple edges from one node and fan-in as multiple edges <em>into</em> one node, with <strong>reducers</strong> (Vol 04 Ch 5) defining how the parallel branches' state-writes merge — which is precisely why reducers exist and why Ch 4's race demo mattered. The wall-clock win is real: N independent 10-second agents finish in ~10 seconds fanned-out, ~10N sequentially.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The safety question — the chapter's core. What's safe to parallelize?</strong> The single criterion: <strong>independence</strong>. Two subtasks are safe to run in parallel iff neither needs the other's output and neither's <em>effects</em> interfere with the other's. Break that into the checklist:</p>
+<ul>
+<li><em>Data independence</em>: subtask B doesn't need A's result (if it does, that's a <em>dependency</em> → sequential, or multi-hop, Vol 04 Ch 14 — you cannot parallelize a chain). This is Vol 04 Ch 8's decomposition (independent) vs multi-hop (dependent) distinction, now with a concurrency consequence.</li>
+<li><em>Effect independence</em>: A and B don't write the same state slot (race — Ch 4) or the same external resource (two agents editing one file, calling one rate-limited API, both incrementing a counter). Read-only parallelism is almost always safe; write parallelism needs reducers (for state) or coordination (for the world).</li>
+<li><em>Order independence</em>: the result must not depend on which finishes first (if it does, you have a hidden race even with reducers).</li>
+</ul>
+
+<p><strong>The honest costs and limits (Ch 1's parallelism footnote, expanded).</strong> <em>Cost doesn't drop</em> — you pay for all N agents' tokens regardless of concurrency; parallelism trades money-neutral for latency (know which problem you're solving). <em>Rate limits bite harder</em> — N concurrent agents = N× the request rate, straight into Vol 02 Ch 10's 429s; bound concurrency with <code>asyncio.Semaphore</code> (Vol 01 Ch 17 — the tool was always there) or provider limits will bound it for you, rudely. <em>Aggregation is the hard part</em> — fan-in must combine partial, possibly-conflicting, differently-shaped results (Ch 2's integration challenge, now with N results arriving at once): dedup overlapping findings, reconcile disagreements (a preview of Ch 6's consensus), handle partial failure (3 of 5 agents succeeded — do you proceed with 3, retry 2, or fail? — an explicit policy, not an accident). <em>Partial failure is normal</em> — with N concurrent calls, <em>someone</em> fails; <code>gather(return_exceptions=True)</code> and a degradation policy (Vol 04 Ch 17's honest-partial-return) is mandatory, not optional.</p>
+
+<p><strong>When to reach — and the anti-pattern.</strong> Reach: genuinely independent subtasks where latency matters (multi-source research, evaluating N candidates, processing a batch). Don't: dependent chains (impossible), tasks where aggregation cost exceeds the latency saved (Ch 7's math — parallelizing three 2-second tasks to save 4 seconds while spending a 6-second aggregation call is a loss), or premature parallelism on a system you haven't gotten <em>correct</em> sequentially first (correctness before concurrency — the oldest law in the book; a parallel bug is ten times harder to reproduce, Vol 04 Ch 16's zoo at concurrency difficulty).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: fan-out/fan-in; what's safe to parallelize.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build a real fan-out/fan-in on your research agent (~40 lines): (1) Take a question with genuinely independent sub-queries (Vol 04 Ch 8's decomposition produces these) and run the sub-researches two ways — sequential (a loop) and parallel (<code>gather</code> with a <code>Semaphore</code>) — measure wall-clock and total cost for both. Confirm the thesis: latency drops, cost doesn't. (2) Break it on purpose — parallelize two subtasks that <em>aren't</em> independent (B needs A's finding) and watch B hallucinate or fail the missing dependency; that failure is the independence criterion, taught by violation. (3) Aggregation drill — your fan-in gets three findings with one overlap and one disagreement; implement dedup + a disagreement-flag, and a partial-failure policy for when one agent errors (<code>return_exceptions=True</code>). The two timings + the dependency-violation specimen + the aggregation policy = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Draw fan-out/fan-in and name the exact machinery (asyncio + LangGraph) for each half.</li>
+<li>State the independence criterion's three sub-checks with an example of violating each.</li>
+<li>Why does cost stay flat while latency drops, and what tool bounds the rate-limit hazard?</li>
+<li>Name the four aggregation challenges of fan-in, and why partial failure is normal not exceptional.</li>
+<li>Give the anti-pattern and the "correctness before concurrency" law's reasoning.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="python-async" href="python-async.html">python-async</a></p>
+<p><a class="wiki-link" data-node-id="shared-state-patterns" href="shared-state-patterns.html">shared-state-patterns</a></p>
+<p><a class="wiki-link" data-node-id="langgraph-state" href="langgraph-state.html">langgraph-state</a></p>
+<p><a class="wiki-link" data-node-id="debate-consensus" href="debate-consensus.html">debate-consensus</a></p>
+<p><a class="wiki-link" data-node-id="token-economics-of-teams" href="token-economics-of-teams.html">token-economics-of-teams</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

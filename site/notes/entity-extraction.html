@@ -35,17 +35,62 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Entity Extraction</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: memory-knowledge</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>A knowledge graph is only as good as the triples in it — and triples don't extract themselves from prose. The node summary: <strong>LLM pulls entities/relations from my notes.</strong> This build is where your pile of notes starts becoming a graph: an LLM reads text and emits <em>(subject, predicate, object)</em> triples, with the two hard problems that make this an M-node not an S-node — reliable extraction and <em>entity resolution</em>. It's the ingestion pipeline (Vol 03 Ch 15) for graphs, and it directly feeds Ch 13's formalization and Ch 11's proper GraphRAG.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The extraction call — text to triples.</strong> An LLM pass (gateway, structured output — the pattern, again) over a note, emitting triples against a schema:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">class</span> <span class="tok-fn">Triple</span>((<span class="tok-type">BaseModel</span>):
+    subject: <span class="tok-builtin">str</span>          <span class="tok-comment"># entity name</span>
+    subject_type: <span class="tok-builtin">str</span>     <span class="tok-comment"># Concept | Tool | Person | Paper | ... (your schema, Ch 9/13)</span>
+    predicate: <span class="tok-builtin">str</span>        <span class="tok-comment"># the typed relation — from a controlled vocabulary, ideally</span>
+    object: <span class="tok-builtin">str</span>
+    object_type: <span class="tok-builtin">str</span>
+    source_note: <span class="tok-builtin">str</span>      <span class="tok-comment"># provenance — every edge traces to its note (Vol 03 Ch 10 habit)</span>
+    confidence: <span class="tok-builtin">float</span>     <span class="tok-comment"># extraction certainty (Ch 3's field, again — low-confidence triples flagged)</span></code></pre>
+      </div>
+<p>The prompt teaches the schema by example (few-shot — the entity types and relation types you want, with worked extractions) and — critically — <em>constrains the predicates</em>: free-form relations produce chaos ("depends-on," "requires," "needs," "built-on" all meaning the same thing fragments the graph), so give the model a <em>controlled vocabulary</em> of relation types and make it choose from them (structured output with an enum — Vol 02 Ch 6, aimed at graph consistency). Uncontrolled predicates are to graphs what unstemmed jargon was to keyword search (Vol 03 Ch 6) — the same fragmentation disease.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Entity resolution — the crux, the thing that makes or breaks the graph (Vol 03 Ch 19's hard half, now yours to solve).</strong> The problem: the same entity appears under many names — "the gate," "HITL approval," "human-in-the-loop check," "the approval gate" are <em>one</em> entity, but naive extraction creates <em>four</em> nodes, and your graph fragments into synonyms that never connect. Resolution collapses them to one canonical entity. The techniques, ascending in sophistication: <em>exact-match + normalization</em> (lowercase, strip articles — catches "The Gate"/"gate"); <em>alias tables</em> (a maintained map of known synonyms → canonical — reliable, manual); <em>embedding-similarity clustering</em> (embed entity mentions, cluster near-duplicates — your Vol 03 Ch 5 machinery, pointed at entity names; "the gate" and "approval gate" embed close → same entity — but watch the threshold, Vol 03 Ch 20's precision/recall dilemma returns: too loose merges distinct entities, too tight fragments); <em>LLM resolution</em> ("are these two mentions the same entity? here's context" — flexible, costly). And your brain's superpower, again: <strong>wikilinks are pre-resolved entities</strong> — <code><a class="wiki-link" data-node-id="hitl-interrupts" href="hitl-interrupts.html">hitl-interrupts</a></code> is a canonical ID you <em>already assigned by hand</em>, so your notes hand the resolver ground truth most corpora must guess (Vol 03 Ch 19's "comically well-shaped," cashing in as real extraction leverage).</p>
+
+<p><strong>The failure modes — the graph's version of the extraction zoo.</strong> <em>Over-extraction</em> (spurious triples from noise — the model inventing relations the text doesn't support; Vol 01 Ch 10's hallucination, now poisoning the <em>graph</em> with false edges — confidence-gate and provenance-check these); <em>predicate chaos</em> (uncontrolled relations fragmenting — the controlled vocabulary fix); <em>resolution errors</em> — both directions: <em>under-merging</em> (synonyms stay separate, graph fragments) and <em>over-merging</em> (distinct entities collapsed — "attention" the mechanism and "attention" the cognitive concept merged, corrupting the graph with false identity — arguably worse than fragmentation because it creates <em>false</em> connections); <em>missing entities</em> (the model overlooks a real entity — recall failure). Every one is measurable (precision/recall on extracted triples against hand-labeled ground truth — Vol 01 Ch 12, the graph edition), which is how you tune the extractor rather than trusting it.</p>
+
+<p><strong>Verification.</strong> Hand-label the triples in ~5 notes (ground truth — the labeling <em>is</em> the work, as always). Assert: extraction precision (few false triples) and recall (few missed) against your labels; predicate values stay within the controlled vocabulary; resolution correctly merges known synonyms (test with your wikilink aliases) <em>and</em> correctly keeps known-distinct entities separate (the over-merge test). Provenance on every triple.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: LLM pulls entities/relations from my notes.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): the <code>Triple</code> schema + controlled predicate vocabulary → the extraction prompt with schema few-shots → entity resolution (start with normalization + your wikilink alias table, add embedding-clustering if time) → run on ~10 real notes → the ground-truth labeling of 5 → the precision/recall tests + resolution tests. Then the reveal: visualize the extracted graph (even a simple node-edge print or a quick graphviz) and <em>look at it</em> — your notes, as a connected structure. Find one triple that's wrong (over-extraction) and one entity that fragmented or over-merged — those specimens are the lesson. Tag <code>graph-v0.1</code>. The precision/recall numbers + the graph visualization + the error specimens = the note; this feeds Ch 13 directly.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why must predicates be a controlled vocabulary? Name the disease uncontrolled ones cause and its Vol 03 analog.</li>
+<li>State the entity-resolution problem and recite the four techniques, ascending.</li>
+<li>Why are your wikilinks a resolution superpower?</li>
+<li>Distinguish under-merging from over-merging, and argue why over-merging may be worse.</li>
+<li>How do precision and recall apply to triple extraction, and what's ground truth?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="knowledge-graphs-101" href="knowledge-graphs-101.html">knowledge-graphs-101</a></p>
+<p><a class="wiki-link" data-node-id="ingestion-pipelines" href="ingestion-pipelines.html">ingestion-pipelines</a></p>
+<p><a class="wiki-link" data-node-id="embeddings-hands-on" href="embeddings-hands-on.html">embeddings-hands-on</a></p>
+<p><a class="wiki-link" data-node-id="graphrag-deep" href="graphrag-deep.html">graphrag-deep</a></p>
+<p><a class="wiki-link" data-node-id="brain-as-knowledge-graph" href="brain-as-knowledge-graph.html">brain-as-knowledge-graph</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

@@ -35,17 +35,71 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Async MCP Sync Bridge</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: multi-agent-mcp</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Here it is — the hurdle itself, by name. The node summary: <strong>build a background event loop wrapper that executes async MCP client calls within sync LangGraph thread environments; verify by invoking tools concurrently.</strong> This is one of your agent-lab's two great hurdles, the async-sync boundary you once crossed on faith. Vol 04 Ch 12 gave you the AsyncBridge in miniature; this chapter rebuilds it <em>specifically for MCP</em> and makes you its author, not its user. The freeze's hardest organ, finally understood from the inside.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The exact collision, named precisely.</strong> MCP clients are <strong>async</strong> — the protocol involves awaiting I/O over stdio/sockets (opening the connection, sending JSON-RPC, awaiting the response; the client SDK is <code>async def</code> all the way down, correctly, because it's I/O — Vol 01 Ch 17's law). But LangGraph nodes, in the common threaded execution model your agent-lab uses, run in <strong>sync</strong> contexts — and you cannot <code>await</code> in a sync function (Vol 04 Ch 12's wall). Worse than the generic case: MCP clients often need a <em>persistent connection</em> (the server subprocess stays alive across many tool calls — you don't respawn it per call), so you can't just <code>asyncio.run()</code> each call independently (that would open/close the connection every time, and would still hit the <code>RuntimeError: asyncio.run() cannot be called from a running event loop</code> the moment anything upstream is async). You need a <em>long-lived event loop</em> hosting a <em>persistent MCP client connection</em>, callable from sync code. That's the bridge.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The architecture — the background-loop pattern, MCP edition.</strong></p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">class</span> <span class="tok-type">MCPBridge</span>:
+    <span class="tok-kw">def</span> <span class="tok-fn">__init__</span>((<span class="tok-kw">self</span>, server_params):
+        <span class="tok-kw">self</span>._loop = asyncio.<span class="tok-fn">new_event_loop</span>(()
+        <span class="tok-kw">self</span>._thread = threading.<span class="tok-fn">Thread</span>((target <span class="tok-kw">self</span>._run_loop, daemon=<span class="tok-kw">True</span>)
+        <span class="tok-kw">self</span>._thread.<span class="tok-fn">start</span>(()                       <span class="tok-comment"># a dedicated event loop, forever, in its own thread</span>
+        <span class="tok-kw">self</span>._session = <span class="tok-kw">self</span>.<span class="tok-fn">_submit</span>((<span class="tok-kw">self</span>.<span class="tok-fn">_connect</span>((server_params))  <span class="tok-comment"># persistent connection, established once</span>
+
+    <span class="tok-kw">def</span> <span class="tok-fn">_run_loop</span>((<span class="tok-kw">self</span>):
+        asyncio.<span class="tok-fn">set_event_loop</span>((<span class="tok-kw">self</span>._loop)
+        <span class="tok-kw">self</span>._loop.<span class="tok-fn">run_forever</span>(()
+
+    <span class="tok-kw">def</span> <span class="tok-fn">_submit</span>((<span class="tok-kw">self</span>, coro):                        <span class="tok-comment"># THE BRIDGE: sync code blocks on async work</span>
+        future = asyncio.<span class="tok-fn">run_coroutine_threadsafe</span>((coro, <span class="tok-kw">self</span>._loop)
+        <span class="tok-kw">return</span> future.<span class="tok-fn">result</span>(()                      <span class="tok-comment"># blocks the calling (sync) thread until done</span>
+
+    <span class="tok-kw">def</span> <span class="tok-fn">call_tool</span>((<span class="tok-kw">self</span>, name: <span class="tok-builtin">str</span>, args: <span class="tok-builtin">dict</span>) <span class="tok-op">-&gt;</span> <span class="tok-builtin">str</span>:   <span class="tok-comment"># what a LangGraph node calls — pure sync signature</span>
+        <span class="tok-kw">return</span> <span class="tok-kw">self</span>.<span class="tok-fn">_submit</span>((<span class="tok-kw">self</span>._session.<span class="tok-fn">call_tool</span>((name, args))</code></pre>
+      </div>
+<p>The key mechanism, stated so you own it: <strong>one event loop runs forever in a daemon thread; the MCP connection lives on that loop; sync code submits coroutines to it via <code>run_coroutine_threadsafe</code> and blocks on the returned future's <code>.result()</code>.</strong> The sync LangGraph node calls <code>bridge.call_tool(...)</code> — a plain blocking function — while the actual async I/O happens on the background loop. The two worlds touch at exactly one line (<code>run_coroutine_threadsafe</code>), and that line is the whole hurdle your agent-lab crossed.</p>
+
+<p><strong>The subtleties that bite (and that make this an M-node not an S-node).</strong> <em>Thread-safety of the session</em> — the MCP session must only be touched <em>from its own loop</em> (that's why every call goes through <code>_submit</code>, never directly); calling the async session from the sync thread directly is the race that corrupts everything. <em>Concurrent calls</em> (the node's verification demand) — multiple LangGraph nodes (or parallel agents, Ch 5) calling <code>call_tool</code> concurrently: each submits to the same loop, which multiplexes them correctly <em>if</em> the session supports concurrent requests (JSON-RPC has request IDs for exactly this — responses match requests by ID); test this explicitly. <em>Lifecycle</em> — the loop and connection must start before first use and shut down cleanly (the daemon thread dies with the process, but the server subprocess needs graceful termination — orphaned subprocesses are a real leak). <em>Error propagation</em> — an exception in the coroutine surfaces through <code>future.result()</code> into the sync caller (good — it means Vol 04 Ch 16's error handling still works across the bridge; verify a tool error propagates legibly).</p>
+
+<p><strong>Verification — concurrent tool invocation, per the node.</strong> Connect the bridge to your Ch 9 server. Tests: single sync call returns correctly (the basic bridge); <strong>concurrent calls</strong> — fire N <code>call_tool</code>s from N threads simultaneously, assert all return correctly and none corrupt the session (the node's explicit demand, and the proof the multiplexing works); error propagation (a failing tool's exception reaches the sync caller); lifecycle (clean startup, clean shutdown, no orphaned server subprocess — check the process table). Then integration: a LangGraph node uses the bridge to call your MCP server's tools inside a real graph run.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a background event loop wrapper that executes async MCP client calls within sync LangGraph thread environments; verify by invoking tools concurrently.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1–1.5 days — the subtleties earn the time): the background-loop class + persistent connection → <code>call_tool</code> sync wrapper → concurrent-call test (the crown — spawn threads, assert clean concurrent results) → error propagation + lifecycle tests → wire it into a LangGraph node calling your Ch 9 server. Then <em>the</em> homecoming ceremony of this volume: open your agent-lab's async MCP bridge and read it line by line beside yours. This was one of the two things that once defeated understanding. Annotate every line — the loop creation, the thread, the <code>run_coroutine_threadsafe</code>, the session handling — with what it does and <em>why</em>. Write the sentence when it's true: <em>the hurdle that froze the lab is now a class I authored, with a concurrent test suite proving I understand it cold.</em> That sentence, and the line-by-line annotation, are the note. Tag <code>mcp-bridge-v0.1</code>.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>State the exact collision — why can't you <code>asyncio.run()</code> each MCP call, given persistent connections?</li>
+<li>Describe the background-loop architecture: the thread, the forever-loop, the one bridging line.</li>
+<li>Why must the session only be touched from its own loop, and how does <code>_submit</code> enforce that?</li>
+<li>How do concurrent calls stay correct — what does JSON-RPC provide, and what does your test prove?</li>
+<li>From the agent-lab ceremony: one line of your frozen bridge you can now fully explain that was opaque before.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="python-async" href="python-async.html">python-async</a></p>
+<p><a class="wiki-link" data-node-id="build-mcp-server" href="build-mcp-server.html">build-mcp-server</a></p>
+<p><a class="wiki-link" data-node-id="build-specialists" href="build-specialists.html">build-specialists</a></p>
+<p><a class="wiki-link" data-node-id="mcp-clients" href="mcp-clients.html">mcp-clients</a></p>
+<p><a class="wiki-link" data-node-id="build-supervisor" href="build-supervisor.html">build-supervisor</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

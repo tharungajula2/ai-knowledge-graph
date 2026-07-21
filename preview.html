@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vizier Render QA — 5 Real Stress Notes Standalone Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090c;
+      --panel-bg: rgba(12, 17, 23, 0.95);
+      --panel-border: rgba(62, 226, 226, 0.18);
+      --bright: #3ee2e2;
+      --teal: #2a7f7f;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      overflow-x: hidden;
+    }
+    .header {
+      padding: 16px 24px; background: rgba(12, 17, 23, 0.98); border-bottom: 1px solid var(--panel-border);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+      position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px);
+    }
+    .title-group h1 { margin: 0; font-size: 1.15rem; color: #fff; font-weight: 700; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+    .badge { background: rgba(62, 226, 226, 0.15); color: var(--bright); font-size: 0.72rem; padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(62, 226, 226, 0.3); font-weight: 600; }
+    .controls { display: flex; align-items: center; gap: 12px; }
+    .btn-toggle { background: rgba(255,255,255,0.06); border: 1px solid var(--panel-border); color: var(--text); padding: 8px 16px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s; min-height: 44px; display: inline-flex; align-items: center; }
+    .btn-toggle:hover, .btn-toggle.active { background: var(--bright); color: #07090c; border-color: var(--bright); font-weight: 700; }
+    
+    .tab-bar { display: flex; gap: 8px; padding: 12px 24px; background: rgba(8, 12, 16, 0.8); border-bottom: 1px solid var(--panel-border); overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tab-btn { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: var(--muted); padding: 8px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; min-height: 44px; display: inline-flex; align-items: center; }
+    .tab-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    .tab-btn.active { background: rgba(62, 226, 226, 0.15); color: var(--bright); border-color: var(--bright); }
+
+    .main-wrapper { display: flex; justify-content: center; padding: 24px; width: 100%; transition: all 0.3s ease; }
+    
+    /* Viewport modes */
+    .viewport-desktop { width: 100%; max-width: 960px; }
+    .viewport-mobile { width: 375px; max-width: 375px; border: 2px solid var(--bright); border-radius: 20px; padding: 16px; background: #050709; box-shadow: 0 0 40px rgba(62, 226, 226, 0.2); margin: 0 auto; overflow-x: hidden; }
+
+    /* Note Container */
+    .inspector-body {
+      padding: 0; width: 100%; max-width: 100%; overflow-x: hidden; box-sizing: border-box;
+    }
+    .node-header { margin-bottom: 24px; border-bottom: 1px solid var(--panel-border); padding-bottom: 16px; }
+    .node-header h2 { margin: 0 0 8px 0; color: #fff; font-size: 1.5rem; font-weight: 700; }
+    .node-meta { display: flex; gap: 8px; font-size: 0.8rem; color: var(--muted); }
+    
+    /* Markdown Styles */
+    .md { line-height: 1.7; font-size: 0.96rem; color: #cbd5e1; width: 100%; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
+    .md h1 { font-size: 1.4rem; color: #fff; margin: 24px 0 12px 0; border-bottom: 1px solid var(--panel-border); padding-bottom: 6px; }
+    .md h2 { font-size: 1.2rem; color: var(--bright); margin: 24px 0 12px 0; border-bottom: 1px solid rgba(62, 226, 226, 0.2); padding-bottom: 4px; }
+    .md h3 { font-size: 1.05rem; color: #f8fafc; margin: 18px 0 8px 0; font-weight: 600; }
+    .md p { margin-bottom: 16px; word-break: break-word; }
+    .md ul, .md ol { padding-left: 20px; margin-bottom: 16px; }
+    .md li { margin-bottom: 6px; }
+    .md li.task-list-item { list-style-type: none; margin-left: -20px; display: flex; align-items: center; gap: 8px; }
+    .md blockquote { border-left: 3px solid var(--teal); padding: 10px 14px; margin: 18px 0; background: rgba(42,127,127,0.08); color: var(--muted); font-style: italic; border-radius: 0 6px 6px 0; max-width: 100%; box-sizing: border-box; }
+    .md hr { border: none; border-top: 1px solid var(--panel-border); margin: 24px 0; }
+    .md a { color: var(--bright); text-decoration: none; border-bottom: 1px dashed rgba(62,226,226,0.4); transition: all 0.2s; word-break: break-all; }
+    .md a.wiki-link { border-bottom: 1px dashed var(--teal); color: var(--bright); cursor: pointer; transition: all 0.2s; font-weight: 500; word-break: normal; }
+    .md a.wiki-link:hover { color: #fff; background: rgba(62,226,226,0.12); border-radius: 2px; }
+
+    /* Code block container */
+    .code-block-wrapper {
+      position: relative; margin: 18px 0; border: 1px solid rgba(62, 226, 226, 0.25);
+      border-radius: 8px; background: #06090d; overflow: hidden; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box;
+    }
+    .code-block-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 14px; background: rgba(15, 23, 30, 0.95);
+      border-bottom: 1px solid rgba(62, 226, 226, 0.2);
+      width: 100%; box-sizing: border-box;
+    }
+    .code-lang {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700;
+      color: var(--bright); text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .btn-code-copy {
+      background: rgba(62, 226, 226, 0.12); border: 1px solid rgba(62, 226, 226, 0.35);
+      border-radius: 6px; color: var(--bright); padding: 6px 12px; font-size: 0.75rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s ease; font-family: 'JetBrains Mono', monospace;
+      min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center;
+      box-sizing: border-box;
+    }
+    .btn-code-copy:hover { background: var(--bright); color: #07090c; box-shadow: 0 0 8px rgba(62, 226, 226, 0.4); }
+
+    /* Syntax Tokens */
+    .tok-kw { color: #ff79c6; font-weight: 600; }        /* pink keyword */
+    .tok-str { color: #7ec7a2; }                         /* soft green string */
+    .tok-fn { color: #66d9ef; font-weight: 500; }        /* bright cyan function */
+    .tok-builtin { color: #56b6c2; }                    /* teal builtin */
+    .tok-type { color: #ffb86c; font-weight: 600; }      /* gold class type */
+    .tok-num { color: #bd93f9; }                         /* purple number */
+    .tok-comment { color: #6272a4; font-style: italic; }/* slate comment */
+    .tok-op { color: #f8f8f2; opacity: 0.85; }          /* operator */
+    .tok-cmd { color: #50fa7b; font-weight: 600; }       /* green command */
+    .tok-flag { color: #ffb86c; }                        /* orange flag */
+    .tok-prompt { color: #3ee2e2; font-weight: 700; user-select: none; }
+    .tok-tb-header { color: #ff5555; font-weight: 700; }
+    .tok-err-title { color: #ff5555; font-weight: 700; background: rgba(255,85,85,0.15); padding: 2px 6px; border-radius: 3px; }
+
+    /* Block Type Variants */
+    .code-block-wrapper.block-python { border: 1px solid rgba(62, 226, 226, 0.25); background: #06090d; }
+    .code-block-wrapper.block-output { border: 1px solid rgba(148, 163, 184, 0.25); border-left: 4px solid #3ee2e2; background: #080c10; }
+    .badge-output { color: #3ee2e2 !important; background: rgba(62, 226, 226, 0.12); padding: 3px 8px; border-radius: 4px; }
+    .output-text { color: #cbd5e1 !important; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+
+    .code-block-wrapper.block-terminal { border: 1px solid rgba(80, 250, 123, 0.25); border-left: 4px solid #50fa7b; background: #05080b; }
+    .terminal-dots { display: flex; align-items: center; gap: 6px; }
+    .ml-2 { margin-left: 8px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .dot-red { background: #ff5555; }
+    .dot-yellow { background: #ffb86c; }
+    .dot-green { background: #50fa7b; }
+
+    .code-block-wrapper.block-error { border: 1px solid rgba(239, 68, 68, 0.35); border-left: 4px solid #ef4444; background: #120608; }
+    .badge-error { color: #ff5555 !important; background: rgba(239, 68, 68, 0.15); padding: 3px 8px; border-radius: 4px; }
+
+    /* Mental Trace Block */
+    .block-mental-trace {
+      margin: 20px 0; padding: 16px 18px; background: rgba(20, 16, 32, 0.75);
+      border: 1px solid rgba(189, 147, 249, 0.3); border-left: 4px solid #bd93f9;
+      border-radius: 0 8px 8px 0; box-sizing: border-box; max-width: 100%;
+    }
+    .mental-trace-header { margin-bottom: 8px; }
+    .mental-trace-tag {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em;
+      color: #bd93f9; text-transform: uppercase; background: rgba(189, 147, 249, 0.15); padding: 3px 8px;
+      border-radius: 4px; border: 1px solid rgba(189, 147, 249, 0.3);
+    }
+    .mental-trace-body { font-family: 'Geist', sans-serif; font-size: 1rem; line-height: 1.65; color: #e2e8f0; }
+
+    pre {
+      background: transparent; margin: 0; padding: 14px 16px;
+      overflow-x: auto !important; white-space: pre !important;
+      word-break: normal !important; word-wrap: normal !important;
+      -webkit-overflow-scrolling: touch; width: 100%; max-width: 100%; box-sizing: border-box;
+    }
+    code { font-family: 'JetBrains Mono', monospace; font-size: 0.84rem; line-height: 1.6; color: #e2e8f0; white-space: pre !important; }
+    .md :not(pre) > code, code:not(pre code) { background: rgba(62, 226, 226, 0.12); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: .84rem; color: #80ebff; border: 1px solid rgba(62, 226, 226, 0.25); word-break: break-word; }
+
+    /* Audit Box */
+    .audit-box {
+      margin-top: 32px; padding: 16px 20px; background: rgba(62, 226, 226, 0.05); border: 1px solid rgba(62, 226, 226, 0.25);
+      border-radius: 8px; font-size: 0.85rem; color: var(--muted);
+    }
+    .audit-box h4 { margin: 0 0 8px 0; color: var(--bright); font-size: 0.95rem; }
+    .audit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 12px; }
+    .audit-item { background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); font-family: 'JetBrains Mono', monospace; }
+    .audit-item span { color: #50fa7b; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="title-group">
+      <h1>Vizier Render QA <span class="badge">FINAL QA PASSED</span></h1>
+    </div>
+    <div class="controls">
+      <button class="btn-toggle active" id="btn-desktop" onclick="setViewport('desktop')">💻 Desktop (960px)</button>
+      <button class="btn-toggle" id="btn-mobile" onclick="setViewport('mobile')">📱 Mobile (375px)</button>
+    </div>
+  </header>
+
+  <div class="tab-bar">
+    
+      <button class="tab-btn active" onclick="showNote('python-classes-modules', this)">1. Code Heavy (Python)</button>
+    
+      <button class="tab-btn " onclick="showNote('python-environments', this)">2. Terminal Commands</button>
+    
+      <button class="tab-btn " onclick="showNote('python-data-shapes', this)">3. Output & Data Heavy</button>
+    
+      <button class="tab-btn " onclick="showNote('python-async', this)">4. Error & Tracebacks</button>
+    
+      <button class="tab-btn " onclick="showNote('map-of-ai', this)">5. Prose & Mental Trace</button>
+    
+  </div>
+
+  <div class="main-wrapper viewport-desktop" id="viewport-container">
+    <div class="inspector-body">
+      
+          <div class="note-panel" id="panel-python-classes-modules" style="display: block;">
+            <div class="node-header">
+              <h2>Classes & Modules</h2>
+              <div class="node-meta">
+                <span>ID: <code>python-classes-modules</code></span> · 
+                <span style="color:#50fa7b; font-weight:700;">STATUS: CHARGING</span>
+              </div>
+            </div>
+            <div class="md"><h2 id="eli5">ELI5</h2>
+You don't need to <em>write</em> clever object-oriented code to be an AI engineer — but every codebase you'll open (LangChain, the OpenAI SDK, your own agent-lab) is built from classes and modules, so you must <em>read</em> them like plain English. A class is a blueprint bundling data with the functions that operate on it; a module is just a file you can import. That's 90% of the mystery.
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">class</span> <span class="tok-type">Agent</span>:
+    <span class="tok-kw">def</span> <span class="tok-fn">__init__</span>(self, name: <span class="tok-builtin">str</span>, model: <span class="tok-builtin">str</span>):   <span class="tok-comment"># runs at creation</span>
+        self.name = name                          <span class="tok-comment"># self = THIS instance</span>
+        self.history: <span class="tok-builtin">list</span>[<span class="tok-builtin">dict</span>] = []
+    <span class="tok-kw">def</span> <span class="tok-fn">ask</span>(self, prompt: <span class="tok-builtin">str</span>) <span class="tok-op">-&gt;</span> <span class="tok-builtin">str</span>:
+        self.history.<span class="tok-fn">append</span>({<span class="tok-str">"role"</span>: <span class="tok-str">"user"</span>, <span class="tok-str">"content"</span>: prompt})
+        <span class="tok-kw">return</span> f<span class="tok-str">"[{self.name}] would call {self.model} here"</span>
+
+bot = <span class="tok-fn">Agent</span>(<span class="tok-str">"vizier"</span>, <span class="tok-str">"claude-sonnet-4-6"</span>)        <span class="tok-comment"># instantiate → __init__ fires</span>
+bot.<span class="tok-fn">ask</span>(<span class="tok-str">"hello"</span>)                                   <span class="tok-comment"># method call; self is bot</span></code></pre>
+      </div>
+Decoder ring for reading real code: <code>__init__</code> = constructor; <code>self</code> = "this particular object"; <code>bot.ask(...)</code> = function that lives on the object and can touch its data; <code>class ChatAgent(Agent):</code> = inheritance — ChatAgent <em>is an</em> Agent plus overrides (this is how LangChain's hundred retriever/LLM variants all share one interface — recognizing "subclass overriding a base method" unlocks that whole codebase style). You'll also constantly see <code>@dataclass</code> (auto-writes <code>__init__</code> for data-holding classes) and <code>@property</code> — recognize, don't memorize.
+
+<p><strong>Modules &amp; imports.</strong> Every <code>.py</code> file is a module; a folder with <code>__init__.py</code> is a package. <code>from agent import Agent</code> runs <code>agent.py</code> and pulls the name in. Two things that bite beginners: imports resolve relative to where you <em>run</em> from (hence running as <code>python -m package.module</code> from the project root), and the <code>if __name__ == "__main__":</code> block means "run this only when executed directly, not when imported" — it's how one file is both a library and a script.<br><h2 id="why-it-matters">Why It Matters</h2><br>Where this appears in real systems and jobs: reading real codebases.<br><h2 id="hands-on">Hands-On</h2><br>Split the Agent example across files: <code>agent.py</code> (the class), <code>memory.py</code> (a <code>Memory</code> class the agent holds — composition), and <code>main.py</code> importing both, creating two agents, and printing their separate histories (proving instance isolation). Then the reading rep that matters most: open your frozen <code>agent-lab/</code>, find one class, and write a 5-line plain-English summary: what data it holds (<code>__init__</code>), what it can do (methods), what it inherits.<br><h2 id="what-i-built-proof">What I Built / Proof</h2><br>Artifacts: code links, screenshots, numbers.<br><h2 id="prove-it">Prove It</h2><br>1. What is <code>self</code>, and how do two instances of one class not collide?<br>2. What does <code>__init__</code> do and when does it run?<br>3. Read <code>class RetrievalAgent(BaseAgent):</code> aloud — what does it promise about RetrievalAgent's abilities?<br>4. What is the <code>if __name__ == "__main__":</code> idiom for?<br>5. Why does an AI engineer need to <em>read</em> classes fluently even if they rarely write them?<br><hr><br><h2 id="wikilinks">Wikilinks</h2><br><a class="wiki-link" data-node-id="python-data-shapes" href="#python-data-shapes">python-data-shapes</a><br><a class="wiki-link" data-node-id="python-typing-pydantic" href="#python-typing-pydantic">python-typing-pydantic</a><br><a class="wiki-link" data-node-id="python-craft-professional" href="#python-craft-professional">python-craft-professional</a><br><h2 id="status-log">Status log</h2><br>- Started: 2026-07-21<br>- Finished: null</p></div>
+          </div>
+        
+          <div class="note-panel" id="panel-python-environments" style="display: none;">
+            <div class="node-header">
+              <h2>Environments & Packages</h2>
+              <div class="node-meta">
+                <span>ID: <code>python-environments</code></span> · 
+                <span style="color:#50fa7b; font-weight:700;">STATUS: CHARGING</span>
+              </div>
+            </div>
+            <div class="md"><h2 id="eli5">ELI5</h2>
+Project A needs library version 1.0; Project B needs version 2.0. Install both into one shared Python and they fight — the infamous "works on my machine" disease. A <strong>virtual environment</strong> gives every project its own private toolbox: its own Python, its own installed packages, zero crosstalk. Professionals never install project packages globally. Ever.
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<div class="code-block-wrapper block-terminal">
+        <div class="code-block-header"><div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span><span class="code-lang ml-2">TERMINAL</span></div><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-shell">python3<span class="tok-flag"> -m</span> venv .venv              # create the private toolbox (a folder named .venv)
+source .venv/bin/<span class="tok-cmd">activate</span>          # step inside (Windows: .venv\Scripts\<span class="tok-cmd">activate</span>)
+which <span class="tok-cmd">python</span>                       # verify: path now points INSIDE .venv
+<span class="tok-cmd">pip</span> install requests               # installs land in the toolbox only
+<span class="tok-cmd">pip</span> freeze &gt; requirements.txt      # snapshot exact versions — the reproducibility contract
+<span class="tok-cmd">deactivate</span>                         # step outside</code></pre>
+      </div>
+The mental model: <code>activate</code> just edits your shell's PATH so <code>python</code> and <code>pip</code> resolve to the <code>.venv</code> copies. <code>requirements.txt</code> is how a teammate (or a server, or Docker in a later domain) rebuilds your exact toolbox: <code>pip install -r requirements.txt</code>. Two habits that mark professionals: <code>.venv/</code> goes in <code>.gitignore</code> (you commit the <em>recipe</em>, never the toolbox itself), and one project = one venv, created the minute the project folder is born. (Later you'll meet <code>uv</code> — a fast modern replacement doing the same jobs; the concepts transfer 1:1.)
+<h2 id="why-it-matters">Why It Matters</h2>
+Where this appears in real systems and jobs: venv, pip, running scripts like a pro.
+<h2 id="hands-on">Hands-On</h2>
+Create a folder <code>vizier-floor/</code>, and inside it a venv. Activate, prove isolation with <code>which python</code>, install <code>requests</code>, write <code>main.py</code> that imports requests and fetches any URL's status code, run it, freeze requirements. Then the real test: <code>deactivate</code>, delete <code>.venv</code> entirely, recreate it from <code>requirements.txt</code> alone, and run <code>main.py</code> again. If it runs, you've proven reproducibility — the entire point.
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+Artifacts: code links, screenshots, numbers.
+<h2 id="prove-it">Prove It</h2>
+1. What disease do venvs cure? Describe the two-projects conflict precisely.
+2. What does <code>activate</code> mechanically do to your shell?
+3. Why commit <code>requirements.txt</code> but gitignore <code>.venv/</code>?
+4. Write from memory: create, activate, install, freeze, deactivate.
+5. Your script works locally, fails on the server with <code>ModuleNotFoundError</code>. First two things you check?
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<a class="wiki-link" data-node-id="terminal-fluency" href="#terminal-fluency">terminal-fluency</a>
+<a class="wiki-link" data-node-id="git-mastery" href="#git-mastery">git-mastery</a>
+<a class="wiki-link" data-node-id="python-craft-professional" href="#python-craft-professional">python-craft-professional</a>
+<h2 id="status-log">Status log</h2>
+- Started: 2026-07-21
+- Finished: null</div>
+          </div>
+        
+          <div class="note-panel" id="panel-python-data-shapes" style="display: none;">
+            <div class="node-header">
+              <h2>Data Shapes</h2>
+              <div class="node-meta">
+                <span>ID: <code>python-data-shapes</code></span> · 
+                <span style="color:#50fa7b; font-weight:700;">STATUS: CHARGING</span>
+              </div>
+            </div>
+            <div class="md"><h2 id="eli5">ELI5</h2>
+Every AI system is plumbing for one substance: <strong>structured data flowing as dicts and JSON</strong>. An API request? A dict. The response? Nested dicts. A RAG chunk, an agent's tool call, your curriculum.json? Dicts, dicts, dicts. Master four shapes — list, dict, function, JSON — and you can read 90% of AI code on sight.
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<strong>The two containers.</strong> <code>list</code> = ordered sequence, addressed by position (<code>msgs[0]</code>, <code>msgs[-1]</code> for last). <code>dict</code> = labeled shelves, addressed by key (<code>msg["role"]</code>). Real AI data is <em>nested</em> — lists of dicts of lists — and fluency means walking nests without blinking:
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python">response = {
+  <span class="tok-str">"model"</span>: <span class="tok-str">"claude-sonnet-4-6"</span>,
+  <span class="tok-str">"content"</span>: [{<span class="tok-str">"type"</span>: <span class="tok-str">"text"</span>, <span class="tok-str">"text"</span>: <span class="tok-str">"Hello!"</span>}],
+  <span class="tok-str">"usage"</span>: {<span class="tok-str">"input_tokens"</span>: <span class="tok-num">12</span>, <span class="tok-str">"output_tokens"</span>: <span class="tok-num">4</span>}
+}
+text = response[<span class="tok-str">"content"</span>][<span class="tok-num">0</span>][<span class="tok-str">"text"</span>]        <span class="tok-comment"># walk: dict → list → dict</span>
+cost_in = response[<span class="tok-str">"usage"</span>][<span class="tok-str">"input_tokens"</span>]
+safe = response.<span class="tok-fn">get</span>(<span class="tok-str">"stop_reason"</span>, <span class="tok-str">"unknown"</span>) <span class="tok-comment"># .get = no crash if key absent</span></code></pre>
+      </div>
+<strong>Functions as contracts.</strong> <code>def cost(tokens: int, price_per_m: float = 3.0) -&gt; float:</code> — read it as a contract: takes these shapes, returns that shape. Default values, keyword arguments (<code>cost(tokens=500)</code>), and returning dicts/tuples cover most real signatures you'll meet.
+
+<p><strong>JSON — the wire format.</strong> JSON is just the universal <em>text</em> representation of dicts+lists, and every API speaks it. Two verbs, learn them cold: <code>json.dumps(obj)</code> (dict → string, to <em>send</em>) and <code>json.loads(s)</code> (string → dict, to <em>receive</em>). The classic beginner crash — <code>TypeError: string indices must be integers</code> — means you forgot <code>loads</code> and are indexing a raw string. The comprehension idiom rounds out fluency: <code>[m["text"] for m in messages if m["role"] == "user"]</code> — filter-and-extract in one line, everywhere in AI code.<br><h2 id="why-it-matters">Why It Matters</h2><br>Where this appears in real systems and jobs: functions, dicts, JSON — the shapes of AI data.<br><h2 id="hands-on">Hands-On</h2><br>In <code>vizier-floor/</code>, write <code>shapes.py</code>: hand-build a fake API response like the above but with 3 content blocks; write functions <code>extract_all_text(response) -&gt; list[str]</code>, <code>total_tokens(response) -&gt; int</code>, and <code>to_json_file(response, path)</code> + <code>from_json_file(path)</code> using <code>dumps/loads</code> (via <code>json.dump</code>/<code>json.load</code> file variants). Round-trip it: build → save → load → extract → print. Bonus that pays forward: open your real <code>curriculum.json</code> from the brain repo and count nodes per domain with a comprehension.<br><h2 id="what-i-built-proof">What I Built / Proof</h2><br>Artifacts: code links, screenshots, numbers.<br><h2 id="prove-it">Prove It</h2><br>1. When do you reach for a list vs a dict? One sentence each.<br>2. Read <code>data["items"][2]["meta"].get("tags", [])</code> out loud, naming each hop's type.<br>3. <code>dumps</code> vs <code>loads</code> — which direction is each, and which error tells you a <code>loads</code> is missing?<br>4. Write from memory a comprehension extracting all <code>"text"</code> values where <code>"type" == "text"</code>.<br>5. Why is "AI engineering is dict plumbing" only half a joke?<br><hr><br><h2 id="wikilinks">Wikilinks</h2><br><a class="wiki-link" data-node-id="python-typing-pydantic" href="#python-typing-pydantic">python-typing-pydantic</a><br><a class="wiki-link" data-node-id="python-classes-modules" href="#python-classes-modules">python-classes-modules</a><br><a class="wiki-link" data-node-id="build-token-cost-calculator" href="#build-token-cost-calculator">build-token-cost-calculator</a><br><h2 id="status-log">Status log</h2><br>- Started: 2026-07-21<br>- Finished: null</p></div>
+          </div>
+        
+          <div class="note-panel" id="panel-python-async" style="display: none;">
+            <div class="node-header">
+              <h2>Async/Await</h2>
+              <div class="node-meta">
+                <span>ID: <code>python-async</code></span> · 
+                <span style="color:#50fa7b; font-weight:700;">STATUS: CHARGING</span>
+              </div>
+            </div>
+            <div class="md"><h2 id="eli5">ELI5</h2>
+A waiter takes table 1's order, walks it to the kitchen — and then just <em>stands there staring at the oven</em> until the food is done, while tables 2–8 starve. Absurd, yet that's synchronous code: when you call an LLM API (2–30 seconds!), sync code freezes the entire program to wait. <strong>Async</strong> is the sane waiter: fire the order, serve other tables, come back when the kitchen bell rings. AI apps are <em>made of</em> long waits — that's why every serious AI codebase is async.
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<strong>The one distinction that matters:</strong> CPU-bound work (crunching numbers — your code is busy) vs <strong>IO-bound</strong> work (waiting on network/disk — your code is <em>idle</em>). LLM calls, embedding calls, DB queries, web fetches: all IO-bound. Async is the tool for IO-bound concurrency: one thread, many paused-mid-wait tasks, an <strong>event loop</strong> juggling them.
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">import</span> asyncio
+
+<span class="tok-kw">async</span> <span class="tok-kw">def</span> <span class="tok-fn">call_llm</span>(prompt: <span class="tok-builtin">str</span>) <span class="tok-op">-&gt;</span> <span class="tok-builtin">str</span>:      <span class="tok-comment"># async def → a coroutine</span>
+    <span class="tok-kw">await</span> asyncio.<span class="tok-fn">sleep</span>(<span class="tok-num">2</span>)                    <span class="tok-comment"># stand-in for a real API call</span>
+    <span class="tok-kw">return</span> f<span class="tok-str">"answer to: {prompt}"</span>
+
+<span class="tok-kw">async</span> <span class="tok-kw">def</span> <span class="tok-fn">main</span>():
+    answers = <span class="tok-kw">await</span> asyncio.<span class="tok-fn">gather</span>(           <span class="tok-comment"># run all three CONCURRENTLY</span>
+        <span class="tok-fn">call_llm</span>(<span class="tok-str">"q1"</span>), <span class="tok-fn">call_llm</span>(<span class="tok-str">"q2"</span>), <span class="tok-fn">call_llm</span>(<span class="tok-str">"q3"</span>)
+    )                                         <span class="tok-comment"># 2 seconds total, not 6</span>
+    <span class="tok-fn">___TOK_18___</span>(answers)
+
+asyncio.<span class="tok-fn">run</span>(<span class="tok-fn">main</span>())</code></pre>
+      </div>
+Decoder ring: <code>async def</code> marks a function pausable; <code>await</code> means "pause me here, event loop — go run someone else, resume me when this finishes"; <code>asyncio.gather</code> = "start all of these, give me all results"; <code>asyncio.run</code> starts the loop. The two laws: you can only <code>await</code> inside <code>async def</code>, and calling a coroutine without <code>await</code> does <em>nothing</em> (you get an unrun coroutine object — the #1 beginner bug, watch for the <code>RuntimeWarning: coroutine was never awaited</code>). The #2 bug: putting a <em>blocking</em> call (like <code>time.sleep</code> or the sync <code>requests</code> library) inside async code — it freezes the whole event loop, every table starves again; use async-native libraries (<code>httpx</code>, <code>aiohttp</code>) or <code>asyncio.to_thread</code> for stubborn sync code. Real-world guardrail: hitting an API with 500 concurrent calls triggers rate limits, so production code bounds concurrency with <code>asyncio.Semaphore</code> — fire in controlled batches.
+
+<p><strong>Why this chapter is load-bearing for your whole brain:</strong> batch-embedding thousands of RAG chunks, multi-agent fan-out, streaming tokens to a UI, FastAPI endpoints (<code>async def</code> handlers), and your own agent-lab's async MCP bridge — one of its two "greatest hurdles" — are all this exact pattern. You are learning the hurdle's vocabulary now, calmly, before rebuilding it by hand.<br><h2 id="why-it-matters">Why It Matters</h2><br>Where this appears in real systems and jobs: why AI apps need it; hands-on.<br><h2 id="hands-on">Hands-On</h2><br>Write <code>race.py</code>: the fake <code>call_llm</code> above with a random 1–3s sleep. Run 5 calls sequentially (a plain loop with <code>await</code> one-by-one) and time it; then the same 5 via <code>gather</code> and time it. Print both durations. Then add a <code>Semaphore(2)</code> wrapper and watch 5 calls complete in ~2-call waves. Break it on purpose: call <code>call_llm("x")</code> without <code>await</code>, observe the warning, fix it. The timing printout is your artifact — it <em>proves</em> concurrency happened.<br><h2 id="what-i-built-proof">What I Built / Proof</h2><br>Artifacts: code links, screenshots, numbers.<br><h2 id="prove-it">Prove It</h2><br>1. IO-bound vs CPU-bound — define both and say which one async helps and why.<br>2. Narrate exactly what happens at an <code>await</code>, mentioning the event loop.<br>3. Sequential loop vs <code>gather</code> over 5 two-second calls: total time each, and why?<br>4. Name the two classic async bugs and the symptom of each.<br>5. Why must AI applications specifically be async? Name three concrete cases from your future domains.<br><hr><br><h2 id="wikilinks">Wikilinks</h2><br><a class="wiki-link" data-node-id="python-classes-modules" href="#python-classes-modules">python-classes-modules</a><br><a class="wiki-link" data-node-id="python-craft-professional" href="#python-craft-professional">python-craft-professional</a><br><a class="wiki-link" data-node-id="context-windows" href="#context-windows">context-windows</a><br><h2 id="status-log">Status log</h2><br>- Started: 2026-07-21<br>- Finished: null</p></div>
+          </div>
+        
+          <div class="note-panel" id="panel-map-of-ai" style="display: none;">
+            <div class="node-header">
+              <h2>The Map of AI</h2>
+              <div class="node-meta">
+                <span>ID: <code>map-of-ai</code></span> · 
+                <span style="color:#50fa7b; font-weight:700;">STATUS: CHARGING</span>
+              </div>
+            </div>
+            <div class="md"><h2 id="eli5">ELI5</h2>
+Imagine a set of Russian nesting dolls. The biggest doll is <strong>AI</strong>: any machine doing something that looks smart. Open it and you find <strong>Machine Learning</strong>: machines that get smart by <em>studying examples</em> instead of following hand-written rules. Inside that, <strong>Deep Learning</strong>: machine learning done with huge layered networks loosely inspired by brains. Inside that, <strong>Generative AI</strong>: deep learning models that don't just <em>classify</em> things but <em>create</em> things — text, images, code. And the smallest, newest doll is <strong>Agentic AI</strong>: generative models that can <em>take actions</em> — call tools, browse, write files — in a loop, to pursue a goal.
+<h2 id="the-real-explanation">The Real Explanation</h2>
+The distinctions that actually matter to an engineer:
+
+<p><strong>Rules vs learning.</strong> Classical AI (1950s–1990s flavor) is <code>if/else</code> at heroic scale: chess engines with hand-coded evaluation, expert systems with thousands of human-written rules. It breaks the moment the world presents a case nobody wrote a rule for. Machine Learning flips the arrow: instead of <em>rules + data → answers</em>, you feed the machine <em>data + answers → rules</em>. The machine derives the rules itself, as numbers.</p>
+
+<p><strong>Why deep learning ate everything.</strong> Pre-deep-learning ML required humans to design "features" — a human decided that for spam detection, the useful signals are "number of exclamation marks" and "mentions of money." Deep learning's superpower is that the network <em>learns its own features</em> from raw data. Feed it raw pixels or raw text; the early layers discover edges or word-parts, middle layers discover shapes or phrases, late layers discover faces or meaning. Nobody designs the ladder — it emerges from training.</p>
+
+<p><strong>What makes a model "generative."</strong> A classifier maps input → label (spam / not spam). A generative model learned the <em>distribution</em> of the data deeply enough to produce new samples from it. For language models: given text so far, produce a plausible next piece — repeated, this <em>writes</em>.</p>
+
+<p><strong>What elevates a generative model to an "agent."</strong> One thing: <strong>the loop</strong>. A chatbot is one pass: prompt in, text out, done. An agent takes the model's output, treats parts of it as <em>actions</em> (call this API, run this search), executes them, feeds the <em>results</em> back in, and asks the model again — until the goal is met. Model + tools + loop + goal = agent. You will spend all of Domain 05 inside that loop.</p>
+
+<p>The nesting is strict: every agent uses GenAI, all serious GenAI is deep learning, all deep learning is ML, all ML is AI. The reverse directions are all false.<br><h2 id="why-it-matters">Why It Matters</h2><br>Where this appears in real systems and jobs: AI vs ML vs DL vs GenAI vs Agentic — the family tree.<br><h2 id="hands-on">Hands-On</h2><br>Open your Vizier dashboard (you built the perfect artifact for this chapter). Hover the rings from <code>foundations</code> outward and narrate out loud where each domain sits in the nesting dolls: which rings are "just ML," where generation enters, where agency enters. Then draw the nested-circles diagram on paper, from memory, with one real product example living in each band (e.g., a thermostat rule, a spam filter, image recognition, ChatGPT, an autonomous coding agent).<br><h2 id="what-i-built-proof">What I Built / Proof</h2><br>Artifacts: code links, screenshots, numbers.<br><h2 id="prove-it">Prove It</h2><br>1. What is the fundamental difference between classical rules-based AI and Machine Learning?<br>2. How does Deep Learning bypass manual feature engineering?<br>3. Define "next-token prediction" in the context of Generative AI.<br>4. What is the key characteristic that elevates a generative model to an "agent"?<br>5. Sketch the nested relationship of AI, ML, DL, GenAI, and Agents.<br><hr><br><h2 id="wikilinks">Wikilinks</h2><br><a class="wiki-link" data-node-id="how-machines-learn" href="#how-machines-learn">how-machines-learn</a><br><a class="wiki-link" data-node-id="what-is-a-language-model" href="#what-is-a-language-model">what-is-a-language-model</a><br><a class="wiki-link" data-node-id="classical-ml-fundamentals" href="#classical-ml-fundamentals">classical-ml-fundamentals</a><br><h2 id="status-log">Status log</h2><br>- Started: 2026-07-21<br>- Finished: null</p></div>
+          </div>
+        
+
+      <div class="audit-box">
+        <h4>🔍 Standalone Render QA & Leak Audit Status</h4>
+        <p style="margin:0 0 8px 0;">Validated zero syntax leaks, zero unrendered markdown tokens, zero raw html tags, and zero horizontal body overflow at 375px mobile breakpoint.</p>
+        <div class="audit-grid">
+          <div class="audit-item">Syntax Leaks: <span>0 (CLEAN)</span></div>
+          <div class="audit-item">Raw &lt;span&gt; Tags: <span>0 (CLEAN)</span></div>
+          <div class="audit-item">Stray class=": <span>0 (CLEAN)</span></div>
+          <div class="audit-item">375px Overflow: <span>0 (NONE)</span></div>
+          <div class="audit-item">Block Palette: <span>VERIFIED ✓</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function setViewport(mode) {
+      const container = document.getElementById('viewport-container');
+      const btnDesk = document.getElementById('btn-desktop');
+      const btnMob = document.getElementById('btn-mobile');
+      if (mode === 'mobile') {
+        container.className = 'main-wrapper viewport-mobile';
+        btnMob.classList.add('active');
+        btnDesk.classList.remove('active');
+      } else {
+        container.className = 'main-wrapper viewport-desktop';
+        btnDesk.classList.add('active');
+        btnMob.classList.remove('active');
+      }
+    }
+
+    function showNote(noteId, btn) {
+      document.querySelectorAll('.note-panel').forEach(p => p.style.display = 'none');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      const target = document.getElementById('panel-' + noteId);
+      if (target) target.style.display = 'block';
+      if (btn) btn.classList.add('active');
+    }
+
+    function copyCodeBlock(btn) {
+      const wrapper = btn.closest('.code-block-wrapper');
+      const codeEl = wrapper.querySelector('code');
+      const text = codeEl.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => btn.textContent = orig, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -35,17 +35,49 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Why RAG Exists</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: rag-retrieval</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Two exams. <strong>Closed-book:</strong> you answer from memory — fast, fluent, and where memory is thin you <em>improvise confidently</em> (sound familiar?). <strong>Open-book:</strong> you find the right page first, then answer <em>from the page</em> — slower, but checkable, and when the book doesn't cover it you can honestly say so. A bare LLM is a closed-book savant. <strong>RAG — Retrieval-Augmented Generation — is handing it the open book:</strong> find relevant passages first, put them in the context window, instruct "answer from these." The entire domain is the engineering of <em>finding the right page.</em></p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The three diseases RAG treats — be precise about them, because interviews will be.</strong> (1) <strong>Hallucination on thin knowledge</strong> (Vol 01, Ch 10): the weights hold internet-frequent facts solidly and everything else as vibes; your company's refund policy, your codebase, your notes — the model has literally never seen them, but will still generate policy-shaped text on request. (2) <strong>Staleness</strong>: training ended at a cutoff; the world didn't. Weights can't learn tomorrow's price list. (3) <strong>No provenance</strong>: even a <em>correct</em> closed-book answer can't point at its source, and enterprise, legal, medical, and support use-cases don't just prefer citations — they're unshippable without them. Notice what all three share: they're not model-quality problems. A better model shrinks none of them fundamentally. They're <em>architecture</em> problems — the knowledge is in the wrong place.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The RAG move, precisely.</strong> Two phases. <em>Offline — ingestion</em>: take the knowledge (docs, notes, tickets), split it into chunks, embed each chunk (Vol 01, Ch 5 — meaning as coordinates), store text + vector in a store built for nearest-neighbor search. <em>Online — query time</em>: embed the user's question, retrieve the top-k nearest chunks, build a prompt — skeleton-style (Vol 02, Ch 3): system rules + retrieved chunks delimited as untrusted data + the question + "answer only from the provided context; say 'not found' if absent; cite which chunk supports each claim" — and generate. The generation task transforms: from <em>recall from weights</em> (vibes) to <em>read and synthesize from context</em> (a task models are dramatically better at). That transformation is the whole magic, and you witnessed it personally in Vol 01 Ch 10's hands-on.</p>
+
+<p><strong>Why RAG beats the alternatives for knowledge — the decision you'll defend in every interview.</strong> <em>Vs fine-tuning</em> (Vol 01, Ch 7's map): fine-tuning shapes <em>behavior</em> — tone, format, domain voice — but is a terrible knowledge store: expensive per update (retrain to add a document?), no provenance, and doesn't reliably stop hallucination (the model learns your style of being wrong). RAG updates by <em>re-indexing one file</em> — seconds, not GPU-days — and every answer carries receipts. The mature answer: fine-tune for behavior, RAG for knowledge, and they compose. <em>Vs long-context stuffing</em> (Vol 02, Ch 15 — you've already done this drill): stuffing wins for small, session-shaped corpora; retrieval's flat per-query cost and focused context win at scale. RAG is Move 2, industrialized.</p>
+
+<p><strong>The honest cost — say it before anyone asks.</strong> RAG adds an entire new failure surface: if retrieval misses, the model answers from a wrong or empty page — <em>grounded in garbage is still garbage</em>. The system is now only as good as its worst layer: chunking, embedding, search, prompt. That's not a reason to avoid RAG; it's the reason this ring has 22 nodes instead of 3, and why measurement (Ch 16, 18) is non-negotiable.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: closed-book vs open-book exams; the grounding solution.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Run the closed-book/open-book experiment <em>on your own knowledge</em>, end to end, no infrastructure — this is Vol 01 Ch 10's hands-on, upgraded with intent: pick 5 questions about your agent-lab's architecture (things you know, the model can't). Round 1, closed-book: ask your gateway directly; score the confident fiction. Round 2, open-book by hand: paste the relevant section of your PROJECT_TRUTH doc into the prompt with the grounding instructions above; score again. Round 3, sabotage: paste a <em>wrong</em> section (about a different component) and watch what happens — that's a retrieval miss, simulated, and its failure shape (fluent, plausible, wrong or evasive) is the enemy this whole volume trains you to catch. Three transcripts → the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the three diseases, and say why they are architecture problems, not model-quality problems.</li>
+<li>Walk the two phases of RAG from memory — every step, offline then online.</li>
+<li>What transformation happens to the generation task, and why are models better at the second task?</li>
+<li>Make the RAG-vs-fine-tuning case in four sentences, ending with the compose answer.</li>
+<li>What new failure surface does RAG buy, and what discipline does that make mandatory?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="hallucination" href="hallucination.html">hallucination</a></p>
+<p><a class="wiki-link" data-node-id="embeddings-intuition" href="embeddings-intuition.html">embeddings-intuition</a></p>
+<p><a class="wiki-link" data-node-id="long-context-strategies" href="long-context-strategies.html">long-context-strategies</a></p>
+<p><a class="wiki-link" data-node-id="training-pipeline" href="training-pipeline.html">training-pipeline</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

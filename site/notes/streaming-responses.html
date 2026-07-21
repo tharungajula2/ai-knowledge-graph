@@ -35,17 +35,55 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Streaming</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: prompting-apis</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Generation is token-by-token (Vol 01, Ch 3) — so why wait for the whole answer before showing anything? A 40-second silence feels broken; the same 40 seconds watching words flow feels alive. <strong>Streaming</strong> ships each token the moment it's born. Every chat product you've ever admired does this; today your terminal does it too.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>What changes on the wire.</strong> Non-streaming: one request → one complete JSON response. Streaming: one request → a held-open HTTP connection delivering a <em>sequence of small events</em> (the underlying web standard is SSE — server-sent events), each carrying a token-chunk; a final event carries the finish reason and usage. SDKs wrap this as an iterator:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python">stream = client.models.<span class="tok-fn">generate_content_stream</span>((model=<span class="tok-str">"gemini-2.5-flash"</span>, contents=prompt)
+full = []
+<span class="tok-kw">for</span> chunk <span class="tok-kw">in</span> stream:
+    <span class="tok-builtin">print</span>(chunk.text, end=<span class="tok-str">""</span>, flush=<span class="tok-kw">True</span>)   <span class="tok-comment"># flush! — or the terminal buffers your magic</span>
+    full.<span class="tok-fn">append</span>((chunk.text)
+answer = <span class="tok-str">""</span>.<span class="tok-fn">join</span>((full)                       <span class="tok-comment"># you own reassembly now</span></code></pre>
+      </div>
+<p><strong>The two latency numbers, forever distinct in your vocabulary:</strong> <strong>TTFT</strong> (time to first token — how fast it <em>feels</em>) vs <strong>total generation time</strong> (how fast it <em>is</em>). Streaming doesn't speed generation at all; it collapses <em>perceived</em> latency from total-time down to TTFT. Users forgive long answers that start instantly; they abandon short answers that stall. This distinction runs your dashboards in the production domain.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>What you inherit by streaming (the honest costs):</strong> <em>reassembly</em> — you accumulate chunks if you need the full text afterward (for logs, for the next conversation turn); <em>mid-stream errors</em> — connections can die at token 500 of 800, so decide per-product: retry from scratch, show partial with a warning, or resume; <em>structure friction</em> — token-streams of half-finished JSON don't parse (Ch 6's parsers want complete objects), so real apps stream prose to the eye but buffer structured payloads to completion — or stream <em>display</em> text while a separate non-streamed call produces the JSON; <em>tool-call interplay</em> — in agent turns (Ch 7), the stream may deliver a tool-call part instead of prose; your loop must notice mid-stream. In async apps (Vol 01, Ch 17), the same iterator is <code>async for</code> — and that's precisely how a FastAPI endpoint will one day relay tokens to a browser.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: tokens flowing into the terminal, live.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build <code>stream_demo.py</code>, three acts: (1) same long prompt ("explain all ten domains of an AI curriculum in detail") run non-streaming then streaming, with <code>time.perf_counter()</code> measuring TTFT and total for both — print a tidy comparison table (expect: identical-ish totals, wildly different TTFT); (2) reassembly — accumulate the stream, assert the joined text is non-empty, save it; (3) a typewriter upgrade — print with a tiny <code>time.sleep(0.01)</code> per chunk for the classic terminal effect. Paste your timing table into the note; those two numbers are the chapter.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What actually travels over the wire in streaming vs non-streaming?</li>
+<li>TTFT vs total time — define both; which does streaming improve, and which does it not touch?</li>
+<li>Why does structured output resist streaming, and what are the two production workarounds?</li>
+<li>What three burdens does the client inherit when it opts into streaming?</li>
+<li>Where does async streaming show up in your future stack?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="python-async" href="python-async.html">python-async</a></p>
+<p><a class="wiki-link" data-node-id="what-is-a-language-model" href="what-is-a-language-model.html">what-is-a-language-model</a></p>
+<p><a class="wiki-link" data-node-id="build-cli-chatbot" href="build-cli-chatbot.html">build-cli-chatbot</a></p>
+<p><a class="wiki-link" data-node-id="structured-output" href="structured-output.html">structured-output</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

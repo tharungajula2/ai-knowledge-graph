@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Knowledge Graphs 101</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: memory-knowledge</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Vector search (Vol 03) finds things <em>similar</em> to your query; it cannot find things <em>related</em> to each other (Vol 03 Ch 19's diagnosis). The node summary names the structure that can: <strong>entities, relations, triples.</strong> A knowledge graph represents knowledge the way your brain actually does — as <em>things</em> connected by <em>relationships</em> — and once knowledge has that shape, it answers questions no pile of text ever could. Your wikilinked notes have been a knowledge graph in disguise this whole time; this chapter gives you the formal vocabulary to see it.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The triple — the atom of knowledge.</strong> A knowledge graph is built from <strong>triples</strong>: <em>(subject, predicate, object)</em> — <em>(Tharun, is-learning, AI-engineering)</em>, <em>(the-checkpointer, persists, agent-state)</em>, <em>(attention, was-introduced-in, "Attention Is All You Need")</em>. Each triple is one fact, one edge. Subjects and objects are <strong>entities</strong> (nodes — the <em>things</em>: people, concepts, tools, papers); predicates are <strong>relations</strong> (edges — the <em>connections</em>, and crucially they're <em>typed</em>: "persists," "was-introduced-in," "depends-on" — the relationship's <em>meaning</em> is first-class, not just "these are linked"). A knowledge graph is a set of triples, which is a graph of typed entities and typed relations. That's the whole data model — deceptively simple, profoundly expressive.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Why this shape unlocks new questions.</strong> Because relationships are explicit and typed, you can <em>traverse</em> and <em>reason over structure</em> in ways flat text forbids: <em>multi-hop by walking edges</em> ("what did the tool my supervisor routes to depend on?" — follow routes-to, then depends-on — Vol 04 Ch 14's multi-hop, now a <em>graph walk</em> instead of an expensive per-query retrieval loop); <em>relational queries</em> ("how are X and Y connected?" — find the path between two nodes — impossible for vector search, Vol 03 Ch 19); <em>aggregate/global queries</em> ("what are all the tools in the agents domain?" — query by entity type and relation — the global questions the pile couldn't answer); <em>pattern queries</em> ("find all concepts that depend on something in the foundations domain"). The structure <em>is</em> the capability: knowledge shaped as a graph answers connection-questions natively.</p>
+
+<p><strong>The vocabulary landscape — orient without drowning.</strong> <em>Ontology / schema</em>: the <em>types</em> allowed — what entity types exist (Concept, Tool, Person, Paper), what relation types connect them (depends-on, introduced-by, part-of). A schema makes a graph queryable and consistent (your curriculum <em>has</em> one implicitly: nodes have types, domains, wikilinks — Ch 13 formalizes it). <em>RDF and property graphs</em>: two main technical traditions — RDF (triples, the semantic-web lineage, SPARQL query language) and property graphs (nodes/edges with properties, Cypher query language, Neo4j the famous engine) — you don't need to master either now; know they exist and that property graphs are the more common modern choice for LLM-era knowledge graphs. <em>Knowledge graph vs vector store</em>: not rivals — <em>complements</em> (GraphRAG, Ch 11, uses both: the graph for structure, vectors for semantic entry points). The mature system has both, each doing what it's best at.</p>
+
+<p><strong>The honest costs — why not everything is a graph.</strong> Graphs are powerful and <em>expensive to build well</em>: extracting reliable entities and relations from text is hard (Ch 10 — LLM extraction, error-prone), <em>entity resolution</em> is the crux ("the gate," "HITL approval," "the human check" must resolve to <em>one</em> entity or the graph fragments — Vol 03 Ch 19's hard half), schemas require design and maintenance, and keeping a graph current as knowledge changes (Ch 12) is genuinely hard. For many uses, vector RAG's "pile of chunks" is simpler and sufficient (Vol 03 Ch 19's adoption judgment). Graphs earn their cost when <em>relationships and structure are the value</em> — which, for a wikilinked brain built by someone who thinks in connections, they emphatically are.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: entities, relations, triples.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>See the graph you already have (concept node, concrete): (1) Take five of your linked notes and write out their knowledge as <em>explicit triples</em> — every fact as (subject, predicate, object), every wikilink as a typed relation (not just "links-to" but <em>what kind</em> of link — "depends-on," "part-of," "contrasts-with"). Count how many triples five notes contain — the density will surprise you. (2) Now query your triples by hand: pick a multi-hop question and <em>walk the edges</em> to answer it; pick two distant entities and find the <em>path</em> between them. Feel structure answering what similarity couldn't. (3) Sketch the implicit <em>schema</em> of your brain: what entity types exist (Concept, Build, Tool, Person, Milestone...), what relation types (depends-on, part-of, introduced-in...). This sketch is Ch 13's formalization, started. The triples + the by-hand graph queries + the schema sketch = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Define the triple and its three parts, and why typed relations are the key feature.</li>
+<li>Name four question-types a graph answers that vector search structurally cannot, with an example each.</li>
+<li>Distinguish ontology/schema, RDF vs property graphs, and graph-vs-vector (rivals or complements?).</li>
+<li>Why is entity resolution the crux, and what breaks without it?</li>
+<li>When do graphs earn their cost, and why is your brain an especially strong case?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="graphrag-preview" href="graphrag-preview.html">graphrag-preview</a></p>
+<p><a class="wiki-link" data-node-id="multi-hop-retrieval" href="multi-hop-retrieval.html">multi-hop-retrieval</a></p>
+<p><a class="wiki-link" data-node-id="entity-extraction" href="entity-extraction.html">entity-extraction</a></p>
+<p><a class="wiki-link" data-node-id="brain-as-knowledge-graph" href="brain-as-knowledge-graph.html">brain-as-knowledge-graph</a></p>
+<p><a class="wiki-link" data-node-id="why-rag" href="why-rag.html">why-rag</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

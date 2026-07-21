@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>PII Redaction</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: safety-security</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The node summary is a specific, high-value defense: <strong>scrub personal data before the model sees it.</strong> Personally Identifiable Information — names, emails, phone numbers, SSNs, addresses, card numbers — flowing into a model is a privacy liability (Vol 06 Ch 8), a compliance risk (GDPR/CCPA), and an exfiltration target (the trifecta's "private data," Ch 7). PII redaction is the input guardrail (Ch 11) that removes or masks sensitive personal data <em>before</em> it enters the model's context — reducing what can leak, what's logged in traces (Vol 07 Ch 13), and what an injection could exfiltrate. A small, focused build with outsized privacy and security value.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Why redact before the model.</strong> PII that never enters the context can't be leaked by the model (Vol 01 Ch 10's hallucination-adjacent leakage), can't be stored in traces/logs (Vol 07 Ch 13 — traces contain everything the model saw, a compliance landmine), can't be exfiltrated by an injection (Ch 7 — you can't steal data that isn't there), and can't be remembered inappropriately (Vol 06 Ch 8's never-remember). Redacting at the <em>input boundary</em> is strictly safer than trusting the model not to misuse PII it received — it's the least-data principle (Vol 06 Ch 8) as an active control: the model gets the <em>minimum</em> personal data the task requires, and often the task needs <em>none</em> (you can summarize a document with names masked as <code>[PERSON_1]</code>).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The mechanism — detect, then handle.</strong> <em>Detection</em>: find PII in the input — via patterns (regex for structured PII: emails, phones, SSNs, card numbers have recognizable formats — high precision), NER classifiers (named-entity recognition for names, locations, organizations — the harder, unstructured PII; off-the-shelf tools like Presidio package this), and context (a number near "SSN:" is an SSN). <em>Handling</em> (the policy — choose per use): <em>redaction</em> (remove entirely — <code>[REDACTED]</code>), <em>masking</em> (partial — <code><strong></strong>1234</code> for a card, preserving the last four for reference), <em>tokenization/pseudonymization</em> (replace with a consistent placeholder — <code>[PERSON_1]</code> everywhere that person appears, so the model can still <em>reason</em> about "PERSON_1" coherently without knowing who they are — the cleverest option: preserves utility while removing identity), or <em>hashing</em> (irreversible identifier). The tokenization approach is often best for agents — the model reasons over pseudonyms, and if outputs need real values, you <em>re-hydrate</em> the placeholders on the way out (map <code>[PERSON_1]</code> back to the real name in the final output, outside the model). Detect at input, pseudonymize, reason, re-hydrate at output — the full pattern.</p>
+
+<p><strong>The honest limits (redaction isn't perfect).</strong> <em>Detection recall</em> (Vol 01 Ch 12): you can't redact what you don't detect — novel PII formats, unusual names, PII in unexpected places slip through (a name the NER missed, an ID in a weird format). <em>False positives</em>: over-redaction destroys utility (masking every capitalized word as a "name" makes the text useless). <em>Context loss</em>: aggressive redaction can strip information the task needed (redacting a name that was the point of the query). <em>Re-identification</em>: pseudonymized data can sometimes be re-identified by combining quasi-identifiers (a known privacy-research result — "PERSON_1, a 34-year-old cardiologist in Hyderabad" may be uniquely identifying even without the name). So redaction <em>reduces</em> risk, doesn't eliminate it (the ring's refrain) — it's a layer, measured (Vol 07: what's your detection recall on a PII test set?), tuned for the utility/privacy balance the use demands, and paired with the other controls (least-privilege on who can access un-redacted data, audit on access).</p>
+
+<p><strong>Verification.</strong> A PII test set (text with known PII, hand-labeled — the ground truth, Vol 07 Ch 2): measure detection <em>recall</em> (what fraction of real PII was caught — misses are leaks) and <em>precision</em> (what fraction of redactions were real PII — false positives destroy utility). Test each PII type (structured: email/phone/SSN/card — should be high-recall via patterns; unstructured: names/addresses — harder, NER-dependent). Test the pseudonymize-reason-rehydrate round-trip (does <code>[PERSON_1]</code> consistently map, and re-hydrate correctly?). Test the utility preservation (can the model still do the task on redacted input?). Report recall/precision per PII type — the honest measure of the redactor's protection.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: scrub personal data before the model sees it.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. half a day): a PII redactor (pattern detection for structured PII + an NER tool like Presidio for unstructured + a handling policy — pseudonymization with re-hydration is the richest) → wire it as an input guardrail (Ch 11) before your agent's model calls, and check your traces (Vol 07 Ch 13) now show redacted content → the PII test set with hand-labeled ground truth → measure recall/precision per type → test the round-trip and utility preservation. Then the security connection: this redactor reduces the trifecta's "private data" ingredient (Ch 7) — quantify what an injection could <em>no longer</em> exfiltrate. Tag <code>safety-v0.4</code>. The redactor + the recall/precision by type + the round-trip demo + the trifecta connection = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why redact <em>before</em> the model — name four things input-redaction prevents.</li>
+<li>Recite the detection methods and the handling options, and why is pseudonymization-with-rehydration often best?</li>
+<li>What are the four honest limits of redaction, and what's re-identification?</li>
+<li>Why must detection recall be measured, and what does a miss vs a false-positive each cost?</li>
+<li>How does redaction reduce the trifecta's "private data" ingredient?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="privacy-in-memory" href="privacy-in-memory.html">privacy-in-memory</a></p>
+<p><a class="wiki-link" data-node-id="guardrails-in-out" href="guardrails-in-out.html">guardrails-in-out</a></p>
+<p><a class="wiki-link" data-node-id="lethal-trifecta" href="lethal-trifecta.html">lethal-trifecta</a></p>
+<p><a class="wiki-link" data-node-id="build-tracing-instrumentation" href="build-tracing-instrumentation.html">build-tracing-instrumentation</a></p>
+<p><a class="wiki-link" data-node-id="classical-ml-fundamentals" href="classical-ml-fundamentals.html">classical-ml-fundamentals</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

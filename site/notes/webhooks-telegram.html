@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Webhooks & Telegram</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your system needs to <em>reach you</em> — to notify you when a proposal needs approval, when a job fails, when the briefing is ready. The node summary: <strong>wire a real notification path.</strong> Webhooks are how systems talk to each other in real time (one system pings another's URL when something happens), and Telegram is a dead-simple, free way to get those notifications on your phone. This small build closes a real loop: your agent-lab can now <em>tap you on the shoulder</em> when it needs you or has something for you.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Webhooks — the reverse API call.</strong> A normal API call: <em>you</em> call <em>someone else's</em> server. A webhook: <em>someone else's</em> server calls <em>yours</em> (a URL you register) when an event happens — "when a payment succeeds, POST to this URL," "when a message arrives, POST to this URL." It's the push model (Ch 9's realtime, generalized to cross-system): instead of you polling "did anything happen?" (Ch 13), the other system <em>notifies</em> you the instant it does. Webhooks power most cross-service integration (Stripe → your server on payment, GitHub → your server on push, Telegram → your server on message). Your server exposes a webhook endpoint (a FastAPI route, Ch 1) that receives and handles these event-POSTs.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Telegram as the notification path (the concrete build).</strong> Telegram bots are the easiest real notification channel: create a bot (via BotFather, get a token), and your backend can <em>send</em> you messages (<code>POST</code> to Telegram's API → a message appears on your phone) and <em>receive</em> your messages (Telegram webhooks your endpoint when you message the bot → you can <em>command</em> your agent-lab from your phone). The two directions: <em>outbound</em> (the agent-lab notifies you — "proposal pending approval," "briefing ready," "job failed" — Ch 15's alerting, delivered) and <em>inbound</em> (you command it — "approve the pending proposal," "run the briefing now" — a mobile control surface for your system). For a solo builder, this is a genuinely delightful capability: your agent-lab in your pocket.</p>
+
+<p><strong>The security realities (webhooks are an inbound attack surface — Vol 08 returns).</strong> A webhook endpoint is a <em>public URL anyone can POST to</em> — which means it's an entry point (Vol 08 Ch 1's threat model): <em>verify the sender</em> (webhooks include a signature — verify it, so you only act on genuine Telegram/Stripe events, not an attacker POSTing fake ones — Vol 08 Ch 10's authenticity); <em>validate the payload</em> (Vol 02 Ch 6 — it's untrusted input, Vol 08 Ch 3); <em>rate-limit</em> (Ch 28 — a public endpoint can be flooded); <em>and critically for Telegram-commanding</em> — <em>authenticate the commander</em> (only <em>you</em> should be able to command your agent-lab — verify the Telegram user ID, or an attacker who finds your bot can drive your system; this is authn, Ch 30, on the notification path). A command channel to your agent-lab is a powerful capability and therefore a guarded one (Vol 08 Ch 8's least-privilege — the bot commands only what it should, gated Vol 08 Ch 9).</p>
+
+<p><strong>Verification.</strong> Outbound: your backend sends a Telegram message, it arrives on your phone. Inbound: you message the bot, Telegram webhooks your endpoint, your backend receives and handles it. Security: signature verification rejects a forged webhook; commander-authentication rejects a command from a non-you user; the payload is validated. Test the real loop: the agent creates a proposal → you get a Telegram notification → you reply "approve" → the proposal is approved (the full pocket-control loop).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: wire a real notification path.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. half a day, delightful): a Telegram bot (token via BotFather) → outbound notifications (backend → Telegram → your phone: proposal-pending, job-failed, briefing-ready) → a webhook endpoint (FastAPI, Ch 1) receiving inbound messages → inbound command handling (you → bot → your backend) → <strong>security</strong> (signature verification, commander authentication, payload validation) → test the full loop (proposal → notification → phone-approval → executed). Wire it to the gate (Ch 10, Vol 08 Ch 9) and monitoring (Ch 15). Tag <code>prod-v0.10</code>. The working notification + the pocket-approval demo + the security checks (forged-webhook rejected, non-you-command rejected) = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What is a webhook, and how does it differ from a normal API call (push vs pull)?</li>
+<li>Describe the two Telegram directions (outbound notify, inbound command) and their value.</li>
+<li>Why is a webhook endpoint an attack surface, and what four security measures guard it?</li>
+<li>Why must the Telegram commander be authenticated, and what breaks without it?</li>
+<li>Walk the full pocket-control loop from agent-proposal to phone-approval.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="monitoring-alerting" href="monitoring-alerting.html">monitoring-alerting</a></p>
+<p><a class="wiki-link" data-node-id="build-proposal-gate" href="build-proposal-gate.html">build-proposal-gate</a></p>
+<p><a class="wiki-link" data-node-id="authn-vs-authz" href="authn-vs-authz.html">authn-vs-authz</a></p>
+<p><a class="wiki-link" data-node-id="injection-first-look" href="injection-first-look.html">injection-first-look</a></p>
+<p><a class="wiki-link" data-node-id="build-fastapi-backend" href="build-fastapi-backend.html">build-fastapi-backend</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

@@ -35,17 +35,57 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Hybrid Search & RRF</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: rag-retrieval</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Two scouts searched your library: one hears <em>meaning</em>, one sees <em>exact words</em>. Each returned a ranked list; each is blind where the other is sharp. The naive merge — compare their scores — fails immediately: cosine's 0.83 and BM25's 12.4 live on incommensurable scales; averaging them is adding rupees to kilometers. The elegant fix, and this build's namesake: <strong>ignore scores entirely, fuse the <em>rankings</em>.</strong> Reciprocal Rank Fusion — a formula small enough to memorize in ten seconds and strong enough to run inside serious production search engines.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>RRF, whole and entire.</strong> For each document, sum over every ranked list it appears in:</p>
+<p><strong>RRF(d) = Σ 1/(rank_in_list + k)</strong>, with k ≈ 60 by convention.</p>
+<p>Rank 1 in one list contributes 1/61; rank 5 contributes 1/65; absent contributes 0. Sort by total; done. Why it works, three properties worth internalizing: (1) <em>scale-free</em> — only positions matter, so any two (or five) retrieval systems can fuse without score-normalization gymnastics; (2) <em>consensus-rewarding</em> — a document ranked #3 by both scouts typically beats one ranked #1 by a single scout and invisible to the other, which is exactly the behavior you want when each scout has blind spots; (3) <em>the k constant is a diplomacy dial</em> — it flattens the difference between adjacent ranks (1/61 vs 1/62 is tiny), preventing any single list's #1 from steamrolling the consensus; smaller k = trust top ranks harder, larger k = flatter, more democratic. Convention says 60; your build will test that convention instead of inheriting it.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The build — the spec, per the node summary.</strong> Upgrade your Ch 5 pipeline's <code>retrieve</code> into a three-path engine:</p>
+<ol>
+<li><strong>Semantic path</strong>: your existing cosine top-20 (deliberately deep — fusion wants long lists to find consensus in; you'll truncate <em>after</em> fusing).</li>
+<li><strong>Keyword path</strong>: BM25 top-20 over the same chunks (Ch 6's duel code, promoted to production; apply your stemming-vs-jargon decision here, deliberately, in a comment that explains it).</li>
+<li><strong>Fusion</strong>: <code>rrf_fuse(lists: list[list[ChunkId]], k: int = 60) -&gt; list[Scored]</code> — pure function, no I/O, dead simple, <em>perfectly testable</em>.</li>
+</ol>
+<p>Then <code>retrieve(query, mode="hybrid" | "semantic" | "keyword")</code> — keeping all three modes callable is the point: every future debugging session and Ch 8's benchmark will want to ask "which path found this / missed this?" A retrieval system you can't decompose is a retrieval system you can't debug.</p>
+
+<p><strong>Verification — against test queries, as the node demands.</strong> Your Ch 6 duel table is the seed: those 8 rigged queries, plus 4 new <em>mixed</em> queries (jargon + paraphrase in one question: "how does the checkpointer thing let agents survive crashes?" — queries where <em>neither</em> scout alone suffices and hybrid should shine). For each of the 12: run all three modes, record rank-of-the-correct-chunk under each. Success criteria, stated before running (golden-set discipline, Vol 02 Ch 16): hybrid's correct-chunk rank ≤ the better single mode on ≥10 of 12, and strictly better than <em>both</em> on the mixed queries. Then turn the diplomacy dial: rerun at k=10 and k=200, watch rankings shift, write two sentences on what k trades. Pytest the pure function hard: known toy lists → hand-computed RRF scores; consensus-beats-single-champion case; absent-document handling; k monotonicity.</p>
+
+<p><strong>Two honest footnotes for the note.</strong> Hybrid isn't free: two searches per query (though both are fast and parallelizable — <code>asyncio.gather</code>, Vol 01 Ch 17, if the paths ever grow network calls). And fusion quality is capped by candidate quality — RRF re-orders what the scouts brought; it cannot summon a chunk neither found. Fixing <em>that</em> requires better queries (Ch 13) or a second-pass judge (Ch 9) — the ladder continues.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a hybrid retrieval system merging semantic vector results (using cosine similarity/pgvector) with keyword full-text matches, re-ranked using Reciprocal Rank Fusion (RRF); verify against test search queries.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>The spec is the hands-on: BM25 path → pure <code>rrf_fuse</code> with tests-first (feel how pleasant testing a pure function is — Vol 01 Ch 21's philosophy vindicated) → three-mode retrieve → the 12-query verification table with success criteria written down beforehand → the k experiment → <code>--show-work</code> upgraded to display <em>both paths' ranks plus fused rank</em> per chunk (the inspection window grows with the system — permanent habit) → tag <code>rag-v0.2</code>. The 12×3 table and the k-sentences go in the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why is score-averaging across retrievers broken, and what does RRF use instead?</li>
+<li>Write the RRF formula from memory and walk one document's score through two lists.</li>
+<li>Name the three properties, and explain the diplomacy dial's tradeoff with your k-experiment evidence.</li>
+<li>What can fusion never do, and which two future chapters address that ceiling?</li>
+<li>Why keep all three modes callable forever?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="keyword-fulltext-search" href="keyword-fulltext-search.html">keyword-fulltext-search</a></p>
+<p><a class="wiki-link" data-node-id="build-first-rag" href="build-first-rag.html">build-first-rag</a></p>
+<p><a class="wiki-link" data-node-id="reranking" href="reranking.html">reranking</a></p>
+<p><a class="wiki-link" data-node-id="prompt-quality" href="prompt-quality.html">prompt-quality</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

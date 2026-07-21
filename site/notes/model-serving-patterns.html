@@ -35,17 +35,56 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Model Serving & Latency Tradeoffs</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>A model that works in your notebook is worthless until it <em>serves</em> — until something can send it inputs and get outputs, at the latency, cost, and scale the use demands. The node summary: <strong>batch inference vs real-time REST endpoints vs token streaming; latency, cost, and resource tradeoffs.</strong> How you serve a model is an engineering decision with real consequences, and the right pattern depends entirely on the use case. This chapter is the serving-patterns landscape — the bridge from "the model works" to "the model is a product."</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The three serving patterns — matched to their use cases.</strong></p>
+<ol>
+<li><strong>Batch inference</strong>: process a large set of inputs <em>offline</em>, all at once, results stored for later use. No latency pressure (nobody's waiting in real-time), so you optimize purely for <em>throughput and cost</em> — big batches, cheap compute, run overnight. Use cases: scoring a database of records, generating embeddings for a corpus (Vol 03 Ch 15's ingestion!), nightly report generation, your eval runs (Chs 2-9 — evals are batch inference over a golden set). The Ch 10 build's batch inference was this. Cheapest per-item, highest latency-to-result — perfect when nobody's waiting.</li>
+<li><strong>Real-time REST endpoints</strong>: a request/response API (Vol 02 Ch 18's FastAPI) — send one input, get one output, <em>now</em>, synchronously. Latency matters (a user or system waits), so you optimize for <em>low per-request latency</em> — smaller batches or single-item, warm models, autoscaling. Use cases: interactive apps, an agent's tool call, anything user-facing. Higher cost per item (less batching efficiency), low latency. The workhorse of interactive AI.</li>
+<li><strong>Token streaming</strong>: for generative models specifically (Vol 02 Ch 8 — you built this) — stream tokens as generated rather than waiting for the full response. Doesn't reduce total latency but collapses <em>perceived</em> latency to time-to-first-token (Vol 02 Ch 8's exact lesson). Use cases: any user-facing generation (chat, long answers). It's a serving <em>mode</em> layered on real-time endpoints, not a separate pattern — but a crucial one for UX.</li>
+</ol>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The tradeoff axes — the decision framework.</strong> Every serving choice trades among: <em>latency</em> (how fast a result comes — batch: slow; real-time: fast; streaming: fast-perceived), <em>cost</em> (batch: cheapest via batching efficiency and cheap off-peak compute; real-time: pricier per item; the GPU-utilization question — batch keeps GPUs busy, real-time has idle-then-spike patterns), <em>throughput</em> (batch: highest; real-time: limited by concurrency), and <em>resource/scaling</em> (real-time needs autoscaling for traffic spikes — Vol 02 Ch 10's rate limits, from the serving side now; batch runs on scheduled fixed resources). The engineer's job: match the pattern to the use case's actual requirements — using a real-time endpoint for a nightly batch job wastes money (paying for low-latency you don't need); using batch for a user-facing feature fails the UX (users won't wait for the overnight run).</p>
+
+<p><strong>LLM-specific serving realities (bridging to your world).</strong> For LLMs, serving is often <em>someone else's problem</em> (you call an API — Vol 02 Ch 1 — the provider serves the model; your gateway, Vol 02 Ch 11, is your serving-side abstraction over their endpoints). But the patterns still shape <em>your</em> architecture: <em>batch</em> your embedding generation and eval runs (cheap, no rush — Vol 03 Ch 15); use <em>real-time</em> for user requests; <em>stream</em> user-facing generation. And when you self-host (open-weights, Vol 01 Ch 11), <em>you</em> become the server, and these patterns plus serving frameworks (vLLM and kin — the throughput-optimized LLM servers) are your concern directly — batching strategies, KV-cache management, GPU utilization become <em>your</em> tradeoffs. Knowing the patterns means you can architect serving whether you're calling an API or running the metal.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Batch inference vs real-time REST endpoints vs token streaming; latency, cost, and resource tradeoffs.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Map serving to your systems (concept node, concrete): (1) Classify every inference in your six rings of builds by serving pattern: your embedding generation (batch), your agent's LLM calls (real-time), your brain-chat's responses (real-time + streaming), your eval runs (batch) — and for each, note the latency/cost/throughput requirement that dictates the pattern. (2) The mismatch hunt: find one place you <em>could</em> optimize by changing serving pattern (are you making real-time calls for something that could be batched? e.g., pre-computing embeddings vs on-demand). (3) The self-hosting thought experiment: if you had to self-serve your brain-chat's LLM (open-weights), sketch the serving architecture — batch vs real-time, streaming, the resource tradeoffs. The serving-pattern map + the optimization opportunity + the self-hosting sketch = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the three serving patterns and the use case + optimization target of each.</li>
+<li>Why is token streaming a mode rather than a separate pattern, and what does it optimize?</li>
+<li>Recite the four tradeoff axes, and give a mismatch example (wrong pattern for the use).</li>
+<li>For LLM API users, how do serving patterns still shape architecture?</li>
+<li>What becomes your concern when you self-host, and what tooling addresses it?</li>
+</ol>
+<hr>
+<h1 id="part-iii-seeing-inside">PART III — SEEING INSIDE</h1>
+<p><em>5 chapters. Observability: tracing what your agents actually do, reading traces to debug, scoring production traffic, A/B-testing prompts, and dashboarding the money and the milliseconds.</em></p>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="streaming-responses" href="streaming-responses.html">streaming-responses</a></p>
+<p><a class="wiki-link" data-node-id="build-gateway" href="build-gateway.html">build-gateway</a></p>
+<p><a class="wiki-link" data-node-id="rate-limits-caching" href="rate-limits-caching.html">rate-limits-caching</a></p>
+<p><a class="wiki-link" data-node-id="ingestion-pipelines" href="ingestion-pipelines.html">ingestion-pipelines</a></p>
+<p><a class="wiki-link" data-node-id="model-landscape" href="model-landscape.html">model-landscape</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

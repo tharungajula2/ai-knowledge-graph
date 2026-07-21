@@ -35,17 +35,40 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Synthesis: The Memory Stack</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: memory-knowledge</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
-
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+          <h2 id="eli5">ELI5</h2>
+<p>The node summary sets the task: a <strong>deep-dive review and architecture diagram of the full multi-tier agent memory stack</strong> — the whole ring rendered as one layered picture, from the context window's volatile "now" down through session checkpoints to the durable typed store and the knowledge graph, with the traffic (extract, retrieve, decay, compact) flowing across every boundary. When you can draw this cold, you own how AI systems <em>remember</em> — the capability that turns tools into colleagues.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p>Memory is the engineering of the <em>store</em> — everything outside the context window (Vol 01 Ch 8) that an agent can retrieve later [2]. It starts with a <em>taxonomy</em>: not one memory but three — semantic facts, episodic events, procedural skills — each with its own lifecycle, stored in typed tables [1]. Information flows across a <strong>stack of tiers</strong>: the volatile context (working memory, the scratchpad — Vol 04 Ch 13), the session checkpoint (short-term — Vol 04 Ch 6), the durable store (long-term — this ring), and sometimes shared memory [2] — with salient bits <em>extracted</em> on the way out (judged against durability, generality, non-redundancy, and a privacy filter [3, 8]) and relevant memories <em>retrieved</em> on the way in, scored not by similarity alone but by <strong>importance + recency + usage</strong>, with old memories <em>decaying</em> by design because the goal is optimal relevance, not maximal recall [4]. The store stays sharp through <em>compaction</em> — merging specifics into generalizations, the same detail-for-compactness trade seen at three scales [6] — and honest through <em>temporal awareness</em>: facts carry validity intervals, changes reconcile by invalidate-and-append, and "what was true when" becomes answerable [12]. Applied to a person, this is <em>personalization</em> — an assistant that knows your facts, history, and working style [7] — bounded always by <em>privacy</em>: what should never be remembered, the right to be forgotten, memory-as-friend-not-surveillance [8]. And knowledge itself gets a better shape: not a pile but a <strong>graph</strong> — entities and typed relations as triples [9], extracted from notes with entity resolution as the crux [10], enabling <strong>GraphRAG</strong> — community summaries for global questions, graph walks for relational ones — where vector search structurally fails [11], all made temporal [12] and, at last, turned inward: your own wikilinked brain <em>formalized</em> as the knowledge graph it always was [13]. It ships as a <strong>memory layer</strong> that turns your stateless research agent into a colleague that learns [14], a <strong>link-suggester</strong> enriching the graph with typed edges [15], a <strong>self-critical reviewer</strong> auditing your knowledge for structural gaps and intellectual honesty [16], and a <strong>recall agent</strong> that answers "what did I learn?" — grounded, node-cited, across time — the brain interrogating its own growth [17].</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: deep-dive review and architecture diagram of the full multi-tier agent memory stack.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Three renditions, the ritual: <strong>(a)</strong> The narration, written, ≤700 words, your words, every node present and load-bearing. <strong>(b)</strong> The architecture diagram — the node's literal demand: the multi-tier stack drawn vertically (context → session → long-term store → knowledge graph), with the <em>traffic</em> as labeled arrows crossing every boundary (extract downward, retrieve upward, decay/compact within the store, reconcile across time), the three memory types as columns in the store tier, and the knowledge graph as the store's structured form with GraphRAG's query-routing beside it. Photograph into the note. <strong>(c)</strong> The 90-second spoken version — its interview home: <em>"how would you give an AI agent long-term memory?"</em> — a question that trips most candidates into "just use a vector database," where your layered, typed, decaying, privacy-bounded, graph-shaped answer marks you as someone who's actually built it. Record, critique, re-record.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Deliver the 90-second version cold.</li>
+<li>Trace one fact's life: extracted from a conversation → stored typed → retrieved by blended score → decayed → compacted → invalidated when it changes. Name every mechanism and chapter.</li>
+<li>Draw the four-tier stack with the traffic arrows from memory.</li>
+<li>Place the three memory types and the graph's role on your diagram from memory.</li>
+<li>Draw the full memory stack from memory.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="synthesis-memory" href="synthesis-memory.html">synthesis-memory</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

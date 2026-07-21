@@ -35,17 +35,67 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Structured Output</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: prompting-apis</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your code needs <code>{"sentiment": "negative"}</code>. The model offers: "Great question! After careful analysis, I'd say the sentiment leans negative. 😊" — useless to a parser. The gap between <em>chat</em> and <em>software component</em> closes exactly here: <strong>forcing models to emit machine-readable JSON, and parsing it defensively.</strong> This build is small and utterly load-bearing — every agent, every pipeline, every tool call in your future is structured output wearing different clothes.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The escalation ladder, weakest to strongest:</strong></p>
+<ol>
+<li><em>Ask nicely</em> — FORMAT bone: "Respond with only a JSON object, no prose, no code fences." Works ~90% at temperature 0. The famous failure: replies wrapped in ``<code>json fences, or a cheerful "Here's your JSON:" preamble.</li>
+<li><em>Ask + demonstrate</em> — add a few-shot example of exact desired output (Ch 4 pins format hard). Also: temperature 0 for extraction, per Vol 01 Ch 9's settings table.</li>
+<li><em>Prefill</em> — start the assistant turn with </code>{<code> (Ch 2's trick); the model continues the JSON it "already started." Kills preambles dead.</li>
+<li><em>Native structured output / JSON mode</em> — the real solution: modern APIs accept a <strong>JSON Schema</strong> and enforce it during generation (Gemini: </code>response_mime_type="application/json"<code> + </code>response_schema<code>; other providers have equivalents — constrained decoding masks invalid tokens at sampling time, so output <em>cannot</em> violate the schema). And where does a schema come from? <strong>Your Pydantic model</strong> — </code>model_json_schema()<code> — exactly as promised in Vol 01, Ch 18. The SDKs even accept Pydantic classes directly. Define shape once: it documents your code, validates your data, and constrains the model. One schema, three jobs.</li>
+</ol>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Parse defensively anyway — the law of the boundary.</strong> Even with native modes, the model boundary is an <em>untrusted input</em> boundary (values can be wrong even when shape is right; older paths and fallback providers may not enforce). The professional pattern, memorize it as a shape:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">def</span> <span class="tok-fn">extract</span>((text: <span class="tok-builtin">str</span>, retries: <span class="tok-builtin">int</span> = <span class="tok-num">2</span>) <span class="tok-op">-&gt;</span> <span class="tok-type">Review</span> | <span class="tok-kw">None</span>:
+    <span class="tok-kw">for</span> attempt <span class="tok-kw">in</span> <span class="tok-builtin">range</span>(retries + <span class="tok-num">1</span>):
+        raw = <span class="tok-fn">call_model</span>((<span class="tok-type">EXTRACT_PROMPT</span>, text)
+        cleaned = <span class="tok-fn">strip_code_fences</span>((raw)             <span class="tok-comment"># tolerate the classic failure</span>
+        <span class="tok-kw">try</span>:
+            <span class="tok-kw">return</span> <span class="tok-type">Review</span>.<span class="tok-fn">model_validate_json</span>((cleaned)   <span class="tok-comment"># Pydantic = the bouncer</span>
+        <span class="tok-kw">except</span> <span class="tok-type">ValidationError</span> <span class="tok-kw">as</span> e:
+            text_feedback = <span class="tok-str">f"Your last reply failed validation: {e}. Reply with ONLY corrected JSON."</span>
+            raw = <span class="tok-fn">call_model</span>((<span class="tok-type">EXTRACT_PROMPT</span> + text_feedback, text)   <span class="tok-comment"># self-repair loop</span>
+    <span class="tok-kw">return</span> <span class="tok-kw">None</span>                                       <span class="tok-comment"># explicit failure &gt; silent garbage</span></code></pre>
+      </div>
+<p>Validate → on failure, <em>show the model its own error</em> and let it repair → cap retries → fail loudly. This validate-and-repair loop is a pattern you will write a hundred times; agents (Domain 04) are this loop with verbs.</p>
+
+<p><strong>Schema design tips that raise hit-rate:</strong> flat beats deeply nested; enums for closed choices (</code>"sentiment": "positive"|"neutral"|"negative"<code> — constrains better than free strings); </code>null<code> allowed for absent data with a "do not guess" instruction (Ch 3's anti-hallucination clause); field <em>descriptions</em> in the schema — the model reads them as instructions.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: force clean JSON out of a model; parse safely.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build </code>extractor.py<code>: a Pydantic </code>Review<code> model (product: str, sentiment: enum, complaint: str|None, rating_guess: int 1–5 with </code>Field(ge=1, le=5)<code>). Feed it 6 messy real-world-ish reviews (include one in Hinglish, one with no product named, one that's spam). Implement the full defensive ladder: rung-1 prompt first — record its failure rate; then native schema mode; then the validate-and-repair loop with </code>strip_code_fences<code>. Deliberately break it: ask for rating 7 in a review, watch Pydantic catch it, watch the repair loop fix it. Tests (Vol 01, Ch 21): happy path, null-field case, and a </code>pytest.raises`/returns-None case. Green = lit.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Recite the escalation ladder and what each rung fixes.</li>
+<li>How does constrained decoding make invalid JSON <em>impossible</em> — at what stage of generation does it act?</li>
+<li>One Pydantic model, three jobs — name them.</li>
+<li>Write the validate-and-repair loop's steps from memory, including why it caps retries and fails loudly.</li>
+<li>Four schema-design tips and the failure each prevents.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="python-typing-pydantic" href="python-typing-pydantic.html">python-typing-pydantic</a></p>
+<p><a class="wiki-link" data-node-id="sampling-controls" href="sampling-controls.html">sampling-controls</a></p>
+<p><a class="wiki-link" data-node-id="few-shot-prompting" href="few-shot-prompting.html">few-shot-prompting</a></p>
+<p><a class="wiki-link" data-node-id="tool-calling" href="tool-calling.html">tool-calling</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

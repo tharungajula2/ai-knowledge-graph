@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Migration Runner & Pool</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your database schema will change — you'll add a table, a column, an index, as your system grows. The node summary: <strong>build a schema migration runner that connects to PostgreSQL, manages transaction safety, runs sequential SQL migrations, and exposes database pooling; verify with a clean database reset.</strong> How do you change a <em>live</em> database's structure without losing data or breaking the running app? Migrations. And how do you handle many concurrent database connections efficiently? Pooling. This build is the database-operations foundation everything persistent depends on.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Migrations — versioned schema change.</strong> Your database has a <em>schema</em> (tables, columns, indexes — Vol 03 Ch 4's pgvector schema, Vol 06's memory tables, Vol 08's audit tables — you have many now), and it <em>evolves</em>. A <strong>migration</strong> is a versioned, sequential change to the schema — "migration 003 adds the <code>memories</code> table," "migration 004 adds an index." The runner applies migrations <em>in order</em>, tracks <em>which have been applied</em> (a <code>migrations</code> table recording version + timestamp), and applies only the <em>new</em> ones. This is Git-for-your-schema (Vol 01 Ch 19's versioning intuition, for database structure): your schema's history is a sequence of migrations, reproducible on any database (a fresh dev DB, staging, production — all reach the same schema by running the same migrations in order). Without migrations, schema changes are manual, unversioned, error-prone chaos; with them, schema is code (versioned, reviewed, tested, reproducible).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Transaction safety — the critical correctness property.</strong> A migration that half-applies (added the table but failed on the index) leaves the database in a <em>broken, inconsistent</em> state — catastrophic in production. The fix: run each migration in a <strong>transaction</strong> (Vol 08 Ch 10's atomicity, now for schema) — either the whole migration succeeds and commits, or <em>any</em> failure rolls back the entire migration, leaving the schema untouched. All-or-nothing. This is why the runner "manages transaction safety" — a migration is atomic, so a failed migration is a <em>no-op</em> you can fix and retry, never a half-broken schema you must manually untangle at 3am. (Caveat: some operations can't run in transactions in all databases — the runner handles those specially.)</p>
+
+<p><strong>Connection pooling — the efficiency foundation.</strong> Opening a database connection is <em>expensive</em> (a network handshake, auth — tens of milliseconds), and a web server handling many requests can't open a fresh connection per request (it would be slow and would exhaust the database's connection limit). A <strong>connection pool</strong> maintains a set of <em>reusable</em> open connections: a request <em>borrows</em> a connection from the pool, uses it, <em>returns</em> it (doesn't close it) — the next request reuses it. The pool bounds the total connections (protecting the database — Vol 02 Ch 10's limits, database side) and eliminates per-request connection overhead (the latency win). Your FastAPI app (Ch 1's lifespan) opens the pool at startup, and every endpoint borrows from it. Pooling is invisible when it works and catastrophic when it's missing (connection exhaustion, the classic production database outage).</p>
+
+<p><strong>Verification — clean database reset, per the node.</strong> The runner can <em>reset</em> a database to a clean state and re-apply all migrations from scratch (proving migrations are complete and ordered — a fresh DB reaches the full current schema). Assert: migrations apply in order; the migrations-tracking table records correctly; re-running is idempotent (already-applied migrations skip — Vol 08 Ch 10's exactly-once, for schema); a <em>failing</em> migration rolls back atomically (inject a bad migration, confirm the schema is untouched); and the clean-reset reproduces the exact schema (the reproducibility test — Vol 07 Ch 11). Plus the pool: concurrent requests correctly borrow/return connections without exhaustion.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a schema migration runner that connects to PostgreSQL, manages transaction safety, runs sequential SQL migrations, and exposes database pooling; verify with a clean database reset.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1-1.5 days): the migration runner (sequential SQL migrations, a tracking table, apply-only-new logic) → transaction-wrapped application (atomic, rollback on failure) → connection pooling (open at app startup, borrow/return per request) → the clean-reset capability → tests (ordered application, idempotent re-run, atomic rollback on a bad migration, clean-reset reproducibility, concurrent pooling). Wire it to hold your real schemas (pgvector Vol 03, memory Vol 06, audit Vol 08). This is RESURRECTION infrastructure (Ch 34). Tag <code>prod-v0.3</code>. The migration runner + the atomic-rollback demo + the clean-reset reproducibility + the pooling test = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What is a migration, and why is schema-as-versioned-migrations better than manual changes?</li>
+<li>Why must migrations be transactional — what's the disaster a half-applied migration causes?</li>
+<li>Explain connection pooling — what does it eliminate and what does it protect?</li>
+<li>Why is connection exhaustion a classic production outage, and how does pooling prevent it?</li>
+<li>What does the clean-reset test prove, and how is it a reproducibility check?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-idempotency-audit" href="build-idempotency-audit.html">build-idempotency-audit</a></p>
+<p><a class="wiki-link" data-node-id="vector-databases" href="vector-databases.html">vector-databases</a></p>
+<p><a class="wiki-link" data-node-id="git-mastery" href="git-mastery.html">git-mastery</a></p>
+<p><a class="wiki-link" data-node-id="data-versioning-reproducibility" href="data-versioning-reproducibility.html">data-versioning-reproducibility</a></p>
+<p><a class="wiki-link" data-node-id="build-fastapi-backend" href="build-fastapi-backend.html">build-fastapi-backend</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

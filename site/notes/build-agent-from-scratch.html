@@ -35,17 +35,80 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Agent From Scratch</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: agents</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The node summary is a manifesto: <strong>pure-Python manual ReAct loop — raw prompt formatting, regex tool-calling parsing, tool dispatch execution loop — verified with 5 mock tasks.</strong> No LangGraph, no framework, not even the provider's native tool-calling API. You will format the ReAct prompt yourself, parse the model's text yourself with regex, dispatch to tools yourself, and run the loop yourself — because after this build, every agent framework on Earth is a convenience over a machine you have personally assembled, and its abstractions will never once be magic to you. This is the curriculum's central pattern (Vol 03 built RAG bare-handed before naming frameworks) applied to its most important subject.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The system prompt — the agent's constitution.</strong> Hand-formatted, no SDK sugar: the persona and goal framing, the ReAct format specification (exactly Ch 2's grammar, stated as law), the tool catalog <em>rendered as text</em> — you write the renderer: <code>render_tools(tools) -&gt; str</code> producing name, description, and JSON parameter spec per tool (Ch 3's four organs, serialized — and note what you're doing: this is what provider tool-calling APIs do server-side; you're building the visible version) — and the closing laws: "one Action per turn", "Action Input must be valid JSON", "use Final Answer only when the goal is fully met."</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The parser — regex meets reality.</strong> The model returns text; you extract structure:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-type">ACTION_RE</span> = re.<span class="tok-fn">compile</span>((r<span class="tok-str">"Action:\s*(\w+)\s*\nAction Input:\s*(\{.*?\})"</span>, re.<span class="tok-type">DOTALL</span>)
+<span class="tok-type">FINAL_RE</span>  = re.<span class="tok-fn">compile</span>((r<span class="tok-str">"Final Answer:\s*(.*)"</span>, re.<span class="tok-type">DOTALL</span>)
+
+<span class="tok-kw">class</span> <span class="tok-fn">Step</span>((<span class="tok-type">BaseModel</span>):        <span class="tok-comment"># parse result, validated at the boundary — always</span>
+    kind: <span class="tok-type">Literal</span>[<span class="tok-str">"action"</span>, <span class="tok-str">"final"</span>, <span class="tok-str">"malformed"</span>]
+    tool: <span class="tok-builtin">str</span> | <span class="tok-kw">None</span> = <span class="tok-kw">None</span>
+    args: <span class="tok-builtin">dict</span> | <span class="tok-kw">None</span> = <span class="tok-kw">None</span>
+    text: <span class="tok-builtin">str</span> | <span class="tok-kw">None</span> = <span class="tok-kw">None</span></code></pre>
+      </div>
+<p>And here is the build's designed lesson, so meet it with a smile: <strong>the parser will fail</strong>, because the model <em>will</em> freestyle — malformed JSON in Action Input, two actions in one turn, prose before the Action line, a hallucinated tool name. Each failure gets the repair treatment you've drilled since Vol 02 Ch 6: the malformed output goes back into the loop as a corrective observation (<code>Observation: your last response was malformed: [reason]. Follow the format exactly.</code>) with a bounded retry. By hour two you will understand, in your bones, <em>why</em> native tool-calling APIs and constrained decoding exist — you'll have re-derived the problem they solve. That earned understanding is the node's real payload.</p>
+
+<p><strong>The loop — the whole machine, one function:</strong></p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">def</span> <span class="tok-fn">run</span>((goal: <span class="tok-builtin">str</span>, tools: <span class="tok-builtin">dict</span>[<span class="tok-builtin">str</span>, <span class="tok-type">Tool</span>], max_steps: <span class="tok-builtin">int</span> = <span class="tok-num">10</span>) <span class="tok-op">-&gt;</span> <span class="tok-type">RunResult</span>:
+    transcript = [<span class="tok-fn">system_prompt</span>((tools), <span class="tok-str">f"Task: {goal}"</span>]
+    <span class="tok-kw">for</span> step_n <span class="tok-kw">in</span> <span class="tok-builtin">range</span>(max_steps):
+        raw = gateway.<span class="tok-fn">complete</span>((transcript, stop=[<span class="tok-str">"Observation:"</span>])   <span class="tok-comment"># CRITICAL — see below</span>
+        step = <span class="tok-fn">parse</span>((raw)
+        <span class="tok-kw">if</span> step.kind == <span class="tok-str">"final"</span>:
+            <span class="tok-kw">return</span> <span class="tok-fn">RunResult</span>((answer=step.text, steps=step_n, transcript=transcript)
+        obs = <span class="tok-fn">dispatch</span>((step, tools)          <span class="tok-comment"># execute, or produce the corrective/error observation</span>
+        transcript.<span class="tok-fn">append</span>((raw); transcript.<span class="tok-fn">append</span>((<span class="tok-str">f"Observation: {obs}"</span>)
+    <span class="tok-kw">return</span> <span class="tok-fn">RunResult</span>((answer=<span class="tok-kw">None</span>, terminated=<span class="tok-str">"max_steps"</span>, transcript=transcript)</code></pre>
+      </div>
+<p>Three details that separate working from broken, each a lesson: (1) <strong>the stop sequence</strong> — you must halt generation at <code>Observation:</code> or the model will <em>hallucinate its own tool results</em> and sail on in a private fantasy (run it once without the stop, on purpose, and watch — the most instructive bug in the volume); (2) <strong>dispatch validates args</strong> against the tool's Pydantic model before executing (boundary law — the model's JSON is untrusted input), returning validation errors as observations (Ch 3's legible-error rule); (3) <strong>max_steps is not optional</strong> — it's the crude ancestor of Ch 17's budgets and the only thing standing between you and an infinite loop on day one.</p>
+
+<p><strong>Verification — 5 mock tasks, per the node.</strong> Mock tools (scripted returns — your Vol 02 Ch 11 fake-provider pattern, now for tools) so tests are deterministic and free: (1) <em>single-tool task</em> — resolves in one action + final; (2) <em>chained task</em> — tool B's input needs tool A's output (the multi-hop shape); (3) <em>error-recovery task</em> — first tool call returns an error observation; agent must adapt and still succeed; (4) <em>malformed-output task</em> — a mock <em>gateway</em> returns a broken response once, then a good one; the repair path must catch and recover; (5) <em>termination-honesty task</em> — a goal the tools cannot satisfy; the agent must conclude honestly (or hit max_steps gracefully) rather than fabricate. Pytest asserts on: final answers, step counts within bounds, specific tools called in order, and transcript shape. Five green = lit.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a pure-Python manual ReAct loop handling raw prompt formatting, regex tool-calling parsing, and a tool dispatch execution loop; verify with 5 mock tasks.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1–2 honest days): system-prompt renderer → parser with tests-first on canned model outputs (pure function, pleasant — Vol 01 Ch 21) → dispatch → loop → the five mock tasks → then the ceremony: <strong>replay Ch 2's Run 1 task with real tools</strong> and diff the machine's transcript against your own paper transcript — where did it reason better, worse, differently? One paragraph on the diff. Then the deliberate bugs, each witnessed once: no stop-sequence (fantasy observations), no max_steps with an impossible goal (the loop that never ends — kill it manually, feel the fear Ch 16 formalizes). Tag <code>agent-v0.1</code>. Keep this codebase warm: Part II rebuilds it in LangGraph, and the comparison is the point.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why build below even the native tool-calling API? What does the regex layer teach that the SDK hides?</li>
+<li>What happens without the stop sequence, and why is that failure so instructive?</li>
+<li>Walk the malformed-output repair path and name its Vol 02 ancestor.</li>
+<li>Recite the five mock tasks and what distinct property each verifies.</li>
+<li>From your diff ceremony: one place the machine out-reasoned your paper run, and one place it did worse.</li>
+</ol>
+<hr>
+<h1 id="part-ii-langgraph-amp-patterns">PART II — LANGGRAPH &amp; PATTERNS</h1>
+<p><em>9 chapters. The bare loop was one while-loop; real agent systems are graphs — with state, persistence, pause points, planning patterns, self-critique, and agents made of agents. The framework arrives — and because of Chapter 4, it arrives as convenience, never as magic.</em></p>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="react-by-hand" href="react-by-hand.html">react-by-hand</a></p>
+<p><a class="wiki-link" data-node-id="designing-tools" href="designing-tools.html">designing-tools</a></p>
+<p><a class="wiki-link" data-node-id="tool-calling" href="tool-calling.html">tool-calling</a></p>
+<p><a class="wiki-link" data-node-id="structured-output" href="structured-output.html">structured-output</a></p>
+<p><a class="wiki-link" data-node-id="build-gateway" href="build-gateway.html">build-gateway</a></p>
+<p><a class="wiki-link" data-node-id="langgraph-state" href="langgraph-state.html">langgraph-state</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

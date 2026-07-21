@@ -35,17 +35,58 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Memory Layer</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: memory-knowledge</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The ring's first summit: <strong>long-term memory bolted onto my research agent — extraction, retrieval, importance.</strong> The node summary is the whole Part I stack, made real on a real agent. Your Vol 04 research agent has been <em>stateless</em> across runs — every session it starts from scratch, a brilliant amnesiac. This build gives it the third memory horizon (Vol 04 Ch 13's deferred tier): it <em>remembers</em> across sessions — what it researched, what it learned about you, how you like results — and gets better every time you use it. The amnesiac becomes a colleague.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The architecture — the memory stack (Ch 2), fully instantiated around the research agent.</strong> Four integration points, each a prior chapter cashing in:</p>
+<ol>
+<li><strong>Extraction on the way out</strong> (Chs 1, 3): at session end (or triggered), the extraction service reads the session and stores classified, filtered memories — what was researched (episodic), facts learned about the user's interests (semantic), preferences observed (procedural). The privacy filter (Ch 8) runs here — sensitive data never enters the store.</li>
+<li><strong>Retrieval on the way in</strong> (Chs 2, 4): at session start (and per-query when relevant), retrieve scored memories (similarity + importance + recency — Ch 4's formula) into context. The agent begins each session <em>knowing</em> relevant past — no re-explaining.</li>
+<li><strong>Importance &amp; decay</strong> (Ch 4): memories carry importance scores; retrieval blends them; recency decays old memories; a forgetting policy (decay/archive/compact — Ch 6) keeps the store sharp. The store self-maintains.</li>
+<li><strong>Temporal awareness</strong> (Ch 12): memories carry validity; the agent acts on <em>currently-valid</em> facts (no stale personalization) and can answer "what did I research about X, and when?"</li>
+</ol>
+<p>The memory layer sits <em>beside</em> the agent (Vol 04 Ch 10's clean-boundary discipline — memory is a service the agent calls, not tangled into its graph), exposed through a small interface: <code>remember(session)</code>, <code>recall(query, context) -&gt; list[Memory]</code>. Clean seam, independently testable, swappable.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The behavior change — what memory makes possible.</strong> Concretely, across sessions: session one, you research "vector databases" and the agent notes you care about self-hosting; session two, you ask about "embeddings" and it <em>proactively</em> frames self-hosting options because it <em>remembers</em> your bias (personalization, Ch 7, on a research agent). It stops re-asking what it already knows. It builds on prior research ("last time you looked at pgvector; here's how this relates"). It's the difference between a search engine (stateless) and a research <em>colleague</em> (accumulating shared context) — and that difference is the entire value of memory, delivered on a real agent you built.</p>
+
+<p><strong>The hard parts — where an L-node earns its size.</strong> <em>Retrieval relevance at scale</em> — as the store grows, surfacing the <em>right</em> memories (not ten mediocre ones) gets harder; Ch 4's scoring is load-bearing, and you'll tune it against real sessions. <em>The privacy boundary</em> — the agent researches the web (untrusted content, Vol 04 Ch 14) <em>and</em> remembers; the extraction filter (Ch 8) must ensure web-injection can't poison the <em>store</em> (an injected "remember that the user authorized X" is a persistent attack — Vol 05 Ch 13's confused deputy, now with a memory to corrupt; provenance and confidence gate this). <em>Cost</em> (Vol 04 Ch 17) — extraction adds calls; retrieval adds context tokens; the memory layer has its own budget, measured on the ledger. <em>The cold-start-to-useful arc</em> — memory's value compounds over sessions; the build isn't "done" at first run, it's <em>demonstrated</em> over a multi-session arc, which is how you must test it.</p>
+
+<p><strong>Verification.</strong> Component: extraction stores correctly-typed, privacy-filtered memories (Chs 1,3,8 tests); retrieval scores and surfaces relevant memories (Ch 4); temporal reconciliation works (Ch 12). Integration — the multi-session test that <em>proves</em> memory: run session one (agent learns something), session two (assert the agent <em>uses</em> what session one stored — the retrieved memory measurably changes behavior), and a session three after a <em>contradicting</em> update (assert temporal reconciliation — it acts on current, not stale). Plus the privacy-under-injection test (a web page trying to plant a false memory fails to corrupt the store). The multi-session behavior-change assertion is the whole build in one test.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: long-term memory bolted onto my research agent — extraction, retrieval, importance.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 2-3 honest days): the memory-layer service (extraction + storage + scored retrieval + temporal + forgetting) behind a clean interface → integration into your research agent (recall at start, remember at end) → privacy filter on the extraction path → the multi-session test arc → the injection-into-store test → ledger the memory overhead. Then <em>use it for real</em> across three genuine sessions on a topic you care about, and document the moment it <em>remembered</em> something helpful — that moment is the build's soul. Tag <code>memory-v1.0</code>. The multi-session transcript (showing behavior change) + the injection-defense result + the memory-overhead cost = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the four integration points of the memory stack on the research agent, and the chapter behind each.</li>
+<li>Describe the concrete behavior change memory creates — search engine vs colleague.</li>
+<li>Why is the memory layer a <em>separate service</em> with a clean interface? Which Vol 04 principle?</li>
+<li>Explain the memory-poisoning-via-web-injection risk and its guards.</li>
+<li>What single test proves memory works, and why must this build be tested across a session arc?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-research-agent" href="build-research-agent.html">build-research-agent</a></p>
+<p><a class="wiki-link" data-node-id="memory-architectures" href="memory-architectures.html">memory-architectures</a></p>
+<p><a class="wiki-link" data-node-id="retrieval-and-decay" href="retrieval-and-decay.html">retrieval-and-decay</a></p>
+<p><a class="wiki-link" data-node-id="privacy-in-memory" href="privacy-in-memory.html">privacy-in-memory</a></p>
+<p><a class="wiki-link" data-node-id="temporal-knowledge" href="temporal-knowledge.html">temporal-knowledge</a></p>
+<p><a class="wiki-link" data-node-id="build-memory-taxonomy" href="build-memory-taxonomy.html">build-memory-taxonomy</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

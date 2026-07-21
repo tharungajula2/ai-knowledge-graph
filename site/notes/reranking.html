@@ -35,17 +35,47 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Reranking</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: rag-retrieval</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Hiring: you don't deep-interview all 500 applicants — you skim resumes to a shortlist of 20, <em>then</em> interview those carefully. Retrieval so far has been resume-skimming: fast, cheap, over the whole corpus, and only roughly right. <strong>Reranking is the interview</strong>: a second, slower, smarter model that takes the shortlist and re-orders it properly. The node summary calls it the second pass that fixes retrieval quality — and the reason it can fix what the first pass can't is an architectural distinction worth owning cold.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Bi-encoder vs cross-encoder — the distinction that explains everything.</strong> Your retrieval embeddings are a <strong>bi-encoder</strong>: query and document embedded <em>separately</em> (documents at ingestion, query at question time — they never meet), compared only afterward by cosine. That separation is precisely what makes million-scale search possible (documents pre-computed once) — and precisely what caps quality: each side is compressed to a single vector <em>with no knowledge of the other</em>; nuance about <em>this query against this document</em> is unrepresentable. A <strong>cross-encoder</strong> feeds query and document <em>together</em> into one transformer — full attention between every query token and every document token (Vol 01 Ch 6, earning its keep again) — and outputs one relevance score. It can see that the document mentions your exact identifier, answers the question's specific angle rather than its general topic, or merely name-drops the subject in passing. Dramatically better judgments — at a cost that forbids first-pass use: it must run <em>per query-document pair</em>, so scoring a million documents means a million transformer passes. Hence the two-stage architecture the whole industry converged on: <strong>bi-encoder (or hybrid, Ch 7) casts a wide cheap net over everything → cross-encoder deep-reads the top 20–50 → final top-k goes to the LLM.</strong> Recall first, precision second — and notice those are exactly Vol 01 Ch 12's words: stage one is engineered for high recall (don't miss the answer), stage two for precision (rank it first).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Where rerankers earn their latency.</strong> They fix: <em>near-miss ordering</em> (right chunk retrieved at rank 7, and rank 7 doesn't fit your top-4 prompt — the reranker promotes it; recall from Ch 5's inspection that "retrieved but badly ranked" was a whole failure category); <em>topical-but-useless</em> results (mentions your subject, answers nothing — cross-attention detects the difference); <em>fusion ties</em> (RRF consensus produces close calls; the interview breaks them with actual reading). They cannot fix: <strong>what the net never caught</strong> — reranking is re-ordering, and Ch 7's ceiling theorem applies with full force: no interview saves a candidate who never applied. Widen the net (retrieve 50 to rerank, not 10), fix queries (Ch 13), or fix chunks (Ch 3) for that. Practical menu, axes not brands: local open cross-encoders via <code>sentence-transformers</code> (<code>CrossEncoder</code> class — free, private, milliseconds-per-pair on CPU for small models), hosted reranker APIs (stronger, per-call cost), and LLM-as-reranker (prompt your gateway: "score each passage's relevance 0–10" — flexible, slowest, priciest; fine for experiments, rarely first choice in production; and note it's Vol 02 Ch 16's LLM-as-judge wearing a retrieval hat, biases included).</p>
+
+<p><strong>The knobs:</strong> how many to rerank (20–50 is the sweet spot — deep enough to catch near-misses, shallow enough to stay fast; your Ch 8 latency instincts price this exactly: N cross-encoder passes added to p95), and whether to rerank at all — for keyword-exact queries where BM25's top-1 is definitionally correct, an interview adds latency and nothing else. Retrieval quality is a ladder you climb <em>as far as the query needs</em>: hybrid → +rerank → +query-rewriting (Ch 13) — each rung paid for by evidence (Ch 16), never by fashion.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: the second pass that fixes retrieval quality.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>No new build node — a surgical experiment inside your existing pipeline (~20 lines): load a small <code>CrossEncoder</code> model, add <code>retrieve(..., rerank=True)</code> that fetches hybrid top-20 and re-orders via cross-encoder before truncating to 4. Rerun your 12-query table from Ch 7 as a fourth column: rank-of-correct-chunk under {semantic, keyword, hybrid, hybrid+rerank}. Find one query where reranking <em>promoted a rank-5+ chunk into the top-4</em> — read that chunk and its displaced rival side by side, and write two sentences on what the cross-encoder saw that cosine couldn't. Time the rerank overhead per query and record it next to the quality gain. Table column + the two sentences + the ms figure = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Bi-encoder vs cross-encoder: what does each see, and what does the separation buy and cost?</li>
+<li>Why can't cross-encoders be the first pass? Show the arithmetic shape of the objection.</li>
+<li>Map recall and precision onto the two stages, citing Vol 01 Ch 12.</li>
+<li>Three failure types reranking fixes, one it structurally cannot, and the remedy ladder for that one.</li>
+<li>When would you <em>disable</em> reranking, and what evidence standard governs the whole ladder?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-hybrid-search" href="build-hybrid-search.html">build-hybrid-search</a></p>
+<p><a class="wiki-link" data-node-id="attention-transformers" href="attention-transformers.html">attention-transformers</a></p>
+<p><a class="wiki-link" data-node-id="classical-ml-fundamentals" href="classical-ml-fundamentals.html">classical-ml-fundamentals</a></p>
+<p><a class="wiki-link" data-node-id="query-rewriting-hyde" href="query-rewriting-hyde.html">query-rewriting-hyde</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

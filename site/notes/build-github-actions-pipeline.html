@@ -35,17 +35,69 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: GitHub Actions Pipeline</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Now you build the pipeline for real. The node summary: <strong>write and run a GitHub Actions YAML workflow that lints Python code, executes pytest runs, builds a container image, and deploys it to staging; verify with commit triggers.</strong> GitHub Actions is the most accessible CI/CD platform (it's built into GitHub, where your code already lives — Vol 01 Ch 19), and this build turns Ch 21's concepts into a working pipeline: push code, and it's automatically linted, tested, built, and deployed. The manual deployment (Ch 19) you understood by hand is now automated by a pipeline you wrote.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The workflow file — pipeline as code.</strong> GitHub Actions pipelines are YAML files in <code>.github/workflows/</code> — <em>pipeline as code</em> (versioned with your repo, Vol 01 Ch 19, reviewed like any code). The structure: <em>triggers</em> (<code>on: [push, pull_request]</code> — Ch 21's trigger events), <em>jobs</em> (the stages), each running on a <em>runner</em> (Ch 21's fresh container — GitHub provides them), with <em>steps</em> (the actual commands). A skeleton:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">yaml</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-yaml">on:
+  push: { branches: [main] }
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4        <span class="tok-comment"># get the code</span>
+      - run: pip install -r requirements.txt
+      - run: ruff check .                <span class="tok-comment"># lint (Vol 01 Ch 21)</span>
+      - run: pytest                      <span class="tok-comment"># test (Vol 01 Ch 21)</span>
+  deploy:
+    needs: test                          <span class="tok-comment"># only if test passed — the gate (Vol 07 Ch 9)</span>
+    runs-on: ubuntu-latest
+    steps:
+      - run: <span class="tok-comment"># build image, push, deploy to staging (Ch 19, automated)</span></code></pre>
+      </div>
+<p>The <code>needs: test</code> is the gate (Ch 21, Vol 07 Ch 9) — deploy runs <em>only if</em> test passed, so broken code can't reach staging.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The four stages the node names.</strong> <em>Lint</em> (<code>ruff</code>/<code>flake8</code> — code-quality checks, Vol 01 Ch 21, catching style and simple errors automatically). <em>Pytest</em> (your test suite — Vol 01 Ch 21 — the correctness gate; and this is where your evals Vol 07 Ch 9 and security suite Vol 08 Ch 17 plug in, as test stages). <em>Build</em> (Ch 5 — <code>docker build</code> the image in the pipeline, tagged with the commit SHA for traceability Vol 07 Ch 11). <em>Deploy to staging</em> (Ch 19's steps, automated — push to registry, deploy to the <em>staging</em> environment: a production-like environment that <em>isn't</em> production, where you verify before promoting — the safety buffer between "merged" and "live to users"). Staging-not-production is deliberate: automated deploy to staging is safe (a bad deploy hits staging, not users); promotion to production stays gated (Ch 32's careful rollout).</p>
+
+<p><strong>The secrets and the security (Vol 08 in the pipeline).</strong> The pipeline needs credentials (registry push, cloud deploy — Ch 24) — stored as <em>GitHub Secrets</em> (encrypted, injected into the runner at runtime, never in the YAML — Ch 5/24's never-in-code rule, for pipelines). And the pipeline <em>itself</em> is an attack surface (Vol 08's supply chain, Ch 5 — a compromised action or a leaked pipeline secret is a breach): pin action versions (Vol 08 Ch 5's supply-chain pinning), scope the pipeline's credentials minimally (Vol 08 Ch 8 — the deploy credential can deploy, not admin-everything), and protect the secrets. A CI/CD pipeline with cloud-deploy credentials is powerful and therefore guarded.</p>
+
+<p><strong>Verification — commit triggers, per the node.</strong> Push a commit and watch the pipeline <em>run automatically</em>: lint runs, tests run, and <em>if they pass</em>, build and deploy-to-staging run — the staging environment updates with your change. Test the gate: push a commit with a <em>failing test</em>, and confirm the pipeline <em>stops</em> (deploy doesn't run — broken code didn't ship). Test that secrets inject correctly (the deploy authenticates). The commit-triggers-full-pipeline and the failing-test-blocks-deploy are the proofs.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Write and run a GitHub Actions YAML workflow that lints Python code, executes pytest runs, builds a container image, and deploys it to staging; verify with commit triggers.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): the workflow YAML (triggers, jobs, steps) → lint stage (<code>ruff</code>) → test stage (<code>pytest</code>, plus your evals Vol 07 and security suite Vol 08 as stages) → build stage (Docker image, SHA-tagged) → deploy-to-staging stage (gated on tests, Ch 19 automated) → GitHub Secrets for credentials (Ch 24) → supply-chain hygiene (pinned actions, scoped credentials, Vol 08 Ch 5/8) → verify (push → full pipeline runs → staging updates; failing-test → deploy blocked). This automates the path to RESURRECTION (Ch 34). Tag <code>prod-v0.13</code>. The working pipeline + the commit-triggers-deploy demo + the failing-test-blocks-deploy proof = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What is "pipeline as code," and why version the workflow with your repo?</li>
+<li>Walk the four stages (lint, test, build, deploy-staging) and where evals/security plug in.</li>
+<li>What does <code>needs: test</code> do, and why does it prevent broken code from shipping?</li>
+<li>Why deploy to <em>staging</em> not production, and what's the safety buffer for?</li>
+<li>Why is the pipeline itself an attack surface, and how do you secure it (secrets, pinning, scoped credentials)?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="cicd-fundamentals" href="cicd-fundamentals.html">cicd-fundamentals</a></p>
+<p><a class="wiki-link" data-node-id="ci-gates-for-ai" href="ci-gates-for-ai.html">ci-gates-for-ai</a></p>
+<p><a class="wiki-link" data-node-id="build-injection-suite" href="build-injection-suite.html">build-injection-suite</a></p>
+<p><a class="wiki-link" data-node-id="build-container-deployment" href="build-container-deployment.html">build-container-deployment</a></p>
+<p><a class="wiki-link" data-node-id="secrets-cost-engineering" href="secrets-cost-engineering.html">secrets-cost-engineering</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

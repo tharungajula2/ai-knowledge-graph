@@ -35,17 +35,53 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Is My Prompt Good?</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: prompting-apis</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You tweaked your prompt, ran it once, the answer looked better — ship it? You just committed the cardinal sin of prompt engineering: <strong>judging on one sample</strong>. Temperature exists (Vol 01, Ch 9); inputs vary; "looked better to me, once" is astrology. This chapter installs the discipline that upgrades prompting from vibes to engineering: fixed test inputs, defined success, counted results, changed one thing at a time. It's the seed of the entire evaluation domain — planted here, in miniature, where it's cheap.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The golden set — your instrument.</strong> 10–20 <em>fixed</em> test inputs for the task, chosen to cover the space (Ch 4's spread logic): typical cases, hard cases, edge cases (empty, absurd, wrong-language), and at least one adversarial case (Ch 12 taught you how to write those). For each input, define <em>expected</em>: exact output where checkable (extraction → the true JSON), or a checklist/rubric where open-ended ("mentions X, under 100 words, no hedging"). Write the set <em>before</em> tinkering — a golden set built after seeing outputs quietly inherits the prompt's blind spots. Keep it in the repo, versioned (Ch 3 made prompts artifacts; their test sets are artifacts too).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The loop.</strong> Baseline prompt → run the whole set (temperature 0 for comparability — Vol 01 Ch 9's eval convention; your gateway makes batch runs one function call) → score into a simple table: pass/fail per input, plus notes → change <strong>one thing</strong> (reorder the skeleton, add one example, tighten FORMAT) → rerun <em>all</em> → compare <em>counts</em>, not impressions. "14/20 → 18/20" is knowledge; "feels better" is weather. When a fix breaks previously-passing cases (it will — prompt whack-a-mole is real), the table catches the regression your eye would miss; Ch 21's regression ritual, now for prompts: every production failure becomes a new golden-set row, permanently.</p>
+
+<p><strong>Scoring open-ended outputs — three honest tiers.</strong> <em>Exact/programmatic checks</em> wherever possible (JSON validates? Required fields present? Length in bounds? Contains the mandatory disclaimer?) — cheap, objective, automate-first. <em>Human rubric</em> for quality judgments — you, scoring against written criteria, blind to which prompt produced which output if you can manage it (label-shuffling in a spreadsheet works; your Vol 01 Ch 12 instincts should be tingling — this is inter-rater reliability's kid version). <em>LLM-as-judge</em> — a second model call scoring outputs against your rubric: scalable and surprisingly useful, but it inherits model biases (favors verbosity, favors confident tone, can prefer its own style), so calibrate it against your human scores on a sample before trusting it, and never let it be the only judge of anything that matters. All three tiers mature into full machinery in the evaluation domain; here you're building the reflex.</p>
+
+<p><strong>A/B thinking, and its limits at this scale.</strong> Two prompt variants, same golden set, side-by-side columns — that's an offline A/B, and at n=20, small gaps are noise: treat 15/20 vs 16/20 as a tie; act on decisive gaps or on <em>which specific rows</em> flipped (row-level diffs teach more than totals — "variant B fixed all three Hinglish cases but broke the empty-input case" is an actionable sentence). Real statistical A/B testing on live traffic belongs to the production domain; the <em>thinking</em> — controlled comparison, defined metric, humility about sample size — starts today and never leaves.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: informal evaluation; A/B thinking begins.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Formalize what Chapter 4 did informally, on a task you actually care about: your Chapter 6 extractor or your Feynman-bot prompt (Ch 18 — you'll thank yourself). Build a 15-row golden set (typical/hard/edge/adversarial mix), define pass criteria per row, and score three variants: your current prompt, a variant with one <em>more</em> few-shot example, and a variant with a tightened FORMAT bone. Produce the full table (rows × 3 variants), circle every row that <em>flipped</em> between variants, and write three sentences: which variant wins, which single row taught you the most, and one new row you're adding because this exercise exposed a blind spot. Table + sentences = the note, and the golden set stays in the repo — Chapter 18's build inherits it.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why is one run worthless as evidence? Two independent reasons from Volume 01.</li>
+<li>What belongs in a golden set, and why must it be written before tinkering?</li>
+<li>Recite the loop, and name the discipline that makes results comparable across runs.</li>
+<li>Three scoring tiers: strengths, weaknesses, and the calibration rule for the third.</li>
+<li>Why is 15/20 vs 16/20 a tie, and what's more informative than the totals?</li>
+</ol>
+<hr>
+<h1 id="part-iii-first-ships">PART III — FIRST SHIPS</h1>
+<p><em>4 chapters. Everything assembles: a chatbot with memory, your first public product, and the ring closes.</em></p>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="sampling-controls" href="sampling-controls.html">sampling-controls</a></p>
+<p><a class="wiki-link" data-node-id="few-shot-prompting" href="few-shot-prompting.html">few-shot-prompting</a></p>
+<p><a class="wiki-link" data-node-id="classical-ml-fundamentals" href="classical-ml-fundamentals.html">classical-ml-fundamentals</a></p>
+<p><a class="wiki-link" data-node-id="build-gateway" href="build-gateway.html">build-gateway</a></p>
+<p><a class="wiki-link" data-node-id="injection-first-look" href="injection-first-look.html">injection-first-look</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

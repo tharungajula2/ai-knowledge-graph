@@ -35,17 +35,40 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Synthesis: Defense in Depth</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: safety-security</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
-
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+          <h2 id="eli5">ELI5</h2>
+<p>The node summary names the ring's organizing architecture: <strong>the layered diagram.</strong> Defense in depth is the security principle that no single defense is trusted — instead, layers of independent controls each catch what the others miss, so that a breach requires defeating <em>all</em> of them, and a single failure is contained rather than catastrophic. When you can draw the full layered defense from untrusted input to consequential action, you own how to build AI that can't be turned against you — the ring's whole promise, in one picture.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p>It starts with the map: a <strong>threat model</strong> — who attacks, what they want, where they get in (every input channel), and what they can do (bounded by capabilities and data access) [1]. The attacks are <strong>injection</strong> — direct, in the user's own message, exploiting the soft learned boundary [2]; and indirect, hidden in content the agent reads for someone else, caught by an <strong>overlap scanner</strong> that detects untrusted data bleeding into instruction-space [3] — plus <strong>jailbreaks</strong>, defeated only by the attacker's mindset turned on yourself [4], and <strong>supply-chain</strong> compromise of the packages, models, and servers you trust [5]. The defenses layer from outside in: <strong>spotlighting</strong> frames untrusted content as data-not-instructions [6]; the <strong>lethal trifecta</strong> discipline — private data + untrusted input + exfil paths — removes catastrophe by removing any one ingredient, the Rule of Two decomposing what would hold all three [7]; <strong>least-privilege</strong> scopes every capability to the minimum, making harm not-instructed-against but <em>impossible</em> [8]; the <strong>proposal gate</strong> intercepts consequential actions into a durable, risk-triaged, human-editable queue [9]; <strong>idempotency and tamper-evident audit</strong> guarantee exactly-once execution and un-forgeable accountability [10]; <strong>guardrails</strong> scan input and enforce output, the deterministic net around the probabilistic model [11]; <strong>PII redaction</strong> scrubs personal data before the model sees it, shrinking the trifecta's private-data ingredient [12]; <strong>refusals</strong> operationalize what the system won't do [13]; and <strong>sandboxing</strong> makes the trifecta and least-privilege <em>physical</em> — network-less, filesystem-confined, resource-limited environments that bound the blast even in total compromise [14]. Then the proof: <strong>red-team</strong> your own agent across the threat-model grid [15], <strong>fix</strong> what broke at the highest architectural level [16], and <strong>lock it permanently</strong> with an injection test suite, CI-gated, with a hard zero-exfil guarantee [17] — all in service of <strong>responsible shipping</strong>, the duty owed to the people you deploy to [18]. The unifying law: <strong>no single layer is trusted; each raises the bar; together they bound the damage when — not if — one is breached.</strong> Security is architecture, not vigilance; assume breach; contain the blast.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: the layered diagram.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Three renditions, the ritual: <strong>(a)</strong> The narration, written, ≤700 words, your words, every node present as a layer. <strong>(b)</strong> The layered diagram — the node's literal demand: concentric defensive layers from untrusted input at the outside to consequential action at the center — input layer (spotlighting, scanner, input guardrails, PII redaction), architectural layer (trifecta removal, least-privilege, sandboxing — drawn as the <em>structural</em> boundaries), decision layer (the gate, risk policy), execution layer (idempotency, audit), output layer (output guardrails, refusals) — with an attack arrow trying to reach the center and being caught/bounded at each layer, and the zero-exfil guarantee as the innermost wall. Mark which layers are <em>architectural</em> (impossible-by-design) vs <em>detective</em> (probabilistic) — the deepest distinction. Photograph into the note. <strong>(c)</strong> The 90-second spoken version — its interview home: <em>"how do you secure an AI agent?"</em> — where the shallow answer is "sanitize inputs" and <em>your</em> answer is the layered, trifecta-anchored, assume-breach architecture that marks you as someone who's actually attacked and defended one. Record, critique, re-record.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Deliver the 90-second version cold — the "how do you secure an agent?" answer.</li>
+<li>Trace one attack (a poisoned web page trying to exfiltrate private data) through every layer that catches or bounds it.</li>
+<li>Distinguish architectural defenses from detective ones on your diagram — which are impossible-by-design?</li>
+<li>State the defense-in-depth law and "assume breach, contain the blast" from memory.</li>
+<li>Draw the full layered diagram from memory.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="synthesis-safety" href="synthesis-safety.html">synthesis-safety</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

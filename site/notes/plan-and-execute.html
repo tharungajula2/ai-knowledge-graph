@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Plan-and-Execute</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: agents</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Two ways to cook a complex dinner. <strong>Reactor</strong>: open the fridge, decide one step, do it, look again, decide again — flexible, but you may discover at step nine that step two doomed the dessert. <strong>Planner</strong>: write the full menu and sequence first, then execute it, adjusting as reality intrudes. Your agents so far are pure reactors — ReAct decides one action at a time, forever. The node summary names the alternative and the tension: <strong>planners vs reactors.</strong> Neither wins everywhere; knowing <em>which when</em> — and how the hybrid works — is the architectural judgment this chapter installs.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The reactor's hidden weaknesses — name them before fixing them.</strong> One-step-at-a-time reasoning has three structural costs: (1) <em>myopia</em> — no step is chosen with the full journey in view, so globally-suboptimal paths (redundant searches, wrong-order dependencies) emerge from locally-sensible choices; (2) <em>goal drift</em> — over many steps, the original objective dilutes in a growing context (each decision conditions on everything, and everything keeps growing — Vol 01 Ch 8 economics compounding into Ch 16's derailment disease); (3) <em>no cost preview</em> — you can't estimate a run's budget when even the agent doesn't know what it'll do next (Ch 17 will want that preview badly).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Plan-and-execute — the pattern.</strong> Two roles, cleanly split: a <strong>planner</strong> call produces the full step list up front — structured output, naturally: <code>list[PlanStep]</code> with descriptions and dependencies (Vol 02 Ch 6, now producing <em>programs</em>) — then an <strong>executor</strong> loop works through steps, each step a small focused task (often itself a mini-ReAct with a narrow goal and a subset of tools). Between steps, the results accumulate in state. The wins mirror the reactor's losses: global coherence (every step chosen with the whole in view), a stable goal (the plan <em>is</em> the goal, pinned in state, immune to drift), and a previewable budget (count the steps before spending a rupee — and show the plan to a human first: <strong>a plan is a natural gate artifact</strong>; approving a 6-step plan once beats approving 6 actions separately — Ch 7's approval-fatigue medicine, upgraded; your Ch 18 Node-Proposer will lean on exactly this).</p>
+
+<p><strong>The failure that defines the pattern — stale plans.</strong> Reality diverges from step 2's assumptions, and a naive executor marches on executing a fiction (the planner's myopia in mirror image: perfect global view of a world that no longer exists). The fix, and the shape all serious implementations share: <strong>replanning</strong> — after each step (or on failure/surprise), a cheap check: "given what we've learned, does the remaining plan still hold?" — usually yes (continue, cheap); sometimes no (invoke the planner again with the accumulated learnings; the plan is versioned state, not scripture). Notice — and write this down, because it's the kind of connection that makes your graph a <em>brain</em> — this is <strong>Rule 6 of your own curriculum</strong>: replan with a written reason, never from restlessness. Your learning system and your agents share an architecture; you built the discipline before you met the pattern.</p>
+
+<p><strong>Planner vs reactor — the decision table.</strong> Task decomposable and stable (report generation, multi-source research, migrations)? → plan-and-execute. Environment surprising, next step genuinely unknowable (debugging, exploration, conversation)? → react. Cost/latency: planning adds an upfront call but often <em>reduces</em> total steps (fewer wanderings); reaction spends nothing up front and everything on wandering. Autonomy dial (Ch 1): a plan reviewed by a human is <em>less</em> autonomous per-step and <em>more</em> trustworthy — often exactly the trade production wants. And the answer that's usually right in practice: <strong>hybrid</strong> — plan the skeleton, react within each step, replan on surprise. LangGraph shape: planner node → executor subgraph (Ch 10 vocabulary incoming) → replan-check conditional edge → loop or END.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: planners vs reactors.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Paper drill, three parts: (1) Take Ch 2's manual task and <em>plan it first</em> — write the full step list with dependencies, then compare against your actual reactive transcript: count the wasted steps reaction took, and find one step where the plan's global view would have reordered things. (2) Sabotage the plan: pick a step whose assumption you now invalidate ("the calendar is actually empty that week") and walk the replan — what survives, what regenerates, what the written reason would say. (3) The routing table: six tasks (write a research report; debug a failing test; book a three-city trip; answer "what's my cheapest deploy option"; refactor a module; hold a tutoring conversation) — for each: react, plan, or hybrid, with the one-line reason. Table + the Rule 6 connection paragraph = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the reactor's three structural weaknesses and the planner win that mirrors each.</li>
+<li>Why is a plan structured output, and what does that enable for gating and budgeting?</li>
+<li>Define the stale-plan failure and the replanning fix — and connect it to your curriculum's Rule 6.</li>
+<li>Recite the decision table's axes and place two tasks on each side.</li>
+<li>Describe the hybrid and its LangGraph shape.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="what-makes-an-agent" href="what-makes-an-agent.html">what-makes-an-agent</a></p>
+<p><a class="wiki-link" data-node-id="structured-output" href="structured-output.html">structured-output</a></p>
+<p><a class="wiki-link" data-node-id="hitl-interrupts" href="hitl-interrupts.html">hitl-interrupts</a></p>
+<p><a class="wiki-link" data-node-id="build-research-agent" href="build-research-agent.html">build-research-agent</a></p>
+<p><a class="wiki-link" data-node-id="reflection-patterns" href="reflection-patterns.html">reflection-patterns</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

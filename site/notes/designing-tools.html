@@ -35,17 +35,54 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Designing Tools</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: agents</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Hand a new intern a drawer of unlabeled instruments and vague gestures, and they'll grab wrong tools for wrong jobs. Label the drawer well — clear names, one-line purposes, what goes in, what comes out, when <em>not</em> to use each — and the same intern performs. The agent is that intern forever: it chooses tools <strong>by reading their descriptions and nothing else</strong> (Vol 02, Ch 7 planted this; this chapter grows it into a craft). The node summary: schemas, descriptions, why naming matters. Tool design is prompt engineering aimed at a decision-maker, and it's where most real-world agent failures are actually born.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The anatomy of a tool, and who reads each part.</strong> A tool definition has four organs: the <strong>name</strong> (read at decision time — the first and sometimes only signal), the <strong>description</strong> (read at decision time — the full advertisement), the <strong>parameter schema</strong> with per-field descriptions (read at call-construction time — how the model fills arguments; Pydantic → JSON Schema, the Vol 02 Ch 6/18 machinery, verbatim), and the <strong>return shape</strong> (read at observation time — what the model must make sense of afterward). Design all four <em>for the reader</em>: three of the four readers are the model itself.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Naming — the cheapest quality lever.</strong> Names carry verb-object semantics the model pattern-matches hard: <code>search_notes</code> vs <code>query_execution_engine</code> for the same function changes selection behavior measurably. Rules: verb_noun, specific over general (<code>get_weather</code> not <code>get_data</code> — a general name invites general misuse), consistent verb vocabulary across the toolbox (all reads are <code>get_<em></code>/<code>search_</em></code>, all writes are <code>create_<em></code>/<code>update_</em></code> — consistency lets the model infer safety class from name alone, which Ch 15's gate will exploit), and never two names a reasonable reader could confuse (<code>search_notes</code> + <code>find_notes</code> in one toolbox is a coin-flip generator).</p>
+
+<p><strong>Descriptions — the advertisement with boundaries.</strong> The template that works: <em>what it does</em> (one sentence) + <em>when to use it</em> + <em>when NOT to use it</em> + <em>what it needs</em> + <em>what it returns</em>. The negative space is the part amateurs skip and the part that prevents the two classic misuse modes (Vol 02, Ch 7): wrong-tool-chosen and tool-called-when-none-needed. "Searches the user's personal notes. Use for questions about the user's own knowledge or past writing. Do NOT use for general world knowledge — answer those directly. Requires a specific topic, not a vague theme. Returns up to 5 chunks with sources." Every clause is steering. Parameter descriptions steer equally: <code>city: "Exact city name, e.g. 'Hyderabad'. Never a country or region."</code> is the difference between clean calls and garbage arguments.</p>
+
+<p><strong>Granularity — the architectural decision.</strong> Too fine (one tool per micro-operation: <code>open_file</code>, <code>read_line</code>, <code>close_file</code>) → the model orchestrates plumbing it shouldn't see, burning iterations and inviting error. Too coarse (<code>do_research(topic)</code> — a tool that is itself an agent) → the model can't steer or recover mid-operation, and observations become opaque blobs. The heuristic: <strong>a tool should be one meaningful decision's worth of action</strong> — sized so that choosing it is a sensible reasoning step and its observation is a sensible reasoning input. When you find the model making the same 3-call sequence repeatedly, fuse it into one tool; when one tool's failures are opaque, split it.</p>
+
+<p><strong>Returns and errors — designing the observation.</strong> The tool's output becomes model context (token-priced! — return the 5 fields the agent needs, not the 300-field raw API dump; Vol 01 Ch 8 economics apply to observations too), so shape it: structured, compact, self-describing keys. And errors are observations too — the single most load-bearing rule in this chapter: <strong>a failing tool must return a legible, actionable error string, never raise into the void.</strong> <code>"error: city 'Hyd' not found — did you mean 'Hyderabad'?"</code> lets the loop self-correct (Vol 02, Ch 7's error-feeding); an unhandled exception kills the run. Design every tool's failure modes as carefully as its success mode — the agent's resilience <em>is</em> the sum of its tools' error messages.</p>
+
+<p><strong>Safety class — the seed of the gate.</strong> Tag every tool at design time: <em>read</em> (safe to call freely), <em>write</em> (changes the world — idempotency question from Vol 02 Ch 9 applies), <em>dangerous</em> (irreversible or external: send, delete, pay). The tag does nothing today; Ch 15 builds the gate that consults it, and your agent-lab's approval gate is this taxonomy, enforced. Designing safety class in from day one is the difference between adding a gate and retrofitting one.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: schemas, descriptions, why naming matters.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Design the toolbox your Ch 14 research agent will actually use — on paper, full definitions (name, description with negative space, Pydantic param model, return shape, error strings, safety tag) for five tools: <code>search_web</code>, <code>fetch_page</code>, <code>search_notes</code> (wrapping your Vol 03 retrieval!), <code>save_finding</code>, <code>read_scratchpad</code>. Then two drills: (1) <em>the confusion audit</em> — show just the five names+descriptions to a friend (or a fresh LLM session) and ask "which tool for: [six tasks, two deliberately ambiguous]?" — every hesitation is a description bug; fix and re-test. (2) <em>the error rehearsal</em> — for each tool, write its two most likely failure observations verbatim, and check each answers "what should the agent do next?" The audited toolbox goes in the note and rides straight into Ch 14.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the four organs and who reads each, when.</li>
+<li>Recite three naming rules and construct one confusion-pair that violates them.</li>
+<li>What is the negative-space clause, and which two misuse modes does it prevent?</li>
+<li>State the granularity heuristic and both failure directions with symptoms.</li>
+<li>Why are error strings load-bearing, and what taxonomy seeds Ch 15's gate?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="tool-calling" href="tool-calling.html">tool-calling</a></p>
+<p><a class="wiki-link" data-node-id="structured-output" href="structured-output.html">structured-output</a></p>
+<p><a class="wiki-link" data-node-id="hitl-interrupts" href="hitl-interrupts.html">hitl-interrupts</a></p>
+<p><a class="wiki-link" data-node-id="build-research-agent" href="build-research-agent.html">build-research-agent</a></p>
+<p><a class="wiki-link" data-node-id="python-typing-pydantic" href="python-typing-pydantic.html">python-typing-pydantic</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

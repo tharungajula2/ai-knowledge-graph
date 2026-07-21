@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Realtime Postgres Approvals UI</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your agent proposes consequential actions through a gate (Vol 08 Ch 9's queue) — but you need to <em>see</em> those proposals appear and approve them <em>live</em>. The node summary: <strong>build a Next.js Approvals UI that subscribes to PostgreSQL changes via Supabase realtime channels and updates the cockpit layout dynamically; verify by simulating database inserts.</strong> This is the human-in-the-loop gate (Vol 04 Ch 15, Vol 08 Ch 9) made <em>visible and interactive</em> — the moment the agent wants to act, a proposal card appears in your dashboard instantly, and you approve, edit, or reject with a click. The gate becomes a cockpit.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The realtime approval loop — the whole point.</strong> The flow: (1) the agent decides to take a consequential action → creates a proposal row in the queue table (Vol 08 Ch 9); (2) Supabase Realtime (Ch 9) <em>pushes</em> that insert to the subscribed UI <em>instantly</em>; (3) a proposal card <em>appears</em> in your approvals dashboard without any refresh; (4) you review it (the payload, the rationale, the risk — Vol 08 Ch 9), and approve/edit/reject with a click; (5) your verdict updates the proposal row; (6) the backend (watching for the verdict — Ch 12's poller, or a realtime subscription) executes the approved/edited action (idempotently — Vol 08 Ch 10). The realtime subscription is what makes this <em>feel</em> like a live cockpit rather than a form you refresh — the proposal appears the instant the agent thinks of it.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Next.js and the frontend reality (your first real frontend build).</strong> Next.js is the React framework for production web UIs (server-rendering, routing, API routes). This build is your entry into real frontend engineering — and the Supabase realtime client makes the hard part (live updates) tractable: <code>supabase.channel('proposals').on('postgres_changes', {event: 'INSERT', ...}, handleNewProposal).subscribe()</code> — a subscription that fires <code>handleNewProposal</code> every time a proposal row is inserted, and your React state updates, and the UI re-renders with the new card (Vol 05 Ch 4's message-passing → UI). The "updates the cockpit layout dynamically" means the UI <em>reacts</em> to database state — new proposals appear, resolved ones move to history, the layout reflects live system state.</p>
+
+<p><strong>The design of a good approval UI (HITL UX — Vol 04 Ch 15's edit-rate, made usable).</strong> A proposal card shows: <em>what</em> the agent wants to do (the action, human-readable), <em>why</em> (the rationale), <em>the risk</em> (Vol 08 Ch 9's triage — color-coded: green auto-approvable, yellow needs-review, red dangerous), <em>the editable payload</em> (Vol 08 Ch 9's payload editing — the recipient field, the amount, editable inline before approving), and <em>the actions</em> (approve / edit-and-approve / reject-with-reason). Good HITL UX makes the <em>right</em> decision easy and the <em>dangerous</em> decision deliberate (Vol 08 Ch 9's selectivity — you don't want to fatigue-click "approve" on a red proposal). This UI is where the human stays meaningfully in the loop (Vol 04 Ch 7's approval-fatigue lesson, solved with design).</p>
+
+<p><strong>Verification — simulating database inserts, per the node.</strong> Without running the full agent, <em>simulate</em> proposals by inserting rows into the queue table directly (Ch 16's demo mode helps): assert the UI <em>receives the realtime push</em> and the card <em>appears without refresh</em> (the core realtime test); assert approve/edit/reject <em>update the row correctly</em>; assert the risk color-coding renders; assert the payload editing round-trips (Vol 08 Ch 9). Test the realtime resilience (connection drops → reconnects → catches missed changes). The simulated-insert-appears-live test is the crown.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a Next.js Approvals UI that subscribes to PostgreSQL changes via Supabase realtime channels and updates the cockpit layout dynamically; verify by simulating database inserts.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1.5 days — your first real frontend): a Next.js app → Supabase realtime subscription to the proposals table (Vol 08 Ch 9) → proposal cards that appear live on insert → the card UI (action, rationale, risk color-coding, editable payload, approve/edit/reject) → verdict-writes-back-to-DB → test via simulated inserts (card appears live, verdicts persist, editing round-trips). This is the RESURRECTION dashboard's heart (Ch 34) and THE BRIDGE's approval surface (Ch 35). Tag <code>prod-v0.7</code>. The live-updating approvals UI + the simulated-insert demo + the edit-and-approve flow = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Walk the realtime approval loop from agent-proposal to executed-action — where does realtime fit?</li>
+<li>How does a Supabase realtime subscription make the UI update without refresh?</li>
+<li>What does a good proposal card show, and how does its design keep the human meaningfully in the loop?</li>
+<li>Why does risk color-coding and deliberate-dangerous-actions matter (Vol 08 Ch 9's selectivity)?</li>
+<li>What does the simulated-insert test prove, and why test realtime reconnection?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="supabase-deep-dive" href="supabase-deep-dive.html">supabase-deep-dive</a></p>
+<p><a class="wiki-link" data-node-id="build-proposal-gate" href="build-proposal-gate.html">build-proposal-gate</a></p>
+<p><a class="wiki-link" data-node-id="add-the-gate" href="add-the-gate.html">add-the-gate</a></p>
+<p><a class="wiki-link" data-node-id="build-command-center" href="build-command-center.html">build-command-center</a></p>
+<p><a class="wiki-link" data-node-id="the-bridge" href="the-bridge.html">the-bridge</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

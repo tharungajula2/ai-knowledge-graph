@@ -35,17 +35,73 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: System Utilities MCP Server</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: multi-agent-mcp</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You've <em>used</em> MCP servers on faith; today you <em>build</em> one. The node summary is the full spec: <strong>build a custom MCP server exposing system utility tools, handling stdio communication, and executing subprocess actions; verify with a command-line client.</strong> After this build, MCP stops being a protocol you consume and becomes one you produce — and the pattern generalizes directly to Ch 16's brain server, the real prize.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The stack.</strong> The official MCP SDK (<code>mcp</code> Python package with FastMCP, the ergonomic server framework — check the current SDK on build day; the concepts are stable even as APIs evolve). A server is astonishingly little code: declare tools, run the server, and the SDK handles the JSON-RPC-over-stdio plumbing (Ch 8's transport) you'd otherwise write by hand — which is the point of a standard.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">from</span> mcp.server.fastmcp <span class="tok-kw">import</span> <span class="tok-type">FastMCP</span>
+<span class="tok-kw">import</span> subprocess, shutil
+
+mcp = <span class="tok-fn">FastMCP</span>((<span class="tok-str">"system-utils"</span>)
+
+@mcp.<span class="tok-fn">tool</span>(()
+<span class="tok-kw">def</span> <span class="tok-fn">disk_usage</span>((path: <span class="tok-builtin">str</span> = <span class="tok-str">"/"</span>) <span class="tok-op">-&gt;</span> <span class="tok-builtin">str</span>:
+    <span class="tok-str">"""Report disk usage for a path. Read-only. Returns human-readable df output."""</span>
+    result = subprocess.<span class="tok-fn">run</span>(([<span class="tok-str">"df"</span>, <span class="tok-str">"-h"</span>, path], capture_output=<span class="tok-kw">True</span>, text=<span class="tok-kw">True</span>, timeout=<span class="tok-num">5</span>)
+    <span class="tok-kw">return</span> result.stdout
+
+@mcp.<span class="tok-fn">tool</span>(()
+<span class="tok-kw">def</span> <span class="tok-fn">find_files</span>((directory: <span class="tok-builtin">str</span>, pattern: <span class="tok-builtin">str</span>) <span class="tok-op">-&gt;</span> <span class="tok-builtin">str</span>:
+    <span class="tok-str">"""Find files matching a glob pattern under a directory. Read-only.
+    directory: absolute path to search. pattern: glob like '*.py'. Returns newline list."""</span>
+    <span class="tok-comment"># ... validated subprocess call to find, bounded ...</span>
+
+<span class="tok-kw">if</span> __name__ == <span class="tok-str">"__main__"</span>:
+    mcp.<span class="tok-fn">run</span>(()   <span class="tok-comment"># speaks JSON-RPC over stdio; the host spawns this as a subprocess</span></code></pre>
+      </div>
+
+<p>Notice what transfers <em>verbatim</em> from Vol 04 Ch 3 (designing tools): the docstring <strong>is</strong> the tool description the model reads to choose the tool — negative space ("Read-only"), parameter descriptions, return-shape all matter exactly as before; MCP didn't change tool-design craft, it standardized tool-<em>transport</em>. Your Ch 3 skills are your MCP-server skills.</p>
+
+<p><strong>The subprocess reality — where system utilities get dangerous, and the security preview.</strong> These tools shell out (<code>df</code>, <code>find</code>, <code>ls</code>, <code>ping</code>), which means every lesson from Vol 02 Ch 12 (injection) and Vol 04 Ch 15 (the gate) converges on one rule: <strong>never build a shell command from unsanitized input.</strong> The cardinal sins and their fixes: <em>shell injection</em> — <code>subprocess.run(f"df {path}", shell=True)</code> with <code>path="/; rm -rf /"</code> is catastrophe; the fix is <em>always</em> the list form (<code>["df", "-h", path]</code>, <code>shell=False</code>) so arguments can't break out into commands (argument, not code — the boundary law in its most literal form). <em>Path traversal</em> — <code>path="../../../../etc/shadow"</code>; validate/confine paths to allowed roots. <em>Resource exhaustion</em> — a <code>find</code> over <code>/</code> hangs forever; every subprocess gets a <code>timeout</code>. <em>Unbounded output</em> — a tool returning 2GB floods the context (Vol 04 Ch 3's return-shape rule) and the transport; cap output. This build is your first taste of Ch 13's thesis: <strong>an MCP server is an attack surface</strong>, and the server author owns the safety. Tag each tool's safety class (Vol 04 Ch 3) — these are all reads; a <code>delete_file</code> tool would be a write demanding the gate, and you'll feel exactly why you wouldn't expose it casually.</p>
+
+<p><strong>Verification — a command-line client, per the node.</strong> The MCP ecosystem ships an inspector/dev client (the MCP Inspector, or a minimal client script — Ch 11 builds a real one) that connects to your server over stdio, lists its tools (watch your docstrings appear as the protocol's tool descriptions — the wire made visible), and invokes them. Verify: the server starts and advertises its tools; each tool executes and returns correctly; and the security tests — feed <code>disk_usage</code> a malicious path and confirm the list-form subprocess treats it as a (nonexistent) path argument, not a command; confirm timeouts fire on a slow call; confirm output caps. Pytest the tool <em>functions</em> directly (they're just Python — Vol 01 Ch 21), and integration-test via the client.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a custom Model Context Protocol server exposing system utility tools, handling stdio communication, and executing subprocess actions; verify with a command-line client.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): scaffold FastMCP → 4–5 read-only system tools (<code>disk_usage</code>, <code>find_files</code>, <code>list_processes</code>, <code>ping_host</code>, <code>system_info</code>) each with Ch 3-grade docstrings and list-form subprocess + timeout + output cap → run it → connect the MCP Inspector/dev client → list and invoke every tool → the security suite (injection-as-argument, timeout, output cap) → pytest the functions. Then the ecosystem moment: connect your server to <strong>Claude Desktop</strong> (or any MCP-capable client you have) via its config, and call your tool <em>from a real AI client</em> — watch your Python function become a capability an AI reaches for. That moment (your code, any client) is the build's trophy; screenshot it. Tag <code>mcp-server-v0.1</code>.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What does the SDK handle for you, and what remains your job? Which Vol 04 skill transfers verbatim?</li>
+<li>Why is the list-form subprocess non-negotiable? Construct the injection it prevents.</li>
+<li>Name four subprocess hazards and their fixes.</li>
+<li>How does a client discover a server's tools, and where do your docstrings end up?</li>
+<li>Why would you <em>not</em> casually expose a <code>delete_file</code> tool — and what would it require?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="designing-tools" href="designing-tools.html">designing-tools</a></p>
+<p><a class="wiki-link" data-node-id="mcp-fundamentals" href="mcp-fundamentals.html">mcp-fundamentals</a></p>
+<p><a class="wiki-link" data-node-id="mcp-security" href="mcp-security.html">mcp-security</a></p>
+<p><a class="wiki-link" data-node-id="mcp-clients" href="mcp-clients.html">mcp-clients</a></p>
+<p><a class="wiki-link" data-node-id="build-brain-mcp-server" href="build-brain-mcp-server.html">build-brain-mcp-server</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

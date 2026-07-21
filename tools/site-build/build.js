@@ -38,6 +38,106 @@ function getDayNumber(startDateStr) {
 }
 const dayNumber = getDayNumber(siteConfig.start_date);
 
+function escapeHtml(text) {
+  if (!text) return '';
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function highlightPythonCode(rawCodeText) {
+  if (!rawCodeText) return '';
+  let esc = String(rawCodeText)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  const tokens = [];
+  function addTok(cls, content) {
+    const idx = tokens.length;
+    tokens.push(`<span class="${cls}">${content}</span>`);
+    return `___TOK_${idx}___`;
+  }
+
+  esc = esc.replace(/(#.*)$/gm, (m) => addTok('tok-comment', m));
+  esc = esc.replace(/([fF]?"""[\s\S]*?"""|[fF]?'\\'\\'[\s\S]*?'\\'\\')/g, (m) => addTok('tok-str', m));
+  esc = esc.replace(/([fF]?"(?:[^"\\]|\\.)*"|[fF]?'(?:[^'\\]|\\.)*')/g, (m) => addTok('tok-str', m));
+  esc = esc.replace(/\b(def|class|return|import|from|if|elif|else|try|except|finally|for|while|in|is|and|or|not|None|True|False|self|async|await|pass|raise|with|as|yield|break|continue|lambda)\b/g, (m) => addTok('tok-kw', m));
+  esc = esc.replace(/\b(str|int|float|bool|list|dict|set|tuple|print|len|range|type|isinstance|super|open|any|all|enumerate|zip|map|filter)\b/g, (m) => addTok('tok-builtin', m));
+  esc = esc.replace(/\b([a-zA-Z_]\w*)\s*(?=\()/g, (m, fn) => {
+    if (m.startsWith('___TOK_')) return m;
+    return addTok('tok-fn', fn) + '(';
+  });
+  esc = esc.replace(/\b([A-Z][a-zA-Z0-9_]*)\b/g, (m) => {
+    if (m.startsWith('___TOK_')) return m;
+    return addTok('tok-type', m);
+  });
+  esc = esc.replace(/\b(\d+(?:\.\d+)?)\b/g, (m) => {
+    if (m.startsWith('___TOK_')) return m;
+    return addTok('tok-num', m);
+  });
+  esc = esc.replace(/(-&gt;)/g, (m) => addTok('tok-op', m));
+
+  tokens.forEach((tok, idx) => {
+    esc = esc.replace(`___TOK_${idx}___`, tok);
+  });
+
+  return esc;
+}
+
+function highlightShellCode(rawCodeText) {
+  if (!rawCodeText) return '';
+  let esc = String(rawCodeText)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  const tokens = [];
+  function addTok(cls, content) {
+    const idx = tokens.length;
+    tokens.push(`<span class="${cls}">${content}</span>`);
+    return `___TOK_${idx}___`;
+  }
+
+  esc = esc.replace(/^(\$\s+)/gm, (m) => addTok('tok-prompt', m));
+  esc = esc.replace(/\b(python|git|cd|mkdir|cat|ls|grep|npm|node|pip|curl|wget|echo|export|chmod|touch)\b/g, (m) => addTok('tok-cmd', m));
+  esc = esc.replace(/(\s-[a-zA-Z0-9_-]+|\s--[a-zA-Z0-9_-]+)/g, (m) => addTok('tok-flag', m));
+  esc = esc.replace(/("[^"]*"|'[^']*')/g, (m) => addTok('tok-str', m));
+
+  tokens.forEach((tok, idx) => {
+    esc = esc.replace(`___TOK_${idx}___`, tok);
+  });
+
+  return esc;
+}
+
+function highlightErrorCode(rawCodeText) {
+  if (!rawCodeText) return '';
+  let esc = String(rawCodeText)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  const tokens = [];
+  function addTok(cls, content) {
+    const idx = tokens.length;
+    tokens.push(`<span class="${cls}">${content}</span>`);
+    return `___TOK_${idx}___`;
+  }
+
+  esc = esc.replace(/(Traceback \(most recent call last\):)/g, (m) => addTok('tok-tb-header', m));
+  esc = esc.replace(/\b([A-Z]\w*Error:|[A-Z]\w*Exception:)/g, (m) => addTok('tok-err-title', m));
+
+  tokens.forEach((tok, idx) => {
+    esc = esc.replace(`___TOK_${idx}___`, tok);
+  });
+
+  return esc;
+}
+
 // Helper to convert Markdown to clean HTML with full support for *, -, +, 1., code blocks, tables, blockquotes
 function simpleMarkdownToHtml(md, domain) {
   let html = md;
@@ -48,19 +148,35 @@ function simpleMarkdownToHtml(md, domain) {
   // Code blocks: ```js ... ```
   const codeBlocks = [];
   html = html.replace(/```(\w*)\r?\n([\s\S]*?)\r?\n```/g, (match, lang, code) => {
-    const cleanLang = (lang || 'text').toLowerCase();
-    const escapedCode = code
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
+    const cleanLang = (lang || 'text').toLowerCase().trim();
+    const cleanCode = code.trim();
+    let codeHtml = '';
+    let blockWrapperClass = 'code-block-wrapper block-python';
+    let headerHtml = `<span class="code-lang">${cleanLang || 'python'}</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>`;
+
+    if (cleanLang === 'output' || cleanLang === 'stdout') {
+      blockWrapperClass = 'code-block-wrapper block-output';
+      headerHtml = `<span class="code-lang badge-output">OUTPUT</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>`;
+      codeHtml = `<code class="output-text">${escapeHtml(cleanCode)}</code>`;
+    } else if (cleanLang === 'bash' || cleanLang === 'sh' || cleanLang === 'shell' || cleanLang === 'terminal' || cleanCode.startsWith('$ ')) {
+      blockWrapperClass = 'code-block-wrapper block-terminal';
+      headerHtml = `<div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span><span class="code-lang ml-2">TERMINAL</span></div><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>`;
+      codeHtml = `<code class="language-shell">${highlightShellCode(cleanCode)}</code>`;
+    } else if (cleanLang === 'traceback' || cleanLang === 'error' || cleanCode.includes('Traceback (most recent call last):') || /^[A-Z]\w*Error:/.test(cleanCode)) {
+      blockWrapperClass = 'code-block-wrapper block-error';
+      headerHtml = `<span class="code-lang badge-error">ERROR TRACEBACK</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>`;
+      codeHtml = `<code class="language-error">${highlightErrorCode(cleanCode)}</code>`;
+    } else {
+      blockWrapperClass = 'code-block-wrapper block-python';
+      headerHtml = `<span class="code-lang">${cleanLang || 'python'}</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>`;
+      codeHtml = `<code class="language-${cleanLang || 'python'}">${highlightPythonCode(cleanCode)}</code>`;
+    }
+
     const idx = codeBlocks.length;
     codeBlocks.push(
-      `<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">${cleanLang}</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-${cleanLang}">${escapedCode.trim()}</code></pre>
+      `<div class="${blockWrapperClass}">
+        <div class="code-block-header">${headerHtml}</div>
+        <pre>${codeHtml}</pre>
       </div>`
     );
     return `___CODE_BLOCK_${idx}___`;

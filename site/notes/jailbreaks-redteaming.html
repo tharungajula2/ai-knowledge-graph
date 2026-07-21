@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Jailbreaks & Red-Teaming</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: safety-security</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You cannot defend a system you've only ever used as intended — you have to <em>attack</em> it, think like the adversary, actively try to break it. The node summary: <strong>thinking like the attacker.</strong> Red-teaming is the discipline of adversarial testing — deliberately trying to make your own system misbehave, so you find the holes before an attacker does. And jailbreaks are the creative art of circumventing an AI's safety constraints. This chapter installs the attacker's mindset, which is the prerequisite for every defense and the whole point of the ring's Part III.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The red-team mindset — the mental flip.</strong> A builder asks "how do I make this work?"; a red-teamer asks "how do I make this <em>fail</em> in a way that helps me?" The flip is deliberate and uncomfortable: you stop being the system's advocate and become its adversary, assuming bad faith, probing for the gap between what the system <em>intends</em> and what it <em>permits</em>. Every defense has an assumption; the red-teamer's job is to find and violate it. This mindset is <em>learnable and essential</em> — the builder who can't red-team ships holes they never imagined, because their own good-faith usage never touches the adversarial edges. (And it connects to Vol 07: red-teaming is <em>eval for security</em> — adversarial golden sets, measured, the rigor of Ring 7 aimed at attacks.)</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The jailbreak taxonomy (the creative attack catalog — evolving, but the <em>categories</em> endure).</strong> <em>Role-play / persona</em> (Ch 2's DAN — a character with no rules). <em>Hypothetical framing</em> ("in a fictional world where...", "for a novel I'm writing..." — wrapping the forbidden in fiction). <em>Instruction hierarchy attacks</em> (forged system messages, "the developer said it's okay"). <em>Incremental / crescendo</em> (start benign, escalate gradually so no single step trips the guard — the payload-splitting cousin). <em>Encoding / obfuscation</em> (base64, ciphers, other languages, token-splitting — evading pattern filters). <em>Context overflow</em> (bury the safety instructions under so much text they lose influence — lost-in-the-middle, Vol 01 Ch 8, weaponized). <em>Prompt leaking → targeted attack</em> (extract the system prompt, then craft attacks against its specific rules). <em>Many-shot</em> (fill the context with examples of the model complying with bad requests, exploiting in-context learning — Vol 02 Ch 4's few-shot, inverted). The specific tricks churn (defenses close, attackers innovate — an arms race); the <em>categories</em> and the <em>mindset</em> are what you learn, because they generalize to whatever's novel when you read this.</p>
+
+<p><strong>Red-teaming as a practice — how it's done well.</strong> <em>Systematic, not random</em>: work the threat model (Ch 1) — attack each entry point, target each capability, pursue each objective. <em>Creative and persistent</em>: the best attacks are the ones the builder didn't imagine, so brainstorm widely, combine techniques, iterate on near-misses. <em>Documented</em>: every attack (successful or not) recorded — successes become fixes (Ch 16) and permanent tests (Ch 17); failures map the defended perimeter. <em>Adversarially honest</em>: don't pull punches on your own system (the temptation to defend your baby is the red-teamer's enemy — Vol 06 Ch 16's self-honesty, in security clothes). <em>Measured</em>: attack success rate as a metric (Vol 07) — track it over time as you patch, and watch it drop. Professional red-teaming (internal teams, external firms, bug bounties, automated red-teaming tools) all follow this shape; you'll do it to your own agent in Ch 15.</p>
+
+<p><strong>The arms-race reality — the honest frame.</strong> Jailbreaks and defenses co-evolve: every defense gets circumvented eventually, every circumvention gets patched, forever (Vol 02 Ch 12, Vol 05 Ch 14's frontier honesty). This means: security is a <em>process</em>, not a state (you're never "done" — you're continuously testing and patching); <em>defense in depth</em> matters precisely because any single defense will fall (Ch 19); and the goal isn't <em>impregnable</em> (impossible) but <em>raising cost and bounding damage</em> — make attacks expensive enough that most attackers give up, and architect so that the ones who succeed can't do much (Ch 7, Ch 8). Red-teaming is how you <em>stay</em> in the race, not how you win it once.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: thinking like the attacker.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Become the attacker (concept node, concrete): (1) Red-team your own agent systematically — work your Ch 1 threat model, and for each entry point/capability, try the jailbreak taxonomy. Aim for <em>20 distinct attack attempts</em>, documented (attack, technique, result). Be adversarially honest — <em>try</em> to break it. (2) Find your best success (the attack that worked, or came closest) and understand <em>why</em> it worked — which assumption did it violate? (3) Compute your agent's attack-success-rate on your battery — a baseline security metric you'll watch drop as you patch (Ch 16). The 20 documented attacks + the best-success analysis + the baseline success-rate = the note; this is Ch 15's red-team build, in miniature.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>State the red-team mental flip, and why can't a builder-only mindset find the holes?</li>
+<li>Name six jailbreak categories, and why do you learn categories rather than specific tricks?</li>
+<li>Recite the five properties of red-teaming done well.</li>
+<li>Why is "adversarially honest about your own system" the hardest and most important property?</li>
+<li>Explain the arms-race reality — what's the realistic goal if impregnable is impossible?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="direct-injection" href="direct-injection.html">direct-injection</a></p>
+<p><a class="wiki-link" data-node-id="agent-threat-model" href="agent-threat-model.html">agent-threat-model</a></p>
+<p><a class="wiki-link" data-node-id="build-redteam-my-agent" href="build-redteam-my-agent.html">build-redteam-my-agent</a></p>
+<p><a class="wiki-link" data-node-id="why-evals-rule" href="why-evals-rule.html">why-evals-rule</a></p>
+<p><a class="wiki-link" data-node-id="lethal-trifecta" href="lethal-trifecta.html">lethal-trifecta</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

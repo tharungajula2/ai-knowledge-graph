@@ -35,17 +35,67 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Human-in-the-Loop Interrupts</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: agents</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your agent-lab has, since before you could explain it, a human-approval gate — an agent that <em>stops and asks permission</em> before consequential actions. This build constructs that organ from first principles: an agent that pauses mid-graph, presents its intended action to a human, waits — minutes or days — and proceeds, modifies, or aborts based on the verdict. The node summary in six words: an agent that stops and asks. In the industry's vocabulary: human-in-the-loop, the pattern that makes autonomous systems deployable in places where mistakes cost real money. In your vocabulary after today: the gate, understood.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The mechanism — interrupt as a first-class primitive.</strong> LangGraph's <code>interrupt()</code>: a node calls it with a payload (the question for the human); execution <strong>stops</strong>, the current state checkpoints (Ch 6 is why this build is possible — the pause <em>is</em> a persisted checkpoint; no checkpointer, no interrupt), and the graph returns control to the caller carrying the payload. The human answers whenever they answer. Resumption: invoke the graph again on the same thread with the human's verdict; the interrupted node receives it and the graph continues. Understand what this architecture buys: the wait is <em>free</em> — no process blocking, no polling loop burning a server; the agent is simply <em>parked in the database</em> until the verdict arrives. A human taking three days to approve costs three days of nothing.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The gate node — where Ch 3's safety tags cash in.</strong> The build's core is a <code>gate</code> node placed between decision and execution:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">def</span> <span class="tok-fn">gate</span>((state) <span class="tok-op">-&gt;</span> <span class="tok-builtin">dict</span>:
+    action = state[<span class="tok-str">"pending_action"</span>]                      <span class="tok-comment"># tool + args, decided by reason node</span>
+    <span class="tok-kw">if</span> <span class="tok-type">TOOLS</span>[action.tool].safety == <span class="tok-str">"read"</span>:
+        <span class="tok-kw">return</span> {<span class="tok-str">"approved"</span>: <span class="tok-kw">True</span>}                          <span class="tok-comment"># reads flow freely — no gate spam</span>
+    verdict = <span class="tok-fn">interrupt</span>(({                                  <span class="tok-comment"># writes and dangerous: STOP</span>
+        <span class="tok-str">"proposed"</span>: action.tool,
+        <span class="tok-str">"args"</span>: action.args,
+        <span class="tok-str">"rationale"</span>: state[<span class="tok-str">"last_thought"</span>],                <span class="tok-comment"># WHY — the scratchpad excerpt</span>
+        <span class="tok-str">"options"</span>: [<span class="tok-str">"approve"</span>, <span class="tok-str">"edit"</span>, <span class="tok-str">"reject"</span>],
+    })
+    <span class="tok-kw">return</span> <span class="tok-fn">resolve</span>((verdict)                                <span class="tok-comment"># approve → pass through</span>
+                                                           <span class="tok-comment"># edit    → pass through with human's args</span>
+                                                           <span class="tok-comment"># reject  → observation: "denied: [reason]" back to reason node</span></code></pre>
+      </div>
+<p>Three design decisions, each load-bearing: (1) <strong>selectivity</strong> — gate only write/dangerous tools (the Ch 3 taxonomy, enforced at last); gate everything and humans rubber-stamp from fatigue within a day — <em>approval fatigue is the gate's real failure mode</em>, and selectivity is its medicine; (2) <strong>the rationale travels with the request</strong> — a human shown <em>what</em> without <em>why</em> can't meaningfully judge; shipping the agent's reasoning (its thought, the scratchpad excerpt) turns approval from a coin-flip into review; (3) <strong>rejection is an observation, not an exception</strong> — "denied: too broad, narrow the query" feeds back into the reason node and the agent <em>adapts</em> (Ch 3's legible-error philosophy — the human is, structurally, one more tool whose observations steer the loop; write that sentence down, it reorganizes how you see the whole pattern).</p>
+
+<p><strong>The edit path — the underrated verdict.</strong> Approve/reject is a binary gate; <em>edit</em> is a collaboration: the human corrects the args ("right tool, wrong recipient") and the corrected action executes. Implementing it forces the right data shape — the pending action must round-trip through the human as structured data (Pydantic, of course), not prose — and it changes the human's role from bouncer to co-pilot. Your agent-lab's gate supports exactly this; now you know why the shape matters.</p>
+
+<p><strong>Verification.</strong> Mock the human (a scripted verdict-provider — the fake-provider pattern, third appearance): pytest asserts — read tools never interrupt; write tools always do; approve executes the original args; edit executes the <em>edited</em> args; reject's reason appears in the next reason-node prompt and the agent visibly adapts (assert the retried action differs); and the durability test that proves the architecture — interrupt, <strong>kill the process</strong>, restart, resume same thread with a verdict, action executes. That last test is the whole chapter in one assertion.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: an agent that stops and asks permission.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it on your Part-II graph with a two-tool toolbox: <code>search_notes</code> (read) and <code>save_finding</code> (write) — reuse everything. CLI harness: run a task; when the interrupt surfaces, print the payload (proposed action + rationale) and prompt <code>[a]pprove / [e]dit / [r]eject:</code>. Then the full drill, transcribed: one run approving; one editing the args (change the save-path — watch the edited version execute); one rejecting with a reason (watch the agent adapt and re-propose); and the parked-agent ceremony — trigger the interrupt, kill Python, <em>walk away for an hour</em>, come back, resume, approve, done. All four transcripts in the note. Tag <code>agent-v0.3</code>. Then the homecoming paragraph: open agent-lab's gate code and read it cold — you will recognize every organ; name each one in the margin.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why is a checkpointer a hard prerequisite for interrupts? What is the pause, mechanically?</li>
+<li>What makes the wait free, and what is the parked-agent worth operationally?</li>
+<li>Recite the three gate-node design decisions and the failure each prevents — lead with approval fatigue.</li>
+<li>Defend rejection-as-observation, and deliver the "human as one more tool" reframe.</li>
+<li>What does the kill-and-resume test prove that all other tests can't?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="langgraph-checkpointers" href="langgraph-checkpointers.html">langgraph-checkpointers</a></p>
+<p><a class="wiki-link" data-node-id="designing-tools" href="designing-tools.html">designing-tools</a></p>
+<p><a class="wiki-link" data-node-id="add-the-gate" href="add-the-gate.html">add-the-gate</a></p>
+<p><a class="wiki-link" data-node-id="injection-first-look" href="injection-first-look.html">injection-first-look</a></p>
+<p><a class="wiki-link" data-node-id="structured-output" href="structured-output.html">structured-output</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

@@ -35,17 +35,53 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>CI Gates for AI</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your regression suite (Ch 8) catches breakage — <em>if you remember to run it</em>. The node summary removes the "if": <strong>evals as merge blockers.</strong> CI gates make eval-passing a <em>requirement</em> for shipping — a bad change literally cannot merge. This is how mature software teams enforce quality on deterministic code (tests must pass to merge), adapted to the non-deterministic reality of AI. It's the discipline that turns "we should test our prompts" into "we can't ship untested prompts," and it's a hallmark of a serious AI engineering team.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>What a CI gate is.</strong> Continuous Integration (Vol 01 Ch 19's Git world, extended): every proposed change (a pull request) automatically triggers a pipeline of checks, and the change can only merge if they <em>pass</em>. For normal code: run the tests, run the linter, check types — green or no merge. For AI: run the <em>evals</em> — the regression suite (Ch 8), the golden-set scores (Ch 2-3), the trajectory/tool metrics (Chs 5-6) — and gate the merge on the results. A prompt change that drops faithfulness below threshold, or regresses a critical case, <em>fails the gate and cannot ship</em>. Quality becomes structural, not optional (the "security is architecture" lesson, Vol 04 Ch 15, now "quality is pipeline").</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The AI-specific challenges — why this isn't just "run tests in CI".</strong> <em>Non-determinism vs pass/fail</em> (Ch 1): a deterministic test is green or red; an eval produces a <em>score</em>, so the gate needs a <em>threshold</em> ("faithfulness ≥ 0.85 to merge") — and thresholds need judgment (too strict blocks good changes on noise; too loose lets regressions through; set them from your baseline + a noise margin, Vol 02 Ch 16's "15/20 vs 16/20 is a tie" wisdom, encoded). <em>Cost</em>: evals cost money (judge calls — Vol 04 Ch 17) and time (LLM latency); running the full eval suite on every commit can be slow and expensive, so teams <em>tier</em> — fast cheap programmatic checks (Ch 8's frozen behaviors) on every commit, the full judge-scored suite on PRs or nightly (the routing instinct, applied to CI). <em>Flakiness</em>: non-determinism means an eval can fail once and pass on retry (sampling variance) — gates need noise-tolerance (run at temperature 0, average multiple runs for critical metrics, or use statistical thresholds — not a single flaky number deciding a merge). <em>Judge drift</em> (Ch 4): a floating judge makes the gate's threshold meaningless over time — pin it.</p>
+
+<p><strong>What to gate on — the pragmatic tiers.</strong> <em>Hard gates</em> (block merge): critical-case regressions (a previously-passing important case now fails — Ch 8's flip list), structural failures (invalid output, missing refusals — the cheap programmatic freezes), and metric floors (faithfulness/quality below the established threshold). <em>Soft gates</em> (warn, don't block): minor score dips within noise, non-critical case flips — surface them for human judgment rather than auto-blocking (over-strict gates train people to bypass them — the approval-fatigue lesson, Vol 04 Ch 7, at the CI layer). <em>Informational</em> (report, no gate): full metric dashboards on the PR so the reviewer <em>sees</em> the eval impact of the change. The art is gating hard on what must not break while not blocking the whole team on noise.</p>
+
+<p><strong>Why this is the senior culture signal.</strong> A team with CI eval gates <em>cannot</em> silently ship a regression — the discipline is structural. A team without them ships on vibes and discovers regressions from user complaints. Building CI gates (even for your solo project) demonstrates you think about AI quality the way senior teams do: <em>systematically, enforced, at the pipeline level</em>. It's also the capstone of the "measure, don't believe" mindset (Ch 1) — the gate is that mindset made unskippable, and putting "eval-gated CI for prompt changes" on your work is a loud senior signal.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: evals as merge blockers.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Design and prototype (concept node, concrete): (1) Wire your Ch 8 regression suite into a real CI pipeline (GitHub Actions is the natural choice — Vol 01 Ch 19's world) that runs on every push to a branch: the fast programmatic freezes as hard gates, the judge-scored golden set on PRs. (2) Set thresholds from your baseline + noise margin, and <em>test the gate</em>: make a change that regresses a critical case, open a PR, watch the gate <em>block the merge</em> — the enforcement, witnessed. (3) Design the tiering: write which checks are hard gates vs soft vs informational, and the cost/time budget for each tier (fast-on-commit vs full-on-PR vs nightly). The working gate + the blocked-merge demo + the tiering design = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What is a CI eval gate, and how does it make quality structural?</li>
+<li>Name the four AI-specific challenges (thresholds, cost, flakiness, judge drift) and one mitigation each.</li>
+<li>Distinguish hard/soft/informational gates, and why does over-strict gating backfire?</li>
+<li>How do you set a threshold, and why is "15/20 vs 16/20 is a tie" relevant?</li>
+<li>Why is eval-gated CI a senior culture signal?</li>
+</ol>
+<hr>
+<h1 id="part-ii-mlops-amp-model-lifecycle">PART II — MLOPS &amp; MODEL LIFECYCLE</h1>
+<p><em>3 chapters. The broader ML engineering context: experiment tracking, data versioning, and serving patterns — the classical MLOps foundations your LLM work sits on.</em></p>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="prompt-regression-tests" href="prompt-regression-tests.html">prompt-regression-tests</a></p>
+<p><a class="wiki-link" data-node-id="git-mastery" href="git-mastery.html">git-mastery</a></p>
+<p><a class="wiki-link" data-node-id="build-eval-judge" href="build-eval-judge.html">build-eval-judge</a></p>
+<p><a class="wiki-link" data-node-id="judge-bias-pinning" href="judge-bias-pinning.html">judge-bias-pinning</a></p>
+<p><a class="wiki-link" data-node-id="build-eval-harness" href="build-eval-harness.html">build-eval-harness</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

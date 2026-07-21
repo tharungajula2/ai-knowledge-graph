@@ -35,17 +35,52 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Background Queues & Workers</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>An agent task takes 45 seconds; a user's HTTP request can't wait that long (it'll time out, Ch 6). The node summary: <strong>build a background task worker loop using Redis/Celery to run long-running agent execution tasks asynchronously; verify with mock task status polling.</strong> Background workers decouple <em>slow work</em> from <em>fast responses</em>: the API accepts the task instantly (returns "started"), a worker runs it in the background, and the user checks status or gets notified (Ch 14) when it's done. This is how production runs long agent jobs without blocking anyone — the scale-up of Ch 13's poller.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The problem — long work vs fast responses.</strong> HTTP requests should be fast (seconds — Ch 6's timeouts, users' patience). But agent tasks are <em>slow</em> (multi-step research, Vol 04 — tens of seconds to minutes) and <em>variable</em>. You can't run a 2-minute agent inside a request (it times out, ties up the server, and the user stares at a spinner). The solution: <em>accept the task fast, run it slow in the background</em>. The API endpoint (Ch 1) <em>enqueues</em> the task and immediately returns a task ID; a <em>worker</em> (a separate process) picks up the task, runs it, and stores the result; the user <em>polls</em> the task status (or gets notified, Ch 14) and retrieves the result when ready. Fast API, slow work, decoupled.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The architecture — queue + workers (Ch 13's poller, scaled up).</strong> <em>A task queue</em> (Redis, or a managed queue) holds pending tasks — durable (tasks survive crashes), ordered, and shared between the API (which enqueues) and workers (which dequeue). <em>Workers</em> (Celery, or a custom loop — Ch 13's poller, productionized) are processes that <em>consume</em> the queue: pull a task, execute it (run the agent), store the result, repeat. <em>Scaling</em> is beautiful here: more load → run more workers (they share the queue, each pulling tasks — horizontal scaling, Ch 28), and workers are independent (one crashing doesn't stop others — resilience). Celery is the standard Python task-queue framework (workers, retries, scheduling — Ch 3's cron, unified; result storage); Redis is the common queue/result backend. The pattern — a durable queue feeding a pool of workers — is fundamental production architecture.</p>
+
+<p><strong>Why this is the right architecture for agents specifically.</strong> Agents are <em>exactly</em> the slow, variable, failure-prone work background processing is built for: <em>duration</em> (agents take real time — background is mandatory); <em>retries</em> (Vol 02 Ch 9 — a failed agent task retries via the queue, idempotently Vol 08 Ch 10); <em>scaling</em> (agent load spikes — add workers); <em>isolation</em> (a runaway agent Vol 04 Ch 16 is contained to its worker, not blocking the API — Vol 08 Ch 14's blast radius); <em>long-running progress</em> (stream progress updates as the worker runs — Ch 2/10's realtime, from the worker). Your research agent, your node-proposer (Vol 04 Ch 18), your briefing builder (Ch 3) — all belong in workers, not in request handlers. This build is where your agents get a <em>proper</em> execution home.</p>
+
+<p><strong>The production concerns.</strong> <em>Task status tracking</em> (the node's "task status polling" — pending → running → done/failed, stored so the user/UI can check — Ch 10's realtime shows it live). <em>Idempotency</em> (Vol 08 Ch 10 — a retried task doesn't double-execute). <em>Result storage</em> (where the agent's output goes, retrievable by task ID). <em>Failure handling</em> (retry with backoff Vol 02 Ch 9, or fail-and-notify Ch 14). <em>Worker health</em> (Ch 15 — dead workers detected, stuck tasks reclaimed Ch 13). <em>Concurrency limits</em> (Ch 28 — bound the workers so they don't overwhelm the LLM API rate limits Vol 02 Ch 10 or your budget Ch 23).</p>
+
+<p><strong>Verification — mock task status polling, per the node.</strong> Enqueue a mock long task, and: the API returns a task ID instantly (doesn't block); a worker picks it up and runs it; status transitions correctly (pending → running → done); the result is retrievable by ID; polling shows progress; a failing task retries or fails-gracefully per policy; idempotency holds (retried task, single execution). The API-returns-instantly-while-worker-runs-in-background is the core proof.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a background task worker loop using Redis/Celery to run long-running agent execution tasks asynchronously; verify with mock task status polling.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1-1.5 days): set up Redis + Celery (or a custom worker loop, Ch 13 productionized) → an API endpoint that enqueues a task and returns an ID instantly (Ch 1) → workers that consume the queue, run agent tasks, store results → status tracking (pending/running/done/failed) → idempotency (Vol 08 Ch 10), retries (Vol 02 Ch 9), result storage → concurrency limits (Ch 23/28) → verify with mock task polling (instant-enqueue, background-execution, status-transitions, retrieval, retry, idempotency). Move your real agents (research, node-proposer, briefing) into workers. This is RESURRECTION's execution engine (Ch 34). Tag <code>prod-v0.15</code>. The queue+workers + the instant-enqueue-background-run demo + the status-polling test = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why can't long agent tasks run inside HTTP requests, and what's the decouple-fast-from-slow solution?</li>
+<li>Describe the queue + workers architecture and how it scales (more load → more workers).</li>
+<li>Why are agents <em>exactly</em> the workload background processing is built for — name four reasons.</li>
+<li>Recite the production concerns (status, idempotency, results, failures, health, concurrency limits).</li>
+<li>What does the instant-enqueue-while-worker-runs test prove?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-poller-engine" href="build-poller-engine.html">build-poller-engine</a></p>
+<p><a class="wiki-link" data-node-id="build-research-agent" href="build-research-agent.html">build-research-agent</a></p>
+<p><a class="wiki-link" data-node-id="build-idempotency-audit" href="build-idempotency-audit.html">build-idempotency-audit</a></p>
+<p><a class="wiki-link" data-node-id="errors-retries-backoff" href="errors-retries-backoff.html">errors-retries-backoff</a></p>
+<p><a class="wiki-link" data-node-id="rate-limiting-logs" href="rate-limiting-logs.html">rate-limiting-logs</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

@@ -35,17 +35,53 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>How Machines Learn</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You're blindfolded on a hilly landscape and you want to reach the lowest valley. You can't see — but you can <em>feel the slope under your feet</em>. So you take a small step downhill. Feel again. Step again. Thousands of steps later, you're in a valley. That's it. That's how every neural network on Earth is trained. The landscape is "how wrong the model is," the position is "the model's settings," and the feel-the-slope-step-downhill ritual is called <strong>gradient descent</strong>.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p>Three words carry the whole field. Learn them cold.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Weights.</strong> A neural network is a giant formula full of adjustable knobs called weights (also "parameters"). A model like Llama-3-70B has 70 <em>billion</em> of these knobs. Before training, they're random — the model outputs garbage. "Learning" means: find good values for every knob. Nothing more mystical than that.</p>
+
+<p><strong>Loss.</strong> To improve, you need a single number that says <em>how wrong</em> the model currently is. Show the model an example where the right answer is known, compare its output to the truth, and compute the gap — that gap is the <strong>loss</strong>. Loss high = model bad. Loss near zero = model nails it. The entire goal of training: make the average loss across millions of examples as small as possible.</p>
+
+<p><strong>Gradient descent.</strong> For every one of the 70 billion knobs, calculus (specifically an algorithm called backpropagation) can answer one precise question: <em>"if I nudge this knob up a tiny bit, does the loss go up or down?"</em> That per-knob direction is the <strong>gradient</strong> — the slope under your feet. Training step: compute loss on a batch of examples → compute the gradient → nudge every knob a tiny step in the loss-lowering direction (the step size is the <strong>learning rate</strong>) → repeat, millions of times. There is no understanding injected anywhere. There is only: wrong → measure wrongness → nudge all knobs slightly less-wrong → repeat until the wrongness is astonishingly small.</p>
+
+<p>The miracle worth sitting with: this dumb ritual, run at planetary scale on text, produces something that writes poetry. Intelligence-looking behavior condenses out of error-minimization the way a snowflake condenses out of cold air.</p>
+
+<p><strong>One honest caveat.</strong> The valley you reach depends on where you started and the terrain — networks find <em>a</em> good valley, not provably <em>the best</em> one. In practice, for huge models, the valleys are good enough that nobody cares.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: weights, loss, gradient descent — pure intuition.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Play "gradient descent by hand": pick a secret number between 0 and 100 (write it down — say 62). Now pretend you're the optimizer trying to guess it. Start at 50. Your "loss" is the distance to the secret. Your only feedback each round: does moving up or down reduce the distance? Take steps, halve your step size when you overshoot. Count how many steps to land within 1. You just experienced loss, gradient direction, learning rate, and overshooting — the whole vocabulary.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What are weights, in one sentence a 12-year-old accepts?</li>
+<li>What exactly does the loss number measure, and what is the goal of training stated purely in terms of loss?</li>
+<li>Describe gradient descent using the blindfolded-hiker picture, then name the real term for "step size."</li>
+<li>Why is it accurate to say "the model was never taught rules — rules condensed out of error correction"?</li>
+<li>A model's loss stopped going down but its answers are still bad. Give one possible reason (hint: valleys).</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="map-of-ai" href="map-of-ai.html">map-of-ai</a></p>
+<p><a class="wiki-link" data-node-id="what-is-a-language-model" href="what-is-a-language-model.html">what-is-a-language-model</a></p>
+<p><a class="wiki-link" data-node-id="training-pipeline" href="training-pipeline.html">training-pipeline</a></p>
+<p><a class="wiki-link" data-node-id="classical-ml-fundamentals" href="classical-ml-fundamentals.html">classical-ml-fundamentals</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

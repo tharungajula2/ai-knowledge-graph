@@ -35,17 +35,54 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Token & Cost Calculator</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
-
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+          <h2 id="eli5">ELI5</h2>
+<p>The graduation build of the Engineer's Floor: a real tool, built with every skill from Part II, that answers a question every AI company asks daily — <strong>"what will this cost us?"</strong> — using concepts from all of Part I. When a build makes intuition <em>executable</em>, the knowledge is yours. Plus: this tool genuinely impresses in interviews, because cost-consciousness is what separates hobbyists from engineers.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p>A CLI tool, built <em>on top of your Chapter 21 <code>tokentools</code> package</em>, that:</p>
+<ol>
+<li><strong>Counts real tokens</strong> — add the <code>tiktoken</code> library (a real BPE tokenizer — Chapter 4 made flesh) beside your chars÷4 heuristic, and report both, plus the heuristic's error %. Seeing where the rule of thumb bends (code! non-English!) is the lesson.</li>
+<li><strong>Estimates conversation cost</strong> — read a JSON file of messages (Chapter 15 shapes), model the <em>stateless resend</em>: turn N re-sends turns 1..N-1, so cost is quadratic-ish in conversation length (Chapter 8, now in numbers you computed).</li>
+<li><strong>Compares models</strong> — a small pricing table (frontier vs budget, input vs output prices per million; grab current prices the day you build — they rot, the <em>structure</em> doesn't). Output a comparison: "this conversation costs $X on model A, $Y on model B" — Chapter 11's routing logic, quantified.</li>
+<li><strong>Validates at the boundary</strong> — Pydantic models for the message file and the pricing table (Chapter 18); malformed input dies loudly at the border with a precise error.</li>
+<li><strong>Ships professionally</strong> — package layout, typed, ≥8 pytest tests including edge cases (empty conversation, unicode, absurd lengths) and <code>pytest.raises</code> on bad input (Chapter 21), README with usage (<code>python -m tokencost conversation.json --compare</code>), the whole build on a Git feature branch, merged when green, tagged <code>v0.1.0</code> (Chapter 19), inside a fresh venv with pinned requirements (Chapter 14).</li>
+<li><strong>Writes the explainer</strong> — per the node's own summary: a short piece in your note ("Why turn 40 of a chat costs 20× turn 2") written for a smart 12-year-old, with one real number from your own tool per claim.</li>
+</ol>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: count tokens, estimate API cost, write the explainer.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>The spec <em>is</em> the hands-on. Suggested path: branch → Pydantic schemas → counting (heuristic, then tiktoken) → cost math for a single message → the resend loop → model comparison table → CLI wrapper (<code>argparse</code> is fine) → tests green → merge, tag → explainer. Est. 1–2 days honest work. When done, run it on a real exported conversation of yours and put the actual dollar figure in the note — that number is the trophy.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Where does the chars÷4 heuristic err worst, and why (mechanically, from BPE)?</li>
+<li>Why is total conversation cost roughly quadratic in turns? Show the resend arithmetic for 4 turns.</li>
+<li>Your tool says the budget model is 20× cheaper — give the routing argument for when you still pay for frontier.</li>
+<li>Which boundaries did Pydantic guard in your build, and what dies loudly at each?</li>
+<li>Point to the test in your suite you're proudest of and say what regression it forbids forever.</li>
+</ol>
+<hr>
+<h1 id="part-iii-consolidation">PART III — CONSOLIDATION</h1>
+<p><em>2 chapters. Knowledge isn't yours until it survives compression and teaching.</em></p>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="tokens" href="tokens.html">tokens</a></p>
+<p><a class="wiki-link" data-node-id="context-windows" href="context-windows.html">context-windows</a></p>
+<p><a class="wiki-link" data-node-id="model-landscape" href="model-landscape.html">model-landscape</a></p>
+<p><a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

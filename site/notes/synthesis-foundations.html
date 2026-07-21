@@ -35,17 +35,40 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Synthesis: The Foundations Map</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
-
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+          <h2 id="eli5">ELI5</h2>
+<p>The Feynman test, final form: explain "how an LLM works," end to end, to a 12-year-old — no jargon unearned, no hand-waving where it counts, under five minutes. Chapters 1–13 gave you thirteen puzzle pieces; this chapter is assembling them into <strong>one picture you can draw on a napkin</strong> — because in interviews, on LinkedIn, and to yourself at 2 a.m., the napkin version is the one that matters.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p>Text is chopped into <strong>tokens</strong> [4]. Each becomes a vector, and through stacked layers of <strong>attention</strong> — every token consulting every other token about what matters [6] — the model builds a rich in-context understanding, the mature form of the <strong>embedding</strong> idea, meaning-as-geometry [5]. The whole machine is billions of <strong>weights</strong> tuned by <strong>gradient descent</strong>: guess, measure the <strong>loss</strong>, nudge everything slightly less wrong, repeat at internet scale [2] — first in <strong>pretraining</strong> (predict the next token across the whole internet [3, 7]), then shaped by <strong>fine-tuning</strong> and <strong>RLHF</strong> into an assistant [7]. At runtime everything must fit the <strong>context window</strong>, the whiteboard that is the model's only memory [8]; the model emits probabilities and a <strong>sampler</strong> — temperature, top-p — picks each next token [9]. It optimizes <em>plausible</em>, not <em>true</em>, so where knowledge is thin it <strong>hallucinates</strong>, which is why we ground it with retrieval and tools [10]. Which model to run is a landscape question — open vs closed, frontier vs small, routed by cost [11]. And the whole edifice stands on classical ML's laws — generalization, honest evaluation, precision/recall [12] — at the end of a lineage that traded counts for meaning, meaning for context, context for parallel attention [13].</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: explain "how an LLM works" to a 12-year-old, end to end.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Three renditions, escalating compression: <strong>(a)</strong> The 12-year-old script, written out, ≤600 words, every technical term introduced with a picture (whiteboard, bricks, blindfolded hiker...). <strong>(b)</strong> The napkin: one hand-drawn diagram — tokens → embeddings → attention stack → probabilities → sampler → text, with training as an arrow from above and the context window as a box around runtime. Photograph it into the note. <strong>(c)</strong> The 60-second version, spoken aloud to a phone recorder, jargon-free. If a real 12-year-old (or a patient non-technical friend) is available, deliver (a) live and record the questions they ask — their confusion is your map of what to re-study. Any chapter you couldn't compress: reopen it before lighting this node.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Deliver the 60-second version cold, right now.</li>
+<li>Which chapter was hardest to compress, and what does that tell you?</li>
+<li>A 12-year-old asks: "but where does it <em>keep</em> what it knows?" Answer in two sentences (weights vs context — the two memories).</li>
+<li>A senior engineer asks the same question. Answer again, precisely, in two sentences.</li>
+<li>Draw the napkin from memory.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="synthesis-foundations" href="synthesis-foundations.html">synthesis-foundations</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

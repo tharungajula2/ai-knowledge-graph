@@ -35,17 +35,67 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: CLI Chatbot</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: prompting-apis</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Every chapter so far produced a <em>component</em>. This build produces a <em>product shape</em> — the most famous one in AI: a chatbot. In your terminal, streaming, with a persona and working memory, built on your own gateway. When you finish, the magic trick behind every chat product you've ever used will be fully demystified, because you'll have performed it yourself: <strong>there is no conversation — only a list you keep re-sending.</strong></p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p>A terminal app: <code>python -m vizchat</code>, you type, it answers, until <code>/quit</code>.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>1. The memory loop — the heart.</strong> One list, three moves:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python">messages = [{<span class="tok-str">"role"</span>: <span class="tok-str">"system"</span>, <span class="tok-str">"content"</span>: <span class="tok-type">PERSONA</span>}]
+<span class="tok-kw">while</span> <span class="tok-kw">True</span>:
+    user_in = <span class="tok-fn">input</span>((<span class="tok-str">"\nyou &gt; "</span>)
+    <span class="tok-kw">if</span> <span class="tok-fn">handle_command</span>((user_in): <span class="tok-kw">continue</span>          <span class="tok-comment"># /quit /clear /usage /save</span>
+    messages.<span class="tok-fn">append</span>(({<span class="tok-str">"role"</span>: <span class="tok-str">"user"</span>, <span class="tok-str">"content"</span>: user_in})
+    reply = gateway.<span class="tok-fn">complete</span>((messages, stream=<span class="tok-kw">True</span>)    <span class="tok-comment"># YOUR gateway (Ch 11)</span>
+    messages.<span class="tok-fn">append</span>(({<span class="tok-str">"role"</span>: <span class="tok-str">"assistant"</span>, <span class="tok-str">"content"</span>: reply.text})</code></pre>
+      </div>
+<p>Append user turn → send <em>everything</em> → append assistant turn. That's a chatbot. All of it. Chapter 1's statelessness experiment, solved by hand — and now you <em>feel</em> why turn 40 costs what your Vol 01 calculator predicted: the list grows, and you re-send the list.</p>
+
+<p><strong>2. Streaming.</strong> Ch 8's iterator, printed token by token with <code>flush=True</code> — the bot must <em>feel</em> alive. (Reassembly matters here: the streamed chunks must be joined and appended to <code>messages</code>, or the bot forgets its own last answer — a classic bug; write the test.)</p>
+
+<p><strong>3. A persona.</strong> A real system prompt exercising Ch 2 and Ch 3: give it a name, a voice, a scope, a format rule. Make it yours — a study-buddy for the Vizier journey is the obvious candidate ("You are VIZ, a patient senior engineer; explain with Indian-daily-life analogies; keep answers under 150 words unless asked to go deep"). Watching <em>your</em> persona hold across 20 turns is Ch 2's persistence claim, verified personally.</p>
+
+<p><strong>4. In-session memory management — the M-node's real meat.</strong> The list grows without bound; the window (Vol 01, Ch 8) does not. Implement a <strong>token budget</strong>: before each send, count the message list with your <code>tokentools</code>; while over budget (say 4k for the exercise — artificially low <em>so you actually hit it</em> in one session), do sliding-window trimming — drop oldest turns, <strong>never the system prompt</strong> (drop it and watch the persona dissolve mid-chat — do this once on purpose; it's the most instructive bug in the build). Stretch goal, and the bridge to Domain 06: instead of dropping old turns, <em>summarize</em> them — one LLM call compressing dropped turns into a paragraph prepended as context (Ch 15's Move 3, running live inside your own product). Print a small <code>[trimmed N turns, ~M tokens]</code> notice when it happens — visible mechanics teach.</p>
+
+<p><strong>5. Commands &amp; meter.</strong> <code>/quit</code>, <code>/clear</code> (reset to system prompt), <code>/save</code> (dump transcript to JSON — Ch 15 of Vol 01's file round-trip), and <code>/usage</code> — per-session tokens and cost from your gateway's ledger, printed on demand and at exit. Cost-consciousness in the product's UI: the engineer's signature.</p>
+
+<p><strong>6. Tests.</strong> The memory logic is pure functions — perfect pytest targets (Vol 01, Ch 21): trimming never removes the system prompt; trimming actually gets under budget; streamed reply is correctly reassembled and appended; <code>/clear</code> resets properly. The chatbot itself is interactive; its <em>organs</em> are testable — learning to structure code so the testable parts separate from the interactive shell is itself a professional lesson.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: terminal chatbot with in-session memory, streaming, a persona.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it. Then run one honest 20+ turn conversation with your persona: reference something from turn 2 at turn 15 (memory works), blow past your artificial token budget (watch trimming fire), check <code>/usage</code>, <code>/save</code> the transcript, and put transcript + cost figure in the note. Break-it drill: comment out the assistant-append line and observe the bot amnesia its own answers — then explain in one sentence <em>why</em> that exact bug produced that exact behavior. Feature branch → tests green → merge → tag <code>vizchat-v0.1</code>.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Recite the three-move memory loop and state which single line makes it "a conversation."</li>
+<li>Why must the system prompt survive every trim? Describe what you saw when it didn't.</li>
+<li>Sliding-window vs summarization trimming: cost, quality, and what each loses.</li>
+<li>Where do your gateway, tokentools, and streaming skills each plug in — one sentence per.</li>
+<li>Your bot at turn 30 is slower and pricier than turn 3 — explain mechanically, and name the Ch 10 feature that softens it.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-gateway" href="build-gateway.html">build-gateway</a></p>
+<p><a class="wiki-link" data-node-id="streaming-responses" href="streaming-responses.html">streaming-responses</a></p>
+<p><a class="wiki-link" data-node-id="context-windows" href="context-windows.html">context-windows</a></p>
+<p><a class="wiki-link" data-node-id="long-context-strategies" href="long-context-strategies.html">long-context-strategies</a></p>
+<p><a class="wiki-link" data-node-id="build-token-cost-calculator" href="build-token-cost-calculator.html">build-token-cost-calculator</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

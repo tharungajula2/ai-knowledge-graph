@@ -35,17 +35,54 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Provider-Agnostic LLM Gateway</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: prompting-apis</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>A hospital doesn't depend on one power line — grid fails, generator engages, the surgery continues. Your AI product must treat model providers the same way: Gemini down at 2 a.m.? Route to Groq. Groq rate-limited? OpenRouter. Caller notices nothing. This build assembles <em>everything</em> from Chapters 1–10 into one piece of infrastructure — a mini-LiteLLM you build yourself, so tools like LiteLLM become conveniences you understand rather than magic you rent. This is the volume's engineering midterm.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p>One function to rule them all: <code>gateway.complete(messages, schema=None, stream=False) -&gt; Completion</code> — callers never know which provider answered.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>1. The provider abstraction.</strong> A base class (Vol 01, Ch 16 — inheritance, earning its keep): <code>Provider</code> with <code>.complete(messages) -&gt; Completion</code>; subclasses <code>GeminiProvider</code>, <code>GroqProvider</code>, <code>OpenRouterProvider</code>, each translating the <em>shared</em> message format (Ch 2's roles) into its provider's dialect and back. A Pydantic <code>Completion</code> (text, model_used, provider, input_tokens, output_tokens, latency_ms, cached: bool) is the gateway's universal currency (Ch 6 discipline). The deep lesson lives here: designing the <em>common interface</em> across dialects teaches you what's essential vs incidental in every provider's API. (Get free keys: Gemini you have; Groq's free tier is famously fast; OpenRouter fronts many models with one key.)</p>
+
+<p><strong>2. The fallback chain.</strong> Ordered list <code>[gemini, groq, openrouter]</code>. Per provider: attempt with Ch 9's full armor (retries, exponential backoff, jitter, the status-code table). Exhausted → log the fall, next provider. All exhausted → one clean <code>AllProvidersFailedError</code> carrying every attempt's history. Nuance that separates real from naive: <em>non-retryable errors skip straight to the next provider</em> (a 401 on Gemini won't heal — don't waste 15 seconds backing off; jump), while retryables get their full backoff <em>within</em> the provider first.</p>
+
+<p><strong>3. Demand management.</strong> Ch 10, encoded: per-provider <code>asyncio.Semaphore</code> (each has its own ceiling); an exact-match cache in front of everything (proper key: provider-set + messages + temperature + schema; <code>cached=True</code> completions cost 0ms and $0 — watch them appear in the report); <em>(stretch)</em> read rate-limit headers and pre-emptively skip a provider whose remaining quota is empty. Semantic caching: leave a marked TODO — it arrives with Domain 03's vectors; the gateway grows with your brain.</p>
+
+<p><strong>4. The meter.</strong> Every completion logs to a running ledger (JSON file is fine): timestamp, provider, model, tokens in/out, latency, cache-hit, estimated cost — priced by your <code>tokentools</code> (Vol 01 package, now production plumbing, exactly as promised). <code>gateway.report()</code> prints totals per provider, cache-hit rate, and money saved by caching. This ledger is the embryo of the observability you'll build properly in the production domain.</p>
+
+<p><strong>5. Verification — simulated key failures, per the node's own summary.</strong> Pytest suite with <em>fake</em> providers (subclass <code>Provider</code> with scripted behavior — your Ch 9 testing pattern, scaled up): primary throws 401 → next provider used, <em>no backoff wasted</em>; primary throws 429 twice then succeeds → same provider recovers, chain never advances; primary hard-down → full graceful fall to third; all down → <code>AllProvidersFailedError</code> with complete history; repeated request → cache hit, zero provider calls; ledger arithmetic correct across a scripted sequence. Then one <em>live</em> fire-drill: real keys, sabotage Gemini's env var (one wrong character), run 5 real prompts, watch the chain hold. The report from that run goes in your note — it's the trophy.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a LiteLLM-like gateway with fallbacks (Gemini -&gt; Groq -&gt; OpenRouter), retry logic, exponential backoff, semantic caching, and token/cost tracking; verify with simulated key failures.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>The spec is the hands-on. Suggested order: <code>Completion</code> + base class → Gemini subclass (port Ch 1) → fake-provider test harness <em>before</em> real Groq/OpenRouter (tests drive the design) → fallback chain → cache → semaphores → ledger → live fire-drill. Feature branch, tests green, merge, tag <code>gateway-v0.1</code> (Vol 01, Ch 19 ritual). Est. 1–2 honest days. Every later build in your entire brain calls <em>this</em> gateway instead of raw SDKs — you are building your own floor, again.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Sketch the class design and justify inheritance here vs the composition you used in Vol 01 Ch 16.</li>
+<li>Why do non-retryable errors skip providers while retryables back off in place? Trace a 401 vs a 429.</li>
+<li>What's in the cache key, and why is the schema part of it?</li>
+<li>Your report shows Groq answered 30% of calls. List the possible reasons in likelihood order.</li>
+<li>What did fake providers let you test that live keys never could, and why is that the Ch 21 testing philosophy in one example?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="errors-retries-backoff" href="errors-retries-backoff.html">errors-retries-backoff</a></p>
+<p><a class="wiki-link" data-node-id="rate-limits-caching" href="rate-limits-caching.html">rate-limits-caching</a></p>
+<p><a class="wiki-link" data-node-id="structured-output" href="structured-output.html">structured-output</a></p>
+<p><a class="wiki-link" data-node-id="python-classes-modules" href="python-classes-modules.html">python-classes-modules</a></p>
+<p><a class="wiki-link" data-node-id="build-token-cost-calculator" href="build-token-cost-calculator.html">build-token-cost-calculator</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

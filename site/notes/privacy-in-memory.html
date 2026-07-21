@@ -35,17 +35,53 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Privacy in Memory</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: memory-knowledge</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Everything this ring built — remembering facts, tracking history, personalizing behavior — is powerful, and power over people's data is responsibility. The node summary is a line in the sand: <strong>what should never be remembered.</strong> An assistant that remembers everything is not just a bloated store (Ch 4) — it's a liability, a breach waiting to happen, and potentially a violation of law and trust. This chapter is the ethics and engineering of <em>restraint</em> — and it's not a soft add-on; it's a hard design constraint that reshapes the whole memory architecture.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>What should never be stored — the never-remember categories.</strong> Some things extraction (Ch 3) must filter <em>before</em> storage, not clean up after: <em>secrets and credentials</em> (passwords, API keys, tokens the user pastes — never persist these, a security absolute); <em>sensitive personal data</em> (health, financial, legal, sexual, religious, political — special-category data under privacy law, requiring explicit consent and often best not stored at all); <em>third-party data</em> (things about <em>other</em> people the user mentioned — you didn't get <em>their</em> consent); and <em>ephemeral emotional states</em> misread as durable facts (Ch 3's false extraction, with privacy stakes — storing "user is depressed" from one frustrated message is both wrong and harmful). The extractor is the first line of defense: a <em>privacy filter in the extraction prompt</em> ("never extract credentials, health, financial, or third-party personal information") stops sensitive data at the door, which is far safer than storing-then-scrubbing (you can't un-leak what you stored).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The user's rights — control as a design requirement, not a feature.</strong> Privacy regulation (GDPR, CCPA, and the global trend) grants rights that memory systems must <em>architect for</em>, not bolt on: <em>access</em> (users can see what's remembered about them — so the store must be inspectable, not opaque, Ch 5's ownership axis); <em>rectification</em> (users can correct wrong memories — Ch 12's update path, now a legal requirement); <em>erasure</em> — the right to be forgotten (users can demand deletion — and it must <em>actually work</em>, which is why Ch 4 insisted deletion be designed in). Here the Ch 4 warning comes due with full force: once a memory is <em>embedded</em> (in a vector store), <em>summarized into other memories</em> (Ch 6's compaction entangled it), and <em>woven into a knowledge graph</em> (Part II), "delete this one fact" becomes genuinely hard — the fact's influence is smeared across derived artifacts. <strong>A memory system that can't cleanly honor "forget me" is a legal and ethical liability</strong>, and the only reliable fix is designing for deletion from the start: provenance tracking (Ch 1 — every derived memory traces to its sources, so deleting a source can trigger re-deriving what it touched), avoiding irreversible entanglement of sensitive data, and treating erasure as a first-class operation the architecture supports, tested like any other.</p>
+
+<p><strong>Consent, transparency, and the trust contract.</strong> Beyond the legal minimum, there's the trust relationship (Ch 7's creepiness, at its root): users should <em>know</em> memory is happening (transparency — "I'll remember this for next time" beats silent surveillance), <em>consent</em> to it (opt-in for sensitive personalization, not opt-out-if-you-notice), and <em>control</em> it (see/edit/delete — the antidote to creepy, Ch 7). The design principle: <strong>memory should feel like a helpful friend's recall, not a surveillance system's dossier</strong> — and the difference is entirely consent, transparency, and control. An assistant that remembers <em>with</em> you (visible, controllable) is delightful; one that remembers <em>about</em> you (silent, opaque) is creepy, regardless of identical underlying tech.</p>
+
+<p><strong>The engineering imperatives — privacy as architecture (the ring's final "security is architecture" echo).</strong> Concretely: <em>extract with a privacy filter</em> (stop sensitive data at the door — Ch 3); <em>encrypt memories at rest</em> (they're personal data); <em>scope access</em> (a user's memories are theirs — a multi-user system must isolate them, no cross-user leakage — Vol 05 Ch 13's confused-deputy risk, at the memory layer); <em>design for deletion</em> (Ch 4, non-negotiable); <em>minimize by default</em> (store the least that serves the purpose — the least-storage principle, sibling to least-privilege, least-autonomy; every fact not stored is a fact that can't leak); and <em>audit</em> (log what's remembered and why — the provenance habit, now a compliance tool). Privacy isn't a constraint bolted onto memory; it's a design dimension woven through every chapter of this ring — and getting it right is part of what separates a shippable memory system from a demo.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: what should never be remembered.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Harden your memory system (~30 lines + design): (1) Add the privacy filter to your extraction prompt (never-remember categories) and test it: feed conversations containing a pasted password, a health disclosure, and a third-party's info — assert <em>none</em> get stored. The door-filter, verified. (2) Implement erasure: a <code>forget(subject)</code> operation that deletes a user's memories <em>and</em> handles the entanglement — find memories derived from the deleted ones (via provenance, Ch 1) and re-derive or delete them too. Test that a deleted fact truly stops surfacing, even through compacted/derived memories. (3) Write the privacy design doc for your system: the never-remember list, the consent/transparency model, the deletion architecture, the access-scoping. The filter test + the working erasure + the privacy doc = the note — and this doc is genuinely portfolio-worthy (privacy-aware memory design is a senior signal most people skip).</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the never-remember categories and why the extraction filter (not post-hoc scrubbing) is the right defense.</li>
+<li>Recite the three user rights privacy law grants, and how each becomes an architecture requirement.</li>
+<li>Why does "forget me" get hard once memories are embedded/compacted/graphed, and how does provenance help?</li>
+<li>State the "helpful friend vs surveillance dossier" principle — what actually distinguishes them?</li>
+<li>Recite the privacy engineering imperatives, and name the least-storage principle's siblings.</li>
+</ol>
+<hr>
+<h1 id="part-ii-knowledge-graphs">PART II — KNOWLEDGE GRAPHS</h1>
+<p><em>5 chapters. Knowledge stops being a pile and becomes a graph: the fundamentals, extracting entities from your notes, GraphRAG done properly, facts that change over time, and your own brain formalized as the knowledge graph it was always shaped to be.</em></p>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="memory-extraction" href="memory-extraction.html">memory-extraction</a></p>
+<p><a class="wiki-link" data-node-id="retrieval-and-decay" href="retrieval-and-decay.html">retrieval-and-decay</a></p>
+<p><a class="wiki-link" data-node-id="mcp-security" href="mcp-security.html">mcp-security</a></p>
+<p><a class="wiki-link" data-node-id="personalization-via-memory" href="personalization-via-memory.html">personalization-via-memory</a></p>
+<p><a class="wiki-link" data-node-id="temporal-knowledge" href="temporal-knowledge.html">temporal-knowledge</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

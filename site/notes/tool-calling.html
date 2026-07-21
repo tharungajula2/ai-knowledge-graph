@@ -35,17 +35,59 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Tool / Function Calling</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: prompting-apis</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>A brilliant advisor sits in a sealed room: no internet, no calculator, no calendar — only what they memorized (and a whiteboard). Now slide a phone under the door and a menu: <em>"You may ask me to run these functions; I'll return results."</em> The advisor can now say, in a formal note: <strong>CALL get_weather(city="Hyderabad")</strong> — you run it, pass back <code>{"temp": 31}</code>, and they answer with live truth. The advisor never gained abilities. They gained a <em>protocol for requesting yours</em>. That protocol is tool calling — the node summary says it plainly: the single most important mechanic in agentic AI.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The mechanic, precisely — burn this into memory.</strong> The model <strong>never executes anything</strong>. Ever. The loop is:</p>
+<ol>
+<li>You send: messages + a list of <strong>tool definitions</strong> — each a name, a description, and a JSON Schema of parameters (Pydantic again — Ch 6's schema skills are literally tool-calling skills).</li>
+<li>The model decides an answer needs a tool, and instead of prose returns a <strong>structured tool-call request</strong>: <code>{"name": "get_weather", "args": {"city": "Hyderabad"}}</code> — this is structured output (Ch 6) with a purpose. Recall Chapter 1: response content is a <em>list of parts</em> — here is why; a reply can be text + tool-call.</li>
+<li><strong>Your code</strong> looks up the real function, validates the args (boundary law!), executes it, and appends the <strong>result</strong> to the conversation as a special tool-result message.</li>
+<li>Model reads the result and either answers in prose — or requests <em>another</em> tool. Repeat.</li>
+</ol>
+<p>That request→execute→feed-back cycle, looped, has a name you met in Volume 01 Chapter 1: <strong>the agent loop</strong>. Model + tools + loop + goal = agent. Domain 04 is this chapter, industrialized. Your agent-lab's supervisor routing to specialists? Tool calling, orchestrated.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Why descriptions are the real programming language.</strong> The model chooses tools <em>by reading their descriptions</em> — nothing else. "Gets data" invites misuse; "Returns current weather for a city. Use ONLY for weather questions; requires an exact city name, never a country" steers precisely. Writing tool descriptions is prompt engineering aimed at a decision-maker, and bad descriptions are the #1 cause of tool misuse (wrong tool chosen, tools called when none needed, needed tools ignored). Parameter descriptions in the schema matter equally — the model reads them to fill args. Domain 04 has a whole node (<code>designing-tools</code>) on this craft; plant the seed now.</p>
+
+<p><strong>Decisions the engineer owns around the loop:</strong> <em>tool choice modes</em> — auto (model decides; default), forced ("you must call X" — turns a model into a reliable extraction engine), none (prose only); <em>parallel calls</em> — models can request several tools at once, and Vol 01 Ch 17's <code>asyncio.gather</code> is exactly how you execute them concurrently (told you async was load-bearing); <em>error feeding</em> — when a tool fails, don't crash: feed the error message back as the result and let the model adapt (retry differently, ask the user, answer without) — the repair loop of Ch 6, again; <em>safety</em> — the model requests, <em>you</em> decide; dangerous tools (send money, delete files) get a human gate between request and execution. Your agent-lab's human-approval gate is this exact principle, and Domain 04's <code>add-the-gate</code> node rebuilds it with your hands.</p>
+
+<p><strong>Same mechanic, every provider.</strong> Gemini, Anthropic, OpenAI: superficially different JSON, identical concept — define/describe/schema → model requests → you execute → feed back. Learn it once here; Chapter 11's gateway papers over the dialects.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: the single most important mechanic in agentic AI.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>No framework — do the loop <em>manually</em> so you feel every gear: define two fake tools in a script, <code>get_weather(city)</code> and <code>search_web(query)</code> (both return canned dicts). Send a Gemini call with both tool definitions and the prompt "Should I carry an umbrella in Hyderabad today?" Inspect the response: find the tool-call part, print the requested name and args. Execute your fake function, append the tool-result message, call the model again, get the prose answer. Then three probes: a question needing <em>no</em> tool (does it correctly answer directly?), a question needing <em>both</em> tools, and a run where your weather function returns <code>{"error": "service down"}</code> — feed it back and watch the model cope. Transcript of all four runs → your note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>State what the model never does, and enumerate the four steps of the loop from memory.</li>
+<li>Why are tool descriptions "the real programming language"? Name two misuse modes bad ones cause.</li>
+<li>Where exactly do Chapter 6's skills reappear here — twice?</li>
+<li>What do you do when a tool fails mid-loop, and why is that better than crashing?</li>
+<li>Complete and explain: model + ___ + ___ + ___ = agent. Which two pieces did this chapter supply?</li>
+</ol>
+<hr>
+<h1 id="part-ii-engineering-the-call">PART II — ENGINEERING THE CALL</h1>
+<p><em>9 chapters. The request was Part I; Part II is everything wrapped around it so it survives contact with reality: streams, failures, throttles, attacks, images, voice, long documents — and the discipline of asking "was that prompt actually good?"</em></p>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="structured-output" href="structured-output.html">structured-output</a></p>
+<p><a class="wiki-link" data-node-id="python-async" href="python-async.html">python-async</a></p>
+<p><a class="wiki-link" data-node-id="map-of-ai" href="map-of-ai.html">map-of-ai</a></p>
+<p><a class="wiki-link" data-node-id="injection-first-look" href="injection-first-look.html">injection-first-look</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

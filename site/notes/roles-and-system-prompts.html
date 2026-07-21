@@ -35,17 +35,59 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Roles & System Prompts</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: prompting-apis</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>A play has a script with speaker labels: DIRECTOR (instructions the audience never hears), ACTOR, AUDIENCE. An LLM conversation is a script with three labels — <strong>system</strong> (the director: standing instructions, persona, rules), <strong>user</strong> (the audience member speaking), <strong>assistant</strong> (the actor's lines) — and the model was <em>trained</em> to treat these labels with different authority. Whoever writes the system prompt directs the play.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The message array.</strong> From now on you send not a string but a structured conversation:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python">messages = [
+    {<span class="tok-str">"role"</span>: <span class="tok-str">"system"</span>, <span class="tok-str">"content"</span>: <span class="tok-str">"You are a support agent for Vizier. Answer only from provided docs. If unsure, say so. Never discuss competitors."</span>},
+    {<span class="tok-str">"role"</span>: <span class="tok-str">"user"</span>, <span class="tok-str">"content"</span>: <span class="tok-str">"Hey, what's your refund policy?"</span>},
+    {<span class="tok-str">"role"</span>: <span class="tok-str">"assistant"</span>, <span class="tok-str">"content"</span>: <span class="tok-str">"Our policy is..."</span>},   <span class="tok-comment"># prior turns get re-sent</span>
+    {<span class="tok-str">"role"</span>: <span class="tok-str">"user"</span>, <span class="tok-str">"content"</span>: <span class="tok-str">"And for annual plans?"</span>}
+]</code></pre>
+      </div>
+<p>(Gemini's SDK spells it <code>system_instruction</code> + a contents list with <code>user</code>/<code>model</code> roles; Anthropic takes <code>system</code> as a top-level parameter. Same three-role concept, dialect differences — part of why Chapter 11 builds a gateway.)</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Why the system prompt steers everything.</strong> Three reasons. <em>Training</em>: in RLHF (Vol 01, Ch 7), models were explicitly rewarded for obeying system-role text over conflicting user-role text — the hierarchy is baked into the weights, not enforced by the server. <em>Position</em>: it typically sits first in the context, framing everything after. <em>Persistence</em>: your app re-sends it every turn, so it's the one voice that never scrolls away. This is where products put persona ("you are a pirate"), scope ("only cooking questions"), format rules ("always answer in Telugu"), tone, and safety policy. The entire behavioral difference between a generic model and a branded product is often <em>just this string</em> — which is why companies treat system prompts as trade secrets.</p>
+
+<p><strong>The honest caveat that shapes Chapter 12.</strong> The hierarchy is <em>learned</em>, therefore <em>probabilistic</em>, therefore <em>pressurable</em>. A sufficiently crafted user message can sometimes drag the model off its system instructions — that's prompt injection, the attack you'll formally meet in Chapter 12 and then defend against for the rest of your career (your agent-lab's injection scanner exists precisely because of this paragraph).</p>
+
+<p><strong>Prefilling — the sneaky third role.</strong> You may write words into the <em>assistant</em> role yourself and let the model continue from them (e.g., prefill <code>{"role": "assistant", "content": "{"</code> to force JSON continuation). The model believes it already started answering. Legitimate, powerful, and a preview of structured-output tricks in Chapter 6.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: who's talking; why system prompts steer everything.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>One user question, four system prompts: run "Explain what an API is" under (a) no system prompt, (b) "You are a Telugu-medium school teacher; use Indian daily-life analogies", (c) "Answer only in valid JSON with keys 'answer' and 'analogy'", (d) "You refuse all technical questions; you only discuss cricket." Save all four outputs side by side in your note. Then stress-test the hierarchy: under prompt (d), try three user messages that attempt to get a technical answer anyway. Record what held and what bent — that record <em>is</em> your first injection lab data.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the three roles and each one's job, using the play metaphor.</li>
+<li>Give the three reasons system prompts dominate — training, position, persistence — in your own words.</li>
+<li>Why is the role hierarchy "probabilistic, not enforced," and which attack lives in that gap?</li>
+<li>What is prefilling and one legitimate use?</li>
+<li>A client wants the same model to be a strict legal assistant in one product and a playful tutor in another. What changes, and what doesn't?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="first-api-call" href="first-api-call.html">first-api-call</a></p>
+<p><a class="wiki-link" data-node-id="training-pipeline" href="training-pipeline.html">training-pipeline</a></p>
+<p><a class="wiki-link" data-node-id="injection-first-look" href="injection-first-look.html">injection-first-look</a></p>
+<p><a class="wiki-link" data-node-id="prompt-skeleton" href="prompt-skeleton.html">prompt-skeleton</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

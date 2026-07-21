@@ -35,17 +35,48 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Coding Agents</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: frontier-capstone</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>There's a beautiful loop hiding in your own origin story: VIZIER v1 was built <em>by</em> coding agents — the IDE agent writing supervisor.py while you watched, before you had the vocabulary. Ten rings later, you have the vocabulary, and this chapter closes the circle: how do the tools that built VIZIER actually work? Spoiler: they are Vol 04's loop, pointed at code — and code turns out to be the <em>perfect</em> agent habitat, for one reason you already know intimately.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Why code is the perfect habitat: verifiable ground truth.</strong> Most agent outputs are judged by fuzzy rubrics (Vol 07's LLM-judge, with all its biases). Code <em>executes</em>. Tests pass or fail. Compilers object with line numbers. The observe step of the loop returns <strong>hard signal</strong> — and everything you learned about agents says quality scales with observation quality. That's the whole secret: coding agents look magical because their environment grades their homework instantly.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The anatomy — every organ is one you've built.</strong> Tools: read_file, edit_file, run_command, search_codebase (Vol 04 Ch 3's tool-design craft — and edit tools are <em>write actions</em>, which is why serious coding agents show diffs for approval: the proposal gate pattern, in an IDE costume). Context strategy: codebases dwarf context windows, so retrieval over code (Vol 03, different corpus) plus the scratchpad discipline (Vol 04 Ch 13) decide what the model <em>sees</em> — most coding-agent failures are context failures, not intelligence failures. The loop: write → run tests → read errors → fix → repeat, i.e., Reflexion (Vol 04 Ch 9) with the critic played by ground truth itself — the <em>best possible</em> critic per your own ordering. Guardrails: sandboxed execution (Vol 08 sandboxing — an agent running arbitrary shell commands is maximal blast radius), scoped file access, human review as the final gate.</p>
+
+<p><strong>The permanent skill shift for you.</strong> As these tools strengthen, the engineer's leverage moves up the stack: from writing lines to <em>specifying, decomposing, reviewing, and verifying</em> — writing the tests and acceptance criteria that give the agent its ground truth. Which is, not coincidentally, exactly the skill VIZIER v2's spec chapter (Ch 14) demands of you. You've felt this from the receiving end all year; now you can name the machinery.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: how the tools that built VIZIER actually work.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>An archaeology session on your own history. Take one surviving artifact built by the IDE agent during v1 (any module you still have at tag <code>pre-brain-simplification</code>). Read it with ring-10 eyes and annotate: which tool calls the agent must have made, where its context strategy shows (or fails — copied boilerplate, redundant code smells), where it verified vs guessed. Write the one-page "how my house was built" note. Then the forward-looking half: write the three acceptance criteria you <em>would have</em> given the agent for that module, knowing what you know now — that's spec-writing practice for Chapter 14.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why is code the perfect agent habitat? One sentence, naming the loop step it supercharges.</li>
+<li>Map three coding-agent organs to the exact nodes where you built the same organ.</li>
+<li>Why are most coding-agent failures context failures? What are the two context tools that fight this?</li>
+<li>Diffs-for-approval is which Vol 08 pattern in disguise? Why is it non-negotiable for edit tools?</li>
+<li>State the permanent skill shift, and name where this volume makes you practice it.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="what-makes-an-agent" href="what-makes-an-agent.html">what-makes-an-agent</a></p>
+<p><a class="wiki-link" data-node-id="reflection-patterns" href="reflection-patterns.html">reflection-patterns</a></p>
+<p><a class="wiki-link" data-node-id="designing-tools" href="designing-tools.html">designing-tools</a></p>
+<p><a class="wiki-link" data-node-id="sandboxing-isolation" href="sandboxing-isolation.html">sandboxing-isolation</a></p>
+<p><a class="wiki-link" data-node-id="define-vizier-v2" href="define-vizier-v2.html">define-vizier-v2</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

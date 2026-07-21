@@ -35,17 +35,48 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Reading Traces</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Having traces (Ch 13) is useless if you can't <em>read</em> them — and reading a trace to find why an agent failed is a distinct, learnable skill. The node summary: <strong>debug a real agent failure from its trace.</strong> This is the observability payoff in action: an agent misbehaves, and instead of guessing or re-running blindly, you open the trace and <em>find the exact span where it went wrong</em>. It's differential diagnosis (Vol 03 Ch 11, Vol 04 Ch 16) powered by the X-ray — and it's one of the most practical skills in this entire ring.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The trace-reading protocol (the failure taxonomies, now trace-powered).</strong> When an agent produces a bad result: (1) <em>Open the trace, don't re-run</em> — re-running a non-deterministic system may not reproduce the bug and wastes money; the trace <em>captured</em> the actual failing run (Ch 13's "reconstruct without re-running" payoff). (2) <em>Find the first wrong span</em> — walk the span tree and locate where reality diverged from intent (Vol 04 Ch 16's "first wrong step, not the loudest" — cascades mean the visible failure is downstream of the cause; the trace lets you walk <em>backward</em> through the tree to the origin). (3) <em>Read that span's inputs and outputs</em> — what did this step receive, what did it produce, and where's the mismatch? (Vol 03 Ch 11's "look at the chunks first," generalized: look at the <em>span's data</em> first.) (4) <em>Classify the failure</em> — is it a bad LLM decision (the reasoning in the span is flawed — a prompt problem), a bad tool result (the tool span returned garbage — a tool problem), a bad input (this span was poisoned by an upstream span — walk further back), or an orchestration error (wrong span ran, or in wrong order — a graph-logic problem)? Each classification points at a different fix — the taxonomies of Vol 03 Ch 11 and Vol 04 Ch 16, now <em>located precisely</em> in the trace rather than inferred from the output.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>What traces reveal that outputs hide.</strong> The final output shows <em>that</em> it failed; the trace shows <em>where and why</em>: the retrieval span that returned the wrong chunks (Vol 03's retrieval failure, <em>seen</em>); the tool span with malformed args (Ch 6's arg failure, <em>located</em>); the reasoning span where the agent drifted (Vol 04 Ch 8's derailment, <em>timestamped</em>); the subgraph that returned a confident-wrong result (Vol 05's multi-agent amplification, <em>traced to its source</em>); the step where latency spiked (Ch 17's slow span). The trace turns "the agent gave a bad answer" (unactionable) into "the research subgraph's second search span returned irrelevant results because the query was over-broad" (a specific, fixable diagnosis). This is why observability is a <em>senior</em> skill: it's the difference between debugging by guessing and debugging by <em>seeing</em>.</p>
+
+<p><strong>The common failure signatures in traces (a field guide).</strong> <em>The wandering trajectory</em> (Vol 04 Ch 16 derailment): many spans, drifting further from the goal — visible as a long, meandering span tree. <em>The loop</em> (Vol 04 Ch 16): the same span (same tool, same args) repeating — a visual stutter in the tree. <em>The poisoned cascade</em> (Vol 04 Ch 16, Vol 03 Ch 14): one wrong span, then every downstream span building on the error — walk back to the <em>first</em> wrong one. <em>The silent tool failure</em>: a tool span returned an error or empty result that the agent didn't handle (Vol 04 Ch 3's error-handling gap, exposed). <em>The latency culprit</em>: one span dominating the run's wall-clock (Ch 17's target). <em>The cost spike</em>: one span (usually a bloated-context LLM call — Vol 04 Ch 13's scratchpad growth) dominating the bill. Learning to spot these signatures at a glance is the fluency this build develops.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: debug a real agent failure from its trace.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Debug for real (est. half a day, and genuinely useful): (1) <em>Induce a real failure</em> in your traced agent (reuse Vol 04 Ch 16's zoo — a derailment, a loop, a poisoned cascade — or just run it on a hard case until it genuinely fails) and capture the trace. (2) <em>Debug it from the trace alone</em> — without re-running, walk the span tree, find the first wrong span, read its I/O, classify the failure, and identify the fix. Write up the diagnosis: "the failure was in [span], caused by [reason], fixed by [change]." (3) <em>Verify</em> — apply the fix, re-run, confirm the trace now shows the correct path. Do this for <em>two</em> different failure types so you practice spotting different signatures. The two trace-debugging writeups (failure → diagnosis → fix → verification) = the note; this is the practical skill that makes all your agents maintainable.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Recite the trace-reading protocol's four steps, and why "open the trace, don't re-run."</li>
+<li>Why walk <em>backward</em> to the first wrong span rather than fixing the visible failure?</li>
+<li>Give three things a trace reveals that the final output hides.</li>
+<li>Name four failure signatures and their visual appearance in a span tree.</li>
+<li>Why is trace-reading a senior skill — the difference it makes to debugging?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-tracing-instrumentation" href="build-tracing-instrumentation.html">build-tracing-instrumentation</a></p>
+<p><a class="wiki-link" data-node-id="agent-failure-modes" href="agent-failure-modes.html">agent-failure-modes</a></p>
+<p><a class="wiki-link" data-node-id="rag-failure-modes" href="rag-failure-modes.html">rag-failure-modes</a></p>
+<p><a class="wiki-link" data-node-id="trajectory-evals" href="trajectory-evals.html">trajectory-evals</a></p>
+<p><a class="wiki-link" data-node-id="cost-latency-dashboards" href="cost-latency-dashboards.html">cost-latency-dashboards</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

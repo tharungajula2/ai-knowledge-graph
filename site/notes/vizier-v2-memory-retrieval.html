@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: v2 Memory & RAG</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: frontier-capstone</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>A core loop with no memory is a brilliant amnesiac: every conversation starts at zero, every fact must be re-fed. Today v2 gets its hippocampus and its library card: <strong>long-term memory extraction</strong> (conversations distilling into durable facts that shape future behavior — Vol 06) and <strong>hybrid retrieval</strong> (dense + keyword + fusion over your corpus — Vol 03 Ch 7) — integrated as first-class organs of the core you built last chapter, not bolted-on afterthoughts.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The memory layer.</strong> The Vol 06 pipeline, productionized into v2: extraction (post-conversation, an LLM pass distills candidate memories, classified by your taxonomy — semantic/episodic/procedural, the Vol 06 Ch 1 build's schema, stored in Postgres), <strong>write-path discipline</strong> (memories about you are consequential writes — extraction proposals flow through the same review pattern as actions; Vol 06's privacy chapter gets a concrete enforcement point: the <em>never-remember</em> list is checked at write time, not read time), retrieval-and-decay (importance × recency scoring at recall — Vol 06 Ch 4), and injection into context via the scratchpad discipline (Vol 04 Ch 13's three-horizon map, now fully inhabited: in-context working memory, checkpointed thread state, and this — the durable store).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The retrieval layer.</strong> Hybrid search per your Vol 03 build: dense embeddings + keyword/BM25, RRF fusion, over pgvector (the benchmark from Vol 03 Ch 8 already told you what the alternatives buy; your spec chose accordingly). Mounted into the core <em>as tools</em> (Chapter 6's inversion, implemented: the agent decides when to retrieve, with query rewriting allowed), with citations structural (Vol 03 Ch 10 — every retrieved claim carries provenance, which Chapter 18's faithfulness evals will compute against), and the ingestion pipeline idempotent by content-hash (Vol 03 Ch 15 — re-running ingestion is always safe).</p>
+
+<p><strong>The integration test that matters.</strong> Memory and retrieval are different organs answering different questions — <em>"what do I know about the user"</em> vs <em>"what does the corpus say"</em> — and the classic integration bug is blurring them (user preferences leaking into document answers, document text stored as "memories"). Your spec's interface contracts keep them distinct; your tests prove it.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Integrate long-term memory extraction and hybrid vector retrieval (taught by build-memory-layer &amp; build-hybrid-search).</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build to acceptance (est. 3+ honest days): memory tables + extraction service + the never-remember enforcement test (plant a forbidden fact in a test conversation; assert it's absent from the store — this test is the privacy chapter, executable); decay-scored recall with a fixture clock (time-travel tests for recency); ingestion pipeline over your notes corpus + hybrid search + citations; mount both as tools in the core; then the two demos that go straight to the film: (1) the <strong>memory demo</strong> — tell v2 a preference in conversation A, watch it shape behavior in conversation B tomorrow; (2) the <strong>grounding demo</strong> — ask a brain question, get a node-cited answer, then <code>/sync</code> a new note mid-conversation and watch the answer update (the Vol 03 Ch 17 flex, now running on a system you wrote entirely). Run the Vol 03 golden set against v2's retrieval; numbers in the note next to the v1-era numbers. Tag <code>v2-memory-0.1</code>.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Draw the three-horizon memory map and place every v2 component on it.</li>
+<li>Why do memory writes flow through review, and which two taught nodes merge in that decision?</li>
+<li>Walk hybrid retrieval end to end: two searchers, the fusion, the citation, the eval that watches it.</li>
+<li>The memory-vs-retrieval boundary: state it, name the classic bug, and the test that catches it.</li>
+<li>Your golden-set numbers, v2 vs the Vol 03 build — and the honest explanation of any delta.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-memory-layer" href="build-memory-layer.html">build-memory-layer</a></p>
+<p><a class="wiki-link" data-node-id="build-hybrid-search" href="build-hybrid-search.html">build-hybrid-search</a></p>
+<p><a class="wiki-link" data-node-id="build-memory-taxonomy" href="build-memory-taxonomy.html">build-memory-taxonomy</a></p>
+<p><a class="wiki-link" data-node-id="privacy-in-memory" href="privacy-in-memory.html">privacy-in-memory</a></p>
+<p><a class="wiki-link" data-node-id="citations-grounding" href="citations-grounding.html">citations-grounding</a></p>
+<p><a class="wiki-link" data-node-id="build-ingestion-pipeline" href="build-ingestion-pipeline.html">build-ingestion-pipeline</a></p>
+<p><a class="wiki-link" data-node-id="agentic-rag-frontiers" href="agentic-rag-frontiers.html">agentic-rag-frontiers</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

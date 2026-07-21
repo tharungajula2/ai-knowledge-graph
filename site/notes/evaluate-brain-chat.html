@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Evaluate It</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: rag-retrieval</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The brain-chat works — you've watched it work. Now prove it, with numbers, the way Ch 16 taught: <strong>a mini golden set, faithfulness scored</strong> (the node summary, verbatim). This build turns last chapter's product into a <em>measured</em> product — and hands you the instrument that will referee every future change to it. From here forward, "I improved the brain-chat" is a claim with a before/after table attached, or it's weather.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The golden set — 20 rows, authored with care (the build's real labor).</strong> Sources: your labeled inspection sessions (Chs 5, 7, 17 — the whole volume has been quietly composing this set; now you see why every hands-on said <em>keep the labels</em>). Composition, deliberately spread (Vol 02 Ch 16's coverage logic): ~8 straightforward single-hop across ≥4 domains, 3 vocabulary-mismatched (Ch 13's customers), 2 filter-dependent, 2 conversational follow-up pairs (the rewriter gets evaluated too — eval the <em>system</em>, not just the happy path), 3 out-of-corpus (expected: honest refusal — refusal calibration is a measured behavior, per Ch 11), 2 multi-hop-flavored (expect these to score poorly today — <em>baselines are allowed to have known weaknesses; unmeasured weaknesses are the sin</em>). Per row: question, expected-relevant chunk ids (you label them — ground-truth authorship, Ch 16's hard-won feeling), expected-answer notes or refusal flag, and history for the follow-up rows. Version the file in the repo beside the code it judges.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The harness — <code>python -m braineval run</code>.</strong> Per row: execute the full stack (rewrite → retrieve → generate), then compute: <strong>context recall &amp; precision</strong> (retrieved ids vs your labels — pure set arithmetic, pure functions, pytest-perfect); <strong>faithfulness</strong> — per claim in the structured answer (Ch 10's schema, cashing in exactly as promised), an LLM-as-judge call via your gateway: <em>"Context: [cited chunks]. Claim: [text]. Does the context support the claim? SUPPORTED / PARTIAL / UNSUPPORTED, one line of reasoning."</em> — structured output, temperature 0, cheap model; faithfulness = supported/total; <strong>refusal correctness</strong> on the out-of-corpus rows (refused when it should = pass; answered = fail, and flag <em>what</em> it invented); <strong>answer relevance</strong> — judge call, 1–5 rubric. Output: per-row table + aggregate scores + per-slice breakdowns (the vocabulary-miss slice scored separately — slices localize weakness; aggregates hide it) → <code>eval_report.md</code>, timestamped, committed. Cost note in the report: an eval run is ~20×(stack + judge) calls — price it with the ledger; knowing what measurement costs is part of measurement.</p>
+
+<p><strong>Calibrate the judge — the step that separates rigor from theater (Ch 16's iron caveat, enacted).</strong> Before trusting any aggregate: take 15 claim-judgments from the first run, judge them <em>yourself</em> blind (cover the model's verdicts), compute agreement. ≥80% → trust with eyes open; below → tighten the judge prompt (few-shot examples of SUPPORTED vs PARTIAL — Vol 02 Ch 4, aimed at judging) and re-calibrate. Record the agreement number <em>in the report</em> — an eval that reports its own reliability is an eval an interviewer believes.</p>
+
+<p><strong>Then: close one loop, whole.</strong> Run the baseline → read the slice breakdowns → pick the <em>worst slice</em> → apply this volume's targeted fix (vocabulary slice weak → enable multi-query/HyDE for it; precision weak → rerank harder or k down; faithfulness weak → tighten the grounding prompt) → <strong>change one thing</strong> → re-run → before/after table. Whatever the numbers say — improvement, regression, nothing — you have now run the complete engineering loop this curriculum has been building toward since Vol 02 Ch 16: <em>measure, change once, re-measure, decide by evidence.</em> That loop, not any single score, is the artifact.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: mini golden set; score faithfulness.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Author the set (budget half the build here — labeling is the work) → harness → calibration → baseline run → the one-change loop → both reports committed. Tests: metric arithmetic on hand-computed fixtures; judge-output parsing; refusal-scoring both directions. Tag <code>brain-eval-v1.0</code>. In the note: the baseline table, the calibration number, the before/after table, and one honest paragraph: what your brain-chat is actually good at, weak at, and what you chose <em>not</em> to fix yet and why. That paragraph is Ch 20's capstone post, half-written.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Defend the golden set's composition — why each slice exists and what each measures.</li>
+<li>Why must expected <em>chunks</em> be labeled, not just expected answers? Which metrics die without them?</li>
+<li>Walk the faithfulness computation end to end, naming the Ch 10 structure it consumes.</li>
+<li>What does judge calibration protect against, and why does reporting the agreement number matter?</li>
+<li>Describe your one-change loop: slice, hypothesis, fix, numbers, decision. Defend the decision.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="rag-evals-intro" href="rag-evals-intro.html">rag-evals-intro</a></p>
+<p><a class="wiki-link" data-node-id="build-chat-with-my-brain" href="build-chat-with-my-brain.html">build-chat-with-my-brain</a></p>
+<p><a class="wiki-link" data-node-id="citations-grounding" href="citations-grounding.html">citations-grounding</a></p>
+<p><a class="wiki-link" data-node-id="prompt-quality" href="prompt-quality.html">prompt-quality</a></p>
+<p><a class="wiki-link" data-node-id="classical-ml-fundamentals" href="classical-ml-fundamentals.html">classical-ml-fundamentals</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

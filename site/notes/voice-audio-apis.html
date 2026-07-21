@@ -35,17 +35,49 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Voice & Audio APIs</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: prompting-apis</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Half of India talks to their phones rather than types — voice is not a nice-to-have in your market, it's the door. The good news: a voice AI is mostly <em>plumbing you already understand</em>. Speech becomes text, text goes through everything you've built in this volume, text becomes speech. Two converters bolted onto your existing pipeline. This chapter is a landscape survey — vocabulary and architecture, no build — so that when a voice project lands on your desk, you speak its language on day one.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The classic pipeline, three stages.</strong> <strong>STT</strong> (speech-to-text / ASR): audio in, transcript out — the famous open-weights family is Whisper (runs locally! privacy + zero per-call cost), with strong API options across providers; quality is measured in <strong>WER</strong> (word error rate — insertions+deletions+substitutions over word count; your Vol 01 Ch 12 metrics instinct applies: measure on <em>your</em> users' audio, not the vendor's demo reel). <strong>LLM</strong>: the transcript is just a user message — every skill in this volume applies verbatim (skeletons, tools, gateway). <strong>TTS</strong> (text-to-speech): text in, audio out — the axes are naturalness, voice choice/cloning (with its obvious deepfake ethics — voice cloning consent is non-negotiable), speed, and price per character/second.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The two architectures — the real decision.</strong> <em>Cascade</em> (STT → LLM → TTS): maximum control, each stage swappable and debuggable, your gateway sits in the middle untouched; cost = sum of stages; but latency stacks — each stage waits for the previous, and worse, naive cascades lose the <em>paralinguistics</em>: tone, hesitation, sarcasm flatten into bare text. <em>Native speech-to-speech</em> (realtime APIs — audio streams directly in and out of one multimodal model): dramatically lower latency, hears tone and handles interruptions naturally — but less controllable, pricier, and your careful middle-layer engineering has fewer insertion points. The industry runs both; the choice is your Ch 5 routing instinct again: control and cost vs latency and naturalness.</p>
+
+<p><strong>The vocabulary that makes you sound (and be) fluent in meetings.</strong> <em>Latency budget</em>: human conversation tolerates ~500–800ms of response gap before it feels broken — sum your stages against that number and streaming (Ch 8) becomes mandatory at every seam: stream STT partials, stream LLM tokens, stream TTS audio, overlap all three. <em>Endpointing / VAD</em> (voice activity detection): detecting that the speaker <em>finished</em> — too eager interrupts users mid-thought, too patient feels dead; this tiny detail makes or breaks perceived quality. <em>Barge-in</em>: user interrupts the bot mid-answer; the system must stop talking and listen — table stakes for real products. <em>Diarization</em>: who spoke when, in multi-speaker audio (meeting transcription's hard part). <em>Code-switching</em>: Hinglish/Telugu-English mid-sentence switching — the everyday reality of Indian speech and a known STT stress test; when you evaluate STT for this market, your golden set (Ch 16's habit) must be code-switched audio, full stop.</p>
+
+<p><strong>Where this connects in your brain.</strong> STT/TTS are just <em>tools</em> (Ch 7) an agent can call; a voice interface on your Domain-04 research agent is the cascade with your agent as the middle stage; and transcription is how meetings/calls become <em>documents</em> that flow into RAG (Domain 03). Voice isn't a separate world — it's an input/output skin over everything else you're building.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: speech-to-text and text-to-speech landscape.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Survey, not build (S-node): (1) run <em>one</em> real STT call — record a 30-second voice note on your phone <em>in natural Hinglish/Telugu-mixed speech</em>, run it through any STT (Whisper locally via a one-liner, or an API), and compute rough WER against your own honest transcript — write the number and the two worst errors in your note; (2) sketch the cascade architecture for a "voice FAQ bot for a bank" on paper — every stage, every seam where streaming applies, the VAD/barge-in points, and your estimated latency budget per stage against the 800ms ceiling; (3) write a five-line decision memo: cascade or native realtime for that bank bot, and why. The sketch + memo + WER number = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Draw the cascade from memory and state each stage's input, output, and quality metric.</li>
+<li>Cascade vs native speech-to-speech: two decisive advantages each, and which product situations favor each.</li>
+<li>Define VAD, barge-in, and diarization in one sentence each, and name the one that most shapes perceived quality.</li>
+<li>Why is code-switching a first-class evaluation criterion in your market, and where must it show up?</li>
+<li>Where do STT/TTS plug into your existing chapters — name three connection points.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="streaming-responses" href="streaming-responses.html">streaming-responses</a></p>
+<p><a class="wiki-link" data-node-id="tool-calling" href="tool-calling.html">tool-calling</a></p>
+<p><a class="wiki-link" data-node-id="classical-ml-fundamentals" href="classical-ml-fundamentals.html">classical-ml-fundamentals</a></p>
+<p><a class="wiki-link" data-node-id="model-landscape" href="model-landscape.html">model-landscape</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

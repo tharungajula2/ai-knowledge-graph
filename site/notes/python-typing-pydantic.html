@@ -35,17 +35,60 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Types & Pydantic</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Python happily lets you pass a string where a number belongs — and crashes at 2 a.m. in production instead of at noon in development. <strong>Type hints</strong> are labels that catch mistakes early; <strong>Pydantic</strong> turns those labels into an enforced border checkpoint: data that doesn't match the schema <em>does not enter</em>. And here's the twist that makes this chapter secretly huge: schemas are also how you make <em>LLMs</em> return reliable structured output. The schema mindset runs through your entire brain.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Type hints</strong> — documentation that tools can check: <code>def chunk(text: str, size: int = 500) -&gt; list[str]:</code>. Modern syntax to recognize on sight: <code>list[dict]</code>, <code>str | None</code> (maybe-a-string), <code>Optional[str]</code> (older spelling of the same). Python doesn't enforce hints at runtime — editors and checkers (mypy/pyright) do — which is exactly why Pydantic exists for the borders of your system.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Pydantic</strong> — classes that <em>validate</em>:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">from</span> pydantic <span class="tok-kw">import</span> <span class="tok-type">BaseModel</span>, <span class="tok-type">Field</span>
+
+<span class="tok-kw">class</span> <span class="tok-fn">NodeNote</span>((<span class="tok-type">BaseModel</span>):
+    node_id: <span class="tok-builtin">str</span>
+    status: <span class="tok-builtin">str</span> = <span class="tok-str">"charging"</span>                       <span class="tok-comment"># default</span>
+    xp: <span class="tok-builtin">int</span> = <span class="tok-fn">Field</span>((ge=<span class="tok-num">0</span>)                          <span class="tok-comment"># constraint: ≥ 0</span>
+    wikilinks: <span class="tok-builtin">list</span>[<span class="tok-builtin">str</span>] = []
+
+note = <span class="tok-fn">NodeNote</span>((node_id=<span class="tok-str">"tokens"</span>, xp=<span class="tok-str">"150"</span>)        <span class="tok-comment"># "150" → coerced to int 150 ✅</span>
+bad  = <span class="tok-fn">NodeNote</span>((node_id=<span class="tok-str">"tokens"</span>, xp=<span class="tok-str">"lots"</span>)       <span class="tok-comment"># ❌ ValidationError, loud &amp; precise</span></code></pre>
+      </div>
+<p>Three superpowers: <strong>validation</strong> (garbage stops at the border with an error message pointing at the exact field), <strong>coercion</strong> (sensible conversions like <code>"150"</code> → <code>150</code> happen for you), and <strong>serialization</strong> (<code>note.model_dump()</code> → dict, <code>NodeNote.model_validate_json(s)</code> ← JSON string — the dict-plumbing of Chapter 15, now with a bouncer). The professional pattern: define Pydantic models at every <em>boundary</em> — API in, API out, file load, DB row — so the messy outside world is validated once, and everything inside works with guaranteed-clean objects.</p>
+
+<p><strong>The AI payoff (why this tiny chapter echoes everywhere):</strong> a Pydantic model auto-exports <strong>JSON Schema</strong> (<code>NodeNote.model_json_schema()</code>), and JSON Schema is the language of structured LLM output — "respond matching this schema" — and of tool definitions in agent frameworks. Define the shape once in Pydantic: validate your data with it, <em>and</em> hand it to the model as the contract, <em>and</em> validate what the model sends back. FastAPI is built on exactly this. Domain 02's structured-output nodes will feel like a reunion.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: the schema mindset.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Write <code>schema.py</code>: a <code>CurriculumNode</code> Pydantic model matching your real node format (id, title, type with allowed values, size, summary, status with default "ghost"). Load your actual <code>curriculum.json</code>, validate every node through the model, and print a count of valid nodes — if any fail, read the error and feel how precisely it points. Then print <code>CurriculumNode.model_json_schema()</code> and stare at it: that JSON is what you'll one day hand an LLM as an output contract.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What do type hints do and — importantly — <em>not</em> do at runtime?</li>
+<li>Pydantic's three superpowers, one sentence each.</li>
+<li>What is the "validate at the boundary" pattern and why does it beat validating everywhere?</li>
+<li>How does one Pydantic model serve both your code and an LLM's output contract?</li>
+<li>Read aloud: <code>def f(x: list[str | None]) -&gt; dict[str, int]:</code></li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="python-data-shapes" href="python-data-shapes.html">python-data-shapes</a></p>
+<p><a class="wiki-link" data-node-id="python-classes-modules" href="python-classes-modules.html">python-classes-modules</a></p>
+<p><a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

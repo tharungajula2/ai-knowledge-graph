@@ -35,17 +35,48 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Error Analysis Practice</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The node summary is a discipline disguised as an exercise: <strong>categorize 20 failures; find the pattern.</strong> Individual failures are noise; <em>patterns</em> in failures are signal — and the highest-leverage thing you can do to improve any AI system is not to fix failures one by one, but to <em>categorize</em> them, find the dominant pattern, and fix the <em>cause</em> behind the whole cluster. This is error analysis, the most underrated skill in ML (senior practitioners swear by it), and this build makes it a habit.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Why error analysis beats whack-a-mole.</strong> Fixing failures individually is O(n) effort for O(n) fixes and misses the forest — you patch symptom after symptom while the underlying cause keeps generating new failures. Error <em>analysis</em> is different: collect a bunch of failures, <em>categorize</em> them by cause, and the distribution reveals that (say) 60% share one root cause — fix <em>that</em>, and 60% of your failures vanish at once. It's the Pareto principle (Vol 04 Ch 17's "optimize what profiling proves is hot," now for quality): most failures cluster into a few causes, and finding the dominant cluster is where the leverage is. Andrew Ng famously calls manual error analysis the highest-ROI activity in ML — and it's <em>manual</em> on purpose: you have to <em>read the failures</em> to see the pattern.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The method — the error analysis protocol.</strong> (1) <em>Collect failures</em> — from your eval runs (Ch 18's harness surfaces them), production (Ch 15's online evals), or a deliberate hard-case run — gather ~20 real failures (enough to see patterns, few enough to read every one). (2) <em>Read every one</em> — actually read the failing case, its trace (Ch 14), what went wrong. No shortcuts; the reading <em>is</em> the analysis. (3) <em>Categorize by root cause</em> — not by symptom ("wrong answer") but by <em>cause</em> ("retrieval missed the relevant chunk," "tool selection error," "reasoning drift," "prompt ambiguity," "hallucination") — the taxonomies of Vol 03 Ch 11 and Vol 04 Ch 16 are your starting categories, but let the <em>data</em> suggest new ones. (4) <em>Count and rank</em> — the distribution: which category dominates? (5) <em>Fix the dominant cause</em> — target the biggest cluster's root, not the individual failures. (6) <em>Re-measure</em> (Ch 18's harness) — did fixing the dominant cause move the aggregate? This is Vol 03 Ch 18's "close one loop" and Vol 02 Ch 16's "one change at a time," now driven by <em>pattern</em> rather than by individual case.</p>
+
+<p><strong>What error analysis reveals — the insights whack-a-mole misses.</strong> <em>The dominant cause</em> (fix once, fix many). <em>Miscategorized effort</em> (you thought the problem was reasoning; error analysis shows 70% is retrieval — you were about to optimize the wrong thing). <em>Systematic vs random</em> (a <em>pattern</em> is fixable at the cause; scattered one-offs might be irreducible noise — Vol 01 Ch 9's sampling variance — and knowing which is which saves wasted effort). <em>New failure categories</em> (patterns you didn't have a name for — the data teaching you your system's specific weaknesses, Vol 04 Ch 16's zoo, extended by evidence). <em>The improvement roadmap</em> (the ranked cause-distribution <em>is</em> your prioritized fix list — data-driven prioritization, not vibes). Error analysis converts a pile of failures into a prioritized, causal improvement plan — which is why it's the senior move.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: categorize 20 failures; find the pattern.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Do the practice for real (est. half a day, high-ROI): (1) Collect 20 real failures from your research agent or node-proposer (via the Ch 18 harness, or a hard-case run) — actual failures, not hypotheticals. (2) <em>Read every one</em> with its trace (Ch 14) — no skipping. (3) Categorize by root cause (start with Vol 03 Ch 11 / Vol 04 Ch 16 taxonomies, add categories the data demands) → build the distribution. (4) Identify the dominant cause and the fix it points to. (5) Fix it, re-run the harness (Ch 18), and measure whether the aggregate moved. The 20-failure categorization table + the dominant-cause finding + the fix-and-re-measure result = the note. This is a <em>repeatable practice</em> — you'll do it on every system, forever; this build installs the habit.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why does error analysis beat fixing failures one by one — the Pareto argument?</li>
+<li>Recite the six-step error analysis protocol, and why is reading every failure non-negotiable?</li>
+<li>Why categorize by root cause, not symptom? Give an example of the difference.</li>
+<li>Name four insights error analysis reveals that whack-a-mole misses.</li>
+<li>How does the cause-distribution become an improvement roadmap?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="rag-failure-modes" href="rag-failure-modes.html">rag-failure-modes</a></p>
+<p><a class="wiki-link" data-node-id="agent-failure-modes" href="agent-failure-modes.html">agent-failure-modes</a></p>
+<p><a class="wiki-link" data-node-id="reading-traces" href="reading-traces.html">reading-traces</a></p>
+<p><a class="wiki-link" data-node-id="build-eval-harness" href="build-eval-harness.html">build-eval-harness</a></p>
+<p><a class="wiki-link" data-node-id="failure-to-golden-loop" href="failure-to-golden-loop.html">failure-to-golden-loop</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

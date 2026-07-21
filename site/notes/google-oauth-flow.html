@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Google OAuth Integration</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your agent-lab reads your Gmail and Calendar (Ch 8) — but how does it get <em>permission</em> to, securely, without you handing it your Google password? The node summary: <strong>build a Google OAuth2 client with flow initialization, token storage/rotation, and local redirection handlers; verify with a web authentication login.</strong> OAuth is how modern apps get <em>scoped, revocable, delegated access</em> to your accounts on other services — "let this app read my calendar" without giving it your password or full account. This build is the authentication foundation for every third-party integration, and it's a rite of passage every backend engineer goes through.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>What OAuth solves — delegated authorization without password sharing.</strong> The old, terrible way: give the app your Google password (it can now do <em>anything</em>, forever, and if it's breached your Google account is breached — Vol 08's nightmare). OAuth's way: you authorize the app to do <em>specific things</em> (read calendar, read email — <em>scopes</em>, Vol 08 Ch 8's least-privilege as a protocol), it gets a <em>token</em> (not your password) that grants <em>only those scopes</em>, and you can <em>revoke</em> it anytime without changing your password. It's least-privilege, delegation, and revocability, standardized — exactly the security principles of Vol 08, applied to account access.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The OAuth2 flow — the dance (the "flow initialization" and "redirection handlers").</strong> The authorization-code flow, step by step: (1) your app redirects the user to Google's consent screen, requesting specific scopes; (2) the user logs in <em>to Google</em> (never to your app — your app never sees the password) and approves the scopes; (3) Google redirects <em>back</em> to your app's <em>redirect handler</em> with a temporary <em>authorization code</em>; (4) your app exchanges that code (server-to-server, with your app's client secret) for an <em>access token</em> (short-lived, grants API access) and a <em>refresh token</em> (long-lived, used to get new access tokens); (5) your app uses the access token to call Google APIs (Ch 8). The redirect handler (step 3) is the piece that catches Google's callback — a specific endpoint in your FastAPI app (Ch 1). Understanding this dance is understanding how <em>all</em> OAuth works (GitHub, Slack, every "Sign in with X" — same flow).</p>
+
+<p><strong>Token storage and rotation (the "token storage/rotation" — the security-critical part).</strong> Tokens are <em>credentials</em> (Vol 08 — as sensitive as passwords): <em>store them securely</em> (encrypted, in your database, scoped to the user — never in code, never in logs, never in the image Ch 5); <em>rotate them</em> (access tokens <em>expire</em> — minutes to an hour — so you use the <em>refresh token</em> to get a new access token automatically when the old expires — "rotation"; a well-built client refreshes transparently, so API calls never fail from expiration); <em>handle revocation</em> (the user revokes access at Google — your tokens stop working — handle it gracefully, prompt re-auth); <em>protect the refresh token especially</em> (it's the long-lived key — its leak is the serious breach). This is Vol 08 Ch 10's credential handling, made concrete for OAuth.</p>
+
+<p><strong>Verification — web authentication login, per the node.</strong> The full flow works end to end: (1) the user clicks "connect Google," gets redirected to consent; (2) approves; (3) your redirect handler catches the callback, exchanges the code for tokens; (4) tokens are stored securely; (5) an API call succeeds with the access token; (6) rotation works (expire the access token, confirm auto-refresh); (7) revocation is handled (revoke, confirm graceful re-auth prompt). Test the security: tokens never appear in logs, storage is encrypted, the refresh token is protected.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a Google OAuth2 client with flow initialization, token storage/rotation, and local redirection handlers; verify with a web authentication login.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1-1.5 days): register an OAuth app in Google Cloud Console (client ID/secret, redirect URI, scopes) → the flow-init endpoint (redirect to consent) → the redirect handler (catch callback, exchange code for tokens — a FastAPI route, Ch 1) → secure token storage (encrypted, per-user, in your DB Ch 4) → transparent rotation (auto-refresh on expiry) → revocation handling → the full-login test + the security checks (no tokens in logs, encrypted storage). This is RESURRECTION's auth foundation and the gate to Ch 8's readers. Tag <code>prod-v0.5</code>. The working OAuth login + the rotation demo + the token-security audit = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What does OAuth solve, and why is it vastly safer than password-sharing? Connect to Vol 08's least-privilege.</li>
+<li>Walk the OAuth2 authorization-code flow's five steps, and what the redirect handler does.</li>
+<li>Why does the app never see the user's password, and why does that matter?</li>
+<li>Explain token rotation — access vs refresh tokens, and why rotation makes API calls not fail on expiry.</li>
+<li>Why is the refresh token especially sensitive, and what are the token-storage security rules?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="authn-vs-authz" href="authn-vs-authz.html">authn-vs-authz</a></p>
+<p><a class="wiki-link" data-node-id="gmail-calendar-read" href="gmail-calendar-read.html">gmail-calendar-read</a></p>
+<p><a class="wiki-link" data-node-id="secrets-cost-engineering" href="secrets-cost-engineering.html">secrets-cost-engineering</a></p>
+<p><a class="wiki-link" data-node-id="build-fastapi-backend" href="build-fastapi-backend.html">build-fastapi-backend</a></p>
+<p><a class="wiki-link" data-node-id="least-privilege-tools" href="least-privilege-tools.html">least-privilege-tools</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

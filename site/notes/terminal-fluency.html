@@ -35,17 +35,48 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Terminal Fluency</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The terminal is where all serious tools live — Git, pip, Docker, SSH, every deploy script. GUIs are menus at a restaurant; the terminal is the kitchen. The fear dissolves with exactly one realization: it's a <em>conversation</em>. You type a sentence (command + options + target), the computer answers. ~15 verbs cover 95% of an engineer's day.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Moving &amp; seeing:</strong> <code>pwd</code> (where am I) · <code>ls -la</code> (what's here, including hidden dotfiles like <code>.venv</code> and <code>.git</code>) · <code>cd path</code> / <code>cd ..</code> / <code>cd ~</code> · <code>mkdir -p a/b/c</code> · <code>cp</code>, <code>mv</code> (also = rename), <code>rm -r</code> (no trash can — respect it) · <code>cat f</code> (print file) · <code>less f</code> (page through, <code>q</code> quits) · <code>head</code>/<code>tail</code> (<code>tail -f log</code> = watch a log live — you'll use this the rest of your life).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The two superpowers.</strong> <em>Pipes:</em> <code>|</code> sends one command's output into the next — <code>cat access.log | grep ERROR | wc -l</code> reads as a sentence: "print the log, keep only ERROR lines, count them." Small tools composed into pipelines <em>is</em> the Unix philosophy, and it's why the terminal beats any GUI for real work. <em>Redirection:</em> <code>&gt;</code> writes output to a file (overwrite), <code>&gt;&gt;</code> appends — <code>python run.py &gt; out.txt 2&gt;&amp;1</code> captures normal output <em>and</em> errors (stream 2) into one file, the exact incantation for capturing a crash to send or grep.</p>
+
+<p><strong><code>grep</code> deserves its own paragraph:</strong> <code>grep -r "TODO" .</code> (search every file under here) · <code>-i</code> ignore case · <code>-n</code> show line numbers · <code>-v</code> invert (everything <em>except</em>). Finding where a function is defined in a strange codebase — <code>grep -rn "def build_index" .</code> — is daily bread.</p>
+
+<p><strong>Quality of life that turns dread into home:</strong> Tab completes paths (stop typing full names — this alone changes your life), ↑ replays history, <code>Ctrl+R</code> searches history, <code>Ctrl+C</code> kills the running thing, <code>history</code> shows everything, <code>man cmd</code> or <code>cmd --help</code> when stuck. Environment variables round it out: <code>export ANTHROPIC_API_KEY=...</code>, read by every SDK — you'll set these forever, and later domains put them in <code>.env</code> files.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: navigate, pipe, grep — no more fear.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>No mouse for this entire exercise. From home: create <code>terminal-dojo/logs/</code>, <code>cd</code> in, generate a fake log with <code>for i in $(seq 1 50); do echo "line $i $( [ $((i % 7)) -eq 0 ] &amp;&amp; echo ERROR || echo OK )"; done &gt; app.log</code>, then: count ERROR lines with a pipe, extract them to <code>errors.txt</code> with redirection, watch the file with <code>tail -f</code> in one command while appending a line from another, <code>grep -rn</code> for a string across the folder, and finish with <code>history | tail -20 &gt; proof.txt</code>. That proof file is the artifact.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Translate to English: <code>cat app.log | grep -i error | wc -l</code></li>
+<li>Difference between <code>&gt;</code>, <code>&gt;&gt;</code>, and <code>2&gt;&amp;1</code> — and the full incantation to capture a crash?</li>
+<li>You're dropped into an unknown repo: which three commands orient you in 30 seconds?</li>
+<li>What do Tab and Ctrl+R do, and why do they matter more than memorizing commands?</li>
+<li>How does a program get your API key from the environment, and which command puts it there?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="git-mastery" href="git-mastery.html">git-mastery</a></p>
+<p><a class="wiki-link" data-node-id="python-environments" href="python-environments.html">python-environments</a></p>
+<p><a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

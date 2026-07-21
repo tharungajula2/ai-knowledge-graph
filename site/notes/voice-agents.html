@@ -35,17 +35,48 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Voice Agents</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: frontier-capstone</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Text chat forgives you half a second of thinking. A phone call does not. Say something, and if the other side is silent for two seconds, the conversation is <em>dead</em> — humans feel the gap in their bones. Voice agents are your entire stack — model, tools, loop — forced through the needle of human conversational rhythm: <strong>the reply must begin in well under a second.</strong> Every architecture decision in this chapter descends from that single brutal budget.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The two architectures — the permanent split.</strong> (1) <strong>The cascade</strong>: speech-to-text → LLM → text-to-speech. Three components, each swappable, each observable (you can log the transcript — Vol 07 tracing loves this), each adding latency. It's the modular, debuggable, cheaper path — and the sum of three latencies fights the budget. (2) <strong>Speech-native / realtime models</strong>: one model consumes audio and emits audio, streaming both ways over a persistent connection. Lower floor latency, natural prosody, can be interrupted mid-word — but a blacker box, harder to eval, harder to guard (where do you run the Vol 08 scanner on a live audio stream?). The trade-off is permanent even as the products churn: <strong>modularity and control vs latency and naturalness.</strong></p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The latency budget — engineer it like Vol 04 Ch 17.</strong> Decompose: capture + speech-recognition + LLM time-to-first-token + speech-synthesis onset + network. Your levers are old friends wearing headsets: <em>streaming everywhere</em> (Vol 02 Ch 8 — TTFT is the metric that rules voice; synthesis starts on the first sentence, not the last), <em>small fast models</em> (Chapter 2 — a voice turn rarely needs a philosopher), <em>speculative/partial processing</em> (start reasoning on the interim transcript). Then the problems text never had: <strong>endpointing</strong> (when has the human <em>finished</em> talking? — cut in early and you interrupt; wait and you're laggy), <strong>barge-in</strong> (human interrupts the agent → kill synthesis instantly, treat it as a new observation in the loop), and <strong>tool calls mid-call</strong> (a 3-second lookup is an eternity of dead air — mask it with acknowledgment speech: "let me check that…" — a UX trick that is really latency engineering).</p>
+
+<p><strong>Agent loop, unchanged underneath.</strong> Strip the audio away and it's still reason→act→observe→repeat (Vol 04 Ch 1). The gate still guards writes (a voice agent booking appointments needs Vol 08's proposal gate <em>more</em>, not less — no visual confirmation screen exists). Evals extend, not restart: transcript-level evals you already own, plus audio-only dimensions (interruption rate, endpointing errors, perceived latency).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: realtime speech loops; latency budgets.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build the <em>skeleton</em> to feel the budget (no polish required): mic capture → hosted speech-to-text → your gateway (small fast model, streaming) → hosted text-to-speech, playing the first sentence as soon as it's ready. Measure the full mouth-to-ear loop with honest timestamps at each stage. Then write the two-architecture comparison table for <em>your</em> VIZIER: if v2 grew a voice mode, which architecture, and where would the gate and the scanner live? That design paragraph is the artifact; the skeleton is the evidence.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Recite the latency budget decomposition and name the single biggest lever from your own measurements.</li>
+<li>Cascade vs speech-native: the permanent trade-off in two sentences.</li>
+<li>What are endpointing and barge-in, and why does barge-in map cleanly onto the agent loop's "observe"?</li>
+<li>Why does voice make the HITL gate <em>more</em> necessary, and where exactly would you put it?</li>
+<li>Why is TTFT the king metric of voice? Connect it to Vol 02 Ch 8 streaming.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="streaming-responses" href="streaming-responses.html">streaming-responses</a></p>
+<p><a class="wiki-link" data-node-id="small-distilled-models" href="small-distilled-models.html">small-distilled-models</a></p>
+<p><a class="wiki-link" data-node-id="cost-latency-budgets" href="cost-latency-budgets.html">cost-latency-budgets</a></p>
+<p><a class="wiki-link" data-node-id="build-proposal-gate" href="build-proposal-gate.html">build-proposal-gate</a></p>
+<p><a class="wiki-link" data-node-id="voice-landscape" href="voice-landscape.html">voice-landscape</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

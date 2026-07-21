@@ -35,17 +35,61 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Citations & Grounding</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: rag-retrieval</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Two support bots give the same correct answer. One says it. The other says it <em>and points at the policy document, section 4.2</em>. Only the second is shippable to an enterprise — because only the second lets a human <em>verify without trusting</em>. The node summary is the whole philosophy: <strong>every answer points at its source.</strong> Your Ch 5 prompt already asked for bracket-citations; this build makes citations <em>structural, validated, and honest</em> — the difference between decoration and evidence.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Citations as structure, not prose.</strong> Asking for "[3]" in text was rung 1 (Vol 02 Ch 6's ladder — you know where this goes). The build: structured output with per-claim attribution.</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">class</span> <span class="tok-fn">Claim</span>((<span class="tok-type">BaseModel</span>):
+    text: <span class="tok-builtin">str</span>
+    chunk_ids: <span class="tok-builtin">list</span>[<span class="tok-builtin">int</span>]                  <span class="tok-comment"># which retrieved chunks support THIS claim</span>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<span class="tok-kw">class</span> <span class="tok-fn">GroundedAnswer</span>((<span class="tok-type">BaseModel</span>):
+    claims: <span class="tok-builtin">list</span>[<span class="tok-type">Claim</span>]
+    not_in_notes: <span class="tok-builtin">bool</span> = <span class="tok-kw">False</span>            <span class="tok-comment"># honest-failure, promoted to a FIELD</span></code></pre>
+      </div>
+<p>Prompt: chunks delimited with visible ids and heading-paths (Ch 5's format), instruction "decompose your answer into claims; for each claim list the ids of chunks that support it; a claim with no supporting chunk must not appear." Schema-enforced via your gateway (Vol 02 Ch 6/11). The decomposition into claims isn't cosmetic — it's what makes the next part possible.</p>
+
+<p><strong>The validation layer — where citations become trustworthy.</strong> Model-emitted citations are model output, and the boundary law (Vol 02, Ch 6) applies: <em>untrusted until validated</em>. Three checks, escalating in strictness: (1) <strong>referential integrity</strong> — every cited id ∈ the ids actually retrieved this call (a hallucinated citation <code>[17]</code> when you provided 4 chunks is instantly catchable garbage — catch it, trigger the repair loop); (2) <strong>existence</strong> — every claim has ≥1 citation, or the answer is rejected/repaired (this is the "must not appear" rule, enforced rather than hoped); (3) <strong>support spot-check</strong> — the hard one, previewed here and industrialized in Ch 16: does the cited chunk <em>actually contain</em> support for the claim? A cheap heuristic now (claim keywords ∩ chunk text — crude, catches the worst offenders); the real machinery (faithfulness scoring) is two chapters away and this field structure is exactly what it will consume. Design note worth writing down: <strong>you structured the output <em>so that</em> verification became mechanical.</strong> That's a deep pattern — schemas aren't just parsing convenience; they're what makes downstream <em>checking</em> possible at all.</p>
+
+<p><strong>Rendering — the human contract.</strong> Terminal output: each claim followed by its sources as <code>[source.md &gt; heading-path]</code> (the heading-path metadata from Ch 3, cashing in — a citation naming the <em>section</em> is verifiable in seconds; one naming just a file is homework). A <code>--sources</code> flag prints each cited chunk's full text beneath the answer: verification-without-trust, delivered. And the honest-refusal path renders proudly, not apologetically: <code>NOT IN NOTES — no relevant content found for this question</code> is a <em>feature</em> — in enterprise RAG, a system that visibly declines beats one that quietly invents, every single time, and you should be able to argue that in an interview with this build as evidence.</p>
+
+<p><strong>Tests:</strong> referential-integrity catch (feed a mocked model-response citing id 99 → repair loop fires); uncited-claim rejection; <code>not_in_notes=True</code> produces zero claims; rendering includes heading-paths; and the end-to-end sanity: a question whose answer you know spans two chunks yields claims citing both.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: every answer points at its source.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it into the pipeline (this replaces Ch 5's prose-bracket approach): schema → prompt → validation layer with repair → rendering + <code>--sources</code> → tests green → then the session that makes it real: 8 questions about your own notes, and for each, <em>actually click through</em> — read every cited chunk and grade every citation {supports | partially | doesn't}. Count the honest tally. If you find a "doesn't" (you likely will), celebrate it in the note: you've just caught, with your own instrument, the exact failure class that Ch 16's faithfulness metric measures at scale — your validation heuristic and your eyes did it first. Tag <code>rag-v0.3</code>.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why claims-with-ids instead of prose brackets? Name what the structure <em>enables</em>, not just what it tidies.</li>
+<li>Recite the three validation checks in order of strictness and what each catches.</li>
+<li>State the deep design pattern about schemas and verification in one sentence.</li>
+<li>Why does the heading-path make citations verifiable, and which chapter's metadata habit paid for it?</li>
+<li>Make the enterprise argument for visible refusal over quiet invention.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-first-rag" href="build-first-rag.html">build-first-rag</a></p>
+<p><a class="wiki-link" data-node-id="structured-output" href="structured-output.html">structured-output</a></p>
+<p><a class="wiki-link" data-node-id="chunking" href="chunking.html">chunking</a></p>
+<p><a class="wiki-link" data-node-id="rag-evals-intro" href="rag-evals-intro.html">rag-evals-intro</a></p>
+<p><a class="wiki-link" data-node-id="hallucination" href="hallucination.html">hallucination</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

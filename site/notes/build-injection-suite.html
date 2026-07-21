@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Injection Test Suite</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: safety-security</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You attacked (Ch 15), you fixed (Ch 16) — but a fix that isn't <em>guarded</em> silently regresses (Vol 07 Ch 8), and a security regression is a <em>breach waiting to reopen</em>. The node summary: <strong>permanent attack suite + CI; zero-exfil gate.</strong> This build makes your security <em>permanent</em>: every attack you found becomes a permanent test, the suite runs in CI (Vol 07 Ch 9) blocking any change that reopens a vulnerability, and a <em>zero-exfil gate</em> enforces the trifecta's crown guarantee — no change ships if it lets private data leak. This is the failure→golden loop (Vol 07 Ch 20) applied to security: every breach found becomes a permanent guard against its recurrence.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The permanent attack suite (security regression tests, Vol 07 Ch 8/20 for security).</strong> Every attack from your Ch 15 campaign — successful (now fixed, Ch 16) and blocked (validating a defense) — becomes a permanent test case: the payload, the expected <em>safe</em> behavior (the attack is blocked / the data isn't exfiltrated / the action is gated), and the vulnerability it guards against. The suite runs the full attack battery against your agent and asserts <em>every attack is defended</em>. Now a code/prompt change that reopens a vulnerability <em>fails the suite</em> — the fix (Ch 16) can't silently regress. This is Vol 07 Ch 20's failure→golden loop with attacks as the failures: every vulnerability found is permanently guarded, and your security coverage <em>grows toward your real attack surface</em> over time (each new red-team finding, each production incident, adds a permanent test — the ratchet, for security).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>CI integration (Vol 07 Ch 9, for security — the enforcement).</strong> The suite runs in CI on every change — security becomes <em>structural, unskippable</em> (the ring's "security is architecture" law, now in the pipeline). A pull request that weakens a defense, removes a guardrail, over-provisions a privilege, or reopens an injection hole <em>cannot merge</em> — the security suite gates it. This is how you <em>keep</em> security as the system evolves (Ch 4's arms-race reality — security is a process, and CI is how the process stays enforced without depending on anyone remembering to test). Tier it (Vol 07 Ch 9): fast pattern-based attack checks on every commit, the full campaign (including LLM-based attacks) on PRs or nightly.</p>
+
+<p><strong>The zero-exfil gate — the crown guarantee (the node's distinctive demand).</strong> The most important CI gate: a hard, non-negotiable check that <em>no change allows private-data exfiltration</em> — the lethal trifecta's (Ch 7) catastrophic scenario, gated at the pipeline. The test: attempt the crown-jewel attacks (plant content that tries to make the agent read private data and send it out) and assert <em>zero exfiltration</em> — the private data does <em>not</em> leave. If any change makes this fail, <em>the merge is blocked, absolutely</em> (unlike softer gates that warn — this one is hard, because exfiltration is the catastrophe the whole ring exists to prevent). The zero-exfil gate encodes the ring's highest priority as an unskippable structural guarantee: <em>whatever else changes, private data does not leak</em> — and because it's architectural (the trifecta defenses, Ch 7/8/14, are what make it pass), it's a guarantee you can actually keep, not a hope.</p>
+
+<p><strong>Verification (the suite verifying itself).</strong> The suite correctly detects a reopened vulnerability (deliberately re-introduce a hole you fixed in Ch 16, confirm the suite <em>catches</em> it and CI <em>blocks</em> it — the meta-test proving the guard works). The zero-exfil gate blocks an exfiltration-enabling change (introduce one, confirm the hard gate stops the merge). The tiering runs (fast on commit, full on PR). And the suite is <em>maintainable</em> (adding a new attack — from a future red-team or production incident — is easy, so the loop keeps spinning — Vol 07 Ch 20's low-friction capture, for security).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: permanent attack suite + CI; zero-exfil gate.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): convert every Ch 15/16 attack into a permanent test case (payload + expected-safe-behavior + guarded-vulnerability) → the attack-suite runner (asserts all attacks defended) → CI integration (Vol 07 Ch 9 — runs on changes, tiered) → the <em>zero-exfil hard gate</em> (crown-jewel attacks → assert zero exfiltration → block merge on failure) → the meta-tests (reopen a vulnerability, confirm the suite catches and CI blocks). Tag <code>safety-v1.0</code> — your security is now permanent and enforced. The permanent suite + the working CI gate + the zero-exfil gate demo + the reopened-vulnerability-caught proof = the note. This suite runs forever, guarding every future change.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why does a fix that isn't guarded regress, and how is this the failure→golden loop for security?</li>
+<li>How does CI integration make security structural, and why does the arms race demand it?</li>
+<li>What is the zero-exfil gate, why is it a <em>hard</em> gate (not a warning), and what makes it keepable?</li>
+<li>What does the meta-test (reopen a vulnerability) prove?</li>
+<li>Why must the suite be low-friction to extend, and what keeps the security ratchet spinning?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="failure-to-golden-loop" href="failure-to-golden-loop.html">failure-to-golden-loop</a></p>
+<p><a class="wiki-link" data-node-id="ci-gates-for-ai" href="ci-gates-for-ai.html">ci-gates-for-ai</a></p>
+<p><a class="wiki-link" data-node-id="build-redteam-my-agent" href="build-redteam-my-agent.html">build-redteam-my-agent</a></p>
+<p><a class="wiki-link" data-node-id="fix-what-broke" href="fix-what-broke.html">fix-what-broke</a></p>
+<p><a class="wiki-link" data-node-id="lethal-trifecta" href="lethal-trifecta.html">lethal-trifecta</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

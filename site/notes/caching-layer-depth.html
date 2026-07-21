@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Caching Layers & Vector Cache</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You met caching's layers (Ch 12); this chapter goes deep, especially on the AI-specific one. The node summary: <strong>multi-tier caching including HTTP response cache, semantic vector cache, and database query pooling.</strong> At production scale, caching isn't one optimization — it's a <em>multi-tier strategy</em> where each layer catches different repetition, and the <em>vector cache</em> (semantic caching done right) is a genuinely AI-specific technique that can slash your LLM costs. This is Ch 12's overview, deepened into the production caching architecture.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The multi-tier cache architecture (Ch 12, deepened).</strong> Production caching is <em>layered</em>, each tier catching what the previous missed, ordered cheapest-to-check first: <em>HTTP/response cache</em> (Ch 12 — exact-match, the browser/CDN Ch 24 and your response cache catch identical requests before any compute); <em>semantic/vector cache</em> (the AI-specific tier, below — catches <em>meaning</em>-equivalent LLM requests); <em>application caches</em> (computed results, session data — in-memory or Redis Ch 26); <em>database query caching + connection pooling</em> (Ch 4 — pool reuses connections, and query results cache for repeated reads). The request funnels down: most requests are caught by a cheap upper tier, only the genuinely-novel work reaches the expensive bottom (the LLM, the database) — Vol 04 Ch 17's cost, systematically attacked at every tier.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The vector cache — semantic caching done right (the AI-specific depth).</strong> Ch 12 introduced semantic caching; here's the production form. The vector cache stores past (query → response) pairs <em>keyed by query embedding</em> (Vol 03 Ch 5): a new query is embedded, and if a <em>semantically similar</em> past query exists (nearest-neighbor above a threshold — your Vol 03 vector search, Ch 4 pgvector, pointed at the cache), its cached response is returned — <em>no LLM call</em>. This catches the huge real-world overlap in natural-language requests (users ask the same things different ways — Vol 03 Ch 6's vocabulary gap): "how do I reset my password?" and "I forgot my password, help" hit the same cache entry. For a production LLM system, a well-tuned vector cache can eliminate a large fraction of LLM calls (cost Vol 04 Ch 17, latency Vol 02 Ch 8) — one of the highest-ROI AI optimizations. The build reuses everything: embeddings (Vol 03 Ch 5), vector search (Vol 03), pgvector (Ch 4), threshold-tuning (Vol 03 Ch 20).</p>
+
+<p><strong>The vector cache's dangers (the deepened tradeoffs).</strong> The threshold is <em>everything</em> (Vol 03 Ch 20's precision/recall dilemma, at maximum stakes): too loose → a semantically-<em>similar-but-different</em> query gets a <em>wrong</em> cached answer (the correctness bug — "how do I reset my password?" wrongly served the cached "how do I <em>change</em> my password?" answer if the threshold's too generous — a subtly wrong response, worse than a slow-but-right one); too tight → few hits, little benefit. And <em>staleness</em> (Ch 12, Vol 06 Ch 12 — a cached answer that was right is now wrong because the underlying info changed — invalidate carefully). And <em>personalization</em> (Vol 06 Ch 7 — a cached answer for one user may be wrong for another if the answer depends on user context — scope the cache per-user where responses are personal, Vol 08's cross-user-leak concern). The vector cache is powerful <em>and</em> requires the measurement discipline (Vol 07 — measure hit rate <em>and</em> the wrong-answer rate; a cache with a high hit rate but a 5% wrong-answer rate may be net-negative) to tune safely.</p>
+
+<p><strong>Query caching and pooling — the database tier (Ch 4, deepened).</strong> At the bottom, database efficiency: <em>connection pooling</em> (Ch 4 — reuse connections, essential under load Ch 30) and <em>query result caching</em> (cache the results of expensive, frequently-repeated, slowly-changing queries — a leaderboard, a config, a user's profile — so the database isn't hit for every read). The judgment (Ch 12): cache stable reads aggressively, volatile data cautiously, and never cache what must be transactionally fresh (a balance, an inventory count). Database caching + pooling keeps your data tier fast under the load the upper caches don't absorb.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Multi-tier caching including HTTP response cache, semantic vector cache, and database query pooling.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Deepen your caching (concept node, concrete): (1) Design your agent-lab's full multi-tier cache: what's cached at HTTP/response, vector/semantic, application, and database tiers, and what reaches the LLM/DB only on a genuine miss (the funnel). (2) Build/tune the vector cache (Vol 03 machinery, Ch 4 pgvector): embed queries, nearest-neighbor cache lookup, threshold-gated — and <em>measure both</em> the hit rate <em>and</em> the wrong-answer rate (Vol 07) as you tune the threshold, finding the safe operating point (the correctness-vs-hit-rate frontier). (3) The danger demo: tune the threshold too loose and catch it serving a wrong cached answer (the vector-cache correctness bug, witnessed). The multi-tier design + the tuned vector cache with both metrics + the danger demo = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Describe the multi-tier cache architecture and the funnel — what reaches the expensive bottom?</li>
+<li>How does a vector cache work, and why can it eliminate a large fraction of LLM calls?</li>
+<li>What's the vector cache's characteristic correctness bug, and how does the threshold cause it?</li>
+<li>Why must you measure the wrong-answer rate, not just the hit rate, when tuning a vector cache?</li>
+<li>What database-tier caching (pooling, query caching) keeps the data layer fast, and what's the caching judgment?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="caching-layers" href="caching-layers.html">caching-layers</a></p>
+<p><a class="wiki-link" data-node-id="embeddings-hands-on" href="embeddings-hands-on.html">embeddings-hands-on</a></p>
+<p><a class="wiki-link" data-node-id="vector-databases" href="vector-databases.html">vector-databases</a></p>
+<p><a class="wiki-link" data-node-id="cost-latency-budgets" href="cost-latency-budgets.html">cost-latency-budgets</a></p>
+<p><a class="wiki-link" data-node-id="reranking" href="reranking.html">reranking</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

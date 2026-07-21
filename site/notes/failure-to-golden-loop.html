@@ -35,17 +35,51 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Failure→Golden Loop</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Throughout this ring, one phrase has recurred: <em>every failure becomes a permanent test</em>. The node summary makes it a build: <strong>every bug becomes a permanent test.</strong> This is the flywheel that makes your eval suite <em>grow toward reality</em> — a system where every failure you ever find (in dev, in error analysis, in production) automatically becomes a golden case that guards against that failure forever. Build this loop and your systems get <em>monotonically more reliable</em> over time, because the net only ever gets tighter. It's the mechanism that turns the whole ring into a compounding advantage.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The loop — the regression ritual, automated and universal (Vol 01 Ch 21's "every bug gets a test," now for AI).</strong> The flywheel: (1) <em>A failure is found</em> — anywhere: a dev run, error analysis (Ch 19), an online eval (Ch 15), a user report, a trace you were reading (Ch 14). (2) <em>It becomes a golden case</em> — captured with its input, its (now-understood) expected behavior, and its category (Ch 2's schema — the failure, formalized as a permanent test). (3) <em>It enters the golden set</em> (Ch 2) — versioned, part of the suite forever. (4) <em>The regression suite now guards it</em> (Ch 8) — that exact failure can never silently return. (5) <em>CI gates on it</em> (Ch 9) — a change that reintroduces it can't merge. Result: <strong>your eval coverage grows toward the shape of reality's failures</strong>, driven by the failures themselves — and a failure fixed is a failure fixed <em>forever</em>, not a failure that quietly returns three refactors later.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Why this is the ring's most important loop.</strong> Every other eval technique is a <em>snapshot</em> of quality; this loop is the <em>ratchet</em> that makes quality monotonically improve. Without it: you fix a bug, it regresses months later, you fix it again (Sisyphus). With it: you fix a bug once, it's guarded forever, and every future failure adds another permanent guard — the suite <em>compounds</em>. Over a year, your golden set becomes a dense map of <em>your system's actual failure modes</em> (not the ones you imagined at launch — Ch 2's limitation, cured by reality), and passing it means genuinely not-failing in all the ways you've ever seen. This is how mature AI systems become reliable: not by being perfect at launch, but by <em>never repeating a failure</em> — the loop is the discipline that guarantees it.</p>
+
+<p><strong>The build — automating the capture.</strong> The friction to eliminate: turning a failure into a golden case must be <em>easy</em> or it won't happen (a loop with high friction doesn't spin). So build: a <code>capture_failure</code> tool/command that takes a failing case (from the harness, from a trace, from a manual report), helps you articulate the expected behavior (an LLM can <em>assist</em> — "here's what went wrong; what should have happened?"), formats it as a golden case (Ch 2's schema), and adds it to the versioned set — one command from "found a failure" to "permanently guarded." Plus <em>deduplication</em> (Ch 19's categorization — don't add 10 golden cases for one root cause; add one good case per distinct failure mode — the loop should grow <em>coverage</em>, not <em>redundancy</em>), and <em>provenance</em> (where did this case come from — dev/prod/analysis — Ch 11's versioning, so the golden set's growth is traceable).</p>
+
+<p><strong>The connection to everything — the ring's integration point.</strong> This loop <em>is</em> the ring's flywheel, and it connects every part: error analysis (Ch 19) feeds it (categorized failures become cases), online evals (Ch 15) feed it (production failures become cases), tracing (Ch 14) feeds it (a debugged failure becomes a case), the harness (Ch 18) runs the growing suite, and CI (Ch 9) enforces it. Build this loop and you've <em>closed the eval ring</em> — a self-improving quality system where reality continuously teaches your evals what to guard, and your evals continuously prevent reality's failures from recurring. That's not a testing suite; it's a learning system for reliability.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: every bug becomes a permanent test.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build the loop (est. 1 day): the <code>capture_failure</code> command (failing case + LLM-assisted expected-behavior articulation + Ch 2 golden-case formatting + versioned-set insertion + dedup against existing cases + provenance) → wire it to your Ch 18 harness (harness-found failures → one-command capture) and your Ch 14 traces (debugged failure → capture). Then <em>use it</em>: take the 20 failures from your Ch 19 error analysis, capture the distinct-root-cause ones as golden cases (deduplicated), watch your golden set grow toward your system's real failure modes, and confirm the regression suite (Ch 8) now guards them. Tag <code>eval-v1.1</code>. The capture tool + the grown golden set (before/after case count and coverage) + one previously-recurring failure now permanently guarded = the note. The ring's flywheel, spinning.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Walk the five-step failure→golden loop, naming the chapter each step draws on.</li>
+<li>Why is this the ring's most important loop — snapshot vs ratchet?</li>
+<li>Why must failure-capture be low-friction, and what does the build automate?</li>
+<li>Why deduplicate by root cause when adding cases, and what does the loop grow?</li>
+<li>How does this loop connect error analysis, online evals, tracing, the harness, and CI into one system?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-golden-dataset" href="build-golden-dataset.html">build-golden-dataset</a></p>
+<p><a class="wiki-link" data-node-id="prompt-regression-tests" href="prompt-regression-tests.html">prompt-regression-tests</a></p>
+<p><a class="wiki-link" data-node-id="error-analysis-practice" href="error-analysis-practice.html">error-analysis-practice</a></p>
+<p><a class="wiki-link" data-node-id="online-evals" href="online-evals.html">online-evals</a></p>
+<p><a class="wiki-link" data-node-id="ci-gates-for-ai" href="ci-gates-for-ai.html">ci-gates-for-ai</a></p>
+<p><a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

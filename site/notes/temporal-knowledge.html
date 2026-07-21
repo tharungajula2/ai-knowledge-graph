@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Temporal Knowledge</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: memory-knowledge</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>"The user is job-hunting" was true in July and false in September. "The CEO is X" changes. "I'm learning Domain 06" becomes "I finished Domain 06." The node summary names the problem that haunts every memory and knowledge system: <strong>facts that change over time.</strong> Knowledge isn't static, but naive stores treat it as if it were — and a system that can't handle change either accumulates contradictions or acts confidently on stale facts (Ch 7's stale-personalization, Vol 01 Ch 10's staleness, now the deep structural version). Time is the dimension most knowledge systems forget, and forgetting it is how they slowly fill with lies.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The core problem — facts have validity intervals, not just values.</strong> A naive store holds <em>(user, is-learning, Domain-06)</em> as if eternal. The truth is <em>(user, is-learning, Domain-06, valid-from: July, valid-until: September)</em> — the fact was true <em>during an interval</em>. Two distinct time dimensions matter (from temporal-database theory, worth knowing the names): <em>valid time</em> (when the fact was true <em>in the world</em> — the user learned Domain 06 in July-August) and <em>transaction time</em> (when the system <em>recorded</em> it — you might log it in July or backfill it later). Confusing them causes subtle bugs; for most agent memory, valid time is what you engineer for. The upgrade: every memory/triple carries temporal metadata (valid-from, valid-until, or a timestamp), transforming the store from "what's true" to "what was true when."</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The update problem — reconciliation, not accumulation (Ch 3's redundancy, now the deep version).</strong> When a new fact contradicts an old one — user says "I got the job" after the store held "user is job-hunting" — the store must <em>reconcile</em>, and the options each have a use: <em>overwrite</em> (replace old with new — simple, but <em>loses history</em>: you can no longer answer "was the user job-hunting in July?"); <em>invalidate + append</em> (mark the old fact's valid-until, add the new fact with valid-from — <em>preserves history</em>, the temporally-honest choice: both facts are retained, each with its interval, and the store knows the transition happened); <em>versioning</em> (full history of a fact's changes). The temporally-aware choice is usually invalidate-and-append: <strong>facts don't get deleted when they change; they get <em>bounded</strong></em> — the old fact remains true-in-its-interval, the new fact true-in-its-interval, and queries specify (implicitly or explicitly) <em>which time</em> they mean. This is how a store stops accumulating contradictions: a "contradiction" is just two facts with non-overlapping validity intervals, which is no contradiction at all.</p>
+
+<p><strong>Temporal queries — what the dimension unlocks.</strong> With time modeled, new questions become answerable: <em>point-in-time</em> ("what did I know/believe in July?" — retrieve facts valid-then, ignore facts that came later — crucial for "what did I learn during Domain 04?" — Ch 17's recall agent depends on this exact capability); <em>change tracking</em> ("how has my understanding of agents evolved?" — the sequence of a fact's versions); <em>currency</em> ("what's true <em>now</em>?" — retrieve only currently-valid facts, the default for personalization — Ch 7's stale-fact bug, cured: only act on currently-valid memories). Without temporal modeling, only "everything ever stored, undifferentiated" is queryable, and that's how stale facts leak into current behavior.</p>
+
+<p><strong>The graph edition — temporal knowledge graphs (connecting Chs 9–11).</strong> Triples get temporal too: <em>(attention, state-of-the-art-for, NLP, valid-from: 2017, valid-until: ...)</em> — relations that were true in a period. This is genuinely hard (the graph must version <em>edges</em>, and community summaries — Ch 11 — become time-dependent: "the state of the agents domain <em>as of</em> when?"), which is why graph staleness (Ch 11's cost) is nastier than index staleness. For your brain, this maps beautifully to your journey's own structure: your knowledge graph <em>grows over time</em>, nodes light in sequence, your understanding of early domains deepens as you learn later ones — a <em>temporal</em> knowledge graph by nature, where "what did I understand about RAG when I first lit it vs now?" is a real, answerable, temporal question (Ch 17's agent will answer exactly these).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: facts that change over time.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Add time to your store (~30 lines): (1) Extend your memory/triple schema with valid-from/valid-until; migrate a few facts to carry intervals. (2) Implement invalidate-and-append reconciliation: feed a fact-change ("user finished Domain 06" after "user is learning Domain 06") and verify the store <em>bounds</em> the old fact and appends the new — both retained, neither contradicting. (3) Run the three temporal query types: point-in-time ("what was true in [month]?"), currency ("what's true now?"), and change-tracking ("show this fact's history"). Then the brain-specific test: model your own domain-completion as temporal facts and query "what had I learned as of [date]?" — the recall agent's core capability, prototyped. The temporal schema + the reconciliation test + the three query types = the note; feeds Ch 17 directly.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>State the core problem — what do facts have besides values, and name the two time dimensions.</li>
+<li>Recite the reconciliation options, and why is invalidate-and-append the temporally-honest choice?</li>
+<li>Explain "a contradiction is just two facts with non-overlapping intervals."</li>
+<li>Name the three temporal query types, and which one cures stale personalization.</li>
+<li>Why are temporal knowledge graphs especially hard, and why is your brain naturally temporal?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="memory-extraction" href="memory-extraction.html">memory-extraction</a></p>
+<p><a class="wiki-link" data-node-id="retrieval-and-decay" href="retrieval-and-decay.html">retrieval-and-decay</a></p>
+<p><a class="wiki-link" data-node-id="knowledge-graphs-101" href="knowledge-graphs-101.html">knowledge-graphs-101</a></p>
+<p><a class="wiki-link" data-node-id="graphrag-deep" href="graphrag-deep.html">graphrag-deep</a></p>
+<p><a class="wiki-link" data-node-id="personalization-via-memory" href="personalization-via-memory.html">personalization-via-memory</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

@@ -35,17 +35,54 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>My Brain, Formalized</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: memory-knowledge</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Everything in this ring has been circling one realization: <strong>your brain is already a knowledge graph</strong> — you just built it as markdown with wikilinks instead of as a formal graph schema. The node summary: <strong>map my graph to a real KG schema.</strong> This chapter formalizes what you've been building all along: the entity types, the relation types, the schema that your 228-node curriculum has <em>implicitly</em> followed. It's the most meta chapter in the ring — the map, describing itself in the vocabulary it took six domains to earn — and it turns your intuitive structure into a queryable, extensible, formally-specified knowledge graph.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Your implicit schema, made explicit.</strong> Your curriculum already <em>is</em> a schema (Ch 9's ontology, unnamed) — this chapter names it. <em>Entity types</em> your graph already uses: <strong>Node</strong> (the atom — with subtypes: Concept, Build, Deep-dive, Synthesis, Frontier, Capstone — your <code>type</code> field <em>is</em> an entity-type taxonomy), <strong>Domain</strong> (the ten rings), <strong>Cluster</strong> (sub-groupings), <strong>Milestone</strong> (M1–M5), and — from your notes' <em>content</em> (Ch 10's extraction) — <strong>Concept</strong>, <strong>Tool</strong>, <strong>Person</strong>, <strong>Paper</strong>, <strong>Pattern</strong>. <em>Relation types</em> your graph already uses: <strong>part-of</strong> (node → cluster → domain), <strong>depends-on</strong> (the prerequisite edges — a node's dependencies), <strong>wikilinks-to</strong> (your <code><a class="wiki-link" data-node-id="..." href="....html">...</a></code> — and Ch 9 taught you to <em>type</em> these: depends-on, contrasts-with, builds-on, exemplifies), <strong>lights-before</strong> (the sequence/prerequisite order), <strong>contributes-to</strong> (node → milestone). Writing this schema down transforms your brain from "markdown I navigate by feel" to "a knowledge graph I can <em>query</em> by structure."</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>What formalization unlocks — the payoff.</strong> Once your brain is a formal KG: <em>structural queries</em> your dashboard can't currently answer ("all Build nodes that depend on a Foundations concept," "the shortest prerequisite path from where I am to Domain 09," "orphan nodes with no incoming edges — knowledge islands"); <em>graph analytics</em> (which nodes are most-connected — the load-bearing concepts; which domains are sparsely linked — Ch 16's reviewer finds these; centrality revealing your curriculum's true backbone); <em>GraphRAG over your own learning</em> (Ch 11, with your brain as the graph — global questions like "what are the cross-domain themes?" answered from community summaries of your <em>own knowledge</em>); <em>temporal queries</em> (Ch 12 — "what had I learned as of X?" over the graph's lit-history). The formalization is what makes Chs 14–17's builds possible: a link-suggester (Ch 15) proposes <em>typed edges</em>, a reviewer (Ch 16) finds <em>sparse regions</em>, a recall agent (Ch 17) does <em>graph-aware temporal retrieval</em> — all requiring the schema this chapter specifies.</p>
+
+<p><strong>The design work — mapping markdown to schema.</strong> The concrete task: define, formally, (1) the entity types and their properties (a Node has: id, title, type, size, domain, cluster, status, summary, lit-date — your curriculum fields, as a schema); (2) the relation types and their constraints (part-of connects Node→Cluster→Domain; depends-on connects Node→Node and must be acyclic — no circular prerequisites, a real constraint your curriculum honors implicitly); (3) how your <em>existing artifacts</em> map in: your <code>curriculum.json</code> becomes the node/domain/cluster entities, your wikilinks become typed edges (Ch 10's extraction over your <em>notes</em> adds the content-level entities and relations <em>within</em> nodes). The result: one formal graph unifying your <em>curriculum structure</em> (nodes, domains, prerequisites) and your <em>knowledge content</em> (concepts, tools, relations extracted from notes) — two layers, one graph. That unification is the formalization's deepest product: your map and your knowledge, formally one structure.</p>
+
+<p><strong>The honest scope — what this is and isn't.</strong> This is a <em>concept</em> node: you <em>design</em> the schema and <em>map</em> your artifacts to it; you don't yet build the full graph database (that's the Part III builds' substrate). And a caution (Ch 11's cost, Ch 12's staleness): a formal KG of your brain is powerful but must stay <em>current</em> as you learn — the schema must accommodate growth (new domains, new node types) and change (deepened understanding — temporal, Ch 12). Design for evolution, not a snapshot; your brain's whole philosophy is "the past is locked, the future evolves," and its formal schema must honor both — immutable lit-history, extensible future structure.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: map my graph to a real KG schema.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Formalize it (concept node, real design output): (1) Write the <em>formal schema document</em> — all entity types with properties, all relation types with constraints (which entities they connect, cardinality, acyclicity where it applies) — the complete ontology of your brain, in a spec a graph database could implement. (2) Map your artifacts: show how <code>curriculum.json</code> maps to entities/edges and how Ch 10's note-extraction adds the content layer — the two-layer unification, specified. (3) Prototype three structural queries the schema unlocks that your current dashboard can't answer (orphan-finder, longest-prerequisite-chain, most-central-concept) — write them as graph queries (pseudocode or Cypher-ish), and if quick, run them against your Ch 10 graph. The schema doc + the artifact mapping + the three unlocked queries = the note — and the schema doc is the substrate for every Part III build.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name your brain's entity types and relation types — the implicit schema, made explicit.</li>
+<li>What four capability-classes does formalization unlock, with an example query each?</li>
+<li>Explain the two-layer unification — curriculum structure + knowledge content — as one graph.</li>
+<li>Give two schema constraints (like depends-on acyclicity) your curriculum honors implicitly.</li>
+<li>Why must the schema be designed for evolution, and how does that echo your brain's philosophy?</li>
+</ol>
+<hr>
+<h1 id="part-iii-memory-builds">PART III — MEMORY BUILDS</h1>
+<p><em>6 chapters. It all ships: long-term memory on the research agent, smarter link suggestions, a self-critical graph reviewer, the "what did I learn?" agent, and the ring's close.</em></p>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="knowledge-graphs-101" href="knowledge-graphs-101.html">knowledge-graphs-101</a></p>
+<p><a class="wiki-link" data-node-id="entity-extraction" href="entity-extraction.html">entity-extraction</a></p>
+<p><a class="wiki-link" data-node-id="graphrag-deep" href="graphrag-deep.html">graphrag-deep</a></p>
+<p><a class="wiki-link" data-node-id="temporal-knowledge" href="temporal-knowledge.html">temporal-knowledge</a></p>
+<p><a class="wiki-link" data-node-id="build-link-suggester-v2" href="build-link-suggester-v2.html">build-link-suggester-v2</a></p>
+<p><a class="wiki-link" data-node-id="build-brain-reviewer" href="build-brain-reviewer.html">build-brain-reviewer</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

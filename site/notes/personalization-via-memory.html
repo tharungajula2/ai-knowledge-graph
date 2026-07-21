@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Personalization</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: memory-knowledge</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>This is the <em>why</em> of the whole ring — the payoff memory exists to deliver. The node summary: <strong>assistants that actually know you.</strong> The difference between a tool you re-explain yourself to every session and an assistant that <em>remembers</em> — your goals, your style, your context, your history — is memory, applied. And the difference between personalization that delights and personalization that creeps (or misfires) is judgment about <em>what</em> to remember and <em>how</em> to use it. This chapter turns the machinery of Chs 1–6 into the experience users actually feel.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>What personalization actually is — memory, retrieved and applied.</strong> Mechanically, it's the extract-out/retrieve-in loop (Ch 2) closing around a <em>person</em>: the assistant extracts durable facts about you (semantic — your role, goals), your history with it (episodic — past sessions, decisions), and your preferences-in-action (procedural — how you like things done, Ch 1's underrated type), then <em>retrieves the relevant subset into context</em> at the start of each interaction so the model behaves as if it knows you. No new mechanism — it's every chapter so far, aimed at a user. The magic the user feels ("it remembered!") is your retrieval-scoring (Ch 4) surfacing the right memory at the right moment.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The three tiers of personalization — ascending in value and difficulty.</strong> (1) <em>Knowing facts about you</em> (semantic): "you're targeting AI-engineering roles" — the assistant tailors content to your context. Table stakes; most "memory" features stop here. (2) <em>Knowing your history</em> (episodic): "last week we worked through the async bridge" — continuity across sessions, so you never re-explain; the assistant builds on shared past. (3) <em>Knowing how you work</em> (procedural — the highest tier, rarely done well): "you prefer terse answers with code first, you learn by analogy, you want to be challenged not coddled" — the assistant adapts its <em>behavior</em>, not just its content. This tier is where an assistant stops being a smart tool and becomes <em>yours</em> — and it's exactly what your Vizier study-buddy persona (Vol 02 Ch 17) would become with real procedural memory: it would learn <em>your</em> learning style from watching you learn.</p>
+
+<p><strong>Applying memory to behavior — how retrieved memory becomes personalized output.</strong> Retrieved memories enter the context (Ch 2), but <em>where and how</em> matters: <em>system-prompt injection</em> (relevant persistent facts and preferences prepended as context — "what you know about this user: ..." — Vol 02 Ch 2's system-prompt authority steering behavior with <em>personal</em> facts), <em>retrieved-context</em> (episodic memories surfaced when relevant to the current query — Vol 03's retrieval, personalized), and <em>procedural application</em> (preferences translated into instructions — "the user prefers bullets" becomes a format directive). The craft: inject <em>enough</em> to personalize, not <em>so much</em> that memories crowd the context (Ch 4's precision problem — surfacing ten memories when two are relevant is noise that degrades the response, the lost-in-the-middle tax on personalization).</p>
+
+<p><strong>The failure modes — where personalization misfires.</strong> <em>Over-personalization / creepiness</em>: surfacing a memory the user forgot they shared, or in a context that feels invasive ("I remember you mentioned your health issue three months ago" — technically remembered, socially wrong) — the uncanny valley of memory, and a real product risk. <em>Stale personalization</em>: acting on outdated facts (Ch 12's temporal problem — "you're job-hunting" said cheerfully after you got the job is worse than not remembering). <em>Wrong-context surfacing</em>: a work preference applied to a personal query. <em>Filter-bubble entrenchment</em>: over-adapting to inferred preferences until the assistant only ever gives you more of the same (the usage-boost feedback loop from Ch 4, weaponized against discovery). <em>False personalization</em>: acting on a hallucinated memory (Ch 3's false-extraction, now shaping behavior — "as someone who loves X" when you never said that). The mitigations weave through the whole ring: confidence and provenance (trust memories you can audit), recency and temporal awareness (don't act on stale facts), importance-gating (surface the significant, not the trivial-but-remembered), and — critically — <em>user control</em> (Ch 8): let users see, edit, and delete what the assistant remembers, because the antidote to creepy is <em>transparent and controllable</em>.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: assistants that actually know you.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Personalize your study-buddy, feel both sides (~40 lines on your Vol 02 Ch 17 chatbot + this ring's memory): (1) Wire your memory layer into the chatbot: at session start, retrieve relevant memories (scored, Ch 4) and inject them into the system prompt; run two sessions and watch session two <em>know</em> things from session one (the payoff, felt). (2) Add procedural memory: have it learn one preference (terse vs detailed, say) and adapt — the highest tier, demonstrated. (3) Break it deliberately: force a stale memory (a fact you've since changed) and a low-relevance memory to surface, and feel the misfire — then apply a mitigation (recency-gating, importance-gating) and watch it improve. The two-session continuity + the procedural adaptation + the misfire-and-fix = the note. This directly seeds Ch 14's memory layer and the recall agent (Ch 17).</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Define personalization mechanically — which loop, aimed at whom, no new machinery.</li>
+<li>Recite the three tiers, and why procedural is the highest and rarest.</li>
+<li>How does retrieved memory become personalized <em>behavior</em> — the three injection methods?</li>
+<li>Name four personalization failure modes, and why is creepiness a real product risk?</li>
+<li>What is the antidote to creepy personalization, and which chapter builds it?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="roles-and-system-prompts" href="roles-and-system-prompts.html">roles-and-system-prompts</a></p>
+<p><a class="wiki-link" data-node-id="retrieval-and-decay" href="retrieval-and-decay.html">retrieval-and-decay</a></p>
+<p><a class="wiki-link" data-node-id="build-cli-chatbot" href="build-cli-chatbot.html">build-cli-chatbot</a></p>
+<p><a class="wiki-link" data-node-id="privacy-in-memory" href="privacy-in-memory.html">privacy-in-memory</a></p>
+<p><a class="wiki-link" data-node-id="temporal-knowledge" href="temporal-knowledge.html">temporal-knowledge</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

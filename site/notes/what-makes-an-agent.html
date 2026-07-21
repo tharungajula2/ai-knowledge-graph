@@ -35,17 +35,57 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>What Makes an Agent</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: agents</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>A chatbot is a brilliant consultant on a phone call: it can only <em>talk</em>. An agent is that consultant given hands, eyes, and permission to keep working: it can <em>do</em> something, <em>see</em> what happened, and decide what to do next — again and again until the job is done. The node summary is four words and it is the entire field: <strong>reason, act, observe, repeat.</strong> Everything else in this volume — frameworks, patterns, supervisors, gates — is scaffolding around those four words.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The loop, formally.</strong> You've held all the pieces for two volumes; now assemble them into the canonical cycle:</p>
+<ol>
+<li><strong>Reason</strong> — the model examines the goal plus everything gathered so far and decides the next move (a thought, in ReAct vocabulary — Vol 02 Ch 5's chain-of-thought, now aimed at <em>action selection</em> rather than answer production).</li>
+<li><strong>Act</strong> — the model emits a structured action: a tool call with arguments (Vol 02, Ch 7's mechanic, verbatim — the model <em>requests</em>; your code executes).</li>
+<li><strong>Observe</strong> — the tool's result is appended to the context. The world has now <em>talked back</em>, and this is the line that separates agents from everything before: a chatbot's context grows only with human turns; an agent's context grows with <em>reality's responses</em>.</li>
+<li><strong>Repeat</strong> — reason again, with the observation in view — until the model decides the goal is met and emits a final answer instead of an action.</li>
+</ol>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Where you've already run this loop.</strong> Vol 03 Ch 14's multi-hop retrieval <em>was</em> this loop with a single tool (retrieval): reason about what to look up → look it up → read the result → form the next query. You played the orchestrator by hand. This volume automates the orchestrator and hands it a toolbox.</p>
+
+<p><strong>What makes it an agent — the honest boundary.</strong> Formulas float around ("model + tools + loop + goal = agent" — Vol 01, Ch 1); the load-bearing ingredient is <strong>the loop closing through the world</strong>. One tool call and done is a <em>function with an LLM inside</em> (your Vol 02 extractor). Tools available but never looped — a chatbot with plugins. The agent property emerges when <em>the model's own outputs determine what the model sees next</em>, iteratively, without a human between iterations. That autonomy is the source of everything this ring celebrates (multi-step competence) and everything it fears (Ch 16's failure zoo — the same loop that compounds progress compounds error; note the symmetry now, formally later).</p>
+
+<p><strong>The spectrum, not the binary.</strong> Real systems sit on a dial of autonomy: a <em>workflow</em> (fixed sequence of LLM calls your code orders — reliable, rigid), an <em>agentic workflow</em> (code-defined structure, model-decided branches — Part II's graphs live here), a <em>full agent</em> (model decides everything each iteration — flexible, unpredictable). The engineering wisdom the whole industry converged on, and the single most useful sentence for interviews: <strong>use the least autonomy that solves the task.</strong> Agents are what you reach for when the path genuinely cannot be known in advance — research, debugging, open-ended synthesis — not a fashion statement to wrap around a three-step pipeline.</p>
+
+<p><strong>One vocabulary landmine, defused.</strong> "Agent" is used by marketing for everything from a prompt template to a robot. Your test, portable to any conversation: <em>does the model's output feed back into the model's next input via the world?</em> If yes — loop through reality — agent. If no — however clever — not yet.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: reason, act, observe, repeat.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Three exercises on paper: (1) Dissect four systems along the four verbs — your Vol 02 Feynman-Bot, your Vol 03 brain-chat, Vol 03's multi-hop loop, and your frozen agent-lab's supervisor — for each, which verbs exist, which are missing, and where it sits on the autonomy dial. (2) Take one task you do weekly (say, triaging job postings against your profile) and script it three ways: as a workflow, as an agentic workflow, as a full agent — one paragraph each, noting what each gains and risks. (3) Write your own one-sentence agent test, then attack it with the nastiest edge case you can invent (a chatbot that searches the web once? a cron job calling an LLM?) and refine until it survives. The refined sentence opens your note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Recite the four verbs and what each consumes and produces.</li>
+<li>State the load-bearing ingredient — what exactly closes the loop, and why "through the world" matters.</li>
+<li>Where had you already run this loop by hand, and with what single tool?</li>
+<li>Draw the autonomy spectrum and place three of your own systems on it.</li>
+<li>Deliver the least-autonomy principle and defend it in two sentences.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="map-of-ai" href="map-of-ai.html">map-of-ai</a></p>
+<p><a class="wiki-link" data-node-id="tool-calling" href="tool-calling.html">tool-calling</a></p>
+<p><a class="wiki-link" data-node-id="multi-hop-retrieval" href="multi-hop-retrieval.html">multi-hop-retrieval</a></p>
+<p><a class="wiki-link" data-node-id="agent-failure-modes" href="agent-failure-modes.html">agent-failure-modes</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

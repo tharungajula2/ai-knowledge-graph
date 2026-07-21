@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Subgraphs</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: agents</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>A company doesn't run as one giant brain deciding everything; it runs as teams — each with its own process, its own working memory, its own specialty — coordinated through narrow interfaces. The node summary, three words, whole idea: <strong>agents made of agents.</strong> A LangGraph graph can <em>be a node</em> in a bigger graph — and with that one move, everything you know about good software structure (modules, interfaces, encapsulation — Vol 01, Ch 16) applies to agent systems. This is the final concept before the big builds: the supervisor you construct next chapter is a graph whose nodes are the specialist graphs you build the chapter after. Your agent-lab's whole skeleton, in one pattern.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The mechanism — composition with a boundary.</strong> A compiled graph exposes the same interface as a node function: state in, state update out. So: build a focused graph (a researcher: its own reason-act-observe cycle, its own tools), compile it, and mount it as one node inside a parent graph. When the parent's execution reaches that node, the child graph runs <em>its entire internal process</em> — however many internal steps — and returns its result as a single state update. From the parent's view: one node ran. From the child's view: a complete agent did its job.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The state boundary — where the design lives.</strong> Parent and child need not share a state schema — and <em>should not</em>. The child declares its own state (a researcher's internal search results, draft notes, iteration counters are its private business); the interface is a <strong>mapping at the boundary</strong>: parent passes in what the child needs (the task), child returns what the parent needs (the findings). This is encapsulation, exactly as Vol 01 Ch 16 taught it, and it buys exactly what it bought there: the child is <em>independently developable</em> (build it alone), <em>independently testable</em> (mock tasks against just the subgraph — the next two builds' verification strategy depends on this), <em>swappable</em> (upgrade the researcher without touching the supervisor), and <em>reusable</em> (the same specialist mounted in multiple parents). The anti-pattern to name and shun: one giant shared state that every subgraph reads and writes freely — it recreates the global-variable disease (spooky action between "independent" teams, untestable in isolation, unswappable forever). Narrow interfaces or pain; there is no third option.</p>
+
+<p><strong>What each subgraph keeps private — the full inventory.</strong> Its internal nodes and edges (the parent can't see them — good), its scratchpad (Ch 13 — a specialist's working memory is <em>per-specialist</em>; the researcher's messy search trail must not pollute the supervisor's clean routing context; this separation is half the reason multi-agent systems stay coherent at all), and — subtle, powerful — its own checkpoint lineage within the thread: an interrupt (Ch 7) fired <em>inside</em> a subgraph pauses the whole stack and resumes into the right depth. Gates work at any level of nesting; the Ch 15 build exploits this.</p>
+
+<p><strong>When to reach for subgraphs — and when not.</strong> Reach: distinct specialties with distinct toolboxes (research vs writing vs scheduling — different tools, different prompts, different failure modes); reuse across parents; team development; testability demands. Don't reach: a linear pipeline with no specialty boundaries (nodes suffice — a subgraph wrapping one node is ceremony), or premature decomposition of a system you don't understand yet (the least-autonomy principle's structural cousin: <em>least architecture that solves the task</em>). The honest cost: every boundary adds a mapping to maintain and a level of indirection to debug through — worth it exactly when the encapsulation pays, wasteful when it doesn't. Same judgment as every abstraction since Vol 01.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: agents made of agents.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Paper, then a thin slice of code: (1) <em>The org chart</em>: draw your agent-lab as a subgraph diagram from memory — supervisor as parent; Scheduler, Scribe, Researcher, Analyst as mounted subgraphs; label each boundary's mapping (what goes in, what comes out — guess where you must; next two chapters correct you). This drawing is the blueprint for Chs 11–12; draw it with care. (2) <em>The code slice</em>: take your Ch 5 mini-agent, compile it, and mount it as a single node inside a trivial two-node parent (task-in → agent-subgraph → result-out), with an explicit state mapping at the boundary. Run mock task 1 through the <em>parent</em>; assert the same outcome as running the child alone — encapsulation, demonstrated in one assertion. (3) <em>The anti-pattern paragraph</em>: write five sentences on what the shared-global-state version of your org chart would look like and the specific debugging nightmare it births. Drawing + assertion + paragraph = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What interface does a compiled graph expose, and what does that make possible?</li>
+<li>Why should parent and child <em>not</em> share a state schema? Name the four properties the boundary buys.</li>
+<li>Recite the privacy inventory — and why is scratchpad separation half of multi-agent coherence?</li>
+<li>What happens when an interrupt fires inside a nested subgraph?</li>
+<li>Give the reach/don't-reach judgment with one example each, and name the least-architecture principle.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="langgraph-state" href="langgraph-state.html">langgraph-state</a></p>
+<p><a class="wiki-link" data-node-id="python-classes-modules" href="python-classes-modules.html">python-classes-modules</a></p>
+<p><a class="wiki-link" data-node-id="build-supervisor" href="build-supervisor.html">build-supervisor</a></p>
+<p><a class="wiki-link" data-node-id="build-specialists" href="build-specialists.html">build-specialists</a></p>
+<p><a class="wiki-link" data-node-id="scratchpads-working-memory" href="scratchpads-working-memory.html">scratchpads-working-memory</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>
