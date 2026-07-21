@@ -37,17 +37,12 @@
 
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="vision-mode">
+<body>
 
 <!-- Mobile Menu Button (Visible on mobile only) -->
 <button id="mobile-menu-btn" class="glass" aria-label="Toggle Controls Menu">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
 </button>
-
-<!-- VISION badge (top center, always visible when in VISION mode) -->
-<div id="preview-badge" class="glass" role="status" aria-live="polite">
-  VISION — THE LIVING MAP
-</div>
 
 <!-- Top View Toggle Bar (Graph | Library) -->
 <div id="top-view-bar" role="tablist" aria-label="View selection">
@@ -103,22 +98,6 @@
         <span id="streak-current" style="color: #f6ad55; font-weight: 700;">0</span> days <span style="color: var(--muted); font-size: 0.65rem;">(best: <span id="streak-best">0</span>)</span>
       </div>
     </div>
-  </div>
-
-
-
-  <!-- DATA MODE -->
-  <div class="ctrl-group">
-    <div class="ctrl-label">Data Mode</div>
-    <div class="tog-group data-mode-group">
-      <button class="tog on" id="btn-live" data-mode="live">LIVE</button>
-      <button class="tog" id="btn-preview" data-mode="preview">VISION</button>
-    </div>
-  </div>
-
-  <!-- Preview info strip -->
-  <div id="preview-strip" class="visible">
-    THE LIVING MAP — Universe 01 · plan v1.0.0 · 228 nodes. The past is locked. The future evolves.
   </div>
 
   <!-- LAYOUT -->

@@ -567,20 +567,11 @@ table.md-table tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
 .node.highlighted .node-halo { opacity: 0.55 !important; transform: scale(1.4); }
 .node.dimmed { opacity: .12; }
 
-/* Cinematic states */
-/* Live mode (ghosts faint) */
-body.live-mode .node.ghost { opacity: 0.15; }
-body.live-mode .node.ghost circle.node-core, body.live-mode .node.ghost polygon.node-core { stroke: rgba(255,255,255,0.08); stroke-width: 0.8px; }
-/* Charging: amber half-glow — clearly in-between ghost and lit */
-body.live-mode .node.charging { opacity: 0.85; }
-body.live-mode .node.lit { opacity: 1.0; }
-
-/* Vision mode (all visible) */
-body.vision-mode .node.ghost { opacity: 0.65; }
-body.vision-mode .node.ghost circle.node-core, body.vision-mode .node.ghost polygon.node-core { stroke: rgba(255,255,255,0.25); stroke-width: 1.0px; }
-/* Charging in vision mode */
-body.vision-mode .node.charging { opacity: 0.95; }
-body.vision-mode .node.lit { opacity: 1.0; }
+/* Node States */
+.node.ghost { opacity: 0.65; }
+.node.ghost circle.node-core, .node.ghost polygon.node-core { stroke: rgba(255,255,255,0.25); stroke-width: 1.0px; }
+.node.charging { opacity: 0.95; }
+.node.lit { opacity: 1.0; }
 
 /* ── Sci-Fi Vector Node Animations (Zero Square Bounding Boxes) ── */
 .charging-ring-dash {

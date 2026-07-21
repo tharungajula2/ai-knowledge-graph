@@ -10,9 +10,6 @@ function loadData(src) {
     const stEdges = document.getElementById('st-edges');
     if (stEdges) stEdges.textContent = data.metadata ? data.metadata.edge_count : data.edges.length;
     
-    const badge = document.getElementById('preview-badge');
-    const strip = document.getElementById('preview-strip');
-    
     const litCount = data.nodes.filter(n => n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length;
     const totalCount = data.metadata ? (data.metadata.node_count ?? 228) : 228;
     
@@ -24,14 +21,6 @@ function loadData(src) {
       document.body.classList.add('universe-complete');
     } else {
       document.body.classList.remove('universe-complete');
-    }
-
-    if (dataMode === 'preview') {
-      if (badge) badge.textContent = `VISION — THE LIVING MAP`;
-      if (strip) strip.innerHTML = `THE LIVING MAP — Universe 01 · plan v1.0.0 · ${currNodesCount} nodes. The past is locked. The future evolves.`;
-    } else {
-      if (badge) badge.textContent = `LIVE`;
-      if (strip) strip.innerHTML = `LIVE — visitors watch one brain wire itself up in real time.`;
     }
 
     const chipEl = document.getElementById('day-chip');
@@ -50,11 +39,6 @@ function loadData(src) {
     initStarfield();
     initMotivationOverlays(data);
 
-    const liveEmpty = document.getElementById('live-empty-state');
-    if (liveEmpty) {
-      liveEmpty.style.display = 'none';
-    }
-
     const params = new URLSearchParams(window.location.search);
     const targetId = params.get('note') || params.get('node');
     if (targetId && graphData && graphData.nodes) {
@@ -69,32 +53,6 @@ function loadData(src) {
   }).catch(err => {
     console.error('Failed to load', src, err);
   });
-}
-
-function setDataMode(mode, reload = true) {
-  dataMode = mode;
-  const badge   = document.getElementById('preview-badge');
-  const strip   = document.getElementById('preview-strip');
-  const btnLive = document.getElementById('btn-live');
-  const btnPrev = document.getElementById('btn-preview');
-
-  if (mode === 'preview') {
-    document.body.classList.add('vision-mode');
-    document.body.classList.remove('live-mode');
-    if (badge) badge.classList.add('visible');
-    if (strip) strip.classList.add('visible');
-    if (btnPrev) btnPrev.classList.add('on');
-    if (btnLive) btnLive.classList.remove('on');
-    if (reload) loadData(PREVIEW_SRC);
-  } else {
-    document.body.classList.add('live-mode');
-    document.body.classList.remove('vision-mode');
-    if (badge) badge.classList.remove('visible');
-    if (strip) strip.classList.remove('visible');
-    if (btnLive) btnLive.classList.add('on');
-    if (btnPrev) btnPrev.classList.remove('on');
-    if (reload) loadData(LIVE_SRC);
-  }
 }
 
 function setupSearch() {
@@ -142,15 +100,7 @@ function setupSearch() {
 
 // Global Event Listeners Initializer
 document.addEventListener('DOMContentLoaded', () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const initMode = urlParams.get('mode') === 'preview' ? 'preview' : 'live';
-  setDataMode(initMode, false);
-  loadData(initMode === 'live' ? LIVE_SRC : PREVIEW_SRC);
-
-  const btnLive = document.getElementById('btn-live');
-  const btnPrev = document.getElementById('btn-preview');
-  if (btnLive) btnLive.addEventListener('click', () => setDataMode('live'));
-  if (btnPrev) btnPrev.addEventListener('click', () => setDataMode('preview'));
+  loadData(LIVE_SRC);
 
   const btnRings = document.getElementById('btn-rings');
   const btnForce = document.getElementById('btn-force');
