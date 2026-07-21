@@ -35,17 +35,48 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Agentic RAG Frontiers</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: frontier-capstone</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>In Vol 03 you built RAG as a <em>pipeline</em>: query in → retrieve → stuff context → answer out. One shot, fixed shape. But you also, without ceremony, built its successor: Vol 03 Ch 14's multi-hop, where the <em>model</em> decided what to look up next. Agentic RAG is that idea graduated into a worldview: <strong>retrieval stops being a pipeline and becomes a tool inside the loop</strong> — called when the agent decides, as many times as needed, with queries the agent writes and rewrites, against sources the agent chooses.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The inversion.</strong> Classic RAG: the <em>system designer</em> decides when retrieval happens (always, once, up front). Agentic RAG: the <em>agent</em> decides — whether to retrieve at all (some questions need no lookup — save the latency and cost), what to ask (query rewriting, decomposition into sub-questions), where to ask (vector store vs keyword vs web vs the knowledge graph — your Vol 06 GraphRAG becomes one more tool in the box), whether the results <em>suffice</em> (self-assessed relevance → re-retrieve with a better query), and when to stop. Every one of those decision points is a place quality can rise — and a place cost, latency, and failure can enter. There's no free lunch; there's a trade you now know how to measure.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The permanent frame: retrieval strategies as a portfolio.</strong> You own the whole portfolio already — dense (Vol 03), hybrid/BM25 (Vol 03 Ch 7), reranking, GraphRAG (Vol 06), web search with provenance quarantine (Vol 04 Ch 14), memory retrieval (Vol 06). Agentic RAG is a <em>router over the portfolio</em> — and routing-by-query-type was the drumbeat of Vol 03 (Ch 9, 13, 14, 19) that set up the supervisor. Same music, bigger orchestra. The engineering discipline that keeps it honest is unchanged: golden sets and retrieval metrics (Vol 03 Ch 16, Vol 07). An agentic RAG system without evals is a slower, costlier way to be uncertain.</p>
+
+<p><strong>The frontier axis to scan on light-day.</strong> The moving debates: how much retrieval logic migrates <em>into</em> the model itself (models trained to search natively) vs stays in your orchestration; long-context models "killing" RAG (they don't — cost, freshness, and citation-grounding keep retrieval alive, per Vol 02 Ch 15's long-context strategies — but the boundary moves); and standardized retrieval interfaces (MCP resources — Vol 05 — as the retrieval plug). Scan fresh; the axes will still be these.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: retrieval as a tool inside the loop.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Upgrade one real path in your own stack: take the brain-chat (Vol 03 Ch 17's build) and wrap its retrieval as a <em>tool</em> the agent may call zero, one, or many times, with query rewriting allowed. Run your existing brain-chat golden set (Vol 03 Ch 18) against both variants. The honest table: quality delta, cost delta, latency delta, plus one trace (Vol 07 instrumentation) of a multi-retrieve run annotated by hand — where did the second retrieval <em>earn its cost</em>? Verdict paragraph in the note: for your corpus, when does agentic retrieval pay?</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>State the inversion in one sentence, and list the five decision points the agent takes over.</li>
+<li>Which Vol 03 chapter was secretly agentic RAG already? What was missing that this chapter adds?</li>
+<li>Name your retrieval portfolio (five entries minimum) and what the router routes on.</li>
+<li>Why doesn't long context kill RAG? Three permanent reasons.</li>
+<li>From your table: did the agentic variant clear its own cost? Defend the verdict with numbers.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="multi-hop-retrieval" href="multi-hop-retrieval.html">multi-hop-retrieval</a></p>
+<p><a class="wiki-link" data-node-id="build-chat-with-my-brain" href="build-chat-with-my-brain.html">build-chat-with-my-brain</a></p>
+<p><a class="wiki-link" data-node-id="graphrag-deep" href="graphrag-deep.html">graphrag-deep</a></p>
+<p><a class="wiki-link" data-node-id="build-research-agent" href="build-research-agent.html">build-research-agent</a></p>
+<p><a class="wiki-link" data-node-id="rag-evals" href="rag-evals.html">rag-evals</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

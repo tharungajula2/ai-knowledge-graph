@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Experiment Tracker & Registry</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>This ring so far has been LLM-eval-focused; this cluster grounds you in the broader <em>MLOps</em> discipline that all of AI engineering sits on — and that your target roles expect you to know. The node summary: <strong>build an experiment tracker integration using MLflow on a free workspace to train a classifier, log hyperparameters/metrics, register the model artifact, and execute batch inference; verify with registered model runs.</strong> This is a deliberate step <em>sideways</em> into classical ML lifecycle tooling — because "AI engineer" means knowing the MLOps foundations, not just prompting, and MLflow is the industry-standard experiment tracker you'll meet everywhere.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Why experiment tracking exists — the reproducibility problem.</strong> Train a model with one set of hyperparameters, get 0.85 accuracy; change three things, get 0.87; change five more, get 0.83 — and now you <em>can't reconstruct</em> which combination gave 0.87, or reproduce it (Vol 01 Ch 12's train/test rigor, now with a bookkeeping crisis). Experiment tracking solves this: every training run logs its <em>hyperparameters</em> (what you configured), <em>metrics</em> (what resulted), <em>artifacts</em> (the trained model, plots), and <em>code version</em> (Vol 01 Ch 19) — so every result is reproducible and comparable. It's version control for <em>experiments</em> rather than code, and it's non-negotiable in serious ML work.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>MLflow — the standard, its four pillars.</strong> <em>Tracking</em>: log params, metrics, artifacts per run (<code>mlflow.log_param</code>, <code>mlflow.log_metric</code>, <code>mlflow.log_artifact</code>) — the experiment journal. <em>Projects</em>: package code for reproducible runs. <em>Models</em>: a standard format for saving/loading models across frameworks. <em>Registry</em>: a versioned store of <em>registered</em> models with stages (staging → production → archived) — the model's lifecycle, managed. The build touches all four, but tracking and registry are the heart.</p>
+
+<p><strong>The build — classifier, tracked, registered, served (per the node).</strong> (1) <em>Train a classifier</em> — a genuinely simple one (scikit-learn on a standard dataset — this isn't about the model, it's about the <em>lifecycle</em>; a logistic regression or random forest on iris/titanic is perfect). This also cashes in Vol 01 Ch 12 (classical ML — train/test split, precision/recall/F1 — the fundamentals node, now with real code). (2) <em>Log hyperparameters and metrics</em> to MLflow — run it several times with different hyperparameters, and watch the tracking UI let you <em>compare runs</em> (the payoff: "which config won?" answered by data, not memory). (3) <em>Register the model artifact</em> — promote your best run's model to the registry with a version and stage. (4) <em>Batch inference</em> — load the registered model and run it on a batch of inputs (Ch 12's batch-vs-realtime, previewed) — the model serving its purpose, from the registry. (5) <em>Free workspace</em> — MLflow runs locally or on free-tier hosted workspaces (per the node — no cost).</p>
+
+<p><strong>Why this matters for the LLM engineer (bridging back).</strong> Even in LLM-land, the <em>concepts</em> transfer directly: your <em>eval runs</em> (Chs 2-9) are experiments — log the prompt version, the golden-set scores, the judge version (Ch 4's pinning!) as tracked experiments, and you get reproducible, comparable eval history <em>for free</em> (many teams track LLM evals in MLflow or similar exactly this way). The registry concept maps to <em>prompt/model versioning</em> (Vol 02 Ch 3's prompts-as-artifacts, now with lifecycle stages). And when you fine-tune (a future domain), this <em>is</em> the tooling. Experiment tracking is the through-line connecting classical ML and LLM engineering — the same reproducibility discipline, one substrate.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build an experiment tracker integration using MLflow on a free workspace to train a classifier, log hyperparameters/metrics, register the model artifact, and execute batch inference; verify with registered model runs.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): set up MLflow (local or free workspace) → train a scikit-learn classifier with train/test split and precision/recall/F1 (Vol 01 Ch 12, in code) → log params + metrics across several hyperparameter runs → use the MLflow UI to compare runs and pick the winner → register the best model with a version/stage → load from registry and run batch inference → verify registered model runs appear correctly. Then the bridge: log <em>one of your LLM eval runs</em> (a golden-set score with prompt version + judge version) as an MLflow experiment — see your LLM work fit the MLOps frame. Tag <code>mlops-v0.1</code>. The tracked runs + the registered model + the batch inference + the LLM-eval-as-experiment = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What problem does experiment tracking solve, and why is it non-negotiable in serious ML?</li>
+<li>Name MLflow's four pillars, and which two are the heart of this build.</li>
+<li>Walk the five build steps: train → log → register → batch-infer → verify.</li>
+<li>How do LLM eval runs map onto experiment tracking, and why is judge-version logging crucial?</li>
+<li>Why is experiment tracking the through-line between classical ML and LLM engineering?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="classical-ml-fundamentals" href="classical-ml-fundamentals.html">classical-ml-fundamentals</a></p>
+<p><a class="wiki-link" data-node-id="git-mastery" href="git-mastery.html">git-mastery</a></p>
+<p><a class="wiki-link" data-node-id="data-versioning-reproducibility" href="data-versioning-reproducibility.html">data-versioning-reproducibility</a></p>
+<p><a class="wiki-link" data-node-id="model-serving-patterns" href="model-serving-patterns.html">model-serving-patterns</a></p>
+<p><a class="wiki-link" data-node-id="judge-bias-pinning" href="judge-bias-pinning.html">judge-bias-pinning</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

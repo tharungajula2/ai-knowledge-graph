@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Kubernetes Essentials</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Kubernetes is the industry-standard system for running containers at scale — and the node summary is honest about the goal: <strong>pods, deployments, services, ingress controllers, and horizontal pod autoscalers; understanding k8s orchestration conceptually.</strong> The word "conceptually" is deliberate: you're not deploying your agent-lab on Kubernetes (Ch 18 established that's overkill for you), you're <em>understanding</em> it — because it's everywhere in industry, interviewers ask about it, and knowing its concepts (and when <em>not</em> to use it) is part of being a credible production engineer.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>What Kubernetes solves — orchestrating many containers.</strong> One container on one service (Ch 19) is simple. But large systems run <em>many</em> containers (many services, many replicas of each for scale and resilience) across <em>many</em> machines — and <em>someone</em> has to decide which container runs where, restart crashed ones, scale them up and down with load, route traffic to them, and roll out updates without downtime. Doing that by hand is impossible at scale. Kubernetes (k8s) is the <em>orchestrator</em> that automates all of it — you declare <em>what you want</em> ("run 3 replicas of my API, keep them healthy, scale to 10 under load") and k8s <em>makes it so and keeps it so</em> (the declarative, self-healing model — you describe the desired state, k8s continuously reconciles reality to match).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The core objects (the vocabulary the node names).</strong> <em>Pod</em> — the smallest unit, one (or a few tightly-coupled) running container(s); the thing that actually runs your app. <em>Deployment</em> — declares "I want N replicas of this pod, updated this way"; k8s maintains that count (a pod crashes → k8s starts a new one — self-healing) and handles rolling updates (Ch 32 — replace pods gradually, no downtime). <em>Service</em> — a stable network endpoint for a set of pods (pods come and go with their changing IPs; the Service is the constant address that load-balances across them). <em>Ingress (controller)</em> — routes external HTTP traffic into the cluster to the right Services (the front door, with routing rules, TLS). <em>Horizontal Pod Autoscaler (HPA)</em> — automatically scales the replica count based on load (CPU, custom metrics — Ch 28's load-based scaling, automated): traffic up → more pods, traffic down → fewer. Together these five give you: run-what-I-declared, keep-it-healthy, route-traffic-to-it, scale-it-automatically — the orchestration essentials.</p>
+
+<p><strong>Why it's powerful <em>and</em> why it's overkill for you (the honest judgment).</strong> Kubernetes is genuinely powerful — self-healing, declarative, sophisticated scaling, the industry standard for large systems, portable across clouds. And it's genuinely <em>complex</em> — a steep learning curve, significant operational overhead, a whole ecosystem (Helm, operators, service meshes) to learn. For a solo builder with an API-calling agent-lab (Ch 18's analysis), it's <em>overkill</em>: serverless (Ch 19) gives you the scaling and self-healing you need <em>without</em> the k8s complexity, and time spent on k8s YAML is time not spent building agents (the 45-day mission's opportunity cost). The senior move (Vol 05 Ch 14, Vol 06 Ch 5's judgment): <em>understand k8s conceptually</em> (so you're credible, can work in k8s shops, and can architect for it when scale genuinely demands it) while <em>choosing not to use it</em> when simpler suffices. Knowing when <em>not</em> to reach for the powerful-but-complex tool is exactly the maturity that separates senior from resume-driven engineering.</p>
+
+<p><strong>The conceptual model to carry (the interview-ready understanding).</strong> Even without deploying on it, hold the model: <em>declarative</em> (you declare desired state, k8s reconciles — vs imperative "do these steps"); <em>self-healing</em> (k8s maintains desired state against failures); <em>the reconciliation loop</em> (k8s continuously compares actual vs desired and fixes drift — the control-loop pattern, Vol 04's agent loop at infrastructure scale); and <em>the abstraction ladder</em> (pods → deployments → services → ingress, each building on the last). This model — and the honest "I understand k8s and chose serverless because my workload didn't justify the complexity" — is what an interviewer wants to hear (it shows you know the tool <em>and</em> have judgment about it).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Pods, deployments, services, ingress controllers, and horizontal pod autoscalers; understanding k8s orchestration conceptually.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Understand k8s conceptually (concept node — understanding, not deploying): (1) Map the five core objects to a concrete system: for a hypothetical scaled version of your agent-lab (many users, many services), draw how pods/deployments/services/ingress/HPA would run it — where your backend, your workers (Ch 27), your database connections fit. (2) Optionally, run a local k8s (minikube/kind) and deploy a trivial container to <em>feel</em> the objects (a pod, a deployment scaling replicas, a service) — hands-on conceptual grounding. (3) The judgment write-up: articulate why k8s is overkill for your agent-lab <em>now</em> and the specific scale/complexity threshold that would change that — the "understand it, chose not to use it, here's when I would" narrative. The object-mapping + the (optional) local demo + the judgment write-up = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What does Kubernetes solve, and what's the declarative/self-healing model?</li>
+<li>Define the five core objects (pod, deployment, service, ingress, HPA) and what each does.</li>
+<li>Why is k8s powerful <em>and</em> overkill for your agent-lab — the honest judgment?</li>
+<li>What's the senior move regarding k8s — and why does knowing-when-not-to-use-it show maturity?</li>
+<li>Explain the reconciliation loop, and how it echoes the agent loop at infrastructure scale.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="compute-choices" href="compute-choices.html">compute-choices</a></p>
+<p><a class="wiki-link" data-node-id="build-container-deployment" href="build-container-deployment.html">build-container-deployment</a></p>
+<p><a class="wiki-link" data-node-id="failure-drills-rollbacks" href="failure-drills-rollbacks.html">failure-drills-rollbacks</a></p>
+<p><a class="wiki-link" data-node-id="rate-limiting-logs" href="rate-limiting-logs.html">rate-limiting-logs</a></p>
+<p><a class="wiki-link" data-node-id="deploying-backends" href="deploying-backends.html">deploying-backends</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

@@ -35,17 +35,62 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>The Lethal Trifecta & Rule of Two</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: safety-security</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Here is the single most important idea in agent security, and it's beautifully simple. The node summary names it: <strong>private data + untrusted input + exfil paths.</strong> Simon Willison's "lethal trifecta" observes that catastrophic agent breaches require <em>three</em> things present together — and if you can <em>remove any one</em>, the catastrophe becomes impossible <em>architecturally</em>. This is "security is architecture, not vigilance" at its purest and most actionable: not "detect the attack" but "design so the attack can't matter." Learn this cold; it reorganizes how you think about every agent you'll ever build.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The three ingredients — and why all three are required.</strong> A catastrophic exfiltration breach needs:</p>
+<ol>
+<li><strong>Access to private data</strong> — the agent can read something sensitive (your emails, files, secrets, a database).</li>
+<li><strong>Exposure to untrusted input</strong> — the agent processes content an attacker can control (a web page, an email, a RAG doc — indirect injection's entry, Ch 3).</li>
+<li><strong>A way to exfiltrate</strong> — the agent can send data <em>out</em> (make a web request, send an email, write to an attacker-visible place, call an external tool).</li>
+</ol>
+<p>The insight: <em>any one alone is safe-ish.</em> Private data with no untrusted input and no exfil = a secure vault (nothing malicious enters, nothing leaves). Untrusted input with no private data and no exfil = a harmless text processor (attacker can inject, but there's nothing to steal and nowhere to send it). Exfil ability with no private data and no untrusted input = a normal tool doing its job. <strong>It's the <em>combination</em> that's lethal</strong>: untrusted input injects instructions → those instructions read private data → and exfiltrate it out. Break the chain anywhere and the attack collapses.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The defensive superpower — remove an ingredient.</strong> Because all three are <em>required</em>, you defend by <em>architecturally removing one</em> from any given agent/flow:</p>
+<ul>
+<li><em>Remove untrusted input</em>: an agent that only processes <em>trusted</em> content (your own vetted data, no web, no arbitrary documents) can't be injected. (Limiting, but right for high-privilege agents.)</li>
+<li><em>Remove private-data access</em>: an agent that processes untrusted content but <em>can't read anything sensitive</em> has nothing to steal. (The quarantine agent — Ch 14 — handles web content with zero access to secrets.)</li>
+<li><em>Remove exfil paths</em>: an agent with private data and untrusted input but <em>no way to send data out</em> (no network tools, no email, read-only) can be injected and can read secrets but <em>can't get them to the attacker</em>. (Often the easiest ingredient to remove.)</li>
+</ul>
+<p>The art: for each agent, look at your threat model (Ch 1), see which of the three it has, and <em>remove the one that's cheapest to remove without breaking the function</em>. An agent rarely <em>needs</em> all three — and noticing when it does is the loudest security alarm you can install.</p>
+
+<p><strong>The Rule of Two — the practical formulation.</strong> A pragmatic guideline (from security practice): <em>an agent should have at most two of {untrusted input, private data, ability to take consequential external actions}</em> — never all three simultaneously in one context. If a task seems to need all three, <em>split it</em>: a quarantined agent handles the untrusted input and produces sanitized output (no private data, no exfil — Ch 14); a separate trusted agent handles the private data and actions (no untrusted input). The split <em>is</em> the defense — you've removed the lethal combination by architectural decomposition (Vol 05's multi-agent isolation, now as a security pattern; Vol 04 Ch 10's subgraph boundaries, weaponized for safety). The Rule of Two turns "how do I secure this agent?" into "how do I decompose this so no single agent holds the trifecta?" — a far more tractable question.</p>
+
+<p><strong>Why this is the ring's keystone.</strong> Every other defense (spotlighting Ch 6, guardrails Ch 11, the scanner Ch 3) <em>reduces the probability</em> of an attack succeeding; the trifecta discipline <em>removes the possibility</em> of catastrophe by construction. Probabilistic defenses fail sometimes (the arms race, Ch 4); architectural ones don't fail because there's nothing to fail — you can't exfiltrate private data through an agent that has no private data. This is why "security is architecture" beats "security is vigilance": vigilance is probabilistic and tiring; architecture is structural and permanent. The trifecta is the sharpest tool for turning vigilance into architecture.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: private data + untrusted input + exfil paths.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Apply the trifecta to your systems (concept node, and genuinely clarifying): (1) For each of your agents (research agent, node-proposer, brain-chat, memory-agent), assess the three ingredients: does it have private-data access? untrusted input? exfil paths? Mark which hold the <em>full trifecta</em> (those are your highest-risk systems — Ch 1's ranking, now sharpened). (2) For the riskiest one, design the removal: which ingredient can you architecturally remove or split off (Rule of Two) without breaking its function? Draw the decomposition. (3) The alarm: write the one-sentence rule you'll apply to every <em>future</em> agent — "before shipping, check the trifecta; if all three, decompose." The trifecta assessment + the removal design + the future-rule = the note; this reframes Ch 8's least-privilege and Ch 14's sandboxing.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the three ingredients of the lethal trifecta, and why is each one <em>alone</em> relatively safe?</li>
+<li>Why is the <em>combination</em> lethal — walk the attack chain through all three.</li>
+<li>Explain the defensive superpower — how removing any one ingredient collapses the attack.</li>
+<li>State the Rule of Two, and how decomposition removes the trifecta.</li>
+<li>Why does the trifecta discipline beat probabilistic defenses — architecture vs vigilance, precisely.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="agent-threat-model" href="agent-threat-model.html">agent-threat-model</a></p>
+<p><a class="wiki-link" data-node-id="least-privilege-tools" href="least-privilege-tools.html">least-privilege-tools</a></p>
+<p><a class="wiki-link" data-node-id="sandboxing-isolation" href="sandboxing-isolation.html">sandboxing-isolation</a></p>
+<p><a class="wiki-link" data-node-id="mcp-security" href="mcp-security.html">mcp-security</a></p>
+<p><a class="wiki-link" data-node-id="subgraphs" href="subgraphs.html">subgraphs</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

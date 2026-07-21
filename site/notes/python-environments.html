@@ -35,18 +35,51 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Environments & Packages</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
-
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
-
+          <h2 id="eli5">ELI5</h2>
+<p>Project A needs library version 1.0; Project B needs version 2.0. Install both into one shared Python and they fight — the infamous "works on my machine" disease. A <strong>virtual environment</strong> gives every project its own private toolbox: its own Python, its own installed packages, zero crosstalk. Professionals never install project packages globally. Ever.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<div class="code-block-wrapper block-terminal">
+        <div class="code-block-header"><div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span><span class="code-lang ml-2">TERMINAL</span></div><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-shell">python3<span class="tok-flag"> -m</span> venv .venv              # create the private toolbox (a folder named .venv)
+source .venv/bin/activate          # step inside (Windows: .venv\Scripts\activate)
+which <span class="tok-cmd">python</span>                       # verify: path now points INSIDE .venv
+<span class="tok-cmd">pip</span> install requests               # installs land in the toolbox only
+<span class="tok-cmd">pip</span> freeze &gt; requirements.txt      # snapshot exact versions — the reproducibility contract
+deactivate                         # step outside</code></pre>
+      </div>
+<p>The mental model: <code>activate</code> just edits your shell's PATH so <code>python</code> and <code>pip</code> resolve to the <code>.venv</code> copies. <code>requirements.txt</code> is how a teammate (or a server, or Docker in a later domain) rebuilds your exact toolbox: <code>pip install -r requirements.txt</code>. Two habits that mark professionals: <code>.venv/</code> goes in <code>.gitignore</code> (you commit the <em>recipe</em>, never the toolbox itself), and one project = one venv, created the minute the project folder is born. (Later you'll meet <code>uv</code> — a fast modern replacement doing the same jobs; the concepts transfer 1:1.)</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: venv, pip, running scripts like a pro.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Create a folder <code>vizier-floor/</code>, and inside it a venv. Activate, prove isolation with <code>which python</code>, install <code>requests</code>, write <code>main.py</code> that imports requests and fetches any URL's status code, run it, freeze requirements. Then the real test: <code>deactivate</code>, delete <code>.venv</code> entirely, recreate it from <code>requirements.txt</code> alone, and run <code>main.py</code> again. If it runs, you've proven reproducibility — the entire point.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What disease do venvs cure? Describe the two-projects conflict precisely.</li>
+<li>What does <code>activate</code> mechanically do to your shell?</li>
+<li>Why commit <code>requirements.txt</code> but gitignore <code>.venv/</code>?</li>
+<li>Write from memory: create, activate, install, freeze, deactivate.</li>
+<li>Your script works locally, fails on the server with <code>ModuleNotFoundError</code>. First two things you check?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="terminal-fluency" href="terminal-fluency.html">terminal-fluency</a></p>
+<p><a class="wiki-link" data-node-id="git-mastery" href="git-mastery.html">git-mastery</a></p>
+<p><a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

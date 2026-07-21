@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Guardrails In & Out</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: safety-security</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The node summary names a bidirectional defense: <strong>input scanning, output enforcement.</strong> Guardrails are the checkpoints on both sides of the model — scanning what goes <em>in</em> (catch attacks, bad inputs before the model sees them) and enforcing what comes <em>out</em> (catch harmful, leaked, or policy-violating content before it reaches the user or the world). They're the programmable safety layer wrapped around the unpredictable model — the place you enforce the deterministic rules that the probabilistic model can't be trusted to follow on its own.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The two directions — and why you need both.</strong> <em>Input guardrails</em> (before the model): scan incoming content for attacks (injection patterns — your Ch 3 scanner is an input guardrail), policy violations (requests for forbidden content), PII to redact (Ch 12), off-topic/abuse, and malformed input — <em>reject, sanitize, or flag before the model processes it</em>. The value: stop bad input from ever reaching the model (cheaper and safer than catching problems after). <em>Output guardrails</em> (after the model, before delivery): scan the model's output for harmful content (Ch 13's refusals), leaked data (system prompt, PII, secrets — Vol 06 Ch 8), policy violations, hallucinated citations (Vol 03 Ch 10's integrity check as a guardrail), injection <em>success</em> (did the output do something the input tried to make it do?), and format/safety violations — <em>block, redact, or regenerate before it ships</em>. The value: the model is probabilistic and can produce anything (Vol 01 Ch 10); output guardrails are the <em>deterministic</em> net that catches what the model shouldn't have said. You need both because input guardrails can't catch everything that gets through (the arms race, Ch 4) and output guardrails are the last check before harm reaches reality.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>How guardrails work — the implementation spectrum.</strong> <em>Rule-based / pattern</em> (regex, keyword lists, allowlists — fast, cheap, deterministic, but brittle to novel phrasings — Ch 3's layer 1). <em>Classifier-based</em> (a trained model detecting toxicity, PII, injection, off-topic — more robust than patterns, some cost; many off-the-shelf guardrail classifiers exist). <em>LLM-based</em> (an LLM judging "is this input an attack?" / "is this output safe?" — flexible, handles nuance, but slower, pricier, and <em>itself</em> injectable — Vol 07 Ch 4's judge biases apply; a guardrail LLM can be jailbroken too, so it's a layer, not a guarantee). <em>Hybrid</em> (fast patterns catch the obvious, classifiers/LLMs catch the subtle — the tiering instinct, Vol 07 Ch 9). The choice per guardrail: match the mechanism to the threat's cost and subtlety.</p>
+
+<p><strong>The design tensions (guardrails aren't free).</strong> <em>False positives vs false negatives</em> (Vol 01 Ch 12, everywhere in security): a too-strict guardrail blocks legitimate use (a medical chatbot's toxicity filter refusing to discuss symptoms; a security-topic query flagged as an attack — the false-positive tax degrades the product); a too-lax one lets harm through. <em>Latency</em> (Vol 02 Ch 8, Vol 07 Ch 17): every guardrail adds a check before/after the model — input guardrails delay the response, output guardrails delay delivery, and LLM-based guardrails add whole model calls (a guardrail can double your latency). <em>Cost</em>: LLM-based guardrails on every request add up (Vol 04 Ch 17). <em>The guardrail-is-injectable problem</em>: an LLM guardrail is itself an LLM, so it can be attacked (a payload that jailbreaks the <em>guardrail</em>) — which is why guardrails are <em>defense in depth</em>, not a single trusted wall. The mature stance: guardrails enforce the <em>deterministic, high-confidence</em> rules (this must never ship, this pattern is always an attack) cheaply and reliably, while the probabilistic subtleties get layered defenses — and every guardrail's false-positive/false-negative/latency cost is <em>measured</em> (Vol 07), not assumed.</p>
+
+<p><strong>Where guardrails fit the whole ring.</strong> Input guardrails are the <em>first</em> line (with spotlighting Ch 6 — spotlighting frames, guardrails scan); output guardrails are the <em>last</em> line (with the gate Ch 9 — the gate stops actions, output guardrails stop content). Together they bracket the model, and combined with the trifecta discipline (Ch 7) and least-privilege (Ch 8), they form the layered defense (Ch 19). Guardrails are where you encode "the deterministic rules my system will <em>always</em> enforce regardless of what the model does" — the programmable safety floor beneath the probabilistic model.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: input scanning, output enforcement.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build guardrails for your agent (concept node, concrete): (1) Design the input and output guardrail set for your brain-chat or research agent: what input checks (injection — your Ch 3 scanner, PII, off-topic), what output checks (leaked-prompt, PII, hallucinated-citation, harmful content), and the mechanism for each (pattern/classifier/LLM). (2) Implement one input and one output guardrail, and <em>measure</em> them (Vol 07): false-positive rate on benign traffic, false-negative rate on your attack battery (Ch 4), and latency added. (3) Find the tension: tune one guardrail and watch false-positives trade against false-negatives — the defender's dilemma (Vol 01 Ch 12), lived. The guardrail design + the measured guardrails + the tuning-tension demo = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why do you need both input and output guardrails — what does each catch that the other can't?</li>
+<li>Recite the implementation spectrum (pattern → classifier → LLM → hybrid) with each one's trade.</li>
+<li>Why is an LLM-based guardrail itself a vulnerability, and what does that imply about its role?</li>
+<li>Name the design tensions, and why must every guardrail's costs be measured not assumed?</li>
+<li>Where do input and output guardrails fit relative to spotlighting and the gate?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-overlap-scanner" href="build-overlap-scanner.html">build-overlap-scanner</a></p>
+<p><a class="wiki-link" data-node-id="pii-redaction" href="pii-redaction.html">pii-redaction</a></p>
+<p><a class="wiki-link" data-node-id="refusals-content-safety" href="refusals-content-safety.html">refusals-content-safety</a></p>
+<p><a class="wiki-link" data-node-id="classical-ml-fundamentals" href="classical-ml-fundamentals.html">classical-ml-fundamentals</a></p>
+<p><a class="wiki-link" data-node-id="build-eval-judge" href="build-eval-judge.html">build-eval-judge</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

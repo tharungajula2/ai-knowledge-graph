@@ -35,714 +35,62 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Async/Await</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>A waiter takes table 1's order, walks it to the kitchen — and then just <em>stands there staring at the oven</em> until the food is done, while tables 2–8 starve. Absurd, yet that's synchronous code: when you call an LLM API (2–30 seconds!), sync code freezes the entire program to wait. <strong>Async</strong> is the sane waiter: fire the order, serve other tables, come back when the kitchen bell rings. AI apps are <em>made of</em> long waits — that's why every serious AI codebase is async.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The one distinction that matters:</strong> CPU-bound work (crunching numbers — your code is busy) vs <strong>IO-bound</strong> work (waiting on network/disk — your code is <em>idle</em>). LLM calls, embedding calls, DB queries, web fetches: all IO-bound. Async is the tool for IO-bound concurrency: one thread, many paused-mid-wait tasks, an <strong>event loop</strong> juggling them.</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">import</span> asyncio
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. --><hr>
-<h2 id="phase-0-canon-decompression">PHASE 0 — CANON DECOMPRESSION</h2>
+<span class="tok-kw">async</span> <span class="tok-kw">def</span> <span class="tok-fn">call_llm</span>((prompt: <span class="tok-builtin">str</span>) <span class="tok-op">-&gt;</span> <span class="tok-builtin">str</span>:      <span class="tok-comment"># async def → a coroutine</span>
+    <span class="tok-kw">await</span> asyncio.<span class="tok-fn">sleep</span>((<span class="tok-num">2</span>)                    <span class="tok-comment"># stand-in for a real API call</span>
+    <span class="tok-kw">return</span> <span class="tok-str">f"answer to: {prompt}"</span>
 
-<p>Here is our ground truth contract. Every single item on this list will be hardwired into your brain by the time you finish reading.</p>
+<span class="tok-kw">async</span> <span class="tok-kw">def</span> <span class="tok-fn">main</span>(():
+    answers = <span class="tok-kw">await</span> asyncio.<span class="tok-fn">gather</span>((           <span class="tok-comment"># run all three CONCURRENTLY</span>
+        <span class="tok-fn">call_llm</span>((<span class="tok-str">"q1"</span>), <span class="tok-fn">call_llm</span>((<span class="tok-str">"q2"</span>), <span class="tok-fn">call_llm</span>((<span class="tok-str">"q3"</span>)
+    )                                         <span class="tok-comment"># 2 seconds total, not 6</span>
+    <span class="tok-builtin">print</span>(answers)
 
-<ul>
-<li><strong>Concepts:</strong> CPU-bound vs IO-bound work, concurrency, thread, paused-mid-wait tasks, event loop, rate limits.</li>
-<li><strong>Keywords / Syntax:</strong> <code>async def</code>, <code>coroutine</code>, <code>await</code>, <code>asyncio.sleep</code>, <code>asyncio.gather</code>, <code>asyncio.run</code>, <code>asyncio.Semaphore</code>, <code>asyncio.to_thread</code>.</li>
-<li><strong>Libraries:</strong> <code>asyncio</code>, <code>requests</code>, <code>time</code>, <code>httpx</code>, <code>aiohttp</code>.</li>
-<li><strong>Errors / Bugs:</strong> <code>RuntimeWarning: coroutine was never awaited</code>, placing a blocking call in async code (starving the loop).</li>
-<li><strong>Applications:</strong> Batch-embedding RAG chunks, multi-agent fan-out, streaming tokens to a UI, FastAPI endpoints, agent-lab's async MCP bridge.</li>
-<li><strong>Code Snippets:</strong> The chapter's base <code>call_llm</code> script.</li>
-<li><strong>Artifact:</strong> <code>race.py</code> (sequential timing vs gather timing vs Semaphore wrapper, plus the deliberate un-awaited call).</li>
-<li><strong>Prove It Questions:</strong> All 5 chapter questions.</li>
-<li><strong>Wikilinks:</strong> <code><a class="wiki-link" data-node-id="python-classes-modules" href="python-classes-modules.html">python-classes-modules</a></code>, <code><a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></code>, <code><a class="wiki-link" data-node-id="context-windows" href="context-windows.html">context-windows</a></code>.</li>
-</ul>
-
-<p>⚡ <strong>RECAP:</strong> The canon is unpacked. No concept gets left behind.<hr></p>
-<h2 id="phase-1-absolute-zero-concept-amp-intuition-">PHASE 1 — ABSOLUTE ZERO (Concept &amp; Intuition)</h2>
-
-<p>Buddy, imagine you are a chef in a chaotic kitchen, and I hand you a recipe for a 12-hour smoked brisket.</p>
-
-<p>If you are a <strong>Synchronous</strong> chef, you put the brisket in the smoker, pull up a chair, and stare at the metal box for 12 straight hours. The phone rings. You ignore it. The potatoes need boiling. You ignore them. Your entire life freezes until that brisket comes out. This is madness.</p>
-
-<p>If you are an <strong>Asynchronous</strong> chef, you put the brisket in the smoker, set a timer (the "bell"), and instantly pivot to boiling the potatoes, answering the phone, and prepping the dessert. You are doing one thing at a time (you only have two hands), but you are <em>juggling</em> the waiting periods.</p>
-
-<p>Your Python code is exactly like this. The one distinction that matters in software is <strong>CPU-bound vs IO-bound</strong> work.</p>
-
-<ul>
-<li><strong>CPU-bound:</strong> Crunching massive math equations. Your code is the one doing the heavy lifting. It physically cannot do two things at once because the processor is sweating. (Chopping vegetables).</li>
-<li><strong>IO-bound:</strong> Waiting on something outside your computer's brain. Calling an LLM over the internet, saving a file to the hard drive, downloading a web page. Your code is just sitting there doing literally nothing, waiting for a response. (Waiting for the smoker).</li>
-</ul>
-
-<p>AI applications are made of huge, agonizing waits. Calling OpenAI takes 2 to 30 seconds! If you use synchronous code, your entire program freezes. If a user asks a question, nobody else can use your app until the LLM answers.</p>
-
-<p><strong>Async/Await</strong> is the sane waiter. It is the tool for IO-bound concurrency. You still only have one thread (one waiter), but that waiter creates many paused-mid-wait tasks and uses an <strong>event loop</strong> to juggle them. When an LLM call fires, the waiter says, "Call me when the kitchen bell rings," and immediately goes to serve tables 2 through 8.</p>
-
-<p>Without this, your AI pipeline chokes on its own idle time. With it, you achieve god-tier speed.</p>
-
-<p>⚡ <strong>RECAP:</strong> Async/Await lets your program do other work while waiting for slow, outside tasks (IO-bound) to finish.<hr></p>
-<h2 id="phase-2-the-escalator-syntax-micro-steps-">PHASE 2 — THE ESCALATOR (Syntax, Micro-Steps)</h2>
-
-<p>We are starting at absolute zero, Buddy. We will build the exact vocabulary you need, step by micro-step. Read the code, read the output, read the trace.<h3>1. Variables and Functions (<code>def</code>, <code>-&gt;</code>)</h3></p>
-
-<p>A variable stores data. A function (<code>def</code>) is a reusable block of code. We use <code>-&gt; str</code> to tell the reader (and the computer) that this function will hand back a string of text.</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">def greet(name: str) -&gt; str:
-    message = "Hello " + name
-    return message
-
-result = greet("Buddy")
-print(result)</code></pre>
+asyncio.<span class="tok-fn">run</span>((<span class="tok-fn">main</span>(())</code></pre>
       </div>
+<p>Decoder ring: <code>async def</code> marks a function pausable; <code>await</code> means "pause me here, event loop — go run someone else, resume me when this finishes"; <code>asyncio.gather</code> = "start all of these, give me all results"; <code>asyncio.run</code> starts the loop. The two laws: you can only <code>await</code> inside <code>async def</code>, and calling a coroutine without <code>await</code> does <em>nothing</em> (you get an unrun coroutine object — the #1 beginner bug, watch for the <code>RuntimeWarning: coroutine was never awaited</code>). The #2 bug: putting a <em>blocking</em> call (like <code>time.sleep</code> or the sync <code>requests</code> library) inside async code — it freezes the whole event loop, every table starves again; use async-native libraries (<code>httpx</code>, <code>aiohttp</code>) or <code>asyncio.to_thread</code> for stubborn sync code. Real-world guardrail: hitting an API with 500 concurrent calls triggers rate limits, so production code bounds concurrency with <code>asyncio.Semaphore</code> — fire in controlled batches.</p>
 
-<p><strong>OUTPUT:</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">text</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-text">Hello Buddy</code></pre>
-      </div>
-
-<p><strong>MENTAL TRACE:</strong></p>
-
+<p><strong>Why this chapter is load-bearing for your whole brain:</strong> batch-embedding thousands of RAG chunks, multi-agent fan-out, streaming tokens to a UI, FastAPI endpoints (<code>async def</code> handlers), and your own agent-lab's async MCP bridge — one of its two "greatest hurdles" — are all this exact pattern. You are learning the hurdle's vocabulary now, calmly, before rebuilding it by hand.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: why AI apps need it; hands-on.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Write <code>race.py</code>: the fake <code>call_llm</code> above with a random 1–3s sleep. Run 5 calls sequentially (a plain loop with <code>await</code> one-by-one) and time it; then the same 5 via <code>gather</code> and time it. Print both durations. Then add a <code>Semaphore(2)</code> wrapper and watch 5 calls complete in ~2-call waves. Break it on purpose: call <code>call_llm("x")</code> without <code>await</code>, observe the warning, fix it. The timing printout is your artifact — it <em>proves</em> concurrency happened.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
 <ol>
-<li>The code defines a function called <code>greet</code> that expects a name and promises to return a string (<code>-&gt; str</code>).</li>
-<li>It jumps down to <code>result = greet("Buddy")</code> and runs the function.</li>
-<li>Inside, <code>message</code> becomes <code>"Hello Buddy"</code>.</li>
-<li>It returns that message, stores it in <code>result</code>, and prints it.<h3>2. The f-string (<code>f"..."</code>)</h3></li>
+<li>IO-bound vs CPU-bound — define both and say which one async helps and why.</li>
+<li>Narrate exactly what happens at an <code>await</code>, mentioning the event loop.</li>
+<li>Sequential loop vs <code>gather</code> over 5 two-second calls: total time each, and why?</li>
+<li>Name the two classic async bugs and the symptom of each.</li>
+<li>Why must AI applications specifically be async? Name three concrete cases from your future domains.</li>
 </ol>
-
-<p>Instead of gluing strings together with <code>+</code>, professionals inject variables directly into text using <code>f"..."</code>. The <code>f</code> stands for format.</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">character = "Neo"
-action = "dodged"
-print(f"The character {character} just {action} the bullets.")</code></pre>
-      </div>
-
-<p><strong>OUTPUT:</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">text</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-text">The character Neo just dodged the bullets.</code></pre>
-      </div>
-
-<p><strong>MENTAL TRACE:</strong></p>
-
-<ol>
-<li><code>character</code> holds <code>"Neo"</code>.</li>
-<li><code>action</code> holds <code>"dodged"</code>.</li>
-<li>The f-string swaps the curly braces <code>{}</code> for the actual values and prints the final sentence.<h3>3. The <code>for</code> loop and <code>range()</code></h3></li>
-</ol>
-
-<p>When we want to do something repeatedly, we loop. <code>range(3)</code> counts from 0 up to, but not including, 3.</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">for i in range(3):
-    print(f"Task {i}")</code></pre>
-      </div>
-
-<p><strong>OUTPUT:</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">text</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-text">Task 0
-Task 1
-Task 2</code></pre>
-      </div>
-
-<p><strong>MENTAL TRACE:</strong></p>
-
-<ol>
-<li>The loop starts. <code>i</code> becomes <code>0</code>. It prints "Task 0".</li>
-<li>The loop restarts. <code>i</code> becomes <code>1</code>. It prints "Task 1".</li>
-<li>The loop restarts. <code>i</code> becomes <code>2</code>. It prints "Task 2". The loop ends.<h3>4. Importing modules (<code>time</code>, <code>random</code>)</h3></li>
-</ol>
-
-<p>Python comes with hidden toolboxes. We <code>import</code> them to use them. <code>time.time()</code> gives us the current clock time. <code>random.randint(1, 3)</code> gives us a random whole number between 1 and 3.</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">import time
-import random
-
-start = time.time()
-delay = random.randint(1, 2)
-print(f"Random delay chosen: {delay}")
-# Pretend we waited here...
-end = time.time()
-print(f"Time passed: {end - start} seconds")</code></pre>
-      </div>
-
-<p><strong>OUTPUT:</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">text</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-text">Random delay chosen: 2
-Time passed: 0.00012 seconds</code></pre>
-      </div>
-
-<p><strong>MENTAL TRACE:</strong></p>
-
-<ol>
-<li>We grab the <code>time</code> and <code>random</code> toolboxes.</li>
-<li><code>start</code> records the exact millisecond on the clock.</li>
-<li><code>delay</code> picks a random number (it picked 2). Prints it.</li>
-<li><code>end</code> records the clock again instantly.</li>
-<li>It prints the difference, which is basically zero because the computer is blazing fast.<h3>5. Entering Async (<code>async def</code>, <code>asyncio.run</code>)</h3></li>
-</ol>
-
-<p>Now we upgrade a normal function to an async coroutine. Adding <code>async</code> means "this function is allowed to be paused." A coroutine cannot be run normally. You must hand it to an <strong>Event Loop</strong> using <code>asyncio.run()</code>.</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">import asyncio
-
-async def say_hello() -&gt; str:
-    return "Hello from the future"
-
-# result = say_hello() # THIS WOULD FAIL! 
-result = asyncio.run(say_hello())
-print(result)</code></pre>
-      </div>
-
-<p><strong>OUTPUT:</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">text</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-text">Hello from the future</code></pre>
-      </div>
-
-<p><strong>MENTAL TRACE:</strong></p>
-
-<ol>
-<li><code>import asyncio</code> brings in the async toolbox.</li>
-<li><code>async def</code> defines a special pausable function (a coroutine).</li>
-<li><code>asyncio.run(...)</code> fires up the Event Loop (the master juggler), hands it <code>say_hello()</code>, and waits for it to finish.</li>
-<li>The loop gets the return value, gives it to <code>result</code>, and prints it.<h3>6. The Magic Pause (<code>await</code>, <code>asyncio.sleep</code>)</h3></li>
-</ol>
-
-<p>Inside an <code>async def</code>, you can pause execution. <code>await asyncio.sleep(1)</code> tells the event loop: "Freeze me here for 1 second. Go do other stuff, then wake me up." <strong>Law: You can only use <code>await</code> inside an <code>async def</code>.</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">import asyncio
-
-async def slow_hello() -&gt; str:
-    print("Starting...")
-    await asyncio.sleep(1) # The pause!
-    return "Done!"
-
-result = asyncio.run(slow_hello())
-print(result)</code></pre>
-      </div>
-
-<p><strong>OUTPUT:</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">text</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-text">Starting...
-(1 second pause happens here)
-Done!</code></pre>
-      </div>
-
-<p><strong>MENTAL TRACE:</strong></p>
-
-<ol>
-<li>The event loop starts running <code>slow_hello()</code>.</li>
-<li>It prints "Starting...".</li>
-<li>It hits <code>await asyncio.sleep(1)</code>. The function goes to sleep. The event loop walks away.</li>
-<li>One second later, the loop comes back, resumes the code, returns "Done!", and prints it.<h3>7. Concurrent Power (<code>asyncio.gather</code>)</h3></li>
-</ol>
-
-<p>This is the god-mode command. <code>gather</code> takes multiple async tasks and fires them all at the exact same time. It waits until they are <em>all</em> done, then hands you back a list of their results.</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">import asyncio
-
-async def fast_task(id: int) -&gt; str:
-    await asyncio.sleep(1)
-    return f"Task {id} complete"
-
-async def main():
-    # Run three 1-second tasks at the exact same time
-    results = await asyncio.gather(
-        fast_task(1), 
-        fast_task(2), 
-        fast_task(3)
-    )
-    print(results)
-
-asyncio.run(main())</code></pre>
-      </div>
-
-<p><strong>OUTPUT:</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">text</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-text">['Task 1 complete', 'Task 2 complete', 'Task 3 complete']</code></pre>
-      </div>
-
-<p><strong>MENTAL TRACE:</strong></p>
-
-<ol>
-<li><code>asyncio.run</code> starts the loop and runs <code>main()</code>.</li>
-<li><code>main</code> hits <code>gather</code>. It fires off tasks 1, 2, and 3 simultaneously.</li>
-<li>All three tasks hit their 1-second <code>await</code> pause.</li>
-<li>ONE second later (not three!), they all wake up and finish.</li>
-<li><code>gather</code> packages the three return strings into a list <code>[]</code> and prints them.<h3>8. Controlling the Flood (<code>asyncio.Semaphore</code>, <code>async with</code>)</h3></li>
-</ol>
-
-<p>If you fire 10,000 tasks at once, you will crash the server you are talking to. A Semaphore is a bouncer at a club. It says "only 2 tasks allowed in at a time." The <code>async with</code> syntax means "wait in line, grab the VIP pass, do the work, then give the pass back."</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">import asyncio
-
-async def limited_task(id: int, sem: asyncio.Semaphore):
-    async with sem: # Wait in line for a slot
-        print(f"Task {id} is in the club!")
-        await asyncio.sleep(1)
-        print(f"Task {id} left.")
-
-async def main():
-    bouncer = asyncio.Semaphore(2) # Only 2 allowed at once
-    await asyncio.gather(
-        limited_task(1, bouncer),
-        limited_task(2, bouncer),
-        limited_task(3, bouncer)
-    )
-
-asyncio.run(main())</code></pre>
-      </div>
-
-<p><strong>OUTPUT:</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">text</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-text">Task 1 is in the club!
-Task 2 is in the club!
-(1 second pause)
-Task 1 left.
-Task 3 is in the club!
-Task 2 left.
-(1 second pause)
-Task 3 left.</code></pre>
-      </div>
-
-<p><strong>MENTAL TRACE:</strong></p>
-
-<ol>
-<li><code>main</code> sets up a Semaphore <code>bouncer</code> with 2 slots.</li>
-<li><code>gather</code> fires tasks 1, 2, and 3 at the same time.</li>
-<li>Task 1 asks the bouncer <code>async with sem:</code> and gets in.</li>
-<li>Task 2 asks the bouncer and gets in.</li>
-<li>Task 3 asks the bouncer but is told to wait (the club is full).</li>
-<li>One second passes. Tasks 1 and 2 finish and give their slots back.</li>
-<li>Task 3 instantly grabs a newly open slot, enters, waits 1 second, and leaves.</li>
-</ol>
-
-<p>⚡ <strong>RECAP:</strong> You now own <code>async def</code> to create tasks, <code>await</code> to pause them, <code>gather</code> to fire them concurrently, and <code>Semaphore</code> to limit the blast radius.<hr></p>
-<h2 id="phase-3-god-mode-artifact-the-build-narrated-">PHASE 3 — GOD-MODE ARTIFACT (The Build, Narrated)</h2>
-
-<p>Buddy, we are now building the exact artifact demanded by the canon: <code>race.py</code>.</p>
-<p>We will build a fake LLM call that takes a random 1-3 seconds. We will run 5 of them sequentially and time it. We will run the same 5 via <code>gather</code> and time it. We will wrap them in a Semaphore. And we will deliberately break the code by forgetting an <code>await</code> to prove the #1 beginner bug.</p>
-
-<p>Here is the code. Read it top to bottom.</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">import asyncio
-import time
-import random
-
-# 1. The Fake IO-Bound Work
-async def call_llm(prompt: str) -&gt; str:
-    delay = random.randint(1, 3)
-    await asyncio.sleep(delay)
-    return f"answer to: {prompt}"
-
-# 2. The Wrapper for the Semaphore
-async def sem_call_llm(prompt: str, sem: asyncio.Semaphore) -&gt; str:
-    async with sem:
-        return await call_llm(prompt)
-
-async def main():
-    print("=== THE BROKEN CALL ===")
-    # Breaking it on purpose: no 'await'
-    call_llm("break_it")
-    print("Look at your terminal warnings!\n")
-
-    print("=== 1. SEQUENTIAL RUN ===")
-    start_time = time.time()
-    for i in range(5):
-        # We wait for each to finish before starting the next
-        answer = await call_llm(f"seq_q{i}")
-        print(f"  Got: {answer}")
-    seq_duration = time.time() - start_time
-    print(f"Sequential total time: {seq_duration:.2f} seconds\n")
-
-    print("=== 2. GATHER RUN ===")
-    start_time = time.time()
-    # Fire all 5 at the exact same time
-    answers = await asyncio.gather(
-        call_llm("gather_q0"),
-        call_llm("gather_q1"),
-        call_llm("gather_q2"),
-        call_llm("gather_q3"),
-        call_llm("gather_q4")
-    )
-    print(f"  Got: {answers}")
-    gather_duration = time.time() - start_time
-    print(f"Gather total time: {gather_duration:.2f} seconds\n")
-
-    print("=== 3. SEMAPHORE RUN (Waves of 2) ===")
-    bouncer = asyncio.Semaphore(2)
-    start_time = time.time()
-    # Fire all 5, but the bouncer only lets 2 execute at once
-    answers_sem = await asyncio.gather(
-        sem_call_llm("sem_q0", bouncer),
-        sem_call_llm("sem_q1", bouncer),
-        sem_call_llm("sem_q2", bouncer),
-        sem_call_llm("sem_q3", bouncer),
-        sem_call_llm("sem_q4", bouncer)
-    )
-    print(f"  Got: {answers_sem}")
-    sem_duration = time.time() - start_time
-    print(f"Semaphore total time: {sem_duration:.2f} seconds\n")
-
-# Start the event loop
-asyncio.run(main())</code></pre>
-      </div><h3>The Walkthrough (Why pros write it this way)</h3>
-
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="python-classes-modules" href="python-classes-modules.html">python-classes-modules</a></p>
+<p><a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></p>
+<p><a class="wiki-link" data-node-id="context-windows" href="context-windows.html">context-windows</a></p>
+<h2 id="status-log">Status log</h2>
 <ul>
-<li><strong>Line 6 (<code>delay = random.randint(1, 3)</code>):</strong> Pros simulate chaos. Network latency is never predictable. This proves our async code can handle varying wait times.</li>
-<li><strong>Line 13 (<code>async with sem:</code>):</strong> Pros separate logic. We didn't clutter the main <code>call_llm</code> function with semaphore logic. We created a tiny wrapper <code>sem_call_llm</code>. Clean architecture.</li>
-<li><strong>Line 19 (<code>call_llm("break_it")</code>):</strong> A raw function call without <code>await</code> creates an un-run coroutine object. We do this to trigger the exact warning you will face in production.</li>
-<li><strong>Line 28 &amp; 43 (<code>{seq_duration:.2f}</code>):</strong> The <code>:.2f</code> inside the f-string is a pro formatting trick. It truncates the long messy decimal to just 2 decimal places.<h3>The Output</h3></li>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
 </ul>
 
-<p><strong>OUTPUT:</strong></p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">text</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-text">=== THE BROKEN CALL ===
-Look at your terminal warnings!
-
-race.py:19: RuntimeWarning: coroutine 'call_llm' was never awaited
-  call_llm("break_it")
-RuntimeWarning: Enable tracemalloc to get the object allocation traceback
-
-=== 1. SEQUENTIAL RUN ===
-  Got: answer to: seq_q0
-  Got: answer to: seq_q1
-  Got: answer to: seq_q2
-  Got: answer to: seq_q3
-  Got: answer to: seq_q4
-Sequential total time: 10.04 seconds
-
-=== 2. GATHER RUN ===
-  Got: ['answer to: gather_q0', 'answer to: gather_q1', 'answer to: gather_q2', 'answer to: gather_q3', 'answer to: gather_q4']
-Gather total time: 3.01 seconds
-
-=== 3. SEMAPHORE RUN (Waves of 2) ===
-  Got: ['answer to: sem_q0', 'answer to: sem_q1', 'answer to: sem_q2', 'answer to: sem_q3', 'answer to: sem_q4']
-Semaphore total time: 6.02 seconds</code></pre>
-      </div><h3>The Mental Trace</h3>
-
-<ol>
-<li>Python reads all the imports and function definitions.</li>
-<li>It hits <code>asyncio.run(main())</code>, boot-strapping the event loop.</li>
-<li>Inside <code>main</code>, it calls <code>call_llm("break_it")</code>. Because there is no <code>await</code>, it instantly skips it and prints the <code>RuntimeWarning</code> to the terminal. The function never actually ran.</li>
-<li><strong>Sequential Block:</strong> It loops 5 times. Query 0 takes 2s. Waits for it. Query 1 takes 3s. Waits. It processes them sequentially. Total time is the <em>sum</em> of all random sleeps (~10 seconds).</li>
-<li><strong>Gather Block:</strong> It hits <code>gather</code>. All 5 queries fire out instantly. The loop goes to sleep. Because they run concurrently, the total time to finish all 5 is equal to the time of the <em>slowest single query</em> (~3 seconds).</li>
-<li><strong>Semaphore Block:</strong> <code>gather</code> fires all 5, but the Semaphore stops them. Queries 0 and 1 start. Query 2, 3, and 4 wait in line. Once 0 or 1 finishes, the next grabs the slot. They process in tight waves of 2. Total time is roughly ~6 seconds, effectively throttling the rate limit.</li>
-</ol>
-
-<p>⚡ <strong>RECAP:</strong> You proved concurrency. Sequential adds time; Gather overlaps time; Semaphore bounds time. <code>race.py</code> is the blueprint for every AI pipeline you will ever build.<hr></p>
-<h2 id="phase-4-pro-tips-hacks-amp-beginner-traps">PHASE 4 — PRO-TIPS, HACKS &amp; BEGINNER TRAPS</h2>
-
-<p>This is where beginners bleed. Memorize these errors so you never panic in production.<h3>Trap 1: The Ghost Call (From the Canon)</h3></p>
-
-<ul>
-<li><strong>Error:</strong> <code>RuntimeWarning: coroutine 'my_func' was never awaited</code></li>
-<li><strong>Snippet:</strong></li>
-</ul>
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">async def fetch(): pass
-fetch() # Broken!</code></pre>
-      </div>
-
-
-<ul>
-<li><strong>Why it happens:</strong> Calling an async function doesn't execute it; it just creates a "coroutine object." You dropped the object on the floor without telling the event loop to run it.</li>
-<li><strong>Fix:</strong> Always write <code>await fetch()</code>.<h3>Trap 2: Starving the Loop (From the Canon)</h3></li>
-</ul>
-
-<ul>
-<li><strong>Error:</strong> No error message. The entire program just violently freezes, ignoring all other tasks.</li>
-<li><strong>Snippet:</strong></li>
-</ul>
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">import time, requests
-async def bad_idea():
-    time.sleep(5) # FREEZE!
-    requests.get("http://api.com") # FREEZE!</code></pre>
-      </div>
-
-
-<p><em> <strong>Why it happens:</strong> <code>time.sleep</code> and the <code>requests</code> library are <strong>synchronous</strong>. They don't know how to yield control back to the event loop. They put the </em>entire waiter* in a chokehold.</p>
-<p><em> <strong>Fix:</strong> Use async-native libraries: <code>httpx</code> or <code>aiohttp</code> instead of <code>requests</code>. Use <code>asyncio.sleep</code> instead of <code>time.sleep</code>. If you </em>must* use a sync library, wrap it in <code>await asyncio.to_thread(sync_function)</code>.<h3>Trap 3: The Rate Limit Nuke</h3></p>
-
-<ul>
-<li><strong>Error:</strong> <code>HTTP 429 Too Many Requests</code> or <code>ConnectionResetError</code></li>
-<li><strong>Snippet:</strong></li>
-</ul>
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">tasks = [call_llm(q) for q in huge_list_of_1000_items]
-await asyncio.gather(*tasks) # KABOOM</code></pre>
-      </div>
-
-
-<ul>
-<li><strong>Why it happens:</strong> You fired 1,000 network requests in one millisecond. The target server (OpenAI, your DB) views this as an attack and blocks your IP.</li>
-<li><strong>Fix:</strong> Wrap the core function with an <code>asyncio.Semaphore(50)</code>.<h3>Trap 4: The Jupyter/Notebook Conflict</h3></li>
-</ul>
-
-<ul>
-<li><strong>Error:</strong> <code>RuntimeError: asyncio.run() cannot be called from a running event loop</code></li>
-<li><strong>Snippet:</strong></li>
-</ul>
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">python</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-python">asyncio.run(main()) # Inside a Jupyter Notebook cell</code></pre>
-      </div>
-
-
-<p><em> <strong>Why it happens:</strong> Jupyter notebooks </em>already* have an event loop running in the background to handle the web interface. You can't start a loop inside a loop.</p>
-<ul>
-<li><strong>Fix:</strong> In Jupyter, just use <code>await main()</code> directly in the cell, no <code>asyncio.run</code> needed.<h3>👑 Pro Habits for AI Mastery</h3></li>
-</ul>
-
-<ol>
-<li><strong>Never write <code>for</code> loops with <code>await</code> for IO tasks.</strong> If you have independent AI prompts, map them to a list and <code>gather</code> them. Sequential LLM calls are a crime against speed.</li>
-<li><strong>Semaphore everything.</strong> Every time you talk to a 3rd party API, wrap it in a Semaphore at the architecture level. You will sleep better knowing you can't accidentally bankrupt your rate limits.</li>
-</ol>
-
-<p>⚡ <strong>RECAP:</strong> Never forget <code>await</code>, never use sync tools (<code>requests</code>, <code>time.sleep</code>) in an async room, and always throttle outbound blasts.<hr></p>
-<h2 id="phase-5-the-feynman-breakdown-answers-note-">PHASE 5 — THE FEYNMAN BREAKDOWN (Answers + Note)</h2>
-
-<p>Here are the bulletproof answers to the canon's "Prove It" questions, plus interview expansions.<h3>Canon Prove It Answers</h3></p>
-
-<ul>
-<li><strong>IO-bound vs CPU-bound — define both and say which one async helps and why.</strong></li>
-</ul>
-<p>IO-bound means the program is waiting on an external resource (network, disk, API). CPU-bound means the program is maxing out the computer's processor doing math. Async ONLY helps IO-bound work. Why? Because async works by switching tasks <em>while waiting</em>. If the CPU is busy doing math, there is no "waiting" period to switch during.</p>
-<ul>
-<li><strong>Narrate exactly what happens at an await, mentioning the event loop.</strong></li>
-</ul>
-<p>When the event loop hits an <code>await</code>, it pauses that specific function, saves its exact state, and registers a listener ("wake me up when this network call is done"). The event loop then instantly pivots to run other pending tasks. When the network call finishes, the event loop returns to the paused function and resumes it on the very next line.</p>
-<ul>
-<li><strong>Sequential loop vs gather over 5 two-second calls: total time each, and why?</strong></li>
-</ul>
-<p>Sequential takes 10 seconds (2 + 2 + 2 + 2 + 2) because it refuses to start the next task until the current one finishes. Gather takes 2 seconds total, because all 5 tasks are started simultaneously, they all sleep for the <em>same</em> 2 seconds in overlapping parallel, and wake up together.</p>
-<ul>
-<li><strong>Name the two classic async bugs and the symptom of each.</strong></li>
-</ul>
-<p>Bug 1: Forgetting <code>await</code>. Symptom: The code skips execution and logs <code>RuntimeWarning: coroutine was never awaited</code>.</p>
-<p>Bug 2: Putting a blocking sync call (like <code>requests</code> or <code>time.sleep</code>) in async code. Symptom: The whole program freezes, concurrency stops, and all other tasks starve.</p>
-<ul>
-<li><strong>Why must AI applications specifically be async? Name three concrete cases from your future domains.</strong></li>
-</ul>
-<p>AI apps are primarily made of massive IO-bound waits (talking to large language models over the internet). Without async, one user prompt freezes the entire server. Cases: 1) Batch-embedding thousands of RAG chunks, 2) Multi-agent fan-out (agents talking to agents), 3) Streaming tokens to a UI (FastAPI endpoints), 4) Your agent-lab's async MCP bridge.<h3>Interview-Style Questions</h3></p>
-
-<ul>
-<li><strong>Interviewer: "I have a legacy synchronous function that does a heavy database query, and I can't rewrite it. How do I use it safely in my new async pipeline?"</strong></li>
-</ul>
-<p><em>Answer:</em> I would wrap the legacy call in <code>await asyncio.to_thread(legacy_function)</code>. This executes the blocking code in a separate background worker thread, ensuring the main async event loop remains unblocked and can continue serving other tables.</p>
-<ul>
-<li><strong>Interviewer: "What is the difference between an <code>async def</code> function and a regular <code>def</code> function?"</strong></li>
-</ul>
-<p><em>Answer:</em> A regular <code>def</code> returns a value. An <code>async def</code> returns a <em>coroutine object</em> — a pausable task that hasn't started yet. It must be scheduled on an event loop (using <code>await</code> or <code>asyncio.run()</code>) to actually execute.</p>
-<ul>
-<li><strong>Interviewer: "If asyncio uses only one thread, how is it concurrent?"</strong></li>
-</ul>
-<p><em>Answer:</em> It uses cooperative multitasking. Unlike threading (where the OS forces context switches), async tasks voluntarily give up control to the event loop whenever they hit an <code>await</code>. Because they only give up control during idle wait times, a single thread can juggle thousands of open network connections efficiently.<h3>The Feynman Note (For your VIZIER brain)</h3></p>
-
-<p><strong>Async/Await Explained for a 12-Year-Old:</strong></p>
-<p>Imagine you are playing a video game where you have to craft 5 swords. The blacksmith takes 10 minutes to forge each sword.</p>
-<p>If you are <strong>synchronous</strong>, you give him the iron for sword 1, and you stand there staring at him for 10 minutes. Then sword 2, stare for 10 minutes. It takes 50 minutes.</p>
-<p>If you are <strong>asynchronous</strong>, you give him the iron for sword 1 and say "text me when it's done (<code>await</code>)." You instantly run and chop wood, mine gold, and fight goblins. When he texts you, you grab the sword.</p>
-<p>In Python, <code>async def</code> makes you the smart gamer. <code>await</code> is the "text me when it's done" command. And <code>asyncio.gather</code> is when you hire 5 blacksmiths at once so all swords are done in exactly 10 minutes.</p>
-
-<p>Relevant Links: <a class="wiki-link" data-node-id="python-classes-modules" href="python-classes-modules.html">python-classes-modules</a> · <a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a> · <a class="wiki-link" data-node-id="context-windows" href="context-windows.html">context-windows</a></p>
-
-<p>⚡ <strong>RECAP:</strong> You can now verbally defend the architecture of async AI systems against senior engineers.<hr></p>
-<h2 id="phase-6-rapid-revision-sheet-the-compounding-engine-">PHASE 6 — RAPID REVISION SHEET (The Compounding Engine)</h2>
-
-<p><em>This is for your 50th re-read, Buddy. Fast, ruthless recall.</em><h3>The Vocabulary Map</h3></p>
-
-<ul>
-<li><strong>CPU-bound:</strong> Code busy crunching math. (Async does not help).</li>
-<li><strong>IO-bound:</strong> Code sitting idle waiting for network/disk. (Async is god here).</li>
-<li><strong>Event Loop:</strong> The master orchestrator that juggles paused tasks.</li>
-<li><strong>Coroutine:</strong> A pausable function created by <code>async def</code>.</li>
-<li><strong>Concurrency:</strong> Doing multiple things in overlapping time frames.<h3>The Idiom Cheatsheet</h3></li>
-</ul>
-
-<ul>
-<li><strong>Define async task:</strong> <code>async def fetch_data():</code> → creates a coroutine.</li>
-<li><strong>Pause and wait:</strong> <code>await fetch_data()</code> → yields control to the loop until done.</li>
-<li><strong>Start the engine:</strong> <code>asyncio.run(main())</code> → boots the event loop from a normal script.</li>
-<li><strong>Concurrent execution:</strong> <code>await asyncio.gather(task1(), task2())</code> → runs tasks in parallel.</li>
-<li><strong>Rate limiting:</strong> <code>asyncio.Semaphore(10)</code> → bounds concurrency to 10 active tasks.</li>
-<li><strong>Async context manager:</strong> <code>async with sem:</code> → safely acquires/releases the semaphore.</li>
-<li><strong>Quarantine sync code:</strong> <code>await asyncio.to_thread(sync_func)</code> → prevents sync code from freezing the loop.<h3>Flashcard Q&amp;A</h3></li>
-</ul>
-
-<ul>
-<li><strong>Q: What happens if you call an async function without await?</strong></li>
-</ul>
-<p>A: It doesn't run. It returns an un-run coroutine object and throws a <code>RuntimeWarning</code>.</p>
-<ul>
-<li><strong>Q: Why shouldn't you use <code>time.sleep()</code> inside an <code>async def</code>?</strong></li>
-</ul>
-<p>A: It is blocking. It freezes the entire event loop. Use <code>asyncio.sleep()</code>.</p>
-<ul>
-<li><strong>Q: Why shouldn't you use the <code>requests</code> library in async AI code?</strong></li>
-</ul>
-<p>A: It is synchronous and blocking. Use <code>httpx</code> or <code>aiohttp</code> instead.</p>
-<ul>
-<li><strong>Q: How do you prevent an API from banning you for too many concurrent requests?</strong></li>
-</ul>
-<p>A: Wrap the API call in an <code>async with asyncio.Semaphore(limit):</code> block.<h3>The Traps (Error → Cause → Fix)</h3></p>
-
-<ul>
-<li><strong><code>RuntimeWarning: coroutine was never awaited</code></strong> → You forgot to await. → Fix: Add <code>await</code> before the function call.</li>
-<li><strong>Entire application freezes completely</strong> → You used a blocking sync library (requests/time.sleep) in async code. → Fix: Swap to <code>httpx</code> or <code>asyncio.sleep()</code>.</li>
-<li><strong><code>HTTP 429 Too Many Requests</code></strong> → <code>asyncio.gather</code> blasted the API too fast. → Fix: Throttle with a <code>Semaphore</code>.</li>
-<li><strong><code>RuntimeError: asyncio.run() cannot be called from a running event loop</code></strong> → Used <code>asyncio.run()</code> in a Jupyter notebook. → Fix: Just <code>await</code> the function directly.</li>
-</ul>
-
-<p>⚡ <strong>RECAP:</strong> Your mental cache is primed. 5 minutes here reloads the entire node.<hr></p>
-<h2 id="appendix-floor-practice-optional-for-when-you-have-15-minutes-at-the-machine-">APPENDIX — FLOOR PRACTICE (Optional, for when you have 15 minutes at the machine)</h2>
-
-<p>Buddy, when you are back at your terminal and ready to build muscle memory, execute this sequence exactly.</p>
-
-<p><strong>1. Create the environment:</strong></p>
-<p>Open your Git Bash terminal and run:</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">bash</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-bash">mkdir -p vizier-floor/async_node
-cd vizier-floor/async_node
-touch race.py</code></pre>
-      </div>
-
-<p><strong>2. Inject the code:</strong></p>
-<p>Open <code>race.py</code> in your text editor. Paste the exact code block from <strong>Phase 3</strong> (the God-Mode Artifact) and save it.</p>
-
-<p><strong>3. Execute and verify:</strong></p>
-<p>Run the script from Git Bash:</p>
-
-<div class="code-block-wrapper">
-        <div class="code-block-header">
-          <span class="code-lang">bash</span>
-          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
-        </div>
-        <pre><code class="language-bash">python race.py</code></pre>
-      </div>
-
-<p><strong>4. Confirm Success:</strong></p>
-<p>Look at your terminal output. You must see exactly three things to declare victory:</p>
-
-<ol>
-<li>The <code>RuntimeWarning: coroutine 'call_llm' was never awaited</code> error printed at the top.</li>
-<li>The Sequential total time hovering around ~10 seconds.</li>
-<li>The Gather total time hovering around ~2–3 seconds, proving concurrency is alive and working.</li>
-</ol>
-
-<p>Mission accomplished.</p>
         </div>
       </article>
       

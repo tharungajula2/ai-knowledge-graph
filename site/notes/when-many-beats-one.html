@@ -35,17 +35,54 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>When Many Beats One</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: multi-agent-mcp</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The industry is drunk on multi-agent systems — swarms, crews, societies of minds. Some of it is real engineering; much of it is one agent wearing five hats and a marketing budget. The node summary is a promise to stay sober: <strong>honest criteria for multi-agent (and when it's hype).</strong> Before you build a team this volume, you earn the right to by learning exactly when a team is <em>worse</em> than a soloist — because the default answer, more often than demos admit, is "use one agent."</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The null hypothesis, stated first and defended hard: one good agent with good tools usually wins.</strong> A single ReAct agent (Vol 04) with a well-designed toolbox is simpler to build, debug, price, and reason about — and every agent you add multiplies cost (Ch 7's math), multiplies failure surface (each agent has Vol 04 Ch 16's whole zoo), and adds a <em>new</em> failure class that solo agents can't have: coordination failure (handoffs dropping context, agents disagreeing, the supervisor misrouting). The burden of proof is on <em>many</em>, always. "Least agents that solve the task" is Vol 04 Ch 1's least-autonomy principle, one level up — and it's the sentence that separates engineers from enthusiasts in interviews.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The three honest reasons to go multi — and only these.</strong></p>
+<ol>
+<li><strong>Genuinely distinct specialties with distinct tools and context.</strong> When subtasks need <em>different toolboxes, different system prompts, different failure modes</em> — research (web tools, exploratory) vs writing (style rubric, reflection) vs calculation (sandboxed math, verification) — one agent juggling all of it suffers <em>context interference</em>: its scratchpad mixes search snippets with draft prose with numbers, its tool catalog balloons (more tools = worse selection, Vol 04 Ch 3), its one system prompt can't be optimal for three jobs. Separation buys focus. This is the real reason your Vol 04 supervisor exists — and the test is <em>distinctness</em>, not merely "multiple steps" (multiple steps is a job for one agent's loop, not many agents).</li>
+<li><strong>Context isolation as a feature.</strong> Sometimes you <em>want</em> walls: a critic that must not see the generator's rationalizations (Ch 15's writer-critic depends on this — fresh eyes require an unpolluted context, Vol 04 Ch 9's reflection insight, enforced by architecture); a sub-agent handling untrusted content quarantined from one holding secrets (a security boundary — Ch 13's MCP security theme foreshadowed). Isolation you'd have to <em>fake</em> inside one agent is <em>free</em> across two.</li>
+<li><strong>Parallelism for latency.</strong> Independent subtasks running concurrently (Ch 5) — three sources researched at once, not in sequence — genuinely cuts wall-clock. But note the honesty (Ch 7): parallelism cuts <em>latency</em>, never <em>cost</em> (you still pay for every agent's every token), and only <em>independent</em> work parallelizes.</li>
+</ol>
+
+<p><strong>The hype tells — how to smell a fake team.</strong> Multi-agent theater has signatures: agents that could be functions (a "summarizer agent" that makes one LLM call is a <em>tool</em>, not an agent — Vol 04 Ch 1's test: does it loop through the world?); "roles" that are just personas on the same context (five hats, one head — no isolation, no distinct tools, pure ceremony); coordination overhead exceeding the work (a supervisor spending more tokens routing than the task needs total); and the tell-tale demo that would be <em>simpler and better</em> as one agent with five tools. The diagnostic question for any proposed team: <em>what does each agent have that the others don't — tools, context, or genuine parallelism?</em> If the answer is "a different prompt," it's hype.</p>
+
+<p><strong>The cost you're signing up for (preview of Ch 7).</strong> Every agent-to-agent handoff re-establishes context (tokens), the supervisor reasons about routing (tokens), and specialists can't share a scratchpad without recreating context interference (so they re-derive shared facts — tokens). A naive three-agent system can cost 3–5× a solo agent for the <em>same task</em> — sometimes worth it (the three reasons above), often not. You'll measure this yourself, honestly, in Ch 17's one-vs-many experiment; this chapter is the hypothesis that experiment tests.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: honest criteria for multi-agent (and when it's hype).</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>The sobriety drill: (1) Audit five "multi-agent" systems — your own Vol 04 supervisor plus four from blog posts / framework demos / product announcements — against the three honest reasons and the hype tells. For each: real team or hype, and <em>which specific reason</em> (or which tell) decides it. Be ruthless with the demos; be ruthless with your own. (2) Take your Vol 04 research agent and ask the hard question: could it have been a <em>team</em>? Would that have been better? Write the honest answer with the cost/benefit named — you may conclude your solo agent was correct, and concluding that correctly is the chapter's real win. (3) Write your own one-sentence test for "does this task want a team?" and attack it with an edge case until it survives. The refined test opens the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>State the null hypothesis and defend the burden-of-proof direction.</li>
+<li>Name the three honest reasons, and give the distinctness-vs-multiple-steps distinction for reason 1.</li>
+<li>Explain context isolation as a feature with the critic example — why can't one agent fake it well?</li>
+<li>Recite three hype tells and the single diagnostic question that exposes a fake team.</li>
+<li>What does multi-agent cost, roughly, versus solo — and which chapter makes you prove it?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="what-makes-an-agent" href="what-makes-an-agent.html">what-makes-an-agent</a></p>
+<p><a class="wiki-link" data-node-id="build-supervisor" href="build-supervisor.html">build-supervisor</a></p>
+<p><a class="wiki-link" data-node-id="token-economics-of-teams" href="token-economics-of-teams.html">token-economics-of-teams</a></p>
+<p><a class="wiki-link" data-node-id="experiment-one-vs-many" href="experiment-one-vs-many.html">experiment-one-vs-many</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

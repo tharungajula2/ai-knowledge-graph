@@ -35,17 +35,40 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Synthesis: The Production Diagram</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
-
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+          <h2 id="eli5">ELI5</h2>
+<p>The node summary names the artifact and its emotional weight: <strong>the full system, mine now.</strong> After 36 chapters, your agent-lab is deployed, fused with your brain, and hardened — a complete production system. This synthesis draws it <em>whole</em>: every subsystem, every data flow, every defense, from the user's request to the agent's action to the brain's growth. "Mine now" is the point — the system that was once a frozen black box you didn't understand is now a diagram you can draw from memory, every box a thing you built and understand. Drawing it cold is proving the journey's central claim.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p>It's a <em>server</em> at the core — FastAPI, streaming tokens over SSE, validated config, typed boundaries [1, 2] — fronting <em>agents</em> that run not in request handlers but in <em>background workers</em> pulling from a durable queue, scaling horizontally [26], talking to a <em>Postgres database</em> stood up by a migration runner with connection pooling, holding your vectors, memory, and audit trail [4]. The system reaches the real world through <em>OAuth</em> and <em>Gmail/Calendar readers</em> that sanitize untrusted input at the door [7, 8], runs <em>scheduled briefings</em> in the background [3], and reaches <em>you</em> through Telegram [14]. Every consequential action the agent wants flows through a <em>database-backed proposal gate</em> — risk-triaged, human-editable, idempotent, tamper-evidently audited [Vol08:9,10] — surfaced <em>live</em> in a Next.js <em>command center</em> that subscribes to Postgres changes in realtime, showing chat, the agent's state graph, the activity feed, and the audit history [10, 11]. Underneath, the platform: <em>Supabase</em> for auth, RLS, and realtime [9]; <em>multi-tenancy</em> isolating users by row-level security enforced in the database [25]; <em>rate limiting</em> and <em>structured, trace-correlated logging</em> protecting and illuminating every request [27]; <em>caching</em> at every tier — response, semantic vector, database — so most work never reaches the expensive bottom [12, 31]; <em>JWT and API-key auth</em> establishing who and what-allowed [29]. It's <em>containerized</em> with Docker [5], <em>deployed</em> to serverless cloud [6, 18, 19] via a <em>GitHub Actions pipeline</em> that lints, tests, evals, security-scans, builds, and ships [21, 22], with <em>secrets</em> in a manager and <em>strict cost caps</em> enforced [23], <em>monitored</em> against <em>SLOs</em> with metrics/logs/traces and alerting [15, 28], <em>load-tested</em> [30], <em>failure-drilled</em> with rollback and backups [32], and <em>compliant</em> — PII masked everywhere, retention bounded, append-only security logs, responsible-AI policy [33]. And at the summit: the system <em>resurrected by your own hands</em>, every subsystem verified [34], <em>fused with your brain</em> — the deployed agent proposing nodes through its own gate, agent and knowledge one nervous system [35], and <em>hardened</em> against load, cost, and failure [36]. The whole thing, running, understood, yours.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: the full system, mine now.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Three renditions, the ritual: <strong>(a)</strong> The narration, written, ≤700 words, your words, every subsystem present. <strong>(b)</strong> The production architecture diagram — the node's literal demand, and the ring's grand artifact: the <em>full system</em>, drawn — the user/client, the CDN/static tier, the load balancer, the FastAPI backend, the worker pool + queue, the database (with its schemas), the cache tiers, the gate + approvals + command center, the OAuth/readers/scheduler, the auth layer, the monitoring/logging, the cloud/deploy substrate, and — crossing to the brain — THE BRIDGE (the node-proposer → gate → brain-growth loop). Draw the <em>data flows</em> (a request's path, an agent's action through the gate, a node-proposal to the brain) and the <em>defense layers</em> (Vol 08's spotlighting, gate, least-privilege, sandboxing, marked). This is the diagram of everything you've built across nine rings, as one system. Photograph into the note — and frame it; this is the map of your mastery. <strong>(c)</strong> The 90-second spoken version — its interview home is the ultimate one: <em>"walk me through a production AI system you've built."</em> — where your answer is this entire architecture, from request to action to self-growth, every piece understood, deployed by your own hands. This is the answer that gets the job. Record, critique, re-record.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Deliver the 90-second version cold — the "walk me through a production AI system you built" answer.</li>
+<li>Trace a user request end-to-end: through the CDN, backend, auth, worker, agent, gate, and back — naming every subsystem.</li>
+<li>Trace a node-proposal through THE BRIDGE from frontier-scan to brain-growth.</li>
+<li>Mark the defense layers (Vol 08) on your diagram from memory.</li>
+<li>Draw the full production diagram from memory — the whole system, yours.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="synthesis-production" href="synthesis-production.html">synthesis-production</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

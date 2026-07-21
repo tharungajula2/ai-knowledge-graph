@@ -35,17 +35,54 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>The Threat Model</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: safety-security</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Before you build a single defense, you map the battlefield — because defending randomly is how you armor the wrong wall while the door stands open. The node summary: <strong>everything that can go wrong with an agent, mapped.</strong> A threat model is the security engineer's foundational artifact: a systematic inventory of <em>who</em> might attack, <em>what</em> they want, <em>where</em> they can get in, and <em>what</em> they can do once inside. This chapter builds that map for AI agents specifically — and everything in the rest of the ring is a defense against something on this map.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Why agents are a uniquely large attack surface.</strong> A traditional program does exactly what its code says; an agent does what a <em>probabilistic model</em> decides, based on <em>natural-language instructions</em> it reads from <em>many sources</em> (Vol 02 Ch 2's role hierarchy is learned, not enforced — Vol 02 Ch 12). That means the attack surface includes not just the code but <em>every piece of text the model reads</em> — user messages, retrieved documents, tool results, web pages, MCP server descriptions (Vol 05 Ch 13), memories (Vol 06). And agents have <em>capabilities</em> — tools that act on the world (Vol 04 Ch 7) — so a compromised agent doesn't just leak data, it <em>does things</em>: sends, deletes, pays, exfiltrates. Model-driven decisions + broad text inputs + real-world capabilities = an attack surface far larger and stranger than traditional software, and one where the classic defenses (input validation, type checking) don't fully apply because the "input" is natural language interpreted by a probabilistic system.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The threat-model dimensions — the four questions (STRIDE-flavored, agent-adapted).</strong></p>
+<ul>
+<li><em>Who</em> (threat actors): external attackers (planting payloads in content your agent reads — indirect injection, Ch 3), malicious users (attacking through their own messages — direct injection, Ch 2), compromised dependencies (poisoned packages/models/servers — Ch 5), and — honestly — <em>your own bugs</em> (the agent harming through misconfiguration, not malice).</li>
+<li><em>What they want</em> (objectives): data exfiltration (steal private data the agent can access), unauthorized actions (make the agent <em>do</em> something — send money, emails, delete), privilege escalation (use the agent's authority for the attacker's ends — the confused deputy, Vol 05 Ch 13), denial/cost (make the agent loop/spam to burn money or availability — Vol 04 Ch 16), and reputation/safety harm (make the agent produce harmful output).</li>
+<li><em>Where they get in</em> (entry points / attack vectors): the user message, retrieved RAG content (Vol 03 — a poisoned document in your index), tool results (a compromised tool returning malicious data), web/fetched content (Vol 04 Ch 14), MCP servers (Vol 05 Ch 13), uploaded files, memories (Vol 06 — a poisoned memory), and multimodal inputs (text-in-images, Vol 02 Ch 13). <em>Every input channel is an entry point</em> — this is the map's most important row.</li>
+<li><em>What they can do once in</em> (impact / blast radius): bounded by the agent's <em>capabilities</em> (Ch 8's least-privilege — an agent that can't send email can't be made to; capabilities <em>are</em> the blast radius) and its <em>data access</em> (what it can read is what it can leak). Impact is the intersection of "what the attacker achieved" and "what the agent was allowed to do."</li>
+</ul>
+
+<p><strong>The synthesis — the threat model as design driver.</strong> A completed threat model isn't a document that sits on a shelf; it <em>drives the defenses</em>: each entry point gets an input defense (Ch 6 spotlighting, Ch 11 guardrails); each capability gets access control (Ch 8 least-privilege) and gating (Ch 9); each high-impact action gets idempotency and audit (Ch 10); and the highest-risk <em>combinations</em> (Ch 7's lethal trifecta) get architectural elimination. The map tells you <em>where</em> to spend defense effort — and the rule is <strong>defend proportional to blast radius</strong>: a read-only research agent needs less armor than one with your email and bank access, and the threat model makes that calibration explicit rather than guessed.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: everything that can go wrong with an agent, mapped.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build the threat model for <em>your own</em> systems (M-node, real artifact): (1) Take your most capable agent (the research agent with memory, or the node-proposer) and map all four dimensions: enumerate every <em>entry point</em> (every channel text reaches the model — be exhaustive; the ones you forget are the ones that get you), every <em>capability</em> (every tool, tagged read/write/dangerous — Vol 04 Ch 3), the <em>data</em> it can access, and thus its <em>blast radius</em>. (2) For each entry point, name the worst realistic attack (a poisoned web page → confused deputy? a malicious memory → persistent compromise?). (3) Rank by risk (likelihood × impact) — this ranking is your defense-priority list for the whole ring. The four-dimension map + the per-entry-point attack + the risk ranking = the note; every subsequent chapter defends something on this map.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why is an agent's attack surface uniquely large — the three factors that make it so?</li>
+<li>Recite the four threat-model dimensions (who/what/where/impact) with an example of each.</li>
+<li>Why is "every input channel is an entry point" the map's most important row?</li>
+<li>How is blast radius the intersection of capabilities and data access?</li>
+<li>How does a threat model <em>drive</em> defenses, and what does "defend proportional to blast radius" mean?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="injection-first-look" href="injection-first-look.html">injection-first-look</a></p>
+<p><a class="wiki-link" data-node-id="mcp-security" href="mcp-security.html">mcp-security</a></p>
+<p><a class="wiki-link" data-node-id="agent-failure-modes" href="agent-failure-modes.html">agent-failure-modes</a></p>
+<p><a class="wiki-link" data-node-id="lethal-trifecta" href="lethal-trifecta.html">lethal-trifecta</a></p>
+<p><a class="wiki-link" data-node-id="least-privilege-tools" href="least-privilege-tools.html">least-privilege-tools</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

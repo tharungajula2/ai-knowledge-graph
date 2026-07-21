@@ -35,17 +35,51 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Supply-Chain Risks</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: safety-security</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You can armor your agent perfectly against every prompt attack — and still be owned, because the <em>dependency you installed</em> was already compromised. The node summary: <strong>poisoned packages, models, and MCP servers.</strong> Supply-chain attacks target what you <em>build on</em> rather than what you build — the packages, models, datasets, and servers your system trusts implicitly. And in AI, the supply chain is <em>stranger and larger</em> than in traditional software, because it includes trusting <em>model weights</em> and <em>natural-language tool descriptions</em> you didn't write. This chapter maps the risks and the discipline of trusting deliberately.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The traditional supply chain (still applies, now with AI stakes).</strong> Your code depends on packages (pip, npm — Vol 01 Ch 14), which depend on more packages, transitively, dozens deep — and <em>any</em> of them, if compromised, runs in <em>your</em> process with <em>your</em> privileges. Attack vectors: <em>malicious packages</em> (typosquatting — <code>requsts</code> instead of <code>requests</code>; a popular package's maintainer account compromised; a dependency that was benign then turned malicious in an update — the rug-pull, Vol 05 Ch 13), <em>dependency confusion</em> (a public package shadowing your private one). Defenses (classical, still essential): pin versions (Vol 01 Ch 14's <code>requirements.txt</code>, Vol 07 Ch 11's reproducibility — pinned deps can't silently change under you), audit dependencies (know what you're installing, minimize the count — every dependency is trust extended), use lockfiles and hash-verification, and scan for known vulnerabilities (automated tools). The AI stakes: an agent's compromised dependency doesn't just leak — it can wield the agent's <em>capabilities</em> (Ch 1's blast radius).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The AI-specific supply chain — the new, stranger risks.</strong> (1) <em>Poisoned models</em> — you download open-weights (Vol 01 Ch 11) or a fine-tune from a model hub; how do you know it wasn't <em>backdoored</em>? A model can be trained with a hidden trigger (a specific phrase that makes it misbehave — a "sleeper" behavior invisible in normal use, activated by the attacker's key), or subtly biased, or trained to exfiltrate. You can't easily <em>inspect</em> weights for backdoors (they're inscrutable numbers, Vol 01 Ch 2) — so trust must come from <em>provenance</em> (who published it, verified checksums, reputable sources) not inspection. (2) <em>Poisoned training data</em> — if you fine-tune (a future domain) on scraped or third-party data, poisoned examples can implant backdoors or biases; data provenance matters (Vol 07 Ch 11). (3) <em>Poisoned MCP servers</em> — Vol 05 Ch 13's whole subject: a malicious server with tool-poisoned descriptions or rug-pulled behavior; adding an MCP server is extending <em>execution</em> trust, and the defenses are supply-chain defenses (vet, pin, minimize). (4) <em>Poisoned RAG sources</em> — a document planted in a corpus you index (Vol 03) is a supply-chain attack on your <em>knowledge</em> (indirect injection, Ch 3, meets supply chain).</p>
+
+<p><strong>The unifying principle — trust is a decision, make it deliberately.</strong> Every dependency — package, model, server, data source — is <em>trust extended to something you didn't build</em>, and the supply-chain discipline is: <em>make trust deliberate, minimal, and verified</em>. Concretely: <em>minimize</em> (fewer dependencies = smaller attack surface — the least-dependency principle, sibling to least-privilege Ch 8); <em>verify provenance</em> (reputable sources, checksums, signatures — trust the publisher, verify the artifact); <em>pin</em> (Vol 01 Ch 14, Vol 07 Ch 11 — pinned things can't rug-pull); <em>isolate</em> (a dependency you must use but don't fully trust runs sandboxed, Ch 14 — blast-radius containment); and <em>monitor</em> (Vol 07's observability — watch for the behavioral change that signals a compromised dependency turned malicious). The deepest version: <em>assume any dependency could be compromised, and architect so that when one is, the damage is bounded</em> (defense in depth, Ch 19, applied to the supply chain — the same "security is architecture" law).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: poisoned packages, models, and MCP servers.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Audit your own supply chain (concept node, concrete): (1) Inventory your agent's full dependency tree — packages (and their transitive deps — count them; the number will surprise you), models (which weights/APIs, from where), MCP servers (Vol 05 — what have you connected?), and RAG/data sources (Vol 03/06 — what's in your indexes?). Each is trust extended. (2) For each, assess: how did I decide to trust this? Is it pinned? What's its blast radius if compromised? Which would hurt most? (3) Apply one improvement: pin an unpinned critical dependency, remove an unnecessary one (minimize), or add provenance verification for a model/server. The dependency inventory + the trust assessment + the one hardening = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why does a compromised dependency in an <em>agent</em> matter more than in traditional software?</li>
+<li>Name the four AI-specific supply-chain risks (models, data, servers, RAG sources) and why each is hard to defend.</li>
+<li>Why can't you inspect model weights for backdoors, and what must trust rest on instead?</li>
+<li>State the unifying principle, and recite the five-part supply-chain discipline.</li>
+<li>What's the deepest supply-chain stance, and how does it echo "security is architecture"?</li>
+</ol>
+<hr>
+<h1 id="part-ii-the-defenses">PART II — THE DEFENSES</h1>
+<p><em>9 chapters. The layered controls: spotlighting untrusted content, the lethal trifecta, least-privilege tools, the proposal gate, idempotency &amp; audit, guardrails, PII redaction, refusals, and sandboxing.</em></p>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="python-environments" href="python-environments.html">python-environments</a></p>
+<p><a class="wiki-link" data-node-id="mcp-security" href="mcp-security.html">mcp-security</a></p>
+<p><a class="wiki-link" data-node-id="model-landscape" href="model-landscape.html">model-landscape</a></p>
+<p><a class="wiki-link" data-node-id="data-versioning-reproducibility" href="data-versioning-reproducibility.html">data-versioning-reproducibility</a></p>
+<p><a class="wiki-link" data-node-id="sandboxing-isolation" href="sandboxing-isolation.html">sandboxing-isolation</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

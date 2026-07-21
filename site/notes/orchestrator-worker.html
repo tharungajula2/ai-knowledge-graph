@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Orchestrator–Worker</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: multi-agent-mcp</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You built a supervisor in Vol 04 by following a spec; now you learn the <em>pattern</em> it instantiates — the single most important, most reused shape in multi-agent systems. The node summary: <strong>the supervisor pattern, formalized.</strong> A general contractor doesn't lay every brick; they read the job, decompose it, dispatch specialists, integrate results, and own the outcome. Orchestrator–worker is that, and once formalized, you'll recognize it under a dozen framework names and know exactly what varies and what's essential.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The pattern's anatomy — five responsibilities of the orchestrator.</strong> (1) <em>Decompose</em> — break the goal into worker-sized subtasks (this is plan-and-execute's planner, Vol 04 Ch 8, wearing a coordination hat — and the same react-vs-plan choice applies: decompose up front, or route reactively one subtask at a time). (2) <em>Dispatch</em> — route each subtask to the right worker (Vol 04 Ch 11's schema-enforced routing — the essential mechanism). (3) <em>Integrate</em> — combine worker outputs into a coherent whole (the <code>finalize</code> node, generalized — and the hard part, because workers return partial, differently-shaped results). (4) <em>Handle failure</em> — a worker fails or returns garbage; the orchestrator retries, reroutes, or degrades gracefully (Vol 04 Ch 16's guards, at the team level). (5) <em>Own the goal</em> — workers see only their subtask; <em>only the orchestrator holds the full objective</em>, which is exactly why goal drift (Vol 04 Ch 8) is a team-level risk the orchestrator must actively manage.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>What varies (the design space) vs what's essential (the invariant).</strong> <em>Essential</em>: one coordinator owns decomposition, dispatch, and integration; workers are focused and don't coordinate among themselves (that's a <em>different</em> pattern — Ch 3's peer handoffs). <em>Varies</em>: whether decomposition is upfront-plan or reactive-route; whether workers are full agents (loops) or single-shot specialists; whether the orchestrator does work itself or <em>only</em> coordinates (the "pure router" — often cleaner: the orchestrator's context stays clean of any single worker's mess, the isolation principle from Ch 1); whether workers can spawn sub-workers (hierarchies — orchestrators all the way down, which is just Vol 04 Ch 10's subgraphs nested). The frameworks (LangGraph supervisor, CrewAI's hierarchical process, OpenAI's agents-as-tools) are all this pattern with different knobs — and knowing the invariant means no framework can confuse you.</p>
+
+<p><strong>The two orchestrator flavors — a distinction worth owning.</strong> <em>Orchestrator-as-router</em> (dispatch only; workers do all the work; the orchestrator is a thin, cheap classification layer): scales well, stays debuggable, keeps the coordinator's context minimal. <em>Orchestrator-as-worker</em> (coordinates <em>and</em> contributes — synthesizes, fills gaps, does the "glue" reasoning workers can't): more capable, but its context accumulates everything and its cost climbs. The mature default: <strong>thin orchestrator, fat workers</strong> — push work down, keep coordination cheap and clean — unless integration genuinely requires the orchestrator to reason over combined results (research synthesis often does; pure routing tasks never do).</p>
+
+<p><strong>Orchestrator-worker vs the alternatives (placing it on the map).</strong> Vs a <em>pipeline</em> (fixed A→B→C, no routing decision — Vol 04 Ch 1's workflow end of the autonomy dial): use a pipeline when the path is known; orchestrator-worker when routing is a genuine decision. Vs <em>peer agents / handoffs</em> (Ch 3 — no central coordinator; agents pass control directly): orchestrator-worker centralizes control (easier to reason about, a single point of accountability and failure) where peers distribute it (more flexible, harder to debug). Vs <em>debate</em> (Ch 6 — agents as equals arguing): orchestration is hierarchy, debate is democracy. Most production systems are orchestrator-worker because <em>centralized accountability is an operational virtue</em> — when something breaks, there's one place that owns the outcome.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: the supervisor pattern, formalized.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Formalize your own system, then stress it: (1) Draw your Vol 04 supervisor as the five responsibilities — label where each lives in your code, and honestly mark which responsibility is <em>weakest</em> in your implementation (integration and failure-handling are the usual culprits — most supervisor tutorials skimp on both). (2) Classify your orchestrator: router or worker flavor? Should it be the other? Write the reasoning. (3) The design-space table: take one new task (say, "produce a competitive analysis of three products") and design its orchestrator-worker system three ways — thin router + fat workers, fat orchestrator + thin workers, and hierarchical (workers spawning sub-workers) — one paragraph each on what each optimizes and costs. The weakest-responsibility honesty + the flavor decision + the three-way design = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Recite the five orchestrator responsibilities, and say why "owns the goal" makes drift a team-level risk.</li>
+<li>Separate the pattern's invariant from its design-space knobs — three of each.</li>
+<li>Contrast the two orchestrator flavors and state the mature default with its exception.</li>
+<li>Place orchestrator-worker against pipeline, peer-handoff, and debate — the axis that distinguishes each.</li>
+<li>Why is centralized accountability an operational virtue, and what does it cost in flexibility?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-supervisor" href="build-supervisor.html">build-supervisor</a></p>
+<p><a class="wiki-link" data-node-id="plan-and-execute" href="plan-and-execute.html">plan-and-execute</a></p>
+<p><a class="wiki-link" data-node-id="handoffs-routing" href="handoffs-routing.html">handoffs-routing</a></p>
+<p><a class="wiki-link" data-node-id="debate-consensus" href="debate-consensus.html">debate-consensus</a></p>
+<p><a class="wiki-link" data-node-id="subgraphs" href="subgraphs.html">subgraphs</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

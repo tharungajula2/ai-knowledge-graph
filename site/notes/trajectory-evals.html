@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Trajectory Evals</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>So far you've scored <em>answers</em> — but an agent doesn't just produce an answer, it takes a <em>path</em>: reason, act, observe, repeat (Vol 04 Ch 1). Two agents can reach the same answer, one by a clean three-step path and one by a chaotic twelve-step flail — and answer-only scoring calls them equal. The node summary: <strong>scoring the path, not just the answer.</strong> For agents, <em>how</em> they got there matters as much as <em>where</em> they arrived — for cost, for reliability, for debugging — and trajectory evals are how you measure the journey.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Why the answer alone isn't enough (the agent-specific eval gap).</strong> An answer-only eval misses: <em>efficiency</em> (the clean path vs the twelve-step flail cost 4× — Vol 04 Ch 17; same answer, wildly different bill); <em>reliability</em> (an agent that got the right answer <em>by luck</em> — a wrong tool that happened to work — will fail next time; the <em>process</em> predicts future behavior, the answer doesn't); <em>the right-answer-wrong-reason trap</em> (correct output from flawed reasoning — Vol 02 Ch 5 — is a landmine: it passes your answer eval and explodes in production on a case where the flawed reasoning matters); <em>partial credit</em> (an agent that did excellent research but botched the final synthesis scores zero on answer-eval, but its <em>trajectory</em> was mostly right — knowing that tells you exactly what to fix). The trajectory is where an agent's <em>true quality</em> lives; the answer is just its last token.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>What to score in a trajectory — the dimensions.</strong> <em>Path efficiency</em>: number of steps, tool calls, tokens vs the optimal — did it wander (Vol 04 Ch 16's derailment) or go straight? <em>Tool-use correctness</em>: right tools, right args, right order (Ch 6's whole subject). <em>Reasoning quality</em>: were the intermediate thoughts sound, or did it get lucky (audit the scratchpad — Vol 04 Ch 13 — which your traces, Ch 13, make visible)? <em>Goal adherence</em>: did it stay on the original goal or drift (Vol 04 Ch 8)? <em>Recovery</em>: when a step failed, did it adapt gracefully (Vol 04 Ch 16's guards) or spiral? <em>Error patterns</em>: did it exhibit any failure-zoo specimen (Vol 04 Ch 16 — loops, spam, cascades)? Each is scorable — some programmatically (step count, tool sequence), some by an LLM judge reading the trajectory (reasoning quality — the judge, Ch 3, pointed at the <em>path</em> instead of the answer).</p>
+
+<p><strong>How trajectory evals work — the mechanism.</strong> You need the <em>full trace</em> (Ch 13's tracing build makes this possible — trajectory evals <em>depend on</em> observability, which is why this ring pairs them): the complete record of every step, thought, tool call, observation, and decision. Then: <em>reference trajectories</em> (for some cases, you define the <em>ideal</em> path — "should search web, then notes, then synthesize" — and score against it, like golden answers but for paths — Ch 2's golden set gains trajectory expectations); <em>trajectory rubrics</em> (LLM-judge the path against criteria — "was the tool selection justified? did it recover from the error well?"); <em>specific metrics</em> (Ch 6's tool-use metrics, step counts, cost). The subtlety: paths are <em>more variable</em> than answers (many good paths exist to one answer — non-determinism compounds over steps), so trajectory scoring tolerates <em>path diversity</em> while catching <em>path pathology</em> — you're not demanding the one true path, you're catching the flails, loops, and wrong-reasons.</p>
+
+<p><strong>When trajectory evals earn their cost.</strong> They're more expensive than answer-evals (more to capture, more to score) and matter most for: <em>multi-step agents</em> (the more steps, the more the path matters), <em>cost-sensitive systems</em> (Vol 04 Ch 17 — efficiency <em>is</em> the metric), <em>reliability-critical systems</em> (where right-answer-wrong-reason is dangerous), and <em>debugging</em> (a failing agent's trajectory shows <em>where</em> it failed — Ch 14). For a single-shot LLM call, there's no trajectory to score; for your multi-agent research system with a node-proposer, trajectory evals are essential — which is exactly why the Ch 18 harness includes them.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: scoring the path, not just the answer.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Add trajectory scoring to your research agent (concept node, concrete): (1) On 5 golden cases, capture full trajectories (your Vol 04 agent already logs transcripts — that's your proto-trace) and score each on the dimensions: step count, tool-use correctness, goal adherence, and reasoning quality (LLM-judge the scratchpad). (2) Find the money case: an example where <em>answer-eval and trajectory-eval disagree</em> — same/good answer, bad path (a flail, a lucky wrong-tool, a near-derailment) — this disagreement is the chapter's whole point, witnessed in your own agent. (3) Define a reference trajectory for one case (the ideal path) and score against it. The dimension scores + the answer-vs-trajectory disagreement specimen + the reference-trajectory scoring = the note; feeds the Ch 18 harness.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name four things answer-only scoring misses, and why the path predicts future behavior.</li>
+<li>Recite the trajectory dimensions, and which are programmatic vs judge-scored.</li>
+<li>What does trajectory eval <em>depend on</em>, and why does this ring pair it with tracing?</li>
+<li>How does trajectory scoring tolerate path diversity while catching pathology?</li>
+<li>When do trajectory evals earn their cost, and when is there no trajectory to score?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="agent-failure-modes" href="agent-failure-modes.html">agent-failure-modes</a></p>
+<p><a class="wiki-link" data-node-id="cost-latency-budgets" href="cost-latency-budgets.html">cost-latency-budgets</a></p>
+<p><a class="wiki-link" data-node-id="scratchpads-working-memory" href="scratchpads-working-memory.html">scratchpads-working-memory</a></p>
+<p><a class="wiki-link" data-node-id="tool-use-metrics" href="tool-use-metrics.html">tool-use-metrics</a></p>
+<p><a class="wiki-link" data-node-id="build-tracing-instrumentation" href="build-tracing-instrumentation.html">build-tracing-instrumentation</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

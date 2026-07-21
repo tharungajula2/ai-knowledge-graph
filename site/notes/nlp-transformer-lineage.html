@@ -35,17 +35,54 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>NLP Lineage to Transformers</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Every ancestor of the Transformer died of a specific disease, and the Transformer is the child that inherited every cure. Walk the family tree once — TF-IDF → Word2Vec → RNN/LSTM → attention — and the modern architecture stops being a miracle and becomes an <em>inevitability</em>. This chapter turns "I use LLMs" into "I know why LLMs are shaped like this."</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Gen 1: Words as counts — TF-IDF (through the 2000s).</strong> Represent a document by word-counts, weighted so that words frequent <em>in this document</em> but rare <em>across all documents</em> score highest (Term Frequency × Inverse Document Frequency — "the" scores ~0, "transformer" scores high in a doc about transformers). Powered a generation of search engines; still a respectable keyword-search baseline today (its descendant BM25 lives inside "hybrid search" in Domain 03 — this generation never fully died). <strong>The disease: no meaning.</strong> "Car" and "automobile" are as unrelated as "car" and "banana." Synonyms are strangers; word order is discarded entirely ("dog bites man" = "man bites dog").</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Gen 2: Words as vectors — Word2Vec (2013).</strong> The breakthrough insight: <em>a word is known by the company it keeps</em>. Train a tiny network to predict a word from its neighbors across billions of sentences, and the learned vectors arrange themselves by meaning — "car" lands next to "automobile," and vector arithmetic famously half-works: king − man + woman ≈ queen. This is Chapter 5's embedding idea at its birth. <strong>The disease: one frozen vector per word.</strong> "Bank" gets a single vector, awkwardly averaging riverbank and finance. Context can't move the meaning.</p>
+
+<p><strong>Gen 3: Reading in order — RNNs &amp; LSTMs (2014–2017).</strong> Recurrent networks read token-by-token, carrying a running memory vector; LSTMs added learned gates deciding what to keep and forget, stretching usable memory. Now context exists — "bank" after "fishing on the" reads differently — and this generation powered the first decent neural translation and Siri-era assistants. <strong>The two diseases you met in Chapter 6:</strong> distant information still faded (gradient signals decay across long sequences), and strict one-at-a-time reading made training unparallelizable — you cannot throw 10,000 GPUs at a model that must finish word 4 before touching word 5. Scale hit a wall.</p>
+
+<p><strong>Gen 4: Everyone looks at everyone — Transformers (2017).</strong> "Attention Is All You Need" deleted recurrence entirely: every token attends to every token directly (no decay across distance), all positions compute in parallel (the GPU wall falls), and every word's representation is rebuilt <em>from context</em> at every layer — so "bank" finally means the right thing in each sentence, solving Gen 2's disease too. Add the scaling laws (capability grows predictably with size + data + compute) and the path from 2017's translation model to today's frontier is just this architecture, scaled relentlessly.</p>
+
+<p><strong>The lineage in one breath — say it out loud:</strong> counts had no meaning → vectors had meaning but no context → recurrence had context but no reach and no parallelism → attention had reach, context, <em>and</em> parallelism, and parallelism is what let it eat the entire internet.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: From TF-IDF, Word2Vec, and RNNs/LSTMs to self-attention; the architectural lineage that enabled LLMs.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build the four-generation table in your note from memory: columns = <em>representation · superpower gained · fatal disease · what survives today</em>. (Survivals: TF-IDF→BM25 in hybrid search; Word2Vec→the embedding intuition; RNN→sequence thinking; Transformer→everything.) Then the classic probe: explain how each generation handles "bank" in "river bank" vs "bank account" — one sentence per generation. That single question tests the whole chapter.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What does TF-IDF score highly, and what's its fatal blindness? Which modern technique is its descendant?</li>
+<li>State Word2Vec's core insight in one sentence, and its one-vector disease.</li>
+<li>What did LSTMs fix about vanilla RNNs, and which two diseases remained?</li>
+<li>Name the three simultaneous cures attention delivered, and circle the one that unlocked internet-scale training.</li>
+<li>Recite the lineage-in-one-breath from memory.</li>
+</ol>
+<hr>
+<h1 id="part-ii-the-engineer-s-floor">PART II — THE ENGINEER'S FLOOR</h1>
+<p><em>9 chapters, all build nodes. Part I rewired your intuition; Part II builds your hands. Every chapter here ends with an artifact that runs — that's the lighting condition.</em></p>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="attention-transformers" href="attention-transformers.html">attention-transformers</a></p>
+<p><a class="wiki-link" data-node-id="embeddings-intuition" href="embeddings-intuition.html">embeddings-intuition</a></p>
+<p><a class="wiki-link" data-node-id="classical-ml-fundamentals" href="classical-ml-fundamentals.html">classical-ml-fundamentals</a></p>
+<p><a class="wiki-link" data-node-id="map-of-ai" href="map-of-ai.html">map-of-ai</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

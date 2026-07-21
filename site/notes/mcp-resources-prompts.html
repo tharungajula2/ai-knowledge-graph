@@ -35,17 +35,57 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>MCP Deep: Resources & Prompts</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: multi-agent-mcp</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Most people know MCP as "standardized tools" and stop. The node summary insists on the rest: <strong>beyond tools — the full spec.</strong> MCP servers expose <em>three</em> primitives, and the two everyone ignores — <strong>resources</strong> and <strong>prompts</strong> — are where the protocol's real design elegance lives. Knowing all three separates someone who <em>uses</em> MCP from someone who <em>architects</em> with it, and it directly shapes how you'll design your Ch 16 brain server.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The three primitives, and the crucial distinction — who controls each.</strong> This is the spec's key insight, and it's about <em>control</em>:</p>
+<ul>
+<li><strong>Tools</strong> — <em>model-controlled</em>: the LLM decides when to call them (Vol 04 Ch 7). Actions with effects. The model is in the driver's seat.</li>
+<li><strong>Resources</strong> — <em>application-controlled</em>: data the server exposes for the <em>host application</em> to read and decide what to do with (files, database records, live context). Read-only, GET-like, identified by URIs. The <em>app</em> (not the model) chooses what to load into context. Example: a brain server exposes each note as a resource; the host app can load a specific note's content into context <em>without the model deciding to call a tool</em> — data provisioning, not model action.</li>
+<li><strong>Prompts</strong> — <em>user-controlled</em>: reusable prompt templates the server offers, typically surfaced to the <em>user</em> as slash-commands or menu options (e.g., a "summarize-this-note" prompt the user picks). The user invokes them deliberately.</li>
+</ul>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p>The elegance: <strong>three primitives for three controllers</strong> — model (tools), app (resources), user (prompts). A well-designed server uses all three appropriately instead of forcing everything through tools. Forcing data-reads through tools (making the model "call" for content the app should just load) wastes model decisions and context; forcing user-templates through tools makes them invisible to users. Right primitive, right controller.</p>
+
+<p><strong>Resources in depth.</strong> URI-identified (<code>brain://notes/attention-transformers</code>), listable and readable, can be static or dynamic (templated URIs like <code>brain://domain/{domain}/notes</code>). The host decides what to read and when — which means resources are how a server provides <em>context</em> rather than <em>actions</em>. For RAG-flavored servers this is powerful: your brain server (Ch 16) can expose retrieved chunks as resources the host loads, separating "the app curates context" from "the model decides actions" — a cleaner architecture than cramming retrieval into a tool the model must remember to call. (Though note: exposing search <em>as a tool</em> is also valid when you <em>want</em> the model to decide when to search — the two designs serve different control philosophies, and choosing deliberately is the architect's job.)</p>
+
+<p><strong>Prompts in depth.</strong> Server-provided templates with arguments, surfaced to users. They let a server ship <em>expertise</em> — a database server offering a well-crafted "explain-this-query-plan" prompt, a brain server offering a "quiz-me-on-domain" prompt (Ch 16 could expose your Feynman-review method as a prompt any client's user can invoke). Prompts are how a server author packages <em>good prompting</em> (your entire Vol 02 skillset) for reuse across every client — the prompt-as-versioned-artifact idea (Vol 02 Ch 3), shipped over a protocol.</p>
+
+<p><strong>Why the full spec matters for architecture.</strong> The three-primitive model is a <em>separation-of-concerns</em> framework for AI capabilities: actions vs data vs interactions, each with its natural controller. When you design the brain server (Ch 16), this framework forces good questions: <em>which</em> brain capabilities are model-decided actions (search? propose-node?), <em>which</em> are app-loaded data (note content? domain lists?), <em>which</em> are user-invoked interactions (review-me? quiz-me?)? Answering those <em>is</em> the server's architecture — and getting it right makes your brain genuinely useful to any client, not just callable.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: beyond tools — the full spec.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Design-focused (concept node), pointed straight at Ch 16: (1) The control-mapping table — for your future brain server, list ~10 capabilities and assign each its primitive (tool/resource/prompt) <em>and</em> its controller (model/app/user), with a one-line justification. Which are actions? Which are data? Which are interactions? (This table is literally Ch 16's design doc, started early.) (2) Extend your Ch 9 utils server with <em>one resource</em> (expose a system config file as a readable resource) and <em>one prompt</em> (a "diagnose-slow-system" template) — small code, big understanding; connect with your Ch 11 client and access all three primitive types. (3) Write the paragraph: why is forcing everything through tools a design smell, and what does the three-controller model buy? The control table + the extended server + the paragraph = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the three primitives and the controller of each — the model/app/user mapping.</li>
+<li>What distinguishes a resource from a tool, mechanically and philosophically?</li>
+<li>What do prompts let a server author ship, and how does that connect to Vol 02's prompt-as-artifact idea?</li>
+<li>Give one brain-server capability for each primitive, justified by its controller.</li>
+<li>Why is "everything through tools" a design smell?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="mcp-fundamentals" href="mcp-fundamentals.html">mcp-fundamentals</a></p>
+<p><a class="wiki-link" data-node-id="build-mcp-server" href="build-mcp-server.html">build-mcp-server</a></p>
+<p><a class="wiki-link" data-node-id="build-brain-mcp-server" href="build-brain-mcp-server.html">build-brain-mcp-server</a></p>
+<p><a class="wiki-link" data-node-id="prompt-skeleton" href="prompt-skeleton.html">prompt-skeleton</a></p>
+<p><a class="wiki-link" data-node-id="citations-grounding" href="citations-grounding.html">citations-grounding</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

@@ -35,17 +35,51 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>RAG Failure Modes</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: rag-retrieval</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your RAG answered wrong. Where do you even look? A RAG system is a chain of six-plus stages, any of which can silently fail while every other stage works perfectly — and the final answer looks identical in all cases: fluent, confident, wrong. This chapter is the <strong>diagnostic taxonomy</strong>: every named failure, its symptom, its stage, its fix. You've already <em>met</em> half of these in your own inspection windows; today they get names, and debugging RAG stops being archaeology and becomes differential diagnosis.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Ingestion failures — poisoned at birth.</strong> <em>Bad parsing</em>: PDFs mangling tables into token soup, headers merged into body text, code blocks shattered — garbage entered the index looking like content; no downstream stage can un-mangle it. Symptom: retrieved chunks that are visibly broken text. Fix: parse-stage QA — eyeball chunks at ingestion (Ch 3's thirty-second rule), format-aware parsers. <em>Stale index</em> (the node names it): the document changed; the index didn't. Symptom: answers correct <em>for last month</em> — uniquely insidious because nothing looks wrong; the citation checks out against the old chunk. Fix: re-indexing as a <em>process</em> — on-change triggers or scheduled sweeps, index versioning/timestamps in metadata so staleness is at least <em>visible</em> (Ch 15 implements exactly this; and note the disease is Vol 01 Ch 10's staleness, reborn one layer up — RAG cured weight-staleness and created index-staleness; every cure breeds its own disease at the new layer).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Retrieval failures — the right page never arrived.</strong> <em>Vocabulary miss</em>: query words ≠ corpus words; semantic search papers over some of this gap, but jargon-vs-layman phrasing still sinks queries (your Ch 5 session met this; Ch 13 is its dedicated medicine). <em>Bad chunks</em> (the node names it): the fact exists but was severed mid-thought or buried in a multi-topic chunk whose averaged embedding matches nothing well — Ch 3's tension, materialized. Symptom: retrieval returns the right <em>document's</em> wrong <em>pieces</em>. Fix: re-chunk (overlap, structure-aware, parent-child). <em>Ranked-out</em>: retrieved at rank 7, prompt takes top-4 — present, then discarded. Fix: Ch 9's reranker, or widen k. <em>Filter misfire</em> (preview): a metadata filter (Ch 12) excludes the very partition holding the answer. Symptom: great answers without the filter, NOT-IN-NOTES with it.</p>
+
+<p><strong>Generation failures — right page, wrong reading.</strong> <em>Lost-in-the-middle</em> (the node names it; Vol 01 Ch 8 predicted it): the answer sat in chunk 6 of 12 stuffed chunks — retrieval succeeded, <em>attention</em> failed. Symptom: the inspection window shows the fact plainly present in context, and the answer ignores it. Fixes: fewer/better chunks (rerank then truncate hard), order-by-relevance with best chunks first and last, and resist the "just stuff more" reflex — more context is not more attention. <em>Unfaithful generation</em>: the model answers from its weights <em>despite</em> the provided context, or blends context with confabulation — grounding instructions reduce this; only measurement (Ch 16) catches it reliably; your Ch 10 citation-validation already catches its crudest form. <em>Refusal miscalibration</em>: over-refusal (context was sufficient; model said NOT-IN-NOTES anyway — usually a too-strict prompt) and under-refusal (context insufficient; model winged it — the worse sin, per Ch 10's enterprise argument).</p>
+
+<p><strong>The diagnostic protocol — the chapter's takeaway, order matters:</strong> (1) <em>Look at the chunks first</em> (Ch 5's habit — this single step splits the tree: fact present in retrieved context, or absent?). (2) Absent → walk upstream: is it in the <em>index</em> at all (search the raw store directly)? In the index but not retrieved → which path missed it, semantic or keyword (Ch 7's decomposable modes, cashing in)? Not in the index → ingestion/staleness. (3) Present → walk downstream: ranked where? Cited? Faithfully used? Each branch terminates in a named failure with a named fix. Debugging RAG is this tree, walked calmly. Write it once on paper and it's yours forever.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: lost-in-the-middle, bad chunks, stale indexes.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build your failure bestiary — <em>induce</em> five failures deliberately in your own pipeline, one per family, and document each with {symptom transcript, diagnosis path you walked, fix applied or named}: (1) edit a source note and <em>don't</em> re-ingest → ask about the changed content → catch the stale answer citing the old chunk; (2) re-chunk one note at 100 tokens no overlap → find a severed-fact retrieval; (3) ask a question in deliberately layman phrasing about your most jargon-heavy note → vocabulary miss; (4) stuff k=12 unranked chunks with the answer planted mid-pack → hunt for lost-in-the-middle (it may take a few tries — its intermittency is itself the lesson); (5) soften your grounding prompt to a mere suggestion → catch one unfaithful blend. Five specimens, pinned and labeled, in the note. You will never fear a RAG bug again — you've bred them all in captivity.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Reproduce the taxonomy from memory: three stages, ~nine named failures.</li>
+<li>Why is stale-index uniquely insidious, and what's the every-cure-breeds-its-disease observation?</li>
+<li>Distinguish vocabulary-miss, bad-chunks, and ranked-out by their inspection-window signatures.</li>
+<li>What is lost-in-the-middle's exact signature, and why is "stuff more context" the wrong reflex?</li>
+<li>Walk the diagnostic protocol for: "answer is wrong, chunks look right." Then for: "NOT-IN-NOTES on a question you know is covered."</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-first-rag" href="build-first-rag.html">build-first-rag</a></p>
+<p><a class="wiki-link" data-node-id="chunking" href="chunking.html">chunking</a></p>
+<p><a class="wiki-link" data-node-id="context-windows" href="context-windows.html">context-windows</a></p>
+<p><a class="wiki-link" data-node-id="reranking" href="reranking.html">reranking</a></p>
+<p><a class="wiki-link" data-node-id="rag-evals-intro" href="rag-evals-intro.html">rag-evals-intro</a></p>
+<p><a class="wiki-link" data-node-id="ingestion-pipelines" href="ingestion-pipelines.html">ingestion-pipelines</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

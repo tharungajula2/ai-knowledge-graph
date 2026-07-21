@@ -35,17 +35,53 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>GraphRAG Preview</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: rag-retrieval</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your RAG treats the brain as a <em>pile</em> — chunks in a bag, fished out by similarity. But your brain isn't a pile; it's a <strong>web</strong>: notes wikilinked to notes, concepts belonging to domains, builds depending on concepts. The node summary names the shift: <em>when knowledge is a graph, not a pile</em> — and names the machinery: community summaries, entity linking, hierarchical relationship indexing. This is a preview node — mechanism and judgment today, implementation when the frontier-shaped future arrives — but for <em>your</em> corpus it's more than a preview: your ingestion pipeline has been saving wikilinks since Ch 15 precisely for this chapter's someday.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>What vector RAG structurally cannot answer.</strong> Two question families expose the pile's limits. <em>Global questions</em>: "what are the main themes across my agents notes?" — no chunk contains the themes; the answer is a property of the <em>whole collection</em>, and retrieving top-k of anything misses it by construction (top-k of what? the question matches everything weakly and nothing well). <em>Relational questions</em>: "how does the checkpointer relate to the human-approval gate?" — the answer lives in <em>connections between</em> notes; Ch 14's multi-hop can walk 2–3 connections at query time, expensively, per query — but it re-derives the web every time, and deep or broad traversals explode. The diagnosis in one sentence: <strong>similarity search finds things <em>like</em> the query; it cannot find things <em>related to each other</em>.</strong></p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The GraphRAG move — pre-compute the web.</strong> Three stages, mapping exactly to the node's three named techniques:</p>
+<ol>
+<li><strong>Entity linking / graph extraction</strong> (ingestion-time): an LLM pass over chunks extracts entities ("checkpointer", "supervisor", "HITL gate") and typed relationships ("supervisor <em>routes to</em> Scheduler", "gate <em>protects</em> saves") → a knowledge graph of nodes and edges beside the vector index. Entity <em>linking</em> is the hard half: "the gate", "HITL approval", "human-in-the-loop check" must resolve to <em>one</em> node or the graph fragments into synonyms — and notice: <strong>your wikilinks already did this by hand.</strong> <code><a class="wiki-link" data-node-id="hitl-interrupts" href="hitl-interrupts.html">hitl-interrupts</a></code> is a human-curated, pre-disambiguated edge. Your corpus was born linked; most corpora must have their graph <em>guessed</em> by an LLM (error-prone, expensive); yours has it <em>declared</em>. This is the "almost comically well-shaped" claim from Ch 14, now cashed out.</li>
+<li><strong>Community detection + summaries</strong>: graph algorithms cluster densely-connected regions into <em>communities</em> (your domains will emerge as natural communities — plus surprises: cross-domain clusters like "everything touching Pydantic" that no folder structure knows about). Then an LLM writes a <strong>summary per community</strong> — and stores it. <em>This</em> is the answer to global questions: "main themes across agents notes?" retrieves the agents-community summary — pre-computed synthesis, fished out like any chunk. The pile could never; the graph does it at ingestion, once.</li>
+<li><strong>Hierarchical relationship indexing</strong>: communities nest (sub-communities within domains; a root summary above all), giving query-time a <em>resolution dial</em> — global questions read high-level summaries, specific questions drop to entities and raw chunks, relational questions <em>walk edges</em> (the pre-computed multi-hop: "checkpointer → persists → state ← reads ← gate" is a path lookup, not a retrieval loop). Query routing decides the entry level — the routing drumbeat (Chs 9, 13, 14) plays its fourth verse.</li>
+</ol>
+
+<p><strong>The honest costs — why this is a preview, not this ring's build.</strong> Ingestion cost explodes: LLM extraction over every chunk + community summarization ≈ orders of magnitude more calls than embedding (your ledger instincts should wince — good). <em>Graph staleness</em> is nastier than index staleness: one edited note can re-wire edges and invalidate community summaries up the hierarchy (Ch 15's idempotency thinking, but transitive — a genuinely hard cache-invalidation problem). Extraction quality bounds everything (garbage edges → confident garbage walks — poisoned-at-birth, graph edition). And the adoption rule this volume has drilled: most corpora, most questions, plain hybrid RAG wins on cost-adjusted quality; GraphRAG earns its complexity when global/relational questions are <em>the workload</em>, not the exception. For your brain — a corpus that <em>is</em> a graph, queried by someone who thinks in connections — the case is unusually strong, which is exactly why the curriculum plants the seed here and schedules the build for later, when the frontier node regenerates against the field as-it-is (Rule 7 thinking, applied to technique choice).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: when knowledge is a graph, not a pile, leveraging community summaries, entity linking, and hierarchical relationship indexing.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Paper preview, three exercises: (1) <em>Extract by reading</em>: take three of your linked notes; hand-draw their entity-relationship graph — nodes, typed edges — using wikilinks as ground truth plus relationships you know but never linked (those gaps are what LLM extraction would add — and where it would err; mark which edges feel guessable vs fragile). (2) <em>Community intuition</em>: sketch your brain's likely community structure — the ten domains, then predict two <em>cross-domain</em> communities (Pydantic-everywhere? evaluation-everywhere?); write the one-paragraph community summary for one of them yourself — feel what the LLM would be asked to produce. (3) <em>The routing table</em>: six questions about your brain — two global, two relational, two specific — and per question: which resolution level answers it, and what plain-RAG would have done instead (fail, multi-hop expensively, or tie). Photos + table = the note; the note itself gets wikilinked richly — it's future ground truth.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the two question families the pile cannot answer, and the one-sentence diagnosis.</li>
+<li>Map the three stages to the node's three named techniques, from memory.</li>
+<li>Why is entity linking the hard half, and why is your corpus exceptional here?</li>
+<li>What answers global questions in GraphRAG, and <em>when</em> is that answer computed?</li>
+<li>State the adoption judgment: the costs, the workload that justifies them, and your honest verdict for the brain.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="multi-hop-retrieval" href="multi-hop-retrieval.html">multi-hop-retrieval</a></p>
+<p><a class="wiki-link" data-node-id="ingestion-pipelines" href="ingestion-pipelines.html">ingestion-pipelines</a></p>
+<p><a class="wiki-link" data-node-id="rag-failure-modes" href="rag-failure-modes.html">rag-failure-modes</a></p>
+<p><a class="wiki-link" data-node-id="model-landscape" href="model-landscape.html">model-landscape</a></p>
+<p><a class="wiki-link" data-node-id="semantic-caching" href="semantic-caching.html">semantic-caching</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

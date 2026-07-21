@@ -35,17 +35,53 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Serverless, VMs & Kubernetes</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Once you're in the cloud (Ch 17), you must choose <em>how</em> your code runs — and the options span a spectrum from "the cloud handles everything" to "you handle everything." The node summary: <strong>serverless containers vs virtual machines vs managed Kubernetes clusters; structural trade-offs.</strong> This is the compute-model decision (Ch 6's hosting axes, now the cloud-native version), and choosing well means matching the compute model to your system's actual needs rather than defaulting to what's trendy or what a tutorial used.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The three models, on the control-vs-convenience spectrum.</strong></p>
+<ol>
+<li><em>Serverless containers</em> (Cloud Run, AWS Fargate/App Runner, and kin — the convenience end): you provide a container (Ch 5), the platform runs it <em>on demand</em>, <em>scales it automatically</em> (including to zero — Ch 6's scale-to-zero), and you manage <em>no servers</em>. You pay per use, get autoscaling free, and have near-zero ops burden. Limits: less control (the platform's constraints — request timeouts Ch 6, cold starts), and can get expensive at very high steady load. <em>The sweet spot for most API backends</em>, and almost certainly right for your agent-lab (Ch 20 deploys here) — managed, cheap-when-idle, scales when needed.</li>
+<li><em>Virtual Machines</em> (EC2, Compute Engine — the control end): a raw virtual computer you fully control — install anything, run anything, tune everything. Maximum flexibility and control, but <em>maximum ops burden</em> (you manage the OS, security patches, scaling, uptime — Vol 08's whole threat surface is now yours to patch). Right when you need full control, special software, or steady predictable high load where always-on is economical. For a solo builder shipping fast, usually <em>more than you need</em> (the ops burden competes with building).</li>
+<li><em>Managed Kubernetes</em> (GKE, EKS — the orchestration end, Ch 21): a system for orchestrating <em>many</em> containers across <em>many</em> machines at scale — powerful, industry-standard for large systems, and <em>complex</em>. Right when you have many services, need sophisticated orchestration, and have the scale (and team) to justify the complexity. For a solo agent-lab, <em>overkill</em> (you'd spend your 45 days on Kubernetes YAML instead of agents — Ch 21 teaches it conceptually precisely so you know when <em>not</em> to reach for it).</li>
+</ol>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The structural trade-offs (the decision framework).</strong> <em>Ops burden</em> (serverless: minimal → VMs: high → k8s: high-but-abstracted-at-scale) — how much of your time goes to infrastructure vs building. <em>Control</em> (serverless: constrained → VMs: total → k8s: extensive) — how much you can customize. <em>Scaling</em> (serverless: automatic → VMs: manual/you-build-it → k8s: sophisticated-automatic) — how growth is handled. <em>Cost shape</em> (serverless: per-use, cheap-idle → VMs: fixed, wasteful-idle → k8s: fixed-cluster + scaling). <em>Complexity</em> (serverless: low → VMs: medium → k8s: high). The judgment, consistent with every ladder in this curriculum: <em>least infrastructure that meets your needs</em> (least-ops — the sibling of least-autonomy, least-privilege). For your agent-lab: serverless containers win (managed, scales-to-zero for a mostly-idle portfolio project, minimal ops so you build agents not infrastructure) — and knowing <em>why</em> the fancier options are wrong <em>for this case</em> is the senior judgment.</p>
+
+<p><strong>The AI-workload lens (matching compute to AI needs).</strong> Your workload shapes the choice: <em>API-calling agents</em> (like yours — the compute is lightweight, you're calling models not running them) fit serverless perfectly (light CPU, spiky traffic, scale-to-zero). <em>Self-hosted models</em> (GPU-heavy, Vol 01 Ch 11) need VMs or specialized GPU services (serverless GPU is limited/expensive) — a different world. <em>Background workers</em> (Ch 27) need persistent processes (serverless request/response doesn't fit long background loops — you'd use a worker service or a VM). <em>High-scale multi-service systems</em> justify k8s. The lesson: there's no universal answer; the <em>workload's shape</em> (compute intensity, traffic pattern, statefulness, scale) picks the model — and for your agent-lab's shape, serverless is the clear, deliberate choice.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Serverless containers vs virtual machines vs managed Kubernetes clusters; structural trade-offs.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Make the compute decision (concept node, concrete): (1) For your agent-lab, evaluate all three models against the structural trade-offs (ops, control, scaling, cost, complexity) — and write the reasoned choice (serverless, almost certainly) <em>with</em> the explicit reason the other two are wrong <em>for this case</em>. (2) The workload analysis: characterize your agent-lab's workload (API-calling, spiky, mostly-idle, has background work) and show how its shape picks the model. (3) The counterfactual: name a change to your system that <em>would</em> justify VMs or k8s (self-hosting a model → VM/GPU; many services at scale → k8s) — so you know the boundaries of your choice. The three-model evaluation + the workload analysis + the counterfactual = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Place the three compute models on the control-vs-convenience spectrum with each one's core trade.</li>
+<li>Recite the five structural trade-offs (ops, control, scaling, cost, complexity).</li>
+<li>Why is serverless the right choice for your agent-lab, and why are VMs and k8s wrong <em>for this case</em>?</li>
+<li>How does workload shape (compute, traffic, state, scale) pick the compute model?</li>
+<li>Name a change that would justify each of VMs and Kubernetes.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="deploying-backends" href="deploying-backends.html">deploying-backends</a></p>
+<p><a class="wiki-link" data-node-id="docker-for-ai" href="docker-for-ai.html">docker-for-ai</a></p>
+<p><a class="wiki-link" data-node-id="kubernetes-essentials" href="kubernetes-essentials.html">kubernetes-essentials</a></p>
+<p><a class="wiki-link" data-node-id="build-container-deployment" href="build-container-deployment.html">build-container-deployment</a></p>
+<p><a class="wiki-link" data-node-id="cloud-fundamentals" href="cloud-fundamentals.html">cloud-fundamentals</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

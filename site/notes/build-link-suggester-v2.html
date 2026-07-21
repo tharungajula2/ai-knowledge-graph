@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Link-Suggester v2</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: memory-knowledge</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The "v2" is a tell — there was a v1, and this is the upgrade the knowledge-graph ring makes possible. The node summary: <strong>entity-aware edge proposals for the brain, still human-approved.</strong> Where a v1 link-suggester might propose connections by <em>similarity</em> (Vol 03 — "these two notes are semantically close, maybe link them"), v2 proposes by <em>entity and relation structure</em> (this ring — "these two notes discuss the <em>same entity</em>, or one's concept <em>depends-on</em> another's — here's a <em>typed</em> edge"). It's your Node-Proposer's cousin (Vol 04 Ch 18) aimed at <em>edges</em> instead of <em>nodes</em>, and it makes your brain's graph richer and more connected — still, always, through the gate.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Why v2 beats v1 — structure beats similarity.</strong> A similarity-based suggester (v1) finds notes that <em>read</em> alike — useful, but it proposes untyped "these seem related" links and misses connections between notes that discuss the same <em>thing</em> in different words (Vol 03 Ch 6's vocabulary gap) while over-proposing between notes that are merely topically adjacent. An <em>entity-aware</em> suggester (v2) uses your Ch 10 extraction: it knows note A discusses the entity "checkpointer" and note B discusses "checkpointer" (entity-resolved, Ch 10 — even if they phrase it differently) → propose a <em>typed</em> edge (both <code>discuss</code> the checkpointer; or A <code>depends-on</code> B if A's concept requires B's). Structure finds connections similarity misses and <em>types</em> them meaningfully (Ch 9 — a typed edge is worth far more than "related"). The graph gets not just more edges but <em>better, meaningful</em> edges.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The pipeline — built on the ring.</strong> (1) <em>Extract</em> the entities/relations in your notes (Ch 10, done — v2 consumes the graph). (2) <em>Find candidate edges</em>: entity co-occurrence (notes sharing a resolved entity that <em>aren't</em> yet linked — the missing edges), relation-implied links (A's entity depends-on B's entity → notes should connect), and structural gaps (Ch 16's territory — sparse regions wanting connection). (3) <em>Propose typed edges</em>: structured output (<code>ProposedEdge(source_node, target_node, relation_type, rationale, confidence)</code> — the relation <em>type</em> from your controlled vocabulary, Ch 10) with a rationale citing the shared entity or implied relation. (4) <em>Gate</em> (Vol 04 Ch 15, non-negotiable — "still human-approved" per the node): every proposed edge goes to <em>you</em> for approve/edit/reject, and — the Reflexion loop (Vol 04 Ch 9) — your rejections teach it your linking taste. Approved edges are written to your brain (staging → merge, per your graph's Rule 2 immutability discipline — the past is locked, edges are additive).</p>
+
+<p><strong>The design cautions — because a link-suggester can make the graph <em>worse</em>.</strong> <em>Over-linking</em>: propose too eagerly and the graph becomes a hairball where everything connects to everything (connection density past a point <em>reduces</em> signal — a fully-connected graph carries no structural information; the too-loose-threshold disease, Vol 03 Ch 20, at the graph level). Gate hard, propose conservatively, prefer precision over recall (a missed link costs little; a wrong link pollutes). <em>False edges</em>: entity resolution errors (Ch 10's over-merge) produce false connections — confidence-gate and let the human catch them. <em>Meaningless types</em>: an edge typed "related" is barely better than v1 — insist on <em>specific</em> relation types or don't propose. <em>Entrenchment</em>: only ever suggesting links within existing dense clusters reinforces what's already connected and ignores the sparse frontiers where new links add <em>most</em> value (Ch 16's insight — target the sparse, not the dense).</p>
+
+<p><strong>Verification.</strong> Precision-focused (a link-suggester's cardinal metric): on a set of proposals, what fraction are edges you'd <em>actually</em> approve? (Measure it — your approve-rate is the quality signal.) Assert: proposed edges are typed (never bare "related"); entity-co-occurrence detection correctly finds notes sharing a resolved entity; the gate routes every proposal; rejections feed the next run (Reflexion test — the suggester learns your taste). And the anti-hairball check: on a well-connected region, it proposes <em>few</em> new edges (it's not just connecting everything).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: entity-aware edge proposals for the brain, still human-approved.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): candidate-edge finder over your Ch 10 graph (entity co-occurrence + relation-implied) → typed-edge proposal with rationale → gate integration (approve/edit/reject) → Reflexion wiring (rejections → next run) → run it on your real brain and <em>review the batch seriously</em> (approve good typed edges, reject hairball-y ones with reasons — you're training it and enriching your graph in one act) → measure your approve-rate. Then run again and verify your rejections shaped round two. Stage the approved edges. Tag <code>graph-v0.2</code>. The proposal batch with your verdicts + the approve-rate + the round-two learning evidence = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why does entity-awareness (v2) beat similarity (v1)? Name what it finds that similarity misses and what it adds.</li>
+<li>Walk the four-stage pipeline, and where the gate and Reflexion loop sit.</li>
+<li>Why prefer precision over recall for link suggestions? What's the cost asymmetry?</li>
+<li>Name the four design cautions, and why is a fully-connected graph information-poor?</li>
+<li>What's the cardinal metric, and what does the anti-hairball test verify?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="entity-extraction" href="entity-extraction.html">entity-extraction</a></p>
+<p><a class="wiki-link" data-node-id="build-node-proposer" href="build-node-proposer.html">build-node-proposer</a></p>
+<p><a class="wiki-link" data-node-id="add-the-gate" href="add-the-gate.html">add-the-gate</a></p>
+<p><a class="wiki-link" data-node-id="reflection-patterns" href="reflection-patterns.html">reflection-patterns</a></p>
+<p><a class="wiki-link" data-node-id="build-brain-reviewer" href="build-brain-reviewer.html">build-brain-reviewer</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

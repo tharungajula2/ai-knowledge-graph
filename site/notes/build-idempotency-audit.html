@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Idempotency & Audit Logger</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: safety-security</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>An agent retries a failed action (Vol 02 Ch 9) — and now the email sent twice, the payment charged twice, the record created twice. The node summary names both the fix and its companion: <strong>build an append-only database auditor and idempotency key guard ensuring critical actions are executed exactly once and logged to a tamper-evident table; verify with duplicate runs.</strong> This is the "durable execution" wound from Vol 04 Ch 6 ("checkpointing persists state, not side effects — a naive replay sends the email twice"), finally healed — plus the tamper-evident audit trail that makes agent actions <em>accountable</em>. Exactly-once execution and un-forgeable records: the twin foundations of trustworthy agent actions.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Idempotency — exactly-once, the mechanism.</strong> An operation is <em>idempotent</em> if doing it twice has the same effect as doing it once (Vol 02 Ch 9's "is this safe to retry?", now engineered). The guard: every critical action carries an <strong>idempotency key</strong> — a unique identifier for <em>that specific intended action</em> (derived from the action's content, or assigned when the proposal is created — Ch 9's queue). Before executing, check: <em>has an action with this key already executed?</em> (look it up in a database). If yes → <em>don't re-execute</em>, return the previous result (the retry is safely absorbed). If no → execute, <em>record the key + result atomically</em>, return. This makes retries, replays (Vol 04 Ch 6's time-travel), and duplicate proposals <em>safe</em>: the same action, attempted twice, executes once. The subtlety that makes it correct: the check-and-record must be <em>atomic</em> (a database transaction — Vol 03's Postgres, Vol 09's territory) — otherwise two concurrent attempts both check "not executed," both execute, and idempotency fails (a race, Vol 05 Ch 4). Atomicity is the whole game.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Why agents need this acutely.</strong> Traditional software retries carefully; agents retry <em>constantly and unpredictably</em> — the loop retries (Vol 04 Ch 16), the gateway retries (Vol 02 Ch 9), checkpointol replays re-run steps (Vol 04 Ch 6), a crash-and-resume (Vol 04 Ch 7) may re-attempt a pending action. Every one of these is a double-execution risk for <em>write</em> actions, and the consequences scale with the action (double-send an email: annoying; double-charge a payment: a lawsuit). Idempotency keys make the whole non-deterministic, retry-happy, crash-prone agent architecture <em>safe for consequential actions</em> — it's the control that lets you trust an agent with writes at all.</p>
+
+<p><strong>The tamper-evident audit trail — accountability, un-forgeable.</strong> The companion build: an <em>append-only, tamper-evident</em> log of every consequential action — what was proposed (Ch 9), the verdict, who approved, what executed, the result, the idempotency key, timestamps. <em>Append-only</em> (Vol 05 Ch 4's append-only-avoids-races, now for integrity): records are never modified or deleted, only added — so the history is complete and immutable. <em>Tamper-evident</em> (the node's key word): the log is structured so that <em>any alteration is detectable</em> — the standard technique is <em>hash chaining</em> (each record includes a hash of the previous record, like a blockchain's spine — Vol 01 Ch 19's Git-DAG intuition, applied to audit: change any past record and every subsequent hash breaks, making tampering <em>visible</em>). Why tamper-evidence matters: an audit trail an attacker (or a bug, or a dishonest actor) can <em>edit</em> is worthless for accountability — you need to <em>prove</em> what the agent did, and hash-chaining makes the record trustworthy even against someone with database access. This is the accountability foundation for high-stakes agents (Vol 04 Ch 15's audit trail, now cryptographically hardened).</p>
+
+<p><strong>Verification — duplicate runs, per the node.</strong> (1) <em>Idempotency</em>: execute the same critical action twice (same key) — assert it executes <em>once</em>, the second returns the cached result, no double-effect (the core test — literally "duplicate runs"). (2) <em>Concurrent idempotency</em>: two simultaneous attempts with the same key — assert atomicity holds, still exactly-once (the race test — the hard one). (3) <em>Crash-replay</em>: attempt an action, crash before recording, resume — assert correct behavior (does it re-execute or not? — the durable-execution edge, Vol 04 Ch 6; design your key/record ordering to handle it). (4) <em>Tamper-evidence</em>: write audit records, then <em>alter one</em>, and assert the hash-chain verification <em>detects</em> the alteration (the tamper test — proves the log's integrity guarantee). (5) <em>Append-only</em>: assert records can't be modified/deleted through the normal interface.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build an append-only database auditor and idempotency key guard ensuring critical actions are executed exactly once and logged to a tamper-evident table; verify with duplicate runs.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): the idempotency-key guard (key generation + atomic check-and-record in a DB transaction) → wire it around your Ch 9 queue's critical actions → the append-only audit table with hash-chaining (each record hashes the previous) → the tamper-verification function (walk the chain, detect breaks) → the verification battery (duplicate-run exactly-once, concurrent race, crash-replay, tamper-detection, append-only). Then the integration: Ch 9's gate + Ch 10's idempotency + audit = the complete consequential-action pipeline (proposed → risk-triaged → approved/edited → executed-exactly-once → tamper-evidently logged). Tag <code>safety-v0.3</code>. The exactly-once tests + the tamper-detection demo + the complete-pipeline diagram = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Define idempotency and walk the key-guard mechanism — why must check-and-record be atomic?</li>
+<li>Why do agents need idempotency <em>acutely</em> — name three agent-specific double-execution sources.</li>
+<li>What makes an audit trail tamper-<em>evident</em>, and how does hash-chaining achieve it?</li>
+<li>Why is an editable audit trail worthless, and what does tamper-evidence let you <em>prove</em>?</li>
+<li>Recite the five verification tests, and why is the concurrent-idempotency test the hard one?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="errors-retries-backoff" href="errors-retries-backoff.html">errors-retries-backoff</a></p>
+<p><a class="wiki-link" data-node-id="langgraph-checkpointers" href="langgraph-checkpointers.html">langgraph-checkpointers</a></p>
+<p><a class="wiki-link" data-node-id="build-proposal-gate" href="build-proposal-gate.html">build-proposal-gate</a></p>
+<p><a class="wiki-link" data-node-id="add-the-gate" href="add-the-gate.html">add-the-gate</a></p>
+<p><a class="wiki-link" data-node-id="git-mastery" href="git-mastery.html">git-mastery</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

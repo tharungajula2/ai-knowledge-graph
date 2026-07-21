@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>A/B Testing Prompts</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You have two prompt versions and offline evals say B is slightly better — but offline evals use <em>your</em> golden set and <em>your</em> judge; the real question is whether B is better for <em>real users on real traffic</em>. The node summary: <strong>shipping prompt changes like features.</strong> A/B testing brings the rigor of product experimentation to prompt changes — ship both versions to real users, measure which performs better on real outcomes, decide by data. It's the production complement to offline evals: offline says "B looks better on my tests," A/B says "B <em>is</em> better for users," and the gap between those two is where humility lives.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Why A/B test when you have offline evals — the gap they fill.</strong> Offline evals (Part I) are <em>proxies</em> — your golden set approximates real traffic, your judge approximates real quality. Good proxies, but proxies: a change that improves golden-set faithfulness might <em>hurt</em> real user satisfaction (users found the more-faithful answers too terse, say — a real dynamic offline evals miss). A/B testing measures the <em>real outcome</em> on <em>real users</em> — closing the proxy gap. It's the same offline-vs-online complementarity (Ch 15): offline to decide <em>what to ship</em>, A/B to <em>verify it actually helped</em> in production. Ship prompt changes like features because they <em>are</em> features — they change user-facing behavior, and features get A/B tested.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The mechanism — controlled online experiment (product rigor, applied to prompts).</strong> <em>Split traffic</em>: randomly assign users (or requests) to variant A (control, current prompt) or B (treatment, new prompt) — randomization is essential (Ch 4's position bias lesson at experiment scale: non-random assignment confounds the result). <em>Define the metric</em> before running (the outcome you care about: task-completion rate, user satisfaction, acceptance rate, downstream conversion — pick it <em>first</em>, or you'll cherry-pick after). <em>Run until significant</em>: collect enough data to distinguish real difference from noise (statistical significance — the "15/20 vs 16/20 is a tie" wisdom, Vol 02 Ch 16, now with actual statistics: small samples can't detect small effects; you need enough traffic and enough time). <em>Decide by data</em>: B ships only if it <em>significantly</em> beats A on the pre-defined metric. This is the scientific method (Vol 05 Ch 17's experiment rigor) applied to prompt shipping.</p>
+
+<p><strong>The AI-specific subtleties.</strong> <em>Non-determinism as noise</em> (Ch 1): the same prompt gives varying outputs, adding variance that A/B tests must see through — more reason for adequate sample sizes. <em>Metric choice is hard</em>: "quality" isn't directly observable in production (Ch 15's no-ground-truth problem) — so A/B metrics are often <em>implicit</em> (acceptance, retry, engagement) or <em>guardrail-based</em>, and choosing a metric that actually reflects quality (not just engagement — the filter-bubble trap, Vol 06 Ch 7: optimizing engagement can degrade actual helpfulness) is a genuine design challenge. <em>Interaction effects</em>: a prompt change might help new users and hurt power users (segment your analysis — Vol 03 Ch 18's slices, at the A/B level). <em>Guardrails on the experiment</em>: a bad B variant is harming <em>real users</em> while the test runs — cap the exposure (small % first), monitor for harm, and kill a clearly-bad variant early (don't let an experiment damage users for statistical purity).</p>
+
+<p><strong>Where A/B fits the whole eval stack — the full picture.</strong> The mature pipeline: <em>offline evals</em> (Part I) filter changes before they ship (cheap, fast, catch obvious regressions — CI-gated, Ch 9); <em>A/B testing</em> verifies the survivors actually help real users (expensive, slow, real outcomes); <em>online evals</em> (Ch 15) monitor the winner continuously for drift. Offline → A/B → online monitoring is the full lifecycle of a prompt change from idea to verified-in-production — and it's how serious teams ship AI changes: not "it looked good, ship it," but "it passed offline evals, won its A/B test, and is monitored in production." That pipeline <em>is</em> eval-driven development at production scale (Ch 21).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: shipping prompt changes like features.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Design the A/B layer (concept node, concrete): (1) Design an A/B test for a real prompt change to your brain-chat or research agent: the two variants, the randomization scheme, the <em>pre-defined</em> metric (and why that metric reflects real quality, not just engagement), the sample size / duration for significance, and the guardrails (exposure cap, early-kill criteria). (2) The metric-choice hard part: for your system, what <em>observable production signal</em> would actually reflect quality? Wrestle with the proxy problem honestly. (3) Place A/B in your full eval stack: draw offline → A/B → online for one prompt change's journey from idea to verified-shipped. The A/B design + the metric-choice reasoning + the full-lifecycle diagram = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why A/B test when you have offline evals — what proxy gap does it close?</li>
+<li>Recite the A/B mechanism's four parts, and why is pre-defining the metric essential?</li>
+<li>Name three AI-specific A/B subtleties and how each is handled.</li>
+<li>Why is metric choice a genuine design challenge, and what's the engagement trap?</li>
+<li>Draw the offline → A/B → online lifecycle and what each stage verifies.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="prompt-quality" href="prompt-quality.html">prompt-quality</a></p>
+<p><a class="wiki-link" data-node-id="online-evals" href="online-evals.html">online-evals</a></p>
+<p><a class="wiki-link" data-node-id="experiment-one-vs-many" href="experiment-one-vs-many.html">experiment-one-vs-many</a></p>
+<p><a class="wiki-link" data-node-id="personalization-via-memory" href="personalization-via-memory.html">personalization-via-memory</a></p>
+<p><a class="wiki-link" data-node-id="ci-gates-for-ai" href="ci-gates-for-ai.html">ci-gates-for-ai</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

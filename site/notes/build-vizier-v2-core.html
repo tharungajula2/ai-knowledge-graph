@@ -35,17 +35,49 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: v2 Core ReAct Loop</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: frontier-capstone</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The heart first. In Vol 04 you built an agent from bare Python (Ch 4), then a LangGraph supervisor routing four specialists (Ch 11–12). Those were exercises with training wheels: mock tasks, my chapter text at your elbow. Today you build v2's execution core <strong>from your own spec, from scratch, from memory-plus-notes</strong> — and the training wheels' absence is the entire point. If you have to peek, peek at <em>your own Feynman notes</em>, not at v1's code and not at this textbook. The notes were always the real curriculum; now they get to prove it.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The ReAct execution framework.</strong> The loop from first principles: typed state (Pydantic schemas for messages, scratchpad, budgets — Vol 04 Ch 13), the reason step through your gateway (never a raw SDK — the floor from Vol 02 still holds), structured action emission (Vol 02 Ch 6's schemas — and here your Chapter 12 adapter is <em>available as a routing option</em> for payload emission; whether it's default or fallback is a spec decision you already made), tool execution with the safety-tag taxonomy from birth (Vol 04 Ch 3 — tags are what the gate will key on in Chapter 17), observation append, termination logic (goal-met, max-steps, budget-exceeded — all three, tested).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The graph-based supervisor.</strong> State machine over the loop: supervisor node classifying intent via enforced schema (<code>none</code> is first-class — Vol 04 Ch 11's lesson), conditional edges to specialist subgraphs (each a narrow-interface, private-scratchpad citizen — Vol 04 Ch 10), checkpointing on durable storage so any run can die and resume (Vol 04 Ch 6 — and your acceptance criterion says <em>prove it with a kill test</em>), and interrupt points wired where the gate will attach (Vol 04 Ch 7 — the sockets exist now; the appliance arrives in Chapter 17). The async bridge (Vol 05 Ch 3) goes in <em>now</em>, at the foundation — v1 learned its necessity the hard way at integration time; v2 learns from v1.</p>
+
+<p><strong>What "from scratch" means, precisely.</strong> Not "no libraries" — LangGraph, Pydantic, your gateway are tools, and per Vol 04's manifesto you already built the bare-Python version once; frameworks are convenience, never magic, and you've earned the convenience. "From scratch" means: <strong>no copying from v1, no IDE-agent authorship of core logic.</strong> Coding assistants may review and critique (Chapter 5 gave you their anatomy); the architecture and the code are yours. The line you must be able to say in any interview, truthfully: <em>"I wrote this."</em></p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Rebuild the ReAct execution framework and graph-based supervisor from scratch (taught by build-agent-from-scratch &amp; build-supervisor).</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build to your acceptance criteria (est. 3+ honest days — it's an L): repo scaffold with the professional floor (venv, typing, pytest, CI stub — Vol 01's craft cluster, Vol 09's pipeline waiting); state schemas first; bare loop with two mock tools until green; supervisor + two specialists (research and brain-ops are the natural pair — retrieval and curriculum tools mount from Vol 03/Vol 04 Ch 18 work); checkpointing + the <strong>kill test</strong> (kill -9 mid-run, resume, complete — record the terminal session for the demo film, Chapter 21 will want it); async bridge + concurrent-tool test; then the full acceptance run: 10/10 routing, all three termination paths, budget caps enforced. Tag <code>v2-core-0.1</code>. In the note: the delta ledger — five concrete things v2's core does better than v1's, and the one place you had to reread your own note to proceed (that note earned its keep; say which).</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Walk your core's execution path for one real request, naming every schema it passes through.</li>
+<li>Where exactly do the interrupt sockets sit, and why were they placed <em>before</em> the gate exists?</li>
+<li>Why does the async bridge go in at the foundation? Tell it as the v1 story it comes from.</li>
+<li>Defend your "from scratch" line: what was allowed, what wasn't, and why the line sits there.</li>
+<li>Your kill test: what state survived, what resumed, and which Vol 04 chapter is that demo?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-agent-from-scratch" href="build-agent-from-scratch.html">build-agent-from-scratch</a></p>
+<p><a class="wiki-link" data-node-id="build-supervisor" href="build-supervisor.html">build-supervisor</a></p>
+<p><a class="wiki-link" data-node-id="build-specialists" href="build-specialists.html">build-specialists</a></p>
+<p><a class="wiki-link" data-node-id="build-mcp-bridge" href="build-mcp-bridge.html">build-mcp-bridge</a></p>
+<p><a class="wiki-link" data-node-id="langgraph-state" href="langgraph-state.html">langgraph-state</a></p>
+<p><a class="wiki-link" data-node-id="define-vizier-v2" href="define-vizier-v2.html">define-vizier-v2</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

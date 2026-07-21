@@ -35,17 +35,53 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Cost & Latency Dashboards</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You've tracked cost and latency in ledgers since Vol 04 — but numbers in a log file don't drive decisions; <em>dashboards</em> do. The node summary: <strong>see the money and the milliseconds.</strong> This build turns your scattered cost/latency data into live, visual dashboards that surface where the money goes and where the time goes — making the invisible economics of your AI systems <em>visible and actionable</em>. It's the operational complement to quality evals: quality dashboards tell you if it's <em>good</em>, cost/latency dashboards tell you if it's <em>affordable and fast</em>, and production needs both.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>What to dashboard — the operational metrics (your ledger and traces, visualized).</strong> From your traces (Ch 13) and ledger (Vol 04 Ch 17), aggregate and visualize: <em>cost</em> — total spend over time, cost per request/task/user, cost broken down by model / agent / step (which span dominates the bill — Ch 14's cost-culprit, dashboarded), cache-hit rate and savings (Vol 02 Ch 10, Vol 03 Ch 20); <em>latency</em> — p50/p95/p99 over time (Vol 03 Ch 8's percentiles — never the mean, Ch 8 taught you why: p99 is what your worst-hit users feel), latency by step/tool (which span is slow — Ch 14's latency-culprit), time-to-first-token for streaming (Vol 02 Ch 8); <em>throughput</em> — requests over time, concurrency; <em>reliability</em> — error rates, retry rates (Vol 02 Ch 9), fallback frequency (Vol 02 Ch 11's gateway — how often is the primary failing?). These are the vital signs of a production AI system, and a dashboard makes their trends and spikes <em>obvious</em> at a glance.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Why dashboards over logs — the actionability argument.</strong> A ledger records; a dashboard <em>reveals</em>. Trends (cost creeping up week over week — before it's a crisis), spikes (a latency spike at 2pm — correlate with a traffic pattern), distributions (p99 latency is 10× p50 — a tail problem hiding behind a fine average), and breakdowns (80% of cost is one agent's synthesis step — the optimization target, obvious) all <em>jump out</em> of a good dashboard and <em>hide</em> in a log. Dashboards turn data into decisions: "our cost per task doubled this month" (dashboard-obvious) drives investigation; the same fact buried in a ledger goes unnoticed until the bill arrives. This is the operational-awareness that Vol 04 Ch 17's budget-as-product-design needs to <em>act on</em> — you can't manage what you can't see.</p>
+
+<p><strong>The build — from traces to dashboards.</strong> Options (scan on build day): tracing tools (Langfuse, Ch 13) often <em>include</em> dashboards (cost/latency views over your traces — the easiest path, and your Ch 13 instrumentation already feeds them); or a metrics stack (Prometheus + Grafana — the classic ops tooling, more setup, more control); or a simple custom dashboard (your ledger → a Streamlit/Plotly app — Vol 01's data-viz, full control, good for learning). The build: aggregate your trace/ledger data → compute the metrics (percentiles! — the p95/p99 that means production) → visualize over time with breakdowns → and crucially, <em>make it live</em> (updating as new runs happen) so it's an operational instrument, not a one-time report. Add <em>alerting thresholds</em> (cost-per-day above X, p99 above Y → flag — the proactive version, connecting to Ch 15's drift alerts).</p>
+
+<p><strong>Verification.</strong> The dashboard shows real data from real runs: cost and latency percentiles compute correctly (reconcile against your ledger — Vol 04 Ch 17, and your Ch 13 traces — three sources agreeing); breakdowns correctly attribute cost/latency to the right agent/step; the p95/p99 are actually tail percentiles (not means mislabeled — the classic dashboard lie); trends update as you generate new runs. Then the payoff: use the dashboard to <em>find</em> an optimization — the dashboard should make one cost or latency culprit <em>obvious</em> (the dominant span, the slow tool), which you then optimize (route it cheaper, cache it, parallelize it — Vol 04 Ch 17's levers) and <em>watch the dashboard confirm the improvement</em>. That closed loop — see, optimize, verify-on-dashboard — is the build's soul.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: see the money and the milliseconds.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): choose the approach (Langfuse dashboards if you set it up in Ch 13, or custom Streamlit/Plotly over your ledger) → aggregate cost/latency/throughput/reliability metrics with correct percentiles → visualize over time with model/agent/step breakdowns → make it live → add one alerting threshold. Then the optimization loop: find the dominant cost or latency culprit on the dashboard → apply a Vol 04 Ch 17 lever → verify the improvement <em>on the dashboard</em>. Tag <code>observability-v0.2</code>. The dashboard screenshots + the culprit-found-and-fixed loop + the ledger/trace reconciliation = the note; this is the operational half of the ring, and a strong portfolio piece (cost-awareness is a rare, senior signal).</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What metrics belong on cost and latency dashboards, and why p95/p99 over the mean?</li>
+<li>Make the dashboards-over-logs argument — what four things "jump out" of a dashboard?</li>
+<li>Where does the dashboard's data come from, and how do you verify the numbers?</li>
+<li>Describe the see-optimize-verify loop, with a Vol 04 Ch 17 lever.</li>
+<li>Why is a live cost dashboard a senior signal, and what decision does it enable that a ledger doesn't?</li>
+</ol>
+<hr>
+<h1 id="part-iv-the-harness">PART IV — THE HARNESS</h1>
+<p><em>5 chapters. It all unifies: one eval harness around the node-proposer, the failure→golden flywheel, error-analysis practice, eval-driven development internalized, and the ring's close.</em></p>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="cost-latency-budgets" href="cost-latency-budgets.html">cost-latency-budgets</a></p>
+<p><a class="wiki-link" data-node-id="build-tracing-instrumentation" href="build-tracing-instrumentation.html">build-tracing-instrumentation</a></p>
+<p><a class="wiki-link" data-node-id="build-gateway" href="build-gateway.html">build-gateway</a></p>
+<p><a class="wiki-link" data-node-id="rate-limits-caching" href="rate-limits-caching.html">rate-limits-caching</a></p>
+<p><a class="wiki-link" data-node-id="reading-traces" href="reading-traces.html">reading-traces</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

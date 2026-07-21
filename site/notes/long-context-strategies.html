@@ -35,17 +35,49 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Long-Context Strategies</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: prompting-apis</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>A 400-page contract, a codebase, a year of support tickets — and a question about it. You have three moves: <strong>stuff</strong> it all into the giant context window; <strong>retrieve</strong> only relevant pieces per question; or <strong>summarize</strong> it down in stages. Every "chat with your documents" product on Earth is one of these three, or a hybrid. Knowing which to reach for — and what each silently costs — is a daily architect decision, and interviewers adore it because it has no one right answer, only tradeoffs reasoned well.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Move 1 — Stuffing.</strong> Everything in context; ask directly. <em>For it:</em> zero infrastructure, zero retrieval risk — the model sees <em>all</em> of it, so cross-document connections ("compare clause 4 with appendix C") come free; today's 128k–1M windows genuinely fit small corpora. <em>Against it:</em> Vol 01 Ch 8's twin ghosts — cost (you pay for every token <em>every question</em>; 500k tokens × 20 questions = 10M input tokens billed) and <em>lost-in-the-middle</em> (attention quality sags mid-context; stuffed ≠ attended). Latency grows too (prefill time scales with input). <em>Mitigation that changes the math:</em> prompt caching (Ch 10) — stable-prefix the document once, pay ~10% on re-sends; for a doc questioned repeatedly in one session, stuffing + caching is shockingly viable. <em>Verdict:</em> small corpus, many cross-cutting questions, session-shaped usage → stuff.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Move 2 — Retrieval.</strong> Index once (chunks + embeddings, Vol 01 Ch 5); per question, fetch top-k relevant pieces into context. <em>For it:</em> per-question cost is tiny and <em>flat</em> regardless of corpus size — the only move that scales to gigabytes; focused context also dodges lost-in-the-middle. <em>Against it:</em> real infrastructure (chunking, embedding, vector store, and a new failure surface — retrieval can <em>miss</em>, and the model can't use what wasn't fetched: "garbage retrieved, garbage grounded"); cross-document synthesis questions suffer when relevant pieces don't co-retrieve. <em>Verdict:</em> large/growing corpus, many users, pointed questions → retrieve. This move is so central it owns your entire next ring — Domain 03 — so here, just place it on the map.</p>
+
+<p><strong>Move 3 — Summarizing.</strong> Compress in stages: chunk → summarize each → summarize the summaries (map-reduce shape); or <em>refine</em> — running summary updated chunk by chunk. <em>For it:</em> handles corpora beyond any window; produces a durable artifact (the summary itself has value — think "brief me on this deal room"); it's also <em>exactly</em> how chat memory works (old turns compressed to a running summary — Domain 06 preview, and your Chapter 17 build meets a baby version). <em>Against it:</em> <strong>lossy by design</strong> — the detail your question needed may be the detail compression discarded, and hierarchical summaries can compound small distortions; slow and costs LLM calls up front. <em>Verdict:</em> the task <em>is</em> synthesis/overview, or the corpus dwarfs everything → summarize.</p>
+
+<p><strong>The architect's decision table</strong> — commit the axes, not answers: corpus size vs window; question type (pointed lookup → retrieval; global synthesis → stuffing if it fits, else summarize); query volume (one-off → stuff; thousands/day → retrieval's flat cost wins); freshness (corpus changes hourly → retrieval with re-indexing beats re-stuffing); budget. And the pro answer to memorize because it's usually correct: <strong>hybrids</strong> — retrieve <em>then</em> stuff generously (top-50 chunks, not top-5, into a big window); summarize <em>then</em> retrieve over summaries + drill into originals; stuff the contract but retrieve the case law. The three moves are ingredients, not rivals.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: stuffing vs retrieval vs summarizing.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>No build — a decision drill, on paper, timed like an interview. Four scenarios, and for each: chosen strategy (or hybrid), the two axes that decided it, cost sketch (rough token math — your <code>tokentools</code> prices), and the failure mode you're accepting. (a) Startup lawyer, one 300-page contract, ~30 questions over two days. (b) Support bot over 200k historical tickets, 5k queries/day. (c) "Brief the CEO on these 40 candidate resumes" — one deliverable. (d) Chat over your own Vizier brain notes — currently ~small, growing weekly for years. Write all four into the note; (d)'s answer is literally your Domain 03 capstone build being designed early — mark it.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Recite the three moves and each one's one-line superpower and one-line curse.</li>
+<li>Why doesn't a 1M window kill retrieval? Two independent reasons.</li>
+<li>How does prompt caching change stuffing's economics — for which usage shape?</li>
+<li>What is lossy about summarization <em>by design</em>, and which question types does it betray?</li>
+<li>Give one hybrid pattern and the scenario where it's the obviously right call.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="context-windows" href="context-windows.html">context-windows</a></p>
+<p><a class="wiki-link" data-node-id="rate-limits-caching" href="rate-limits-caching.html">rate-limits-caching</a></p>
+<p><a class="wiki-link" data-node-id="embeddings-intuition" href="embeddings-intuition.html">embeddings-intuition</a></p>
+<p><a class="wiki-link" data-node-id="hallucination" href="hallucination.html">hallucination</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

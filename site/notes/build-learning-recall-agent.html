@@ -35,17 +35,57 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: "What Did I Learn?" Agent</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: memory-knowledge</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The ring's payoff build, and one of the most personally meaningful in your journey: <strong>ask my brain about any period; grounded, node-cited answers.</strong> The node summary is a time machine for your own understanding. "What did I learn in Domain 04?" "How has my understanding of RAG evolved?" "What did I know about agents in July?" — answered from your <em>own</em> notes, grounded and node-cited, across <em>time</em>. Every capability this ring built converges: temporal knowledge (Ch 12), graph-aware retrieval (Ch 11), memory (Part I), your formalized brain (Ch 13), and citations (Vol 03). Your months of learning become <em>interrogable</em>.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The agent — a temporal, graph-aware, cited recall system over your brain.</strong> It composes the ring:</p>
+<ul>
+<li><strong>Temporal queries</strong> (Ch 12): the defining capability — "what did I learn <em>during period X</em>?" retrieves nodes lit and notes written in that interval (your brain's lit-history <em>is</em> temporal data — each node has a lit-date; Ch 12's point-in-time query, over your own journey). "How has my understanding of X <em>evolved</em>?" tracks a concept across your notes' versions (deepening over time — the change-tracking query).</li>
+<li><strong>Graph-aware retrieval</strong> (Ch 11): "what are the themes of what I learned in Domain 05?" → community summary of that domain's subgraph (global question, GraphRAG-answered). "How does what I learned about memory connect to what I learned about RAG?" → graph walk between domains (relational question). Vector RAG couldn't answer either; your graph does.</li>
+<li><strong>Grounded, node-cited answers</strong> (Vol 03 Ch 10, non-negotiable): every claim cites the <em>node(s)</em> it came from — "you learned X (<a class="wiki-link" data-node-id="node-id" href="node-id.html">node-id</a>, lit July 20)" — so every recalled fact is verifiable against your own notes. A recall agent that answers without node-citations is untrustworthy (it might confabulate your learning — the cruelest hallucination, inventing a past you didn't have); citations make it a <em>mirror</em>, not a <em>storyteller</em>.</li>
+<li><strong>Built on the brain MCP server</strong> (Vol 05 Ch 16): this agent is a <em>client</em> of your brain server — it queries your learning through the MCP tools you already exposed (<code>search_brain</code>, <code>what_did_i_learn</code>, <code>find_related</code>), which means it's portable and composable, and it validates that server's design by being its most demanding consumer.</li>
+</ul>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Why this matters — the meta-payoff.</strong> This agent is your journey, <em>made queryable</em>. Practically: it's a study tool (what have I covered? what's connected? what did I rush?), a review tool (Ch 16's honesty findings, now conversational), a portfolio centerpiece (an AI that answers questions about your learning, cited and temporal, is a <em>striking</em> demonstration of everything you've built), and — the deepest use — a <em>reflection instrument</em>: "how has my thinking about agents evolved from Domain 04 to now?" is a question that helps you <em>understand your own growth</em>, answered by the system you built to enable that growth. The snake fully eats its tail: the brain you built to learn AI now answers questions about how you learned AI, across time, grounded in itself.</p>
+
+<p><strong>The hard parts.</strong> <em>Temporal grounding accuracy</em> — "what did I know in July?" must retrieve only July-and-earlier knowledge (Ch 12's point-in-time — leaking later understanding into a past-tense query is the subtle failure; test it hard). <em>Evolution tracking</em> — showing how understanding <em>changed</em> requires comparing a concept's treatment across time (Ch 12's versioning, over your notes). <em>Honest gaps</em> — "what did I learn about X?" when you <em>didn't</em> learn X must return "you haven't covered X" (NOT-IN-NOTES, Vol 03 — the recall agent must not confabulate learning you don't have; this is the honesty stakes at their highest — a false memory of <em>your own understanding</em> is uniquely corrosive). <em>Citation integrity across time</em> — citations must point to nodes valid <em>for the queried period</em>.</p>
+
+<p><strong>Verification.</strong> Grounding: every claim node-cited, citations resolve to real nodes (Vol 03 Ch 10 integrity). Temporal: a point-in-time query returns only period-appropriate knowledge (seed the test — ask "what did I know as of [early date]?" and assert later-lit nodes <em>don't</em> appear); an evolution query correctly shows change. Honesty: a query about genuinely-uncovered material returns an honest gap, not confabulation (the critical test). Graph-aware: a relational query walks the graph correctly. Then the real use: ask it genuine questions about your own journey and verify the answers against your memory of learning.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: ask my brain about any period; grounded, node-cited answers.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1-1.5 days): the recall agent as a client of your brain MCP server (Vol 05 Ch 16) → temporal query handling (point-in-time, evolution) → graph-aware retrieval for global/relational questions → node-cited grounded answers → honest-gap handling → verification (temporal accuracy, honest gaps, citation integrity). Then the meaningful part: ask it the real questions — "what did I learn in [your earliest domain]?", "how has my understanding of agents evolved?", "what are the cross-domain themes of my journey so far?" — and read its cited answers about your own growth. Tag <code>recall-v1.0</code>. The transcript of it answering real questions about your journey (cited, temporal) + the honest-gap test + the point-in-time accuracy test = the note. This is capstone and portfolio gold.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the four capabilities the recall agent composes, and the chapter/ring behind each.</li>
+<li>Why are node-citations non-negotiable here specifically, and what's the "cruelest hallucination"?</li>
+<li>How is your brain's lit-history temporal data, and what query type does it enable?</li>
+<li>Why is the honest-gap test the critical one, and what's uniquely corrosive about confabulating your own learning?</li>
+<li>How does building this agent <em>validate</em> your Vol 05 brain MCP server?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="temporal-knowledge" href="temporal-knowledge.html">temporal-knowledge</a></p>
+<p><a class="wiki-link" data-node-id="graphrag-deep" href="graphrag-deep.html">graphrag-deep</a></p>
+<p><a class="wiki-link" data-node-id="build-brain-mcp-server" href="build-brain-mcp-server.html">build-brain-mcp-server</a></p>
+<p><a class="wiki-link" data-node-id="citations-grounding" href="citations-grounding.html">citations-grounding</a></p>
+<p><a class="wiki-link" data-node-id="build-memory-layer" href="build-memory-layer.html">build-memory-layer</a></p>
+<p><a class="wiki-link" data-node-id="brain-as-knowledge-graph" href="brain-as-knowledge-graph.html">brain-as-knowledge-graph</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

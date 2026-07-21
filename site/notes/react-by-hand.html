@@ -35,17 +35,61 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>ReAct By Hand</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: agents</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Before you automate a machine, you crank it by hand — you did this with gradient descent (Vol 01, Ch 2's number-guessing), attention (Vol 01, Ch 6's weight-assigning), and vector search (Vol 01, Ch 5's paper map). Today you <em>are</em> the agent. The node summary: run the loop manually on paper with a real task. You will play the model, an accomplice plays the tools, and every joint of the ReAct pattern — and three of its classic failures — will be felt in your own hands before any code exists.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>ReAct — the name and the format.</strong> The pattern (from the paper of the same name: <em>Reasoning + Acting</em>) interleaves explicit thought with action in a rigid textual format — and the rigidity is the point, because Ch 4 will <em>parse</em> this format with regex:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">text</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-text"><span class="tok-type">Thought</span>: <span class="tok-type">I</span> need to find out <span class="tok-type">X</span> before <span class="tok-type">I</span> can answer.
+<span class="tok-type">Action</span>: search_web
+<span class="tok-type">Action</span> <span class="tok-type">Input</span>: {<span class="tok-str">"query"</span>: <span class="tok-str">"..."</span>}
+<span class="tok-type">Observation</span>: [tool result appears here]
+<span class="tok-type">Thought</span>: <span class="tok-type">That</span> tells me <span class="tok-type">Y</span>. <span class="tok-type">Now</span> <span class="tok-type">I</span> need <span class="tok-type">Z</span>.
+<span class="tok-type">Action</span>: ...
+...
+<span class="tok-type">Thought</span>: <span class="tok-type">I</span> now have everything needed.
+<span class="tok-type">Final</span> <span class="tok-type">Answer</span>: ...</code></pre>
+      </div>
+<p>Why thoughts are written at all — recall Vol 02 Ch 5's mechanism: generated text enters the context and conditions everything after; a written thought is the agent's working memory made visible (Ch 13 gives this a formal name: the scratchpad). Why the format is rigid: the orchestrator (today: your accomplice; Thursday: your Python) must mechanically distinguish <em>thought</em> (append and continue) from <em>action</em> (stop generation, execute, return observation) from <em>final answer</em> (stop the loop). ReAct is a <em>protocol</em> between model and orchestrator, and protocols live or die on parseability.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The rules of the manual run — play it honest.</strong> You (the model) may only write Thought / Action / Final Answer lines. Your accomplice (the tools + orchestrator) executes actions <em>literally</em> — answering exactly what was asked, never helpfully more, including realistic imperfections (a search returns titles and snippets, not neat answers; a calculator returns a number, not an interpretation). You may not use knowledge you realistically wouldn't have — if the task needs today's data, you <em>must</em> act for it. And you write every line down; the transcript is the artifact.</p>
+
+<p><strong>What the manual run is engineered to make you feel.</strong> Three sensations, each one a future chapter: (1) <em>The observation quality problem</em> — when the search tool returns junk snippets, you feel the urge to re-search with better terms; that urge is query surgery (Vol 03, Ch 13) and it lives inside agents too. (2) <em>The termination temptation</em> — around step 4 you'll feel the pull to just answer from vibes rather than verify; that pull, in a model, is premature termination, and its opposite (endless verifying) is the infinite loop — Ch 16's twin diseases, previewed in your own psychology. (3) <em>Context growth</em> — watch your paper fill; every thought, action, and observation rides in the context forever (token arithmetic from Vol 01, Ch 8 — agents are context-hungry, and Ch 17 prices it).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: run the loop manually on paper with a real task.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Two full manual runs, transcribed. <strong>Run 1 — with an accomplice</strong> (or honestly split-brained solo): a real multi-step task needing 3+ tool calls — good candidates: "plan which three brain nodes I should light this week given my calendar" (tools: <code>read_calendar</code>, <code>read_curriculum</code>, <code>check_prerequisites</code>) or "find the cheapest decent mechanical keyboard under ₹5k available today" (tools: <code>search_web</code>, <code>fetch_page</code>). Play it fully honest; expect 6–10 loop iterations. <strong>Run 2 — sabotage</strong>: same task, but your accomplice returns one <em>misleading</em> observation mid-run (a wrong price, a stale date) — feel how the error propagates through your subsequent thoughts (Vol 03 Ch 14's error propagation, now in first person), and note where a verification step <em>would</em> have caught it. Then annotate both transcripts: mark every point where you (a) wanted to re-query, (b) felt the termination temptation, (c) would have looped forever without discipline. The two annotated transcripts go in the note — Ch 4 will replay Run 1's task in code, and the comparison is the lesson.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Write the ReAct format from memory and name what each line type signals to the orchestrator.</li>
+<li>Why must the format be rigid? What breaks if the model free-styles its actions?</li>
+<li>What is a written Thought, mechanically, in Vol 02 Ch 5's terms — and what will Ch 13 call the accumulation?</li>
+<li>Name the three engineered sensations and the chapter each previews.</li>
+<li>From your sabotage run: where did the bad observation's influence surface, and what discipline would have caught it?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="reasoning-prompts" href="reasoning-prompts.html">reasoning-prompts</a></p>
+<p><a class="wiki-link" data-node-id="what-makes-an-agent" href="what-makes-an-agent.html">what-makes-an-agent</a></p>
+<p><a class="wiki-link" data-node-id="scratchpads-working-memory" href="scratchpads-working-memory.html">scratchpads-working-memory</a></p>
+<p><a class="wiki-link" data-node-id="agent-failure-modes" href="agent-failure-modes.html">agent-failure-modes</a></p>
+<p><a class="wiki-link" data-node-id="build-agent-from-scratch" href="build-agent-from-scratch.html">build-agent-from-scratch</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

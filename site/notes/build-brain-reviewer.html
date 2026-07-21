@@ -35,17 +35,54 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Self-Critical Graph Reviewer</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: memory-knowledge</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your brain is growing — nodes lighting, edges accumulating (Ch 15), knowledge deepening. But is it growing <em>well</em>? Are some domains under-connected islands? Are there notes that claim understanding they don't demonstrate? The node summary: <strong>build a self-review script that parses note links, identifies sparse domains, and prompts LLMs to suggest new entity connections and honesty checks; verify with local note files.</strong> This is your brain <em>reviewing itself</em> — a graph-aware quality auditor that finds structural weaknesses and intellectual honesty gaps. Reflection (Vol 04 Ch 9) aimed at your own knowledge graph.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The two review dimensions — structure and honesty.</strong></p>
+<ol>
+<li><strong>Structural review</strong> (graph analytics — Ch 13's unlocked queries, applied): parse the note-link graph and compute health metrics — <em>sparse domains</em> (rings with few internal or cross-domain links — knowledge islands that should connect to the whole but don't; the node's "identifies sparse domains"); <em>orphan nodes</em> (notes with no incoming/outgoing links — disconnected knowledge); <em>weak bridges</em> (domains that <em>should</em> relate — foundations underpins everything — but have thin connection); <em>centrality imbalance</em> (a domain where one node carries all the links and the rest are peripheral). These are graph-structural facts, computable (Ch 13's centrality/connectivity queries), and each points at a <em>specific</em> place your knowledge graph is weaker than it should be — actionable, not vague.</li>
+<li><strong>Honesty review</strong> (LLM-powered — the node's "honesty checks"): this is the deeper, more Vizier-soul dimension. Prompt an LLM to audit notes for intellectual honesty against your own standards: <em>claimed-but-undemonstrated understanding</em> (a note that asserts a concept without the Feynman explanation or worked example your template demands — Vol 01's whole method: does this note actually <em>show</em> understanding or just <em>claim</em> it?); <em>missing prerequisites</em> (a note using a concept it never links to or grounds); <em>staleness</em> (a note whose understanding you've since deepened — Ch 12's temporal dimension — flagged for update); <em>overconfidence</em> (claims stated more strongly than the note's evidence supports — Vol 01 Ch 10's calibration, aimed at your own writing). This is your brain holding <em>itself</em> to the honesty standard the whole curriculum preaches.</li>
+</ol>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The output — actionable, gated suggestions.</strong> The reviewer produces a <em>review report</em> (structural metrics + honesty flags, per domain) and <em>suggestions</em>: sparse domain X wants connections to Y (feeds Ch 15's link-suggester — the reviewer <em>finds</em> the sparse regions the suggester should target, closing a loop); note Z claims understanding it doesn't demonstrate — revisit it; these notes are stale — update. Suggestions that would <em>modify</em> the brain (new edges, flagged notes) route through the gate (Vol 04 Ch 15) or, for edges, hand off to Ch 15's suggester; the reviewer <em>diagnoses</em>, the human (with the suggester's help) <em>treats</em>. Crucially, honesty flags are <em>for you</em> — "this note overclaims" is an invitation to re-study, exactly the curriculum's self-honest spirit: the reviewer is a mirror that shows you where your understanding is thinner than your notes pretend.</p>
+
+<p><strong>Why this is deeply on-brand — and genuinely useful.</strong> Your whole curriculum runs on <em>earned</em> understanding (light a node only when you can Feynman it, Prove It from memory). A self-critical reviewer <em>operationalizes</em> that standard: it catches the notes where you lit the node but the understanding was shakier than you admitted, the domains you rushed and under-connected, the claims you made bigger than your evidence. It's the anti-self-deception tool for a self-directed learner — the thing that keeps 228 nodes <em>honest</em> rather than 228 nodes <em>checked-off</em>. And it's a striking portfolio artifact: "I built an AI that audits my own knowledge for intellectual honesty" is a sentence that signals exactly the metacognitive maturity senior roles want.</p>
+
+<p><strong>Verification — local note files, per the node.</strong> Run against your real notes. Structural: assert the sparse-domain and orphan detection matches hand-analysis of a subgraph (compute connectivity for 3 domains by hand, verify the reviewer agrees). Honesty: seed a <em>deliberately overclaiming</em> test note (asserts a concept with no demonstration) and a <em>deliberately stale</em> one, assert the reviewer flags them; and — the calibration check (Vol 03 Ch 18's judge-calibration, essential here) — review 10 of its honesty flags <em>yourself</em> and measure agreement, because an honesty-reviewer you don't trust is worse than none (a false "you overclaim here" erodes trust; a missed one defeats the purpose). Report the agreement number.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a self-review script that parses note links, identifies sparse domains, and prompts LLMs to suggest new entity connections and honesty checks; verify with local note files.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): note-link parser → structural metrics (sparse domains, orphans, weak bridges, centrality) → honesty-review LLM prompt (against your Feynman/Prove-It standards) → review report generator → gate/suggester handoff for actionable items → verification (structural vs hand-analysis; honesty vs seeded test notes; judge-calibration on 10 flags). Run it on your <em>actual</em> brain and read the report <em>honestly</em> — which domain is your weakest-connected? Which note did it catch overclaiming? (Resist defending yourself — the flag is a gift.) Tag <code>graph-v0.3</code>. The review report + the calibration agreement number + one honesty flag you <em>agree</em> with (and what you'll do about it) = the note. This is the ring's most introspective build; treat its findings as study guidance.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the two review dimensions, and the specific checks under each.</li>
+<li>What structural weaknesses does the graph analysis find, and why is each actionable?</li>
+<li>What does the honesty review audit for, and how does it operationalize your curriculum's "earned understanding" standard?</li>
+<li>How does the reviewer close a loop with Ch 15's link-suggester?</li>
+<li>Why is judge-calibration essential here specifically, and what does a false honesty-flag cost?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="reflection-patterns" href="reflection-patterns.html">reflection-patterns</a></p>
+<p><a class="wiki-link" data-node-id="brain-as-knowledge-graph" href="brain-as-knowledge-graph.html">brain-as-knowledge-graph</a></p>
+<p><a class="wiki-link" data-node-id="build-link-suggester-v2" href="build-link-suggester-v2.html">build-link-suggester-v2</a></p>
+<p><a class="wiki-link" data-node-id="prompt-quality" href="prompt-quality.html">prompt-quality</a></p>
+<p><a class="wiki-link" data-node-id="synthesis-foundations" href="synthesis-foundations.html">synthesis-foundations</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

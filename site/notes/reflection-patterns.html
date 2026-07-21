@@ -35,17 +35,48 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Reflection / Reflexion</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: agents</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>First drafts are bad — yours, mine, and the model's. What makes good writers isn't better first drafts; it's the <em>second pass</em>: read your own work as a critic, find the flaws, revise. The node summary: <strong>agents that critique themselves.</strong> Reflection is the second pass, built into the loop — generate, critique, revise — and its stronger cousin Reflexion adds the twist that makes agents <em>improve across attempts</em>: remembering the lessons of failure. Cheap to implement, real quality gains, and two sharp caveats that separate practitioners from enthusiasts.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Basic reflection — the generate-critique-revise triangle.</strong> Three-node pattern: <em>generate</em> (produce the draft/answer/plan), <em>critique</em> (a second LLM call examining the draft against explicit criteria — "check: factual grounding, completeness vs the goal, format compliance; list concrete flaws or say APPROVED"), <em>revise</em> (regenerate with the critique in context). Loop critique→revise until approved or budget-capped (always budget-capped — reflection loops are infinite-loop bait, Ch 16 incoming). Why it works when it works — two honest mechanisms: <strong>evaluation is easier than generation</strong> (recognizing a flaw is a simpler task than producing flawlessly — same reason you can hear a wrong note you couldn't have composed around), and <strong>fresh framing</strong> — the critique call approaches the text as <em>reader</em>, unanchored from the generator's in-flight commitments (Vol 02 Ch 5's insight that the transcript conditions everything: a new call escapes the old transcript's groove). Craft rule that makes or breaks it: <strong>critique against explicit criteria.</strong> "Is this good?" yields vague nodding; a rubric yields actionable flaws. Your Ch 16 golden-set discipline (Vol 02) writes the rubric — the eval mindset, turned inward.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Reflexion — reflection with memory across attempts.</strong> The upgrade: when a whole <em>attempt</em> fails (the task, not just the draft — tests still red, answer rejected by the gate, eval score low), a reflection call produces a <strong>lesson</strong>: "Attempt 1 failed because I searched too broadly and drowned in noise; next attempt: constrain the query to the specific domain first." The lesson is stored and <em>injected into the next attempt's context</em>. The agent doesn't retry blindly — it retries <em>informed</em>. Note the architecture carefully, because it clarifies a boundary you'll need in Domain 06: the lesson lives in <strong>episodic memory across attempts within a task</strong> — longer-lived than the scratchpad (Ch 13, one attempt), shorter-lived than true long-term memory (across tasks, Domain 06). Three memory horizons; Reflexion owns the middle one. And the trigger matters: Reflexion needs a <em>failure signal</em> — a test suite, an eval score, a gate rejection (Ch 7's rejection-as-observation is literally a Reflexion trigger you already built). No signal, no lesson; reflection without ground truth is just vibes squared.</p>
+
+<p><strong>Where reflection pays, and the two sharp caveats.</strong> Pays: tasks with checkable criteria (code against tests — the canonical case; structured output against schemas; grounded answers against faithfulness checks) and complex generation where first-pass quality is genuinely low (long synthesis, plans worth critiquing before execution — Ch 8's planner + a critique node is a strong marriage). Caveat one — <strong>cost</strong>: every round is 2× LLM calls; reflection on a task the model nails first-pass is pure waste, so gate it by task difficulty or trigger it only on failure signals (the routing drumbeat again — spend surgery where evidence says it pays, Vol 03's rule verbatim). Caveat two — <strong>self-critique inherits self-blindness</strong>: the critic shares the generator's weights, therefore its blind spots; a model that doesn't know a fact can't critique the fact's absence, and models are systematically gentle judges of their own fluency (Vol 02 Ch 16's LLM-as-judge biases, aimed at a mirror; Vol 01 Ch 10's "introspection is generation" ghost, returning). Mitigations, in ascending strength: rubric-anchored critique &gt; free critique; a <em>different</em> model as critic &gt; the same model; <strong>external signals beat both</strong> — tests, evals, retrieval checks, humans. The deep ordering to carry out of this chapter: <em>self-critique &lt; cross-critique &lt; ground truth</em> — and the best agents wire in as much ground truth as the task affords.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: agents that critique themselves.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>One experiment, real code, ~40 lines on your existing stack: take a task with a checkable criterion — the natural one: generate a Pydantic model + passing pytest suite for a small spec (your Vol 01 Ch 21 skills define "pass"). Arm three variants: (a) single-shot generation; (b) reflection loop with a rubric critique, max 2 rounds; (c) Reflexion: run attempts against the <em>actual</em> pytest output as the failure signal, lesson injected between attempts, max 3 attempts. Score: pass rate, total LLM calls, total cost (ledger). Then the caveat-two probe: find one flaw variant (b)'s critic missed that pytest caught — evidence, in your own transcript, of self-blindness and the supremacy of external signals. Results table + the flaw specimen = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Draw the generate-critique-revise triangle and give the two mechanisms for why critique works.</li>
+<li>What separates Reflexion from reflection — what's stored, where does it live among the three memory horizons, and what does it require to fire?</li>
+<li>Which of your Ch 7 constructs is already a Reflexion trigger?</li>
+<li>Recite both caveats with their mitigations, and deliver the ordering: self &lt; cross &lt; ground truth.</li>
+<li>From your experiment: the numbers, and the flaw the critic missed.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="reasoning-prompts" href="reasoning-prompts.html">reasoning-prompts</a></p>
+<p><a class="wiki-link" data-node-id="prompt-quality" href="prompt-quality.html">prompt-quality</a></p>
+<p><a class="wiki-link" data-node-id="hitl-interrupts" href="hitl-interrupts.html">hitl-interrupts</a></p>
+<p><a class="wiki-link" data-node-id="scratchpads-working-memory" href="scratchpads-working-memory.html">scratchpads-working-memory</a></p>
+<p><a class="wiki-link" data-node-id="agent-failure-modes" href="agent-failure-modes.html">agent-failure-modes</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

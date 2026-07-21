@@ -35,17 +35,53 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Define VIZIER v2</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: frontier-capstone</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The most senior act in engineering isn't writing code — it's writing the document that makes the code <em>inevitable</em>: the spec. v1 never had one; it had a conversation with an IDE agent and whatever emerged. v2 begins the opposite way: you, alone, writing the complete specification of a unified agent+brain system — every subsystem, every interface, every acceptance test — <strong>mapped back to the modules that taught it</strong>. Chapter 5 told you the skill shift: specify, decompose, verify. This chapter is where you prove you've made it.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>1. The mission sentence.</strong> One sentence, no commas doing heavy lifting: what v2 <em>is</em>. Draft to react against: <em>"VIZIER v2 is a deployed agent system that manages my knowledge graph and my communications through a human-approval gate — specified, built, evaluated, secured, and operated entirely by me."</em> Fight with it until it's yours.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>2. The architecture map.</strong> One diagram, your hand: the supervisor and specialists (Vol 04), the MCP connections (Vol 05), the memory layer (Vol 06), retrieval (Vol 03), the gateway underneath every call (Vol 02), the gate and scanner athwart every write (Vol 08), tracing and evals around everything (Vol 07), the deployment envelope (Vol 09). Every box carries two labels: what it does, and <strong>the node that taught it</strong> — this teacher-mapping is the node's explicit demand, and it's what makes v2 a graduation proof rather than a rewrite.</p>
+
+<p><strong>3. Scope, and the harder list.</strong> In-scope subsystems = the five build chapters ahead (core loop, memory+RAG, gate+safety, evals+traces, deploy+ship). The <strong>out-of-scope list with reasons</strong> is where senior judgment shows: what v1 had that v2 drops (anything you can't defend from first principles doesn't ship), what Part I frontier ideas you're <em>deliberately deferring</em> (voice mode: deferred, latency budget unproven for your stack; local-model routing: in, it's one gateway provider entry — your calls, argued in writing).</p>
+
+<p><strong>4. Interfaces before implementations.</strong> For each subsystem pair, the contract: state schemas (typed, Vol 04 Ch 13 discipline), the gate's proposal format (now also your fine-tune's output language — Chapter 12 joins the spec), MCP surfaces (which tools/resources the brain exposes — Vol 05; informed by your Chapter 8 memo), eval hooks (every subsystem ships with its golden set — Vol 07's EDD, specified in, not bolted on).</p>
+
+<p><strong>5. Acceptance criteria per subsystem.</strong> Written as <em>tests</em>, before any build: "the supervisor routes 10/10 test intents correctly", "a killed process resumes mid-gate from checkpoint", "the injection suite passes with zero exfil", "cold deploy from clean clone ≤ 30 minutes, documented." These criteria are the ground truth that Chapter 5 said great specs give their builders — and the builder is you.</p>
+
+<p><strong>6. The build order and the risk register.</strong> Sequence the five builds with reasons (the order of the next five chapters is the default; justify or amend it), and name the top three risks with mitigations (the async bridge bit you once — Vol 05 Ch 3 exists because of it; what bites v2?).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: spec the unified agent+brain rebuilt from scratch by ME, mapped back to the modules that taught it. → M5</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Write <code>VIZIER_V2_SPEC.md</code> (3–6 pages, in the repo, versioned). Then two quality gates before it counts: (1) the <strong>teacher audit</strong> — every subsystem in the spec names its teaching node(s); any subsystem you can't map means either scope creep (cut it) or a ghost node you skipped (light it first — the graph is the prerequisite checker); (2) the <strong>red-team read</strong> — reread your own spec wearing Vol 08 goggles and Vol 07 goggles, one paragraph each on what the adversary and the evaluator would say is underspecified. Fix, commit, tag <code>v2-spec-1.0</code>. Lighting this node lights the fuse on M5.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Recite your mission sentence, then defend its three most load-bearing words.</li>
+<li>Why interfaces before implementations? Name the v1 pain this rule answers.</li>
+<li>Pick any subsystem: name its teacher nodes and its acceptance criteria, from memory.</li>
+<li>Defend one out-of-scope decision like a senior engineer being challenged in review.</li>
+<li>What are your top three risks, and which prior node taught you each mitigation?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="coding-agents" href="coding-agents.html">coding-agents</a></p>
+<p><a class="wiki-link" data-node-id="synthesis-production" href="synthesis-production.html">synthesis-production</a></p>
+<p><a class="wiki-link" data-node-id="capstone-agents" href="capstone-agents.html">capstone-agents</a></p>
+<p><a class="wiki-link" data-node-id="build-node-proposer" href="build-node-proposer.html">build-node-proposer</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

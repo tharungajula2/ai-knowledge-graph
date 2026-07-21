@@ -35,17 +35,40 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Synthesis: The Retrieval Story</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: rag-retrieval</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
-
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+          <h2 id="eli5">ELI5</h2>
+<p>Volume 01's synthesis explained the machine; Volume 02's explained the call. This one explains <strong>the open book</strong> — the full pipeline, one diagram, per the node summary: every stage from a markdown note being saved to a cited answer streaming out, with the failure modes and the metrics annotated in place. When you can draw this cold and narrate it in ninety seconds, you don't "know some RAG" — you own the most-hired-for architecture in applied AI, from ingestion verbs to eval arithmetic.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p>A note is saved. The <strong>ingestion pipeline</strong> wakes [15]: markdown parsed structure-aware, wikilinks preserved, <strong>chunked</strong> along its own headers with heading-paths prepended and atomic units intact [3], content-hashed so only the changed survive re-embedding [15], <strong>embedded</strong> into meaning-coordinates [2], and seeded into <strong>one Postgres</strong> holding vectors, tsvectors, and metadata side by side [4, 6] — verified by assertions that fail loudly, because poisoned-at-birth is unfixable downstream [11, 15]. A question arrives, conversational and lazy; <strong>query surgery</strong> fixes it first — rewritten standalone against chat history, expanded or decoyed via HyDE when vocabulary mismatches, decomposed when compound, routed to a <strong>multi-hop loop</strong> when its second half depends on its first half's answer [13, 14]. <strong>Filters</strong> carve the structural slice — domain, date — pre-filter, never post, with slice-size visible and empty-slice fallback honest [12]. Two scouts search the slice: <strong>semantic</strong> nearest-neighbor through an ANN index whose speed↔recall dial you have personally turned [4, 8], and <strong>BM25</strong> keyword matching that still wins on jargon and identifiers [6]; their rankings — never their scores — fuse by <strong>RRF</strong> [7], and a <strong>cross-encoder reranker</strong> deep-reads the shortlist, promoting near-misses that cosine's separation could never see [9]. The survivors enter a <strong>grounded prompt</strong> — delimited as data, strict-context, refusal-permitted — and generation returns not prose but <strong>claims with chunk-id citations</strong>, validated for referential integrity, repaired or rejected, rendered with heading-paths a human can verify in seconds [5, 10]. The whole turn was first checked against a <strong>semantic cache</strong> — past answers, vector-searched, threshold tuned precision-first, invalidated by the provenance its own citations recorded [20]. And whether any of it <em>works</em> is never vibes: <strong>context recall and precision</strong> thermometer the retrieval organ, <strong>faithfulness and relevance</strong> the generation organ, judged by a calibrated judge against a golden set whose rows are your own diagnosed failures, and every change to any stage answers to the before/after table [16, 18]. Where the pile's shape fails — global themes, relational webs — the <strong>graph</strong> waits: entities your wikilinks already declared, communities summarized at ingestion, hierarchy walked instead of searched [19].</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: the full pipeline, one diagram.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Three renditions, the ritual: <strong>(a)</strong> The narration, written, ≤700 words, your words, every stage present, correctly ordered, failure-modes named where they live. <strong>(b)</strong> The napkin — <em>the node summary's literal demand</em>: one diagram, two lanes (ingestion lane: save→parse→chunk→hash→embed→seed→verify; query lane: rewrite→filter→hybrid→RRF→rerank→ground→cite→validate→render), the cache as a bypass valve at the query lane's mouth, the eval thermometers clipped to their organs, the graph sketched as the horizon box. Red-arrow the four failure families onto their stages [11]. Photograph into the note. <strong>(c)</strong> The 90-second spoken version — and know its audience: this is <em>the</em> answer to "design a system that answers questions over our company's documents," the single most common applied-AI interview question in existence. Record, critique, re-record. Any stage you glossed: reopen its chapter before lighting.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Deliver the 90-second version cold.</li>
+<li>Trace one query that hits: cache miss → rewrite → filter → hybrid → rerank promotes rank 6 → cited answer → cache store. Name every mechanism and its chapter.</li>
+<li>Place all four eval metrics on the diagram as arrows — which organ, which direction.</li>
+<li>For each failure family [11], point to its stage on your napkin and name its named fix.</li>
+<li>Draw the napkin from memory.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="synthesis-rag" href="synthesis-rag.html">synthesis-rag</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

@@ -35,17 +35,70 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Vector Databases</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: rag-retrieval</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Finding the nearest vectors among a thousand is a for-loop. Among fifty million, a for-loop is a coffee break per query. Vector databases exist to answer one question — <em>"which stored vectors are closest to this one?"</em> — in milliseconds at any scale, and they all pay for that speed with the same currency: <strong>a little bit of perfection</strong>. The node summary names the three machines to open up — pgvector, HNSW, IVF — and by the end of this chapter, none of them will be magic.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Exact vs approximate — the founding tradeoff.</strong> Brute force (compare query to <em>every</em> vector) is <strong>exact</strong>: the true top-k, guaranteed, at O(N) cost per query. Fine to ~100k vectors, dead at millions. Everything beyond brute force is <strong>ANN — approximate nearest neighbor</strong>: clever data structures that check only a tiny fraction of vectors and <em>usually</em> find the true neighbors. The honesty metric is <strong>recall@k</strong> — of the true k nearest, what fraction did the index return? 0.95 recall = 5% of the time a true neighbor was skipped. Speed↔recall is a <em>dial</em>, not a fact of nature — every index below exposes knobs that trade one for the other, and Ch 8's benchmark build will have you turning them with your own hands.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Machine 1 — IVF (inverted file index): the postal system.</strong> Ingestion: cluster all vectors into, say, 1,000 neighborhoods (k-means finds the centroids); each vector files into its nearest centroid's bucket. Query: compare the query to the 1,000 centroids only, pick the nearest few neighborhoods (<code>nprobe</code> — the dial), and brute-force <em>inside just those buckets</em>. You searched ~1% of the data. The failure mode is geometric and intuitive: a true neighbor sitting just across a neighborhood border gets missed when <code>nprobe</code> is low — raise <code>nprobe</code>, recall climbs, speed falls. Needs periodic retraining as data drifts (centroids go stale). Simple, memory-light, honest.</p>
+
+<p><strong>Machine 2 — HNSW (hierarchical navigable small world): the highway system.</strong> A graph, not buckets: every vector is a node linked to its near neighbors, arranged in <em>layers</em> — top layers sparse with long-range "highway" links, bottom layer dense with local streets. Query: enter at the top, greedily hop toward the query (each hop: move to whichever neighbor is closest to the target), drop down a layer, repeat — like flying city-to-city, then driving neighborhood streets. Logarithmic-ish hops instead of linear scans; this is the reigning default in most modern vector stores. Dials: <code>M</code> (links per node — more = better graph, more memory) and <code>ef_search</code> (how wide the greedy search beam is — the recall↔speed dial you'll tune in Ch 8). Costs: the graph lives in RAM (the memory-hungry option) and inserts are pricier (wiring a new node into the graph) — a classic "fast reads, slower writes" trade.</p>
+
+<p><strong>Machine 3 — pgvector: the "you already have a database" answer.</strong> Not a new engine — an extension adding a <code>vector</code> column type to Postgres, plus distance operators and both index types above (IVFFlat and HNSW). One <code>CREATE EXTENSION vector;</code> and your boring, beloved relational DB does nearest-neighbor:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">sql</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-sql"><span class="tok-type">CREATE</span> <span class="tok-type">TABLE</span> <span class="tok-fn">chunks</span>((
+  id bigserial <span class="tok-type">PRIMARY</span> <span class="tok-type">KEY</span>,
+  content text,
+  source  text,
+  tags    text[],
+  embedding <span class="tok-fn">vector</span>((<span class="tok-num">384</span>)
+);
+<span class="tok-type">CREATE</span> <span class="tok-type">INDEX</span> <span class="tok-type">ON</span> chunks <span class="tok-type">USING</span> <span class="tok-fn">hnsw</span>((embedding vector_cosine_ops);
+
+<span class="tok-type">SELECT</span> content, source, <span class="tok-num">1</span> - (embedding &lt;=&gt; $query) <span class="tok-type">AS</span> similarity
+<span class="tok-type">FROM</span> chunks
+<span class="tok-type">WHERE</span> <span class="tok-str">'agents'</span> = <span class="tok-fn">ANY</span>((tags)                -- metadata <span class="tok-builtin">filter</span>, <span class="tok-kw">in</span> the <span class="tok-type">SAME</span> <span class="tok-fn">query</span>((<span class="tok-type">Ch</span> <span class="tok-num">12</span>!)
+<span class="tok-type">ORDER</span> <span class="tok-type">BY</span> embedding &lt;=&gt; $query             -- &lt;=&gt; <span class="tok-kw">is</span> cosine distance
+<span class="tok-type">LIMIT</span> <span class="tok-num">5</span>;</code></pre>
+      </div>
+<p>Why engineers love it: vectors live <em>next to</em> your relational data — one database, real transactions, SQL joins, and metadata filtering in the same query plan (that WHERE clause is Chapter 12's entire topic, available for free). Why it's not always the answer: at very large scale (hundreds of millions of vectors, extreme QPS), dedicated engines with distributed architectures pull ahead. The landscape in one breath: <strong>pgvector</strong> (SQL-native, pragmatic default for most products), <strong>FAISS-style libraries</strong> (raw index in your process — no server at all; maximum control, you own persistence), <strong>embedded stores like Chroma</strong> (developer-friendly local default), <strong>client-server/managed engines</strong> (Qdrant, Weaviate, Milvus, Pinecone — scale, ops features, money). Ch 8 benchmarks three of these families with your own corpus; until then, the axes matter more than the brand names.</p>
+
+<p><strong>One quiet superpower to bank:</strong> a vector DB stores <em>any</em> embeddings — text today, but images, audio, user-behavior vectors tomorrow. The machine is "nearest neighbor at scale"; text search is merely its most famous customer. (And semantic caching — Ch 20 — is this same machine pointed at <em>queries</em> instead of documents.)</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: what pgvector, HNSW graph structures, and IVF index partitioning actually do.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>No infrastructure yet (Ch 5 builds; Ch 8 benchmarks) — today is mechanism-on-paper, Feynman-style: (1) draw IVF — 12 dots in 3 clusters, a query point, shade the searched bucket, and <em>place a true neighbor just across the border</em> to illustrate the recall miss; annotate where <code>nprobe</code> lives. (2) Draw HNSW — 3 layers, highways on top, streets below, and trace a query's greedy path with arrows. (3) Write the pgvector schema for <em>your brain's chunks</em> (columns you'll actually need: content, source path, domain tag, wikilinks array, embedding) — this exact schema gets built for real in Ch 15. (4) Fill a 4×4 comparison table from memory: {IVF, HNSW, brute} × {how it searches, the dial, the cost, when it wins}. Photos + schema + table = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Define recall@k and explain why every ANN index is a dial, not a verdict.</li>
+<li>Explain IVF's mechanism and its geometric failure mode; name the dial.</li>
+<li>Explain HNSW's layered greedy search with the highway metaphor; name both dials and the RAM cost.</li>
+<li>Make the case for pgvector in three sentences, and the case against it in one.</li>
+<li>What makes the WHERE-clause-plus-vector-search combination special, and which chapter cashes it in?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="embeddings-hands-on" href="embeddings-hands-on.html">embeddings-hands-on</a></p>
+<p><a class="wiki-link" data-node-id="chunking" href="chunking.html">chunking</a></p>
+<p><a class="wiki-link" data-node-id="build-vector-db-benchmark" href="build-vector-db-benchmark.html">build-vector-db-benchmark</a></p>
+<p><a class="wiki-link" data-node-id="metadata-filters" href="metadata-filters.html">metadata-filters</a></p>
+<p><a class="wiki-link" data-node-id="classical-ml-fundamentals" href="classical-ml-fundamentals.html">classical-ml-fundamentals</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

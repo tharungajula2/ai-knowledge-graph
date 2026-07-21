@@ -35,17 +35,58 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Memory Architectures</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: memory-knowledge</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You've built the filing cabinet (Ch 1); now understand where it sits in the whole machine. The node summary is the organizing frame of the entire ring: <strong>context vs store; the memory stack.</strong> Every memory system on Earth is an answer to one question — <em>what lives in the limited context window right now, versus what lives in an unlimited store to be retrieved when needed?</em> — and the architecture is the machinery that moves information across that boundary intelligently.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The fundamental divide — context vs store (Vol 04 Ch 13's line, now the whole subject).</strong> <em>Context</em> is the model's working memory: everything in the window right now (Vol 01 Ch 8), fast to use, expensive per token, hard-capped, and <em>volatile</em> (gone when the window rolls). <em>Store</em> is everything outside the context: databases, vector stores, files — unlimited, cheap to hold, <em>durable</em>, but <em>invisible to the model until retrieved</em>. The entire art of memory is managing traffic across this boundary: what to <em>promote</em> from store into context (retrieval — Vol 03's whole skillset, re-aimed), what to <em>demote</em> from context into store before it's lost (extraction — Ch 1, Ch 3), and what to simply drop.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The memory stack — the full architecture, tier by tier.</strong> Layer them from most-immediate to most-durable, and notice you've built pieces of every tier already:</p>
+<ol>
+<li><strong>Working memory (the context window itself)</strong>: the current turn's messages, the scratchpad (Vol 04 Ch 13). Immediate, volatile. The model's "now."</li>
+<li><strong>Short-term / session memory (the checkpoint)</strong>: the current conversation/thread's state (Vol 04 Ch 6 — checkpointers). Survives within a session or task; the message-list-you-resend, now persisted. Horizon two of the three-horizon map.</li>
+<li><strong>Long-term memory (the store — this ring's subject)</strong>: durable facts, events, and skills (Ch 1's typed tables) that persist <em>across</em> sessions and tasks. Horizon three, finally built. Retrieved into context when relevant.</li>
+<li><strong>(Sometimes) shared/organizational memory</strong>: knowledge shared across users or agents (a team's blackboard, Vol 05 Ch 4, made durable; or a shared knowledge base). Not always present.</li>
+</ol>
+
+<p>The <strong>flow</strong> across tiers is the architecture: information enters as working memory → salient bits get <em>extracted</em> to long-term store (Ch 3) as the session proceeds or ends → future sessions <em>retrieve</em> relevant long-term memories back into working memory → the cycle repeats, the agent accumulating knowledge it can carry forever. That loop — extract on the way out, retrieve on the way in — is what makes an agent <em>learn</em> rather than merely <em>run</em>.</p>
+
+<p><strong>The two hard problems the architecture must solve</strong> (previewing the ring). <em>What to promote into context, and when</em> — you can't retrieve <em>all</em> memories every turn (context is finite, and irrelevant memories are noise that degrades performance — the lost-in-the-middle tax, Vol 01 Ch 8, and the retrieval-precision problem, Vol 03). So memory retrieval needs relevance scoring, and often more: importance, recency, not just similarity (Ch 4). <em>What to keep vs forget</em> — an ever-growing store gets slow, expensive, and noisy; deliberate forgetting (Ch 4) and compaction (Ch 6) keep it sharp. These two problems — surfacing the right memory and pruning the wrong ones — are the engineering the rest of Part I builds.</p>
+
+<p><strong>Where memory retrieval <em>is</em> RAG — and where it isn't.</strong> The retrieval half is your Vol 03 stack pointed at memories instead of documents (embed the query/context, nearest-neighbor against stored memories — same machinery). But memory adds what document-RAG lacks: <em>writing</em> (extraction — documents are given; memories are <em>created</em> from interaction), <em>lifecycle</em> (memories update, decay, expire — documents are static), and <em>typing</em> (Ch 1's three types — documents are undifferentiated). Memory is RAG plus a write path plus a lifecycle plus a taxonomy. Recognizing the shared retrieval core (you already own it) while respecting the additions (this ring) is the right mental model.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: context vs store; the memory stack.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Map the stack onto your own systems (concept node, concrete): (1) Draw the four-tier stack and, for each tier, name <em>exactly which piece of your code</em> implements it today (working = your agent's message state; short-term = your LangGraph checkpointer; long-term = Ch 1's tables; shared = your brain MCP server, arguably). The gaps you can't fill are what this ring builds. (2) Trace the flow for a concrete scenario: your research agent (Vol 04) learns your preferences over three sessions — draw information entering as working memory, extracting to long-term, retrieving back next session. Mark every promote/demote/drop decision. (3) Write the paragraph: how is memory retrieval the same as Vol 03 RAG, and what three things does it add? The stack-with-code-map + the flow trace + the RAG-comparison paragraph = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>State the context-vs-store divide and the three traffic decisions across the boundary.</li>
+<li>Recite the four-tier memory stack, and which of your existing builds implements each.</li>
+<li>Describe the extract-out / retrieve-in loop and why it's what makes an agent <em>learn</em>.</li>
+<li>Name the two hard problems the architecture must solve, and which chapters address each.</li>
+<li>How is memory retrieval RAG, and what three things does memory add that documents lack?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="context-windows" href="context-windows.html">context-windows</a></p>
+<p><a class="wiki-link" data-node-id="langgraph-checkpointers" href="langgraph-checkpointers.html">langgraph-checkpointers</a></p>
+<p><a class="wiki-link" data-node-id="scratchpads-working-memory" href="scratchpads-working-memory.html">scratchpads-working-memory</a></p>
+<p><a class="wiki-link" data-node-id="build-memory-taxonomy" href="build-memory-taxonomy.html">build-memory-taxonomy</a></p>
+<p><a class="wiki-link" data-node-id="why-rag" href="why-rag.html">why-rag</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

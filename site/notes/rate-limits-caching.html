@@ -35,17 +35,52 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Rate Limits & Caching</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: prompting-apis</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>A free buffet still limits your plates — otherwise one visitor empties the kitchen. Every LLM provider meters you the same way: so many requests per minute, so many tokens per minute. Hit the ceiling → <strong>429</strong> → Chapter 9's backoff kicks in. This chapter is the other half of survival: understanding the meter, and the art of <strong>not making the call at all</strong> — caching, the cheapest and fastest API call in existence.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The meter's dials.</strong> Providers enforce several simultaneously: <strong>RPM</strong> (requests/minute), <strong>TPM</strong> (tokens/minute — input + output; the one that actually binds for long-context work), often RPD (requests/day) on free tiers, and concurrency caps. Free tiers throttle hard not from stinginess but arithmetic: inference burns real GPU-seconds, and free tiers exist to let you <em>learn</em> (exactly what you're doing) — the moment you batch-process anything serious, TPM is the wall you meet. Know thy tier: limits live in the provider console, and responses carry rate-limit headers (remaining quota, reset time) — production code <em>reads</em> them and self-throttles instead of blindly bouncing off 429s. Client-side, the tool you already own: Vol 01 Ch 17's <code>asyncio.Semaphore</code> — cap your own concurrency below the provider's ceiling, fire in controlled waves. Proactive beats reactive: Semaphore first, backoff as the safety net.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Caching layer 1 — exact-match, yours.</strong> Same input → same call → same bill, forever repeated, is pure waste. A dict in memory, or Redis later, keyed on <code>hash(model + system_prompt + messages + temperature)</code> — note what's in the key: <em>everything that changes the answer</em> (a cache ignoring temperature serves creative answers to extraction requests). Two honest caveats: at temperature &gt; 0 a cache <em>changes behavior</em> (users get identical answers where they'd have gotten variety — often fine, sometimes not; decide per feature), and every cache needs an <em>invalidation story</em> (TTL, or explicit bust when the system prompt ships a new version — Ch 3 made prompts versioned artifacts precisely so this is possible).</p>
+
+<p><strong>Caching layer 2 — prompt caching, the provider's.</strong> The one Vol 01 Ch 8 promised: providers can cache the <em>processed internal state</em> of a prompt's stable prefix (your long system prompt, your few-shot examples, that 50-page document) so re-sends skip re-processing — typically ~90% off the cached portion and faster TTFT. The engineering it rewards: <strong>structure prompts stable-prefix-first</strong> — system prompt and examples at the top, volatile per-user content last, because caching works on <em>prefixes</em>; one volatile line at the top breaks the whole cache. This single layout habit routinely cuts real bills by half.</p>
+
+<p><strong>Caching layer 3 — semantic caching, the preview.</strong> "What's your refund policy?" and "how do refunds work?" are different strings, identical questions. Embedding similarity (Vol 01, Ch 5) can match them and serve the cached answer. It's a Domain 03 topic (<code>semantic-caching</code> node) once vectors are in your hands — today, know the ladder: exact-match → prefix → semantic.</p>
+
+<p><strong>The unified mental model.</strong> Rate limits and caching are one subject: <em>demand management</em>. Semaphores shape when calls happen; backoff survives the ceiling; caches delete calls entirely. Chapter 11 assembles all of it — plus fallbacks — into one gateway, which is why these two chapters immediately precede it.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: why free tiers throttle; how caching saves you.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Three experiments. (1) <em>Meet the wall</em>: fire 30 rapid free-tier calls via a bare <code>asyncio.gather</code>, collect the 429s; re-run under <code>Semaphore(2)</code> — record failures and total time for both runs. (2) <em>Exact cache</em>: wrap your Chapter 9 resilient caller with a dict cache (proper key!); run 20 queries where 8 are repeats; print hits, misses, calls saved, and estimated money saved using your <code>tokentools</code> prices. (3) <em>Prefix audit</em>: take your Chapter 6 extractor's prompt and reorder it stable-first; write two sentences in your note on what became cacheable. Numbers from all three → the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the meter's dials, and which one binds for long-context batch work — why?</li>
+<li>Proactive vs reactive throttling: which tool is each, and why do you want both?</li>
+<li>What belongs in an exact-match cache key, and what breaks if temperature is omitted?</li>
+<li>Explain prompt caching's prefix rule and the layout habit it rewards.</li>
+<li>Recite the caching ladder and where each rung gets built in your curriculum.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="errors-retries-backoff" href="errors-retries-backoff.html">errors-retries-backoff</a></p>
+<p><a class="wiki-link" data-node-id="python-async" href="python-async.html">python-async</a></p>
+<p><a class="wiki-link" data-node-id="context-windows" href="context-windows.html">context-windows</a></p>
+<p><a class="wiki-link" data-node-id="build-gateway" href="build-gateway.html">build-gateway</a></p>
+<p><a class="wiki-link" data-node-id="embeddings-intuition" href="embeddings-intuition.html">embeddings-intuition</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

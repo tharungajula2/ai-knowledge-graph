@@ -35,17 +35,49 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Pretraining → Fine-tuning → RLHF</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>How do you make a helpful assistant? Same way you make a doctor. <strong>Step 1:</strong> twenty years of general education — read everything, absorb the world (pretraining). <strong>Step 2:</strong> med school — focused training on the specific job (fine-tuning). <strong>Step 3:</strong> residency with feedback — senior doctors watch your bedside manner and correct you until your behavior is right (RLHF). Every chatbot you've ever used went through exactly these three stages.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Stage 1 — Pretraining.</strong> Next-token prediction (Chapter 3) on trillions of tokens of internet text, books, and code. Months on thousands of GPUs; the tens-of-millions-of-dollars stage. Output: a <strong>base model</strong> — a magnificent autocomplete containing compressed world-knowledge, but with no manners and no sense of dialogue. Ask a base model "What is the capital of France?" and it may reply "What is the capital of Germany? What is the capital of Italy?" — because quiz lists are a likely continuation of quiz questions. Knowledge: vast. Assistant behavior: absent.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Stage 2 — Supervised Fine-Tuning (SFT).</strong> Take the base model and continue training — same gradient descent, tiny data: tens or hundreds of thousands of <em>hand-crafted examples</em> of ideal assistant behavior ("User asks X → a great assistant answers Y"). The model's weights shift from "continue any document" to "play the assistant character." Cheap relative to pretraining (days, not months). The same technique aimed at a domain (fine-tune on legal Q&amp;A, on your company's tone) is how specialists are made — you'll do this with your own hands with QLoRA in a later domain.</p>
+
+<p><strong>Stage 3 — RLHF (Reinforcement Learning from Human Feedback).</strong> SFT teaches format; RLHF teaches <em>taste</em>. Generate multiple answers per prompt; humans rank them (A better than B). Train a separate <strong>reward model</strong> to predict those human preferences. Then optimize the chatbot against the reward model: nudge weights toward high-scoring behavior. This is the stage that produces "helpful, harmless, honest" — and also the stage blamed for sycophancy and over-refusal when the reward signal is imperfect. (A widely used simpler alternative, DPO, skips the separate reward model and optimizes on preference pairs directly — same goal, lighter machinery.)</p>
+
+<p><strong>Why you must know the recipe as an engineer.</strong> Because it tells you which tool fixes which problem: model lacks <em>knowledge</em>? → that's pretraining-scale (you won't fix it; use RAG instead). Model has wrong <em>format/style/domain voice</em>? → fine-tuning territory. Model has wrong <em>judgment/values</em>? → preference-training territory. Choosing among RAG vs fine-tuning vs prompting is a recurring interview question and a weekly real-job decision, and this three-stage map is the answer key.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: the three-stage recipe behind every chatbot.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Write the three-stage biography of any assistant as a 6-line story for a 12-year-old ("First it read the whole library... then it did homework with a tutor... then audiences clapped or booed..."). Then answer for yourself: your company's model keeps answering in English when customers write in Telugu — which stage's problem is that, and what's the cheapest fix?</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What does a base model excel at and hilariously fail at? Why does the failure make perfect sense?</li>
+<li>What changes between pretraining and SFT: the algorithm, the data, or both? Be precise.</li>
+<li>Explain the reward model's role in RLHF in two sentences.</li>
+<li>Map each problem to the right stage-fix: missing recent knowledge / wrong tone / unsafe judgment.</li>
+<li>Roughly compare the cost of the three stages, and say why that ordering matters for a startup.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="what-is-a-language-model" href="what-is-a-language-model.html">what-is-a-language-model</a></p>
+<p><a class="wiki-link" data-node-id="how-machines-learn" href="how-machines-learn.html">how-machines-learn</a></p>
+<p><a class="wiki-link" data-node-id="hallucination" href="hallucination.html">hallucination</a></p>
+<p><a class="wiki-link" data-node-id="model-landscape" href="model-landscape.html">model-landscape</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

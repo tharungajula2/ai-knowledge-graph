@@ -35,17 +35,71 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Errors, Retries, Backoff</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: prompting-apis</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your script worked beautifully for a week — then one Tuesday it died at 3 a.m. on a single failed network call, and the whole overnight batch was lost. The gap between demo code and production code is exactly this chapter: <strong>assuming every API call can fail, and engineering the survival.</strong> Networks flicker, providers overload, quotas exhaust — none of it is exceptional; all of it is Tuesday.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Read the status code — it tells you what to do.</strong> The decision table to internalize:</p>
+<ul>
+<li><strong>400</strong> bad request (malformed input) / <strong>404</strong> wrong model name → <em>your bug</em>: retrying is insanity; fix the code.</li>
+<li><strong>401 / 403</strong> bad or unauthorized key → <em>config problem</em>: retrying is useless; check env vars, rotate keys.</li>
+<li><strong>429</strong> rate limited → <em>slow down</em>: retry <strong>with backoff</strong> (Chapter 10 explains the throttle itself).</li>
+<li><strong>500 / 503</strong> provider-side error or overload → <em>not your fault, usually brief</em>: retry with backoff.</li>
+<li><strong>Timeouts / connection errors</strong> (no status at all) → network gremlins: retry with backoff — and always <em>set</em> a timeout; the default "wait forever" is how scripts hang for 6 hours.</li>
+</ul>
+<p>The law of the table: <strong>retry only what can transiently succeed.</strong> Retrying a 400 hammers a wall; failing fast on a 503 wastes a working system.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Exponential backoff + jitter — the civilized retry.</strong> Naive retry (instantly, in a tight loop) turns you into your own DDoS — and when a provider is overloaded, a thundering herd of synchronized retries <em>keeps</em> it overloaded. The fix: wait 1s, then 2s, 4s, 8s (exponential — gives real outages room to heal), capped (e.g., 30s max), with <strong>jitter</strong> — a random fraction added so a thousand clients don't all retry in the same instant (<code>sleep = min(cap, base <em> 2</em><em>attempt) </em> random.uniform(0.5, 1.5)</code>). Cap the attempts (3–5), then <em>fail loudly</em> — raise, log, alert; never swallow.</p>
+
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">def</span> <span class="tok-fn">call_with_retries</span>((fn, max_attempts=<span class="tok-num">4</span>, base=<span class="tok-num">1.0</span>, cap=<span class="tok-num">30.0</span>):
+    <span class="tok-kw">for</span> attempt <span class="tok-kw">in</span> <span class="tok-builtin">range</span>(max_attempts):
+        <span class="tok-kw">try</span>:
+            <span class="tok-kw">return</span> <span class="tok-fn">fn</span>(()
+        <span class="tok-kw">except</span> <span class="tok-type">RETRYABLE</span> <span class="tok-kw">as</span> e:                       <span class="tok-comment"># 429/5xx/timeout — the table, encoded</span>
+            <span class="tok-kw">if</span> attempt == max_attempts - <span class="tok-num">1</span>:
+                <span class="tok-kw">raise</span>                                <span class="tok-comment"># loud failure, never silent</span>
+            delay = <span class="tok-fn">min</span>((cap, base * <span class="tok-num">2</span> ** attempt) * random.<span class="tok-fn">uniform</span>((<span class="tok-num">0.5</span>, <span class="tok-num">1.5</span>)
+            log.<span class="tok-fn">warning</span>((<span class="tok-str">f"attempt {attempt+1} failed ({e}); sleeping {delay:.1f}s"</span>)
+            time.<span class="tok-fn">sleep</span>((delay)
+        <span class="tok-comment"># NON-retryable exceptions fall through and raise immediately — by design</span></code></pre>
+      </div>
+<p>This wrapper — table + backoff + jitter + cap + loud failure — is the chapter. (Libraries like <code>tenacity</code> provide it as decorators; write it by hand once so the library is a convenience, not a mystery.)</p>
+
+<p><strong>Two production garnishes.</strong> <em>Log every attempt</em> with status, attempt number, and delay — future-you debugging at 3 a.m. will weep with gratitude (structured logging matures in the production domain; the habit starts now). <em>Idempotency awareness</em>: retrying a <em>read</em> is free; retrying a <em>write</em> ("send the email") can double it — a deep topic for the agents/production domains, but the reflex "is this safe to retry twice?" installs today.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: API calls that survive failure.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build <code>resilient.py</code>: the wrapper above around a fake <code>flaky_call()</code> that you script to fail on demand — raise a 429-style error twice then succeed; raise a 400-style error; raise timeouts forever. Tests (Vol 01, Ch 21 — this is a <em>perfect</em> pytest target): asserts that a twice-flaky call succeeds on attempt 3; that a 400 raises immediately with zero retries; that attempts cap and the final error propagates; that measured delays actually grow exponentially (record timestamps). Then wire the wrapper around your real Gemini call from Chapter 1 and — the satisfying part — set <code>max_output_tokens</code> aside, drop your timeout to something absurd like 0.001s, and watch your armor catch it, back off, and report properly. Green tests = lit.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Reproduce the status-code decision table from memory, with the action for each row.</li>
+<li>State the law of the table and give one absurdity from each side of violating it.</li>
+<li>Why exponential? Why jitter? Why a cap? One sentence each.</li>
+<li>Why must the final failure be loud, and what belongs in each retry's log line?</li>
+<li>What question must you ask before retrying any <em>write</em> operation?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></p>
+<p><a class="wiki-link" data-node-id="rate-limits-caching" href="rate-limits-caching.html">rate-limits-caching</a></p>
+<p><a class="wiki-link" data-node-id="build-gateway" href="build-gateway.html">build-gateway</a></p>
+<p><a class="wiki-link" data-node-id="terminal-fluency" href="terminal-fluency.html">terminal-fluency</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

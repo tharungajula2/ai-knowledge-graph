@@ -35,17 +35,55 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Tool-Use Metrics</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Trajectory evals (Ch 5) score the whole path; this chapter zooms into the single most consequential thing on that path — tool use. The node summary is the checklist: <strong>right tool, right args, right time.</strong> An agent is only as good as its tool use (Vol 04 Ch 7 — tools are how it acts on the world), and tool-use failures are a huge fraction of all agent failures (Vol 04 Ch 16's tool pathologies). Measuring tool use precisely tells you exactly where your agent's <em>hands</em> fail — separate from whether its <em>reasoning</em> is sound.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The three questions, made metrics (the node's triad, operationalized).</strong></p>
+<ul>
+<li><strong>Right tool</strong> — <em>tool selection accuracy</em>: given a situation, did the agent pick the correct tool? Measured against expected selections (Ch 2's golden cases can specify "should use search_notes here"). Failures: wrong tool chosen (Vol 04 Ch 3's misuse — usually a description problem), tool called when none was needed (tool spam — Vol 04 Ch 16), needed tool <em>not</em> called (the agent answered from vibes when it should have searched — a grounding failure). This metric isolates <em>selection</em> quality.</li>
+<li><strong>Right args</strong> — <em>argument correctness</em>: given the right tool, were the arguments well-formed and appropriate? Failures: malformed args (schema violations — Vol 02 Ch 6, should be caught by validation), wrong values (right tool, bad query — "search for X" when it should search for the more specific Y), missing/hallucinated parameters. This isolates <em>parameterization</em> quality, which is often where a "smart" agent quietly fails — it picks the right tool and feeds it a bad query.</li>
+<li><strong>Right time</strong> — <em>sequencing and timing</em>: was the tool called at the right point in the path? Failures: premature calls (acting before gathering enough context), out-of-order calls (calling B before A when B needs A's output — Vol 04 Ch 14's dependency), redundant calls (calling the same tool with the same args twice — the loop signature, Vol 04 Ch 16). This isolates <em>orchestration</em> quality.</li>
+</ul>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Why decompose tool use this way — the diagnostic power.</strong> An aggregate "the agent's tool use is bad" is useless; the triad <em>localizes</em>: bad selection → fix tool descriptions (Vol 04 Ch 3); bad args → fix the arg schemas/descriptions or the reasoning that fills them; bad timing → fix the orchestration logic or add sequencing guards (Vol 04 Ch 16). Each metric points at a <em>different</em> fix. This is Vol 01 Ch 12's precision/recall spirit — decompose a vague quality into specific, actionable measurements — applied to the agent's hands.</p>
+
+<p><strong>How to measure — the mechanism.</strong> From traces (Ch 13): extract every tool call with its context, selection, args, and position. Then: <em>selection accuracy</em> — programmatic where golden cases specify expected tools, LLM-judge where selection requires judgment ("was calling search justified here?"). <em>Arg correctness</em> — schema validation (programmatic, free) catches malformed; LLM-judge or golden-comparison catches wrong-but-valid values. <em>Timing/sequencing</em> — programmatic detection of redundant calls (hash the (tool,args) — Vol 04 Ch 16's repetition detection, reused as a metric), out-of-order patterns, and call-count vs optimal. Aggregate into a <em>tool-use scorecard</em> per agent: selection accuracy %, arg-correctness %, redundant-call rate, unnecessary-call rate. That scorecard, tracked over versions, tells you if a change to your tools or prompts helped or hurt the agent's hands.</p>
+
+<p><strong>The special metrics that matter in production.</strong> <em>Unnecessary tool-call rate</em> (tool spam — direct cost, Vol 04 Ch 17): what fraction of calls didn't need to happen? <em>Tool-error recovery rate</em>: when a tool returned an error (Vol 04 Ch 3's legible errors), did the agent recover (adapt) or spiral? — a reliability metric that predicts production robustness. <em>Tool latency contribution</em>: which tools dominate the agent's wall-clock (Ch 17's dashboards) — the slow tool is the optimization target. These production-flavored metrics connect tool-use quality directly to the cost and latency you'll dashboard in Ch 17.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: right tool, right args, right time.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build a tool-use scorecard for your research agent (concept node, concrete): (1) From 5 golden-case trajectories, extract every tool call and score the triad — selection (right tool? against expected), args (well-formed? appropriate values?), timing (redundant? out-of-order?). Produce the scorecard: selection %, arg %, redundant-rate, unnecessary-rate. (2) Find the localizing insight: which of the three (selection/args/timing) is your agent's <em>weakest</em>, and therefore which fix (descriptions / schemas / orchestration) would help most? This is the diagnostic payoff — one metric pointing at one fix. (3) Measure error recovery: on a case where a tool errored, did the agent recover? Score the recovery. The scorecard + the weakest-dimension diagnosis + the recovery result = the note; feeds the Ch 18 harness.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>State the three tool-use questions as metrics, and the distinct failure modes under each.</li>
+<li>Why decompose tool use into the triad — what does each metric's <em>fix</em> point at?</li>
+<li>How is each of the three measured — programmatic vs judge?</li>
+<li>Name the three production-flavored tool metrics and what each predicts.</li>
+<li>Give an example where "the agent picked the right tool but still failed" — which metric catches it?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="tool-calling" href="tool-calling.html">tool-calling</a></p>
+<p><a class="wiki-link" data-node-id="designing-tools" href="designing-tools.html">designing-tools</a></p>
+<p><a class="wiki-link" data-node-id="agent-failure-modes" href="agent-failure-modes.html">agent-failure-modes</a></p>
+<p><a class="wiki-link" data-node-id="trajectory-evals" href="trajectory-evals.html">trajectory-evals</a></p>
+<p><a class="wiki-link" data-node-id="cost-latency-budgets" href="cost-latency-budgets.html">cost-latency-budgets</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

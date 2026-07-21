@@ -35,17 +35,48 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Embeddings Intuition</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Imagine a magical map where every word, sentence, and document is a <em>pin</em>, and the rule of the map is: <strong>things with similar meaning are pinned close together</strong>. "King" is near "queen." "My laptop won't turn on" is near "computer fails to boot" — even though they share almost no words. An <strong>embedding</strong> is the coordinates of a pin on that map. Meaning, turned into numbers you can measure distance between.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>What it literally is.</strong> An embedding model takes text in and outputs a vector — a list of, say, 768 or 1536 numbers. That vector is a point in a 768-dimensional space. You cannot picture 768 dimensions; nobody can. Picture the 2D map and trust that the math generalizes: the only operation that matters is <em>distance</em> (or its twin, similarity — usually <strong>cosine similarity</strong>, which scores direction-alignment between two vectors from -1 to 1, in practice ~0 to 1 for text).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Where the geometry comes from.</strong> Embedding models train on enormous piles of text pairs with a simple pressure: texts that appear in similar contexts, or that humans marked as related, must be pushed close; unrelated texts pushed apart. Squeeze billions of examples through that pressure and the space <em>organizes itself</em> — topic neighborhoods, tone directions, language bridges (the English and Spanish sentences for "I love dogs" land close). Nobody assigns coordinates. The geometry condenses out of training, exactly like the rules condensed in Chapter 2.</p>
+
+<p><strong>The killer application: search by meaning.</strong> Keyword search finds <em>strings</em>; embedding search finds <em>meanings</em>. Embed every document in your knowledge base once and store the vectors. At query time, embed the question, then find the <strong>nearest neighbors</strong> — the stored vectors closest to the query vector. Those documents are about the same thing, even with zero word overlap. This is semantic search, and it is the beating heart of RAG — the entirety of Domain 03 stands on this one idea. When you meet vector databases (Pinecone, Chroma, FAISS), they are simply purpose-built engines for "store millions of vectors, return nearest neighbors fast."</p>
+
+<p><strong>Embeddings vs the LM.</strong> Same family (transformers), different job. The LM outputs <em>the next token</em>. The embedding model outputs <em>a location</em>. You'll constantly use both in one system: embeddings to <em>find</em> the right knowledge, the LM to <em>write</em> with it.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: meaning as coordinates; nearest-neighbor thinking.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>On paper, draw a 2D "meaning map" and pin these by gut feeling: "dog", "puppy", "wolf", "cat", "car", "truck", "The engine won't start", "My pet is sick". Now draw the query pin "vehicle repair" and circle its 2 nearest neighbors. You just ran a vector search by hand. Bonus: notice "wolf" sits near "dog" on the animal axis but far on a wildness axis — that's what having hundreds of dimensions buys: many axes of similarity at once.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What does an embedding model take in and put out, literally?</li>
+<li>What is cosine similarity measuring, in one sentence?</li>
+<li>Explain how the geometry arises during training — what's pushed together, what's pushed apart?</li>
+<li>Why does semantic search beat keyword search for "my laptop won't turn on" vs a doc titled "computer fails to boot"?</li>
+<li>What is a vector database, in one sentence, and which domain of your brain lives on it?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="tokens" href="tokens.html">tokens</a></p>
+<p><a class="wiki-link" data-node-id="what-is-a-language-model" href="what-is-a-language-model.html">what-is-a-language-model</a></p>
+<p><a class="wiki-link" data-node-id="attention-transformers" href="attention-transformers.html">attention-transformers</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

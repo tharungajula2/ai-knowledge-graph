@@ -35,17 +35,57 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Embeddings Hands-on</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: rag-retrieval</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Volume 01, Chapter 5 gave you the map-of-meaning as <em>intuition</em> — pins on a board, distance as similarity. Today the intuition becomes numbers in your terminal: you will embed real sentences, compute cosine similarity <strong>by hand</strong> (the node summary's exact demand), watch semantic neighbors emerge from arithmetic, and — most importantly — find the places where the geometry <em>surprises</em> you. Trust built by verification, not by faith.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Getting vectors.</strong> Two routes, use both this chapter: an embedding API through provider SDKs (Gemini offers embedding models on the free tier — your zero-cost reps continue), and a <em>local</em> model via the <code>sentence-transformers</code> library (<code>all-MiniLM-L6-v2</code> is the classic starter: small, fast, runs on your laptop, 384 dimensions). Local matters beyond cost: it's how you'll embed thousands of chunks in Ch 15 without rate-limit pain (Vol 02, Ch 10), and it removes the network from your experiments. Note what comes back: a plain list of floats. <code>len(vector)</code> is the dimension. That's all an embedding physically is.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Cosine similarity by hand — the ritual.</strong> The formula: cos(A,B) = (A·B) / (|A|·|B|) — dot product over the product of lengths. In code, once, with no library doing the thinking:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">import</span> math
+<span class="tok-kw">def</span> <span class="tok-fn">cosine</span>((a: <span class="tok-builtin">list</span>[<span class="tok-builtin">float</span>], b: <span class="tok-builtin">list</span>[<span class="tok-builtin">float</span>]) <span class="tok-op">-&gt;</span> <span class="tok-builtin">float</span>:
+    dot   = <span class="tok-fn">sum</span>((x*y <span class="tok-kw">for</span> x, y <span class="tok-kw">in</span> <span class="tok-builtin">zip</span>(a, b))
+    len_a = math.<span class="tok-fn">sqrt</span>((<span class="tok-fn">sum</span>((x*x <span class="tok-kw">for</span> x <span class="tok-kw">in</span> a))
+    len_b = math.<span class="tok-fn">sqrt</span>((<span class="tok-fn">sum</span>((x*x <span class="tok-kw">for</span> x <span class="tok-kw">in</span> b))
+    <span class="tok-kw">return</span> dot / (len_a * len_b)</code></pre>
+      </div>
+<p>What it <em>means</em>: direction-agreement between two arrows from the origin — 1.0 = same direction (same meaning-direction), near 0 = unrelated. Why cosine and not plain distance: it ignores vector <em>length</em> (which can vary with text length and model quirks) and measures only <em>orientation</em> — meaning lives in direction. Two practical notes to bank now: many embedding models ship vectors pre-normalized to length 1, and then cosine similarity <em>equals</em> the raw dot product (cheaper — one multiply-add per dimension; this is why vector DBs often talk about "inner product"); and absolute similarity numbers are <strong>model-relative</strong> — 0.7 on one model ≠ 0.7 on another; only <em>rankings and contrasts within one model</em> mean anything. Never hardcode a "0.8 = related" threshold from folklore; derive thresholds from your own data (a golden-set instinct — Vol 02, Ch 16).</p>
+
+<p><strong>The asymmetry that shapes real systems.</strong> Questions and answers are <em>different kinds of text</em> — "What time is check-in?" and "Guests may access rooms from 2 PM" share meaning but not form. Good retrieval embeddings are trained on question↔passage pairs so these land close anyway; some models go further and want a task prefix or instruction ("query: ..." vs "passage: ...") to embed each side appropriately. Read your model's card; using a query-style embedding for passages (or ignoring required prefixes) is a silent quality killer that no error message will ever report.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: embed sentences; cosine similarity by hand.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build <code>similarity_lab.py</code>: embed ~15 sentences you write — clusters by design (3 about cricket, 3 about cooking, 3 about Python errors, 3 paraphrases of one idea in different words, and 3 curveballs: a Hinglish sentence, a sarcastic sentence, "My laptop won't turn on" + "computer fails to boot"). Compute the full 15×15 cosine matrix with <em>your own</em> function; print it as a heat-grid (text is fine). Verify: clusters light up, paraphrases score high despite zero word-overlap, the laptop pair confirms Vol 01 Ch 5's promise. Then hunt one <em>surprise</em> — a pair scored higher or lower than your intuition — and write two sentences on it (sarcasm and negation are classic embedding blind spots; finding one teaches you more than ten confirmations). Finally: sanity-check <code>cosine(v, v) == 1.0</code> in a pytest, plus a test that your function matches <code>numpy</code> dot-product on normalized vectors. Green + matrix + surprise = lit.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Write the cosine formula from memory and say what each part contributes.</li>
+<li>Why direction rather than distance? What does length-normalization buy computationally?</li>
+<li>Why are absolute similarity scores model-relative, and what practice does that forbid?</li>
+<li>Explain the query↔passage asymmetry and the silent failure it causes.</li>
+<li>What was your surprise pair, and what does it warn you about for retrieval quality?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="embeddings-intuition" href="embeddings-intuition.html">embeddings-intuition</a></p>
+<p><a class="wiki-link" data-node-id="why-rag" href="why-rag.html">why-rag</a></p>
+<p><a class="wiki-link" data-node-id="vector-databases" href="vector-databases.html">vector-databases</a></p>
+<p><a class="wiki-link" data-node-id="prompt-quality" href="prompt-quality.html">prompt-quality</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

@@ -35,17 +35,51 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Tracing & Instrumentation</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Evals (Part I) tell you <em>whether</em> your system is good; tracing tells you <em>what it actually did</em> — the difference between a thermometer and an X-ray. The node summary: <strong>build a tracing integration that tracks agent executions, span latency, and nested subgraphs using OpenTelemetry SDKs/Langfuse; verify by generating nested run traces.</strong> An agent is a black box until you can <em>see inside</em> a run — every step, every LLM call, every tool invocation, every subgraph, with timing and cost. This build gives you the X-ray, and trajectory evals (Ch 5), debugging (Ch 14), and dashboards (Ch 17) all depend on it.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The core concept — spans and traces.</strong> A <strong>trace</strong> is the complete record of one run (one request through your system); it's composed of <strong>spans</strong> — nested timed units of work. A span wraps an operation (an LLM call, a tool execution, a subgraph run) and records: start/end time (→ <em>latency</em>), inputs and outputs, metadata (model, tokens, cost), and <em>parent-child relationships</em> (this LLM call happened <em>inside</em> this agent step <em>inside</em> this subgraph — the <em>nesting</em> the node emphasizes). A trace is thus a <em>tree</em> of spans mirroring your system's actual execution structure — and for your multi-agent system (Vol 05) with supervisor → specialists → subgraphs (Vol 04 Ch 10), that tree <em>is</em> your architecture, made visible per-run. This is the same mental model as OpenTelemetry (the industry-standard observability framework — spans, traces, context propagation), which is why the node names it: you're learning the universal observability vocabulary, not a bespoke one.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Instrumentation — how spans get created.</strong> Two approaches: <em>automatic</em> (frameworks like Langfuse or LangSmith, and OpenTelemetry auto-instrumentation, hook into your LLM calls and LangGraph nodes to create spans <em>for</em> you — minimal code, broad coverage) and <em>manual</em> (you wrap operations in span context explicitly — <code>with tracer.start_span("research_step"):</code> — more work, precise control). The pragmatic mix: auto-instrument the standard stuff (LLM calls, tool calls — the framework catches these), manually instrument your <em>domain-specific</em> operations (a "retrieval" span, a "gate-decision" span — the operations that are meaningful to <em>your</em> system's logic). The nesting happens via <em>context propagation</em>: a span created inside another span's context becomes its child automatically — which is how the tree assembles itself to mirror your subgraph structure (Vol 05 Ch 4's message-passing context, now carrying trace context).</p>
+
+<p><strong>What to capture — the instrumentation design.</strong> Per span: <em>timing</em> (the latency contribution — Ch 17's dashboards aggregate these; the slow span is the optimization target), <em>tokens and cost</em> (your ledger, Vol 04 Ch 17, now per-span — so you see <em>which step</em> cost what), <em>inputs/outputs</em> (for debugging — Ch 14 reads these; but <em>privacy</em>, Vol 06 Ch 8 — traces contain user data, so sensitive fields get redacted/scoped), <em>model and config</em> (which model, which version — Ch 4's pinning, observable), <em>the agent's reasoning</em> (the scratchpad/thoughts — Vol 04 Ch 13 — so trajectory evals, Ch 5, and debugging, Ch 14, can read the <em>why</em>). A well-instrumented trace lets you reconstruct <em>exactly</em> what happened in a run without re-running it — the observability payoff.</p>
+
+<p><strong>Verification — nested run traces, per the node.</strong> Instrument your multi-agent system (or research agent) and generate a trace of a real run. Verify: the span tree correctly nests (supervisor span contains specialist spans contain LLM/tool spans — the structure matches your architecture); latencies sum sensibly (child spans within parent duration); tokens/cost captured per span and aggregate to the run total (reconcile against your ledger — Vol 04 Ch 17); the reasoning is captured; sensitive data is redacted. View it in the tracing UI (Langfuse and kin render the span tree visually — <em>see</em> your agent's execution as a timeline/tree). The nested-trace visualization is the build's trophy — your agent's inner life, made visible.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a tracing integration that tracks agent executions, span latency, and nested subgraphs using open telemetry SDKs/Langfuse; verify by generating nested run traces.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): set up a tracing tool (Langfuse free tier, or OpenTelemetry — scan on build day) → auto-instrument your research/multi-agent system's LLM and tool calls → manually instrument your domain spans (retrieval, gate-decision, subgraph boundaries) → run a real multi-step task → verify the nested span tree, per-span timing/cost, and reasoning capture → view it in the UI. Then the reconciliation: confirm the trace's total cost matches your Vol 04 Ch 17 ledger for the same run (two instruments agreeing validates both). Redact one sensitive field (Vol 06 Ch 8). Tag <code>observability-v0.1</code>. The nested-trace screenshot + the per-span cost breakdown + the ledger reconciliation = the note; Chs 14 and 17 consume these traces.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Define trace and span, and why is a trace a <em>tree</em>?</li>
+<li>How does the span tree mirror your multi-agent architecture, and via what mechanism does nesting happen?</li>
+<li>Distinguish auto vs manual instrumentation, and the pragmatic mix.</li>
+<li>What should each span capture, and what privacy concern applies?</li>
+<li>What does a well-instrumented trace let you do without re-running, and which later chapters depend on it?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-supervisor" href="build-supervisor.html">build-supervisor</a></p>
+<p><a class="wiki-link" data-node-id="subgraphs" href="subgraphs.html">subgraphs</a></p>
+<p><a class="wiki-link" data-node-id="cost-latency-budgets" href="cost-latency-budgets.html">cost-latency-budgets</a></p>
+<p><a class="wiki-link" data-node-id="trajectory-evals" href="trajectory-evals.html">trajectory-evals</a></p>
+<p><a class="wiki-link" data-node-id="reading-traces" href="reading-traces.html">reading-traces</a></p>
+<p><a class="wiki-link" data-node-id="privacy-in-memory" href="privacy-in-memory.html">privacy-in-memory</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

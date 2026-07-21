@@ -35,17 +35,54 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>GraphRAG Properly</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: memory-knowledge</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Vol 03 Ch 19 was the preview; this is the real thing. The node summary: <strong>community summaries, graph-aware retrieval.</strong> You now have the pieces the preview lacked — entity extraction (Ch 10), a knowledge graph (Ch 9), and the retrieval mastery of Vol 03 — so GraphRAG stops being "someday" and becomes buildable architecture. This chapter is the full method: how a knowledge graph transforms retrieval from <em>finding similar chunks</em> to <em>reasoning over connected knowledge</em>, answering the global and relational questions vector RAG structurally cannot.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The problem GraphRAG solves — recall Vol 03 Ch 19's two failures.</strong> <em>Global questions</em> ("what are the main themes across my agents notes?") — no chunk contains the answer; it's a property of the <em>whole collection</em>, and top-k retrieval misses it by construction. <em>Relational questions</em> ("how does the checkpointer relate to the gate?") — the answer is in the <em>connections</em>, which vector search can't traverse. Standard RAG fails both because it treats knowledge as an unstructured pile. GraphRAG treats it as a structured graph, and structure answers both.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The method — the full GraphRAG pipeline (Vol 03 Ch 19's three techniques, now understood in depth).</strong></p>
+<ol>
+<li><strong>Graph construction</strong> (Ch 10, done): entities and relations extracted from the corpus into a knowledge graph, entity-resolved. Your notes → your graph.</li>
+<li><strong>Community detection</strong>: graph algorithms (Leiden/Louvain are the famous ones — you don't implement them, you <em>use</em> them) cluster densely-connected regions into <em>communities</em> — groups of entities more connected to each other than to the rest. For your brain, domains emerge as natural communities, <em>plus</em> surprises: cross-domain communities like "everything touching Pydantic" or "everything the gate protects" that no folder structure knows (Vol 03 Ch 19's promise, now real). Communities can be <em>hierarchical</em> (sub-communities within domains, a root above all — the resolution dial).</li>
+<li><strong>Community summarization</strong> — <em>the key move for global questions</em>: an LLM writes a <em>summary of each community</em> ("the agents-domain community covers the reason-act-observe loop, its patterns, and its failure modes...") and <em>stores it</em>. Now global questions have an answer to retrieve: "main themes across agents notes?" → retrieve the agents-community summary → pre-computed synthesis, fished out like any chunk. The pile could never; the graph does it <em>at ingestion, once</em>, and reuses it for every global query.</li>
+<li><strong>Graph-aware retrieval</strong> — the query-time method, which <em>routes by question type</em> (the routing doctrine, Vol 05 Ch 3, at the retrieval layer): <em>global question</em> → retrieve community summaries (high-level, pre-computed); <em>specific question</em> → find relevant entities, retrieve their neighborhoods and the underlying chunks (drill down); <em>relational question</em> → find the entities, <em>walk the path</em> between them (the graph traversal vector search can't do). Often <em>hybrid with vector RAG</em>: use vector search to find entry-point entities (semantic entry), then traverse the graph from there (structural expansion) — vectors for "where do I start," graph for "what's connected." The two retrieval paradigms compose, each doing what it's best at.</li>
+</ol>
+
+<p><strong>The honest costs — why GraphRAG is a judgment call, not a default (Vol 03 Ch 19's adoption rule, now with the full cost picture).</strong> <em>Construction cost explodes</em>: LLM extraction over every chunk + community summarization ≈ orders of magnitude more expensive than embedding (Vol 04 Ch 17's ledger instincts wince — correctly). <em>Graph staleness is nastier than index staleness</em> (Ch 12's whole subject): one edited note can re-wire edges and invalidate community summaries <em>up the hierarchy</em> — a transitive cache-invalidation problem far harder than re-embedding one chunk. <em>Extraction quality bounds everything</em> (Ch 10 — garbage triples → confident garbage traversals; poisoned-at-birth, graph edition). <em>Complexity</em>: more moving parts, more failure surface, more to maintain. The adoption judgment, sharpened: GraphRAG earns its cost when <em>global and relational questions are the workload</em> (not the exception), when <em>the corpus's value is its connections</em> (not just its content), and when you'll <em>invest in construction and maintenance</em>. For most corpora and most questions, hybrid vector RAG wins on cost-adjusted quality. <strong>For your brain</strong> — a densely-wikilinked graph, queried by someone who thinks in connections, where "how does X relate to Y across domains?" is a <em>native</em> question — the case is unusually, genuinely strong, which is exactly why your curriculum schedules the real build here rather than dismissing it.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: community summaries, graph-aware retrieval.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build a slice of proper GraphRAG on your Ch 10 graph (concept node, but concrete — full build is Ch 14/17 territory): (1) <em>Community detection</em>: run a community algorithm (via <code>networkx</code> or <code>igraph</code> — libraries, don't implement) on your extracted graph; inspect the communities — do your domains emerge? What <em>cross-domain</em> community surprised you? (2) <em>Community summarization</em>: LLM-summarize your two most interesting communities (one domain-aligned, one cross-cutting); these summaries <em>are</em> your global-question answers — test one ("what's the main theme of [community]?"). (3) <em>The routing table</em>: six questions about your brain (two global, two relational, two specific) and, for each, which GraphRAG path answers it (community summary / graph walk / entity-neighborhood + chunks) vs what plain vector RAG would have done (fail / expensive multi-hop / tie). The communities + the summaries + the routing table = the note; this is Ch 14's memory layer and the recall agent (Ch 17) designed early.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>State the two question-types GraphRAG solves and why plain RAG fails each.</li>
+<li>Walk the four-stage pipeline, and identify which stage answers global questions and <em>when</em> it's computed.</li>
+<li>Explain graph-aware retrieval's routing by question type, and the vectors-for-entry/graph-for-expansion hybrid.</li>
+<li>Name the four honest costs, and why is graph staleness worse than index staleness?</li>
+<li>State the adoption judgment, and defend why your brain is an unusually strong case.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="graphrag-preview" href="graphrag-preview.html">graphrag-preview</a></p>
+<p><a class="wiki-link" data-node-id="entity-extraction" href="entity-extraction.html">entity-extraction</a></p>
+<p><a class="wiki-link" data-node-id="knowledge-graphs-101" href="knowledge-graphs-101.html">knowledge-graphs-101</a></p>
+<p><a class="wiki-link" data-node-id="temporal-knowledge" href="temporal-knowledge.html">temporal-knowledge</a></p>
+<p><a class="wiki-link" data-node-id="build-learning-recall-agent" href="build-learning-recall-agent.html">build-learning-recall-agent</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

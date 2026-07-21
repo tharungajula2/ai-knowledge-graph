@@ -35,17 +35,54 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: QLoRA Fine-Tune</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: frontier-capstone</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Every JD you've stared down says it — "experience with fine-tuning LLMs" — and until today the honest answer was no. By the end of this build the answer is: <em>"Yes — I fine-tuned a small open model with QLoRA on a dataset I created, and here's the before/after eval table."</em> That table is the whole point of the node (your spec says so verbatim). Numbers, not adjectives — the Vol 01 capstone rule, now aimed at the weights themselves.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The task.</strong> Fine-tune a small open instruct model (Llama-3-8B-class or a Qwen-2.5-class model — pick per your Chapter 10 memo; smaller = faster iterations on a free GPU) to emit your <strong>proposal-gate JSON</strong>: natural-language request in ("email Priya moving the review to 3pm"), exact structured action payload out — the schema your gate (Vol 08) already validates. The perfect task because <em>you own the ground truth</em>: JSON validity and field-exact-match are computable, no fuzzy judge needed for the headline metrics.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The data — where the real work lives (~300 pairs).</strong> Generate synthetic pairs with a strong LLM through your gateway: a generation prompt that demands diversity — actions (email/calendar/task/notify), phrasings (terse, verbose, Hinglish, typo-ridden, indirect "can you maybe…"), edge cases (missing fields, two actions in one request, impossible requests that should map to a clarify/refuse payload). <strong>Save the generation prompt in the repo</strong> — reviewers always ask how the data was made, and "here's the exact prompt, versioned" is a senior answer. Hand-review 30 random pairs against a written rubric; fix or regenerate failures — this half-hour is the highest-leverage time in the build (Chapter 11: data quality dominates). Hold out <strong>50 pairs</strong> untouched for eval; train on the rest. Also assemble a tiny <em>general-ability</em> probe set (10 ordinary questions) to watch for catastrophic forgetting.</p>
+
+<p><strong>The training.</strong> Free GPU (Colab T4 / Kaggle). The standard stack: transformers + peft + bitsandbytes + trl's SFTTrainer. Config per your node: 4-bit NF4 base, LoRA r=16 (alpha 32, dropout ~0.05) on the attention projections, small learning rate (~2e-4), 2–3 epochs, batch size that fits with gradient accumulation. <strong>Log the loss curve and save the plot</strong> — your node's verify clause names training-loss metrics; a smooth descent is your first evidence, a flat or chaotic curve your first debug signal. Training runs ~1–2 hours; you've waited longer for npm installs.</p>
+
+<p><strong>The eval — the table that is the point.</strong> Same harness, three conditions on the 50 held-out pairs: (1) BEFORE — base model, plain prompt; (2) BEFORE+ — base model with your best few-shot prompt (the honest baseline your Chapter 10 memo built; skipping it is how people fake fine-tuning wins); (3) AFTER — tuned model, plain prompt. Metrics: JSON validity rate, field-exact-match rate, plus the general-probe score across conditions. Expected shape: AFTER beats both on the task metrics, with a much shorter prompt (a latency/cost win worth pricing with tokentools); general probe roughly flat (forgetting check). Whatever the numbers say, <strong>the numbers go in the table</strong> — an honest modest gain teaches more than an inflated one.</p>
+
+<p><strong>The artifact set.</strong> Export the adapter (megabytes). Write <code>finetune/FINETUNE_REPORT.md</code> in the VIZIER repo: task, data recipe (with the generation prompt), hand-review rubric and findings, hyperparameters, the loss curve, <strong>the before/after table</strong>, cost (₹0 — say it, it's a flex), "what I'd do differently," and — non-negotiable — a closing section titled <strong>"When NOT to fine-tune,"</strong> distilled from your Chapter 10 memo. That section is what separates "I ran a script" from "I have judgment."</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a script to fine-tune a small open model (e.g. Llama-3-8B/Qwen-2.5-Coder) using QLoRA on a custom ~300 pair dataset, hand-review samples, evaluate on a 50-pair held-out set, and compile a before/after eval table artifact; verify with training loss metrics.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>The build, sequenced (est. 2–3 honest days): Day 1 — generation prompt → 300 pairs → hand-review 30 → splits → the eval harness <em>first</em> (BEFORE and BEFORE+ rows measured before any training exists — locks you into honesty). Day 2 — training notebook → run → loss curve → AFTER row → the table. Day 3 — forgetting probe, FINETUNE_REPORT.md, adapter committed, and the public artifact: a short post built around the table ("I taught an 8B model to speak my agent's action schema — for free — here's the before/after"). Tag <code>finetune-v0.1</code>. In the note: the table itself, the loss curve, one data-quality war story from the hand-review, and the six-sentence Chapter 11 answer — now with <em>your own numbers</em> in it.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why is the proposal-gate task ideal for a first fine-tune? Name the property and its Vol 07 name.</li>
+<li>Defend the three-condition eval. What lie does omitting BEFORE+ enable?</li>
+<li>Walk your data recipe: diversity axes, the review rubric, why the generation prompt is versioned.</li>
+<li>Read your own loss curve aloud: what would a flat curve have told you? A spiky one?</li>
+<li>Your table, from memory — all three conditions, both metrics — and the one-sentence verdict.</li>
+<li>When should you NOT fine-tune? Answer as in the report, then compress to one sentence.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="lora-qlora-concepts" href="lora-qlora-concepts.html">lora-qlora-concepts</a></p>
+<p><a class="wiki-link" data-node-id="prompt-vs-rag-vs-tune" href="prompt-vs-rag-vs-tune.html">prompt-vs-rag-vs-tune</a></p>
+<p><a class="wiki-link" data-node-id="build-proposal-gate" href="build-proposal-gate.html">build-proposal-gate</a></p>
+<p><a class="wiki-link" data-node-id="build-golden-dataset" href="build-golden-dataset.html">build-golden-dataset</a></p>
+<p><a class="wiki-link" data-node-id="build-experiment-tracker" href="build-experiment-tracker.html">build-experiment-tracker</a></p>
+<p><a class="wiki-link" data-node-id="few-shot-prompting" href="few-shot-prompting.html">few-shot-prompting</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

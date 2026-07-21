@@ -35,17 +35,56 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Command Center UI</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The approvals UI (Ch 10) is one panel; the command center is the <em>whole cockpit</em>. The node summary: <strong>build the Next.js React cockpit dashboard featuring chat interfaces, state graphs, real-time activity views, and audit logging pages; verify with simulated server messages.</strong> This is the face of your entire system — where you chat with your agents, watch them work in real time, see the graph of what they're doing, and audit everything they've done. It's the single pane of glass that turns your backend of agents and gates and memory into a <em>product you operate</em>.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The four panels the node names:</strong></p>
+<ol>
+<li><em>Chat interfaces</em> — where you talk to your agents (Vol 02 Ch 17's chatbot, Vol 03's brain-chat, now with a real UI): streaming responses (Ch 2's SSE rendered as the typewriter effect), conversation history, the ability to direct different agents. This is the primary interaction surface.</li>
+<li><em>State graphs</em> — visualizing what the agent is <em>doing</em>: your LangGraph agents (Vol 04) have a graph structure (nodes, edges, current state), and showing that graph <em>live</em> — which node is executing, the path taken — turns the agent from a black box into a visible process (Vol 07 Ch 13's tracing, rendered as a live diagram). Watching the supervisor route to a specialist, the specialist call a tool, is genuinely powerful for understanding and debugging.</li>
+<li><em>Real-time activity views</em> — the live feed of system events (agent started, tool called, proposal created, action executed — Ch 10's realtime, generalized): a running log of what your system is doing <em>right now</em>, streamed via Supabase realtime (Ch 9). This is the "is it alive and working?" view.</li>
+<li><em>Audit logging pages</em> — the history (Vol 08 Ch 10's tamper-evident audit trail, made browsable): every consequential action, who approved it, what executed, the outcome — searchable, filterable. This is the accountability surface (Vol 08 Ch 18's responsible shipping — you can <em>show</em> what the system did).</li>
+</ol>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Why a command center matters (beyond looking cool).</strong> It's the difference between a system you <em>hope</em> is working and one you <em>watch</em> working (Vol 07's observability, made human-facing). For an agentic system especially — autonomous, multi-step, consequential (Vol 04) — you <em>need</em> to see what it's doing (the state graph), intervene when needed (the approvals panel, Ch 10), and review what it did (the audit pages). The command center operationalizes the whole curriculum's values: transparency (you see everything), control (you approve consequential actions), accountability (the audit trail), and understanding (the state graph makes the agent legible). It's also, honestly, the <em>demo</em> — the thing that makes your agent-lab <em>show</em> as a real product (Vol 08's portfolio thread; a live cockpit over your agents is a striking artifact).</p>
+
+<p><strong>The engineering (frontend at real scale).</strong> This is a substantial Next.js/React build: component architecture (reusable panels), state management (the app's live state from realtime subscriptions and API calls), the streaming chat (Ch 2's SSE consumed in React), the live graph visualization (a graph-rendering library showing your agent's structure and live state), and the realtime activity feed (Ch 9/10's subscriptions). It composes everything: your backend (Ch 1), streaming (Ch 2), realtime (Ch 10), the gate (Vol 08 Ch 9), the audit trail (Vol 08 Ch 10) — all surfaced in one UI.</p>
+
+<p><strong>Verification — simulated server messages, per the node.</strong> Drive the UI with <em>simulated</em> backend events (demo mode, Ch 16): assert the chat renders streaming responses; the state graph updates as simulated agent-state-changes arrive; the activity feed shows simulated events live; the audit pages render and filter simulated history. Test that the UI handles the realtime firehose (many events) without breaking, and degrades gracefully when the backend is unreachable (a cockpit that white-screens on a dropped connection is useless in an incident).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build the Next.js React cockpit dashboard featuring chat interfaces, state graphs, real-time activity views, and audit logging pages; verify with simulated server messages.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 2 days — the big frontend): the Next.js cockpit shell → the chat panel (streaming, Ch 2) → the live state-graph panel (agent structure + current state) → the realtime activity feed (Ch 9/10) → the audit pages (Vol 08 Ch 10, browsable) → drive it all with simulated server messages (demo mode, Ch 16) → test the panels, the realtime handling, the graceful-degradation. This is <em>the</em> RESURRECTION artifact (Ch 34) — the visible face of your resurrected system. Tag <code>prod-v0.8</code>. The cockpit screenshots + the live-state-graph demo + the simulated-message test = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the four cockpit panels and what each surfaces.</li>
+<li>Why does a state-graph view matter for an agentic system specifically?</li>
+<li>How does the command center operationalize the curriculum's values (transparency, control, accountability, understanding)?</li>
+<li>What does the command center compose from your prior builds?</li>
+<li>Why must the cockpit degrade gracefully on a dropped connection?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="realtime-subscriptions" href="realtime-subscriptions.html">realtime-subscriptions</a></p>
+<p><a class="wiki-link" data-node-id="build-tracing-instrumentation" href="build-tracing-instrumentation.html">build-tracing-instrumentation</a></p>
+<p><a class="wiki-link" data-node-id="build-idempotency-audit" href="build-idempotency-audit.html">build-idempotency-audit</a></p>
+<p><a class="wiki-link" data-node-id="sse-streaming" href="sse-streaming.html">sse-streaming</a></p>
+<p><a class="wiki-link" data-node-id="resurrection" href="resurrection.html">resurrection</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

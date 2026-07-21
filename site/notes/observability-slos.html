@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Observability & SLOs</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Monitoring (Ch 15) tells you when it broke; SLOs tell you <em>how reliable it's supposed to be</em> — and give you a principled, numeric way to decide when reliability work matters more than features. The node summary: <strong>metrics, logs, traces, and Service Level Objectives (SLOs) in production systems.</strong> This chapter unifies the observability pillars (Vol 07, Ch 15, Ch 27) and adds the discipline that turns "make it reliable" (vague) into "99.5% of requests succeed under 2 seconds" (a target you engineer toward and measure against).</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The three pillars of observability (unifying what you've built).</strong> <em>Metrics</em> (Ch 15's golden signals, Vol 07 Ch 17's dashboards — numeric measurements over time: latency, error rate, throughput, cost — aggregate health). <em>Logs</em> (Ch 27's structured logs — discrete events with context — what happened, in detail). <em>Traces</em> (Vol 07 Ch 13 — the path of one request through the system — Ch 27's trace correlation). Together they answer different questions: metrics say <em>"something's wrong"</em> (the error rate spiked), logs say <em>"here's what happened"</em> (the specific errors), traces say <em>"here's where in the request it happened"</em> (the failing span). Mature observability uses all three — metrics to detect, traces to localize, logs to diagnose — the full debugging chain (Vol 07 Ch 14), infrastructure-grade.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>SLIs, SLOs, SLAs — the reliability vocabulary.</strong> <em>SLI (Service Level Indicator)</em> — a <em>measured</em> aspect of service quality (the actual measured availability, the actual p99 latency — Ch 15's signals, as reliability measurements). <em>SLO (Service Level Objective)</em> — a <em>target</em> for an SLI ("99.5% of requests succeed," "p99 latency &lt; 2s," "99.9% uptime") — the reliability goal you commit to and engineer toward. <em>SLA (Service Level Agreement)</em> — a <em>contractual</em> SLO with consequences (a paid customer's guaranteed uptime, with refunds if missed — the business version). The progression: measure reality (SLI), set a target (SLO), sometimes contract it (SLA). For your agent-lab, SLOs are the useful level: "my system should answer 99% of requests successfully in under N seconds" — a concrete reliability target.</p>
+
+<p><strong>Why SLOs matter — the error budget (the genuinely useful idea).</strong> An SLO of "99.5% success" implies an <em>error budget</em>: 0.5% of requests are <em>allowed</em> to fail. This reframes reliability powerfully: you don't need <em>perfection</em> (impossible and absurdly expensive — the last 0.01% costs more than everything before it), you need to <em>stay within budget</em>. The error budget becomes a <em>decision tool</em>: budget remaining → ship features (you're reliable enough, spend the budget on velocity); budget exhausted → stop shipping, fix reliability (you're breaking your commitment, reliability work now outranks features). This is the SRE (Site Reliability Engineering) insight that turns "how reliable should it be?" from an argument into a <em>number that drives decisions</em> — reliability and velocity balanced by budget, not by whoever argues loudest. It's Vol 04 Ch 17's budget-thinking, applied to reliability.</p>
+
+<p><strong>SLOs for AI systems (what's different).</strong> Beyond uptime/latency, AI systems have <em>quality</em> SLOs (Vol 07 Ch 15 — "95% of responses pass the faithfulness eval" — a reliability target on <em>output quality</em>, not just availability), <em>cost</em> SLOs (Ch 23 — "cost per task under $X"), and <em>safety</em> SLOs (Vol 08 — "zero successful exfiltrations" — the zero-exfil gate Vol 08 Ch 17 as an SLO). An agentic system's reliability is multi-dimensional: available <em>and</em> fast <em>and</em> good <em>and</em> affordable <em>and</em> safe — and SLOs on each make "is it reliable enough?" a measurable, multi-faceted question rather than a vibe. Defining your agent-lab's SLOs (across these dimensions) is defining what "working well" <em>means</em>, numerically.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Metrics, logs, traces, and Service Level Objectives (SLOs) in production systems.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Define observability and SLOs for your system (concept node, concrete): (1) Map your three pillars: what metrics (Ch 15), logs (Ch 27), and traces (Vol 07 Ch 13) you have, and the detect→localize→diagnose chain across them. (2) Define your agent-lab's SLOs across the dimensions: availability, latency (p99), quality (Vol 07's evals), cost (Ch 23), and safety (Vol 08) — concrete targets, with the SLI (how you measure each). (3) The error-budget exercise: for one SLO, define the budget and the decision rule (budget remaining → features; exhausted → reliability) — feel reliability-as-budget. The three-pillars map + the multi-dimensional SLOs + the error-budget rule = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the three observability pillars and the distinct question each answers.</li>
+<li>Distinguish SLI, SLO, and SLA — measurement, target, contract.</li>
+<li>Explain the error budget and how it turns reliability into a decision tool.</li>
+<li>Why don't you need perfection, and what does the last 0.01% cost?</li>
+<li>What SLO dimensions are AI-specific, and how do they make "reliable enough" measurable?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="monitoring-alerting" href="monitoring-alerting.html">monitoring-alerting</a></p>
+<p><a class="wiki-link" data-node-id="cost-latency-dashboards" href="cost-latency-dashboards.html">cost-latency-dashboards</a></p>
+<p><a class="wiki-link" data-node-id="build-tracing-instrumentation" href="build-tracing-instrumentation.html">build-tracing-instrumentation</a></p>
+<p><a class="wiki-link" data-node-id="online-evals" href="online-evals.html">online-evals</a></p>
+<p><a class="wiki-link" data-node-id="failure-drills-rollbacks" href="failure-drills-rollbacks.html">failure-drills-rollbacks</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

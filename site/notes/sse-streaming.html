@@ -35,17 +35,49 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>SSE & Streaming</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You built token streaming in the terminal (Vol 02 Ch 8) — but how do tokens get from a <em>server</em> to a <em>browser</em> in real time? The node summary: <strong>how tokens travel from server to screen.</strong> Server-Sent Events (SSE) is the web technology that makes the "typewriter effect" of ChatGPT possible over HTTP — a one-way channel from server to client that streams data as it's generated. This chapter is the wire-level understanding of what your Ch 1 streaming endpoint actually does.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The problem SSE solves.</strong> Normal HTTP is request→response→done: the client asks, the server answers completely, the connection closes. But LLM generation is <em>incremental</em> (Vol 01 Ch 3 — token by token) and <em>slow</em> (Vol 02 Ch 8 — waiting for the whole response feels broken). You need the server to send <em>partial</em> data <em>as it's produced</em>, over a connection that <em>stays open</em>. Three technologies can: <em>polling</em> (client repeatedly asks "any more?" — wasteful, laggy), <em>WebSockets</em> (full bidirectional channel — powerful but heavier, overkill for one-way token streaming), and <em>SSE</em> (a lightweight, one-way, server→client stream over plain HTTP — the right fit for LLM tokens: the server pushes, the client receives, no complexity you don't need).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>How SSE works — the mechanism.</strong> The server responds with <code>Content-Type: text/event-stream</code> and <em>keeps the connection open</em>, writing events as they occur in a simple text format: <code>data: {token}\n\n</code> per event (each event a chunk of the response). The browser's <code>EventSource</code> API (or a fetch-stream reader) receives each event as it arrives and appends it to the UI — the typewriter effect (Vol 02 Ch 8's TTFT payoff, now on screen). It's <em>plain HTTP</em> (works through proxies, firewalls, no special protocol — an advantage over WebSockets), <em>auto-reconnecting</em> (the browser reconnects if the connection drops — resilience built in), and <em>one-way</em> (server→client only — which is all token streaming needs; the client's request already went via a normal POST).</p>
+
+<p><strong>The server side — async generators (your Ch 1 endpoint, explained).</strong> In FastAPI, an SSE endpoint returns a <code>StreamingResponse</code> wrapping an <em>async generator</em> (Vol 01 Ch 17's async, now generating): the generator <code>yield</code>s formatted SSE events as your LLM streams tokens (Vol 02 Ch 8's gateway streaming, piped through). <code>async for token in llm_stream: yield f"data: {token}\n\n"</code> — the tokens flow from the provider, through your server, to the browser, live. The key insight: your server is a <em>pipe</em> — it receives the provider's stream and re-emits it to the client, adding your logic (auth, logging, guardrails Vol 08 Ch 11) in the middle without breaking the flow.</p>
+
+<p><strong>The production realities (streaming is harder than it looks).</strong> <em>Buffering</em> (proxies/load balancers may buffer the stream, defeating it — you disable buffering for SSE routes; a classic "why isn't my stream streaming?" bug). <em>Connection management</em> (open connections consume server resources — Ch 28's scaling; too many concurrent streams exhaust the server). <em>Mid-stream errors</em> (the LLM fails at token 200 — Vol 02 Ch 8's reassembly problem, now over the network: you send an error event and the client handles it). <em>Client disconnect</em> (the user closes the tab mid-stream — the server should detect it and stop generating, or it wastes tokens generating for nobody — Vol 04 Ch 17's cost, wasted). <em>Structured data</em> (Vol 02 Ch 8 — half-streamed JSON doesn't parse; stream prose, buffer structured payloads). Handling these is the difference between a demo stream and a production one.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: how tokens travel from server to screen.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Understand and harden your streaming (concept node, concrete): (1) Trace one token's journey end to end: provider generates it → your gateway yields it → your FastAPI async generator formats it as an SSE event → the browser's EventSource receives it → the UI appends it. Draw every hop. (2) On your Ch 1 endpoint, hit the classic bugs: introduce a buffering proxy (or simulate) and watch the stream break, then disable buffering and watch it work; simulate a client disconnect and confirm your server stops generating (add the detection). (3) Handle a mid-stream error gracefully (send an error event, client displays it). The token-journey diagram + the buffering fix + the disconnect handling = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why can't normal request/response HTTP stream LLM tokens, and how does SSE solve it?</li>
+<li>Compare SSE to polling and WebSockets — why is SSE the right fit for token streaming?</li>
+<li>Describe the SSE mechanism — the content-type, the event format, the open connection.</li>
+<li>How does an async generator make a FastAPI endpoint stream, and why is the server a "pipe"?</li>
+<li>Name three production realities of streaming and the bug each causes if unhandled.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="streaming-responses" href="streaming-responses.html">streaming-responses</a></p>
+<p><a class="wiki-link" data-node-id="build-fastapi-backend" href="build-fastapi-backend.html">build-fastapi-backend</a></p>
+<p><a class="wiki-link" data-node-id="python-async" href="python-async.html">python-async</a></p>
+<p><a class="wiki-link" data-node-id="build-command-center" href="build-command-center.html">build-command-center</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

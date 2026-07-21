@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Least-Privilege Tools</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: safety-security</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The node summary is a principle stated as a warning: <strong>capabilities, not keys to everything.</strong> The principle of least privilege — give every component the <em>minimum</em> access it needs to do its job, and <em>nothing more</em> — is the oldest law in security, and it's the concrete engineering of the trifecta discipline (Ch 7): you bound the blast radius (Ch 1) by bounding what each agent <em>can do</em>. An agent that can only read your notes can't delete your files, no matter what an attacker tells it — because the capability simply isn't there. Least privilege turns "the agent was tricked" from "catastrophe" into "the agent tried something it couldn't do."</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The principle, applied to agents.</strong> Every agent (and every tool, every sub-agent) gets <em>exactly</em> the capabilities its task requires — no standing access to things it might <em>someday</em> need, no convenient over-provisioning, no "give it admin so it just works." Concretely: a research agent needs web-search and note-read; it does <em>not</em> need file-delete, email-send, or database-write — so it doesn't <em>have</em> them. The capability isn't restricted-by-prompt ("please don't delete files"); it's <em>absent</em> — the tool isn't in its toolbox (Vol 04 Ch 3), the API key it would need isn't provisioned. This is the difference between "the agent is instructed not to" (vigilance, defeatable by injection) and "the agent cannot" (architecture, defeat-proof) — Vol 04 Ch 7's "the model requests, you execute" combined with "you only gave it safe things to request."</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The granularity of privilege (least-privilege is more than fewer tools).</strong> <em>Fewer tools</em> (the obvious layer — only the tools the task needs). <em>Scoped tools</em> (a tool that reads <em>only</em> the user's own data, not everyone's — the confused-deputy defense, Vol 05 Ch 13; a file tool confined to one directory, not the whole filesystem — Vol 05 Ch 9's path-confinement). <em>Scoped credentials</em> (the API key the agent uses has <em>read-only</em> permission, or access to <em>one</em> resource, not god-mode — so even if the key leaks, the blast radius is bounded; this is where least-privilege meets real infrastructure — IAM roles, scoped tokens, Vol 09's production territory). <em>Time-bounded / just-in-time access</em> (grant a capability only for the duration it's needed, revoke after — advanced, but the deepest version). <em>Per-agent, not per-system</em> (in multi-agent systems, each specialist gets <em>its own</em> minimal privileges — the researcher can't do what the writer can't do what the gate-holder can — Vol 05's isolation as least-privilege). Least privilege is a <em>design dimension</em>, not a single switch.</p>
+
+<p><strong>Why least-privilege is the trifecta's engineering (the connection).</strong> Ch 7 said "remove an ingredient"; least-privilege is <em>how</em> you remove two of them: removing <em>private-data access</em> is scoping the agent's read capabilities to nothing sensitive; removing <em>exfil paths</em> is not giving it network/send/write tools. Least-privilege is the concrete, per-capability implementation of the trifecta discipline — and it's why the two chapters are adjacent. Every capability you <em>don't</em> grant is an attack you've made <em>impossible</em> rather than merely <em>unlikely</em>. The mental habit: for every tool you're about to give an agent, ask "does this task <em>require</em> it, and what's the blast radius if this capability is turned against me?" — and grant the minimum, scoped, that answers.</p>
+
+<p><strong>The tension — capability vs security (the honest tradeoff).</strong> Least privilege <em>constrains</em> the agent — an agent with fewer, scoped tools can do less, and there's a real pull toward over-provisioning ("just give it access to everything so it can handle anything"). Resist it: over-provisioning is how a single injection becomes a catastrophe (the agent <em>could</em> do the harmful thing because you gave it the capability "just in case"). The discipline: start with <em>nothing</em>, add each capability <em>deliberately</em> when the task provably needs it (allowlist, not denylist — default-deny is the security default), scope it as tightly as function allows, and re-audit as tasks change (capabilities accrete; prune them). The most secure agent is the least-capable one that still does its job — and finding that minimum is the least-privilege craft.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: capabilities, not keys to everything.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Audit and minimize your agents' privileges (concept node, concrete): (1) For each agent, list every tool/capability it <em>has</em> vs every tool it <em>needs</em> for its actual task — the gap is your over-provisioning (there will be some; over-provisioning is the default). (2) For each capability it keeps, assess scoping: is the credential minimal? Is the tool confined (path, data-scope, permission)? Could it be tighter without breaking function? (3) Remove or scope the worst over-grant, and connect it to the trifecta: which ingredient did minimizing this capability remove or reduce? The privilege audit + the scoping assessment + the trifecta connection = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>State the principle, and the difference between "instructed not to" and "cannot."</li>
+<li>Name the five granularities of least privilege beyond "fewer tools."</li>
+<li>How is least-privilege the concrete engineering of the trifecta's "remove an ingredient"?</li>
+<li>Why is default-deny (allowlist) the security default, and what's the over-provisioning temptation?</li>
+<li>State the tension and the discipline that resolves it — the "least-capable that still works" craft.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="lethal-trifecta" href="lethal-trifecta.html">lethal-trifecta</a></p>
+<p><a class="wiki-link" data-node-id="designing-tools" href="designing-tools.html">designing-tools</a></p>
+<p><a class="wiki-link" data-node-id="mcp-security" href="mcp-security.html">mcp-security</a></p>
+<p><a class="wiki-link" data-node-id="add-the-gate" href="add-the-gate.html">add-the-gate</a></p>
+<p><a class="wiki-link" data-node-id="sandboxing-isolation" href="sandboxing-isolation.html">sandboxing-isolation</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

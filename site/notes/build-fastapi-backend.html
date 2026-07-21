@@ -35,17 +35,56 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Core FastAPI Application</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Everything you've built has been scripts and notebooks — run-it-yourself code. Production needs a <em>server</em>: something that runs continuously, accepts requests over the network, and responds. The node summary: <strong>build the main backend REST API with route controllers, settings validation, state serialization, and SSE token streaming channels; verify using simulated client connections.</strong> FastAPI is the modern Python web framework built on exactly the skills you already have — async (Vol 01 Ch 17), Pydantic (Vol 02 Ch 6), type hints — and this build is the spine that every other production node plugs into.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Why FastAPI, and why it's the natural fit.</strong> FastAPI is Pydantic-native (your validation skills transfer <em>verbatim</em> — request/response models are Pydantic, Vol 02 Ch 6), async-first (<code>async def</code> endpoints, Vol 01 Ch 17 — the async you learned for LLM calls is exactly the async a web server needs), type-driven (type hints generate validation <em>and</em> interactive docs automatically), and fast. You already know its foundations; this build assembles them into a server.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The four components the node names:</strong></p>
+<ol>
+<li><em>Route controllers</em> — the endpoints: <code>@app.post("/chat")</code>, <code>@app.get("/status")</code>, organized into routers by concern (chat, agents, admin — modular, Vol 01 Ch 16). Each is an <code>async def</code> taking a Pydantic request model, returning a Pydantic response model — the API's contract, typed and validated at the boundary (Vol 02 Ch 6, the boundary law as web architecture). This is where your gateway (Vol 02 Ch 11), agents (Vol 04), and RAG (Vol 03) get <em>exposed</em> over HTTP.</li>
+<li><em>Settings validation</em> — configuration as a validated Pydantic model (<code>pydantic-settings</code>): API keys, database URLs, model choices, feature flags — loaded from environment variables (Vol 02 Ch 1's key-safety, now systematic) and <em>validated at startup</em> (a missing/malformed config fails loudly at boot, not mysteriously at request time — Vol 02 Ch 9's fail-loud, for config). One validated settings object, injected everywhere.</li>
+<li><em>State serialization</em> — converting between your internal objects and the wire (JSON — Vol 01 Ch 15's dict-plumbing): request JSON → Pydantic → your logic → Pydantic → response JSON. FastAPI does most of this automatically <em>because</em> your models are typed. Session/agent state (Vol 04 Ch 6's checkpoints) serializes to persist across requests (the API is stateless, Vol 02 Ch 1 — state lives in the DB, resent or reloaded per request).</li>
+<li><em>SSE token streaming channels</em> — Server-Sent Events for streaming LLM tokens to the client (Vol 02 Ch 8's streaming, now <em>server-side</em>): an endpoint that holds the connection open and streams tokens as generated (Ch 2's whole subject). <code>async def</code> + an async generator = tokens flowing to the browser in real time.</li>
+</ol>
+
+<p><strong>The production concerns this build introduces.</strong> <em>Lifespan</em> (startup/shutdown hooks — open the DB pool at boot, close it at shutdown — Ch 4's pooling); <em>dependency injection</em> (FastAPI's <code>Depends</code> — inject the DB session, the current user, the settings into endpoints cleanly — testable, Vol 01 Ch 21); <em>error handling</em> (exception handlers turning your errors into proper HTTP responses — a 400 for bad input, a 500 for server errors, never a raw stack trace to the client — Vol 02 Ch 9's status codes, from the server side); <em>CORS</em> (allowing your frontend to call the API); and <em>auto-generated docs</em> (FastAPI generates interactive OpenAPI docs from your types — free API documentation, a real productivity win).</p>
+
+<p><strong>Verification — simulated client connections, per the node.</strong> FastAPI's <code>TestClient</code> (built on your pytest skills, Vol 01 Ch 21): test each endpoint (correct response for valid input, proper error for invalid — the boundary tested), test settings validation (bad config fails at startup), test the streaming endpoint (tokens arrive incrementally over the simulated connection), test state serialization round-trips. This is web-app testing, and it's the same discipline as everything you've tested — assertions on behavior, now over HTTP.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build the main backend REST API with route controllers, settings validation, state serialization, and SSE token streaming channels; verify using simulated client connections.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1-1.5 days): the FastAPI app skeleton with lifespan → settings model (validated env config) → route controllers exposing your chat/agent logic (wire in your gateway, Vol 02 Ch 11) → Pydantic request/response models at every boundary → an SSE streaming endpoint (Ch 2 details the streaming) → error handlers + CORS + dependency injection → <code>TestClient</code> tests for every endpoint including streaming and settings-validation. This backend is the spine of RESURRECTION (Ch 34) — build it well; you'll deploy it for real. Tag <code>prod-v0.1</code>. The running server + the endpoint tests + the streaming demo + the auto-generated docs screenshot = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why is FastAPI a natural fit for your skills — name the three foundations that transfer verbatim.</li>
+<li>What are the four components (routes, settings, serialization, streaming), and what does each do?</li>
+<li>Why validate settings at <em>startup</em>, and what does fail-loud-at-boot prevent?</li>
+<li>Why is the API stateless, and where does state actually live?</li>
+<li>What does <code>TestClient</code> let you test, and how is it the same discipline as your prior testing?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="python-async" href="python-async.html">python-async</a></p>
+<p><a class="wiki-link" data-node-id="python-typing-pydantic" href="python-typing-pydantic.html">python-typing-pydantic</a></p>
+<p><a class="wiki-link" data-node-id="build-gateway" href="build-gateway.html">build-gateway</a></p>
+<p><a class="wiki-link" data-node-id="sse-streaming" href="sse-streaming.html">sse-streaming</a></p>
+<p><a class="wiki-link" data-node-id="build-cli-chatbot" href="build-cli-chatbot.html">build-cli-chatbot</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

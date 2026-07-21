@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>CI/CD Pipeline Fundamentals</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You've deployed manually (Ch 19); doing that by hand every time is slow and error-prone. The node summary: <strong>pipeline execution, runner containers, trigger events, and automated stage routing.</strong> CI/CD automates the path from "I pushed code" to "it's tested, built, and deployed" — so shipping becomes a <code>git push</code> instead of a manual ritual, and every change is <em>automatically</em> verified before it goes live. You met CI for evals (Vol 07 Ch 9) and security (Vol 08 Ch 17); this chapter is the general model those were instances of.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>CI and CD — the two halves.</strong> <em>Continuous Integration (CI)</em>: every code change is automatically <em>integrated and verified</em> — on each push, run the tests (Vol 01 Ch 21), lint the code, run the evals (Vol 07 Ch 9), run the security suite (Vol 08 Ch 17) — so problems are caught <em>immediately</em>, at the change that caused them, not weeks later (the fast-feedback that makes a codebase maintainable). <em>Continuous Delivery/Deployment (CD)</em>: every change that passes CI is automatically <em>delivered</em> toward production — built into an image (Ch 5), pushed to a registry (Ch 19), deployed to staging (Ch 22) and (with Continuous Deployment) to production. Together: push code → automatically tested, built, and deployed. Shipping becomes safe, fast, and boring (boring is good — Vol 08's "quality is pipeline," realized).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The pipeline anatomy (the node's terms).</strong> <em>Trigger events</em> — what starts the pipeline (a push to a branch, a pull request, a tag, a schedule Ch 3 — the pipeline runs <em>in response</em> to these). <em>Stages</em> — the sequential (or parallel) steps (lint → test → build → deploy — Ch 22's concrete pipeline), each gating the next (Vol 07 Ch 9's gates — a failed test stage stops the pipeline before deploy, so broken code can't ship). <em>Runner containers</em> — the pipeline runs in <em>fresh, isolated containers</em> (Ch 5 — each run starts clean, so the pipeline is reproducible Vol 07 Ch 11 and can't be corrupted by prior runs; the runner is a disposable environment that does the work). <em>Automated stage routing</em> — the logic deciding which stages run when (deploy to staging on the main branch, to production only on a tag; run the full eval suite on PRs, fast checks on every push — Vol 07 Ch 9's tiering).</p>
+
+<p><strong>Why CI/CD is a force multiplier (and a senior signal).</strong> It transforms shipping: <em>speed</em> (push and it ships — no manual ritual, faster iteration for the 45-day mission); <em>safety</em> (Vol 07/08's gates enforced automatically — broken, unmeasured, or insecure code <em>can't</em> merge/ship, structurally); <em>consistency</em> (the pipeline does it the same way every time — no "I forgot to run the tests" or "I deployed the wrong image" human error); <em>reproducibility</em> (Vol 07 Ch 11 — clean runners, versioned images, traceable deploys). A project with real CI/CD signals engineering maturity (it's how professional teams ship); building it for your agent-lab shows you work the way serious teams do. It's the automation that makes "measure, don't believe" (Vol 07) and "security is pipeline" (Vol 08) <em>actually happen on every change</em> rather than when-you-remember.</p>
+
+<p><strong>The AI-specific pipeline stages (what's different).</strong> Beyond lint/test/build/deploy, an AI system's pipeline adds: <em>eval gates</em> (Vol 07 Ch 9 — golden-set scores must pass), <em>security gates</em> (Vol 08 Ch 17 — the injection suite, the zero-exfil gate), <em>cost checks</em> (Ch 24 — flag a change that spikes cost), and <em>the demo-mode tests</em> (Ch 16 — the credential-free full-system test runs in CI). The pipeline for an agent-lab enforces not just "does the code work?" but "is it still good (evals), safe (security), and affordable (cost)?" — the whole curriculum's disciplines, automated into the ship path.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Pipeline execution, runner containers, trigger events, and automated stage routing.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Understand the pipeline model (concept node, concrete — Ch 22 builds it): (1) Design your agent-lab's full pipeline: the trigger events, the stages (lint → test → eval Vol 07 → security Vol 08 → build → deploy-staging), the gating (what stops the pipeline), and the routing (staging vs prod, PR vs push). (2) Map your existing disciplines into stages: where do your pytest (Vol 01 Ch 21), evals (Vol 07 Ch 9), security suite (Vol 08 Ch 17), and demo-mode tests (Ch 16) fit? (3) Articulate the force-multiplier: what does CI/CD give your specific workflow (speed, safety, consistency, reproducibility) — concretely. The pipeline design + the disciplines-to-stages mapping + the force-multiplier articulation = the note; Ch 22 builds this for real.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Distinguish CI from CD — what does each automate, and what's the combined payoff?</li>
+<li>Define the pipeline anatomy: trigger events, stages, runner containers, stage routing.</li>
+<li>Why do runner containers start fresh, and how does that give reproducibility?</li>
+<li>Why is CI/CD a force multiplier and a senior signal — the four benefits?</li>
+<li>What AI-specific stages does an agent-lab's pipeline add beyond lint/test/build/deploy?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="ci-gates-for-ai" href="ci-gates-for-ai.html">ci-gates-for-ai</a></p>
+<p><a class="wiki-link" data-node-id="build-injection-suite" href="build-injection-suite.html">build-injection-suite</a></p>
+<p><a class="wiki-link" data-node-id="git-mastery" href="git-mastery.html">git-mastery</a></p>
+<p><a class="wiki-link" data-node-id="build-github-actions-pipeline" href="build-github-actions-pipeline.html">build-github-actions-pipeline</a></p>
+<p><a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

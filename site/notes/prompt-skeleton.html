@@ -35,17 +35,61 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>The Prompt Skeleton</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: prompting-apis</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Bad briefs get bad work — from humans and models alike. "Write something about our product" fails everywhere; a good brief names <em>who you are, what you're given, what exactly to do, and what the deliverable looks like</em>. The Prompt Skeleton is that brief, as a reusable four-part pattern: <strong>Role + Context + Task + Format</strong>. Stop writing prompts; start filling skeletons.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The four bones, and what each is for:</strong></p>
+<ul>
+<li><strong>ROLE</strong> — who the model should be. "You are a senior Python reviewer with strong security instincts." Role sets vocabulary, depth, and priorities in one line (it biases which regions of the training distribution the model writes from).</li>
+<li><strong>CONTEXT</strong> — what the model needs to know: the input data, background, constraints. This is the whiteboard (Vol 01, Ch 8) being loaded deliberately. Delimit it clearly — triple quotes, XML-ish tags like <code>&lt;document&gt;...&lt;/document&gt;</code> — so instructions and data can't smear together (a habit that also blunts injection, Ch 12).</li>
+<li><strong>TASK</strong> — the verb, precisely. "Review for security issues; classify each as critical/warning/nit; suggest a fix for each." Precise scope beats vague ambition; several small clauses beat one foggy sentence.</li>
+<li><strong>FORMAT</strong> — the shape of the deliverable. "Return markdown: a table of issues, then a rewritten function." Or "JSON matching this schema." Uncontrolled format is the #1 source of "the model rambled"; the fix was always one missing sentence.</li>
+</ul>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>A filled skeleton, annotated:</strong></p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">text</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-text">[<span class="tok-type">ROLE</span>]    <span class="tok-type">You</span> are a meticulous data-extraction engine.
+[<span class="tok-type">CONTEXT</span>] <span class="tok-type">Below</span> <span class="tok-kw">is</span> a raw customer email between &lt;email&gt; tags. <span class="tok-type">Today___TOK_0___s</span> name, the product mentioned, <span class="tok-kw">and</span> the <span class="tok-fn">sentiment</span>((positive/neutral/negative). <span class="tok-type">If</span> a field <span class="tok-kw">is</span> absent, use null — do <span class="tok-kw">not</span> guess.
+[<span class="tok-type">FORMAT</span>]  <span class="tok-type">Respond</span> <span class="tok-kw">with</span> only a <span class="tok-type">JSON</span> object: {<span class="tok-str">"name"</span>:..., <span class="tok-str">"product"</span>:..., <span class="tok-str">"sentiment"</span>:...}
+          <span class="tok-type">No</span> prose before <span class="tok-kw">or</span> after.</code></pre>
+      </div>
+<p>Notice the anti-hallucination clause riding inside TASK ("if absent, use null — do not guess") — skeleton discipline is where Vol 01's hallucination chapter becomes daily practice.</p>
+
+<p><strong>Where the bones live in real apps.</strong> ROLE and standing FORMAT rules go in the <em>system prompt</em>; per-request CONTEXT and TASK arrive in the <em>user message</em>, often via a <strong>prompt template</strong> — a skeleton with <code>{placeholders}</code> filled by code. The moment prompts become templates, they become <em>versioned artifacts</em> (commit them, diff them, A/B them — Chapter 16 formalizes this). Every framework's "PromptTemplate" class is just this idea with packaging.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: role + context + task + format — the reusable pattern.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Take three deliberately lazy prompts — "summarize this article", "fix this code", "write a LinkedIn post about my project" — and rebuild each as a full four-bone skeleton for a concrete scenario of yours (use real inputs: a real article, your actual code, your Vizier project). Run lazy vs skeleton for each and paste both outputs into your note. The delta you observe is the entire argument for this chapter — and the LinkedIn one, keep: it feeds Chapter 24's capstone post.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the four bones and each one's one-line job.</li>
+<li>Why delimit CONTEXT with tags — give both the quality reason and the security reason.</li>
+<li>Which bone kills rambling, and which clause kills guessing?</li>
+<li>Where do the bones live across system vs user messages in a production app?</li>
+<li>What turns a prompt into an engineering artifact, and what does that let a team do?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="roles-and-system-prompts" href="roles-and-system-prompts.html">roles-and-system-prompts</a></p>
+<p><a class="wiki-link" data-node-id="hallucination" href="hallucination.html">hallucination</a></p>
+<p><a class="wiki-link" data-node-id="few-shot-prompting" href="few-shot-prompting.html">few-shot-prompting</a></p>
+<p><a class="wiki-link" data-node-id="prompt-quality" href="prompt-quality.html">prompt-quality</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

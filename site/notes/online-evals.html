@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Online Evals</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your golden set (Ch 2) tests 20 curated cases; production sees <em>thousands of real, messy, unpredictable</em> inputs you never imagined. The node summary: <strong>scoring production traffic continuously.</strong> Offline evals (Part I) measure your system against a fixed test set <em>before</em> shipping; online evals measure it against <em>reality</em> after shipping — catching the failures your golden set didn't anticipate, tracking quality as it drifts, and turning production into a continuous eval. This is how you know your system is <em>still</em> good, not just <em>was</em> good at launch.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Offline vs online — the complementary pair.</strong> <em>Offline evals</em> (Chs 2-9): fixed golden set, run before deploy, controlled, comparable, catch known-issue-types — but limited to what you thought to test (your golden set can't contain the inputs you never imagined). <em>Online evals</em>: score <em>real production traffic</em>, continuously, after deploy — catch the <em>unknown unknowns</em> (the weird real inputs), detect <em>drift</em> (quality silently degrading over time — model updates, changing user behavior, data shift), and measure <em>actual</em> user-facing quality (not proxy golden-set quality). You need both: offline to ship safely, online to <em>stay</em> safe. Online evals are where your system meets reality, and reality always has cases your golden set didn't.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>How you score traffic you have no ground truth for — the core challenge.</strong> Offline, you authored expected answers (Ch 2); online, real inputs arrive with <em>no known-correct answer</em> — so how do you score them? The techniques: <em>reference-free LLM judges</em> (Ch 3's judge scoring quality without a golden answer — "is this response faithful to the retrieved context?" needs no ground truth, just the context and the answer — Vol 03 Ch 18's faithfulness works online!); <em>implicit signals</em> (user behavior as a quality proxy — did they accept the answer, retry, thumbs-down, abandon? — real signal, noisy); <em>explicit feedback</em> (thumbs up/down, ratings — direct but sparse, most users don't rate); <em>guardrail checks</em> (programmatic — did the output violate a rule, leak PII (Vol 06 Ch 8), hallucinate a citation (Vol 03 Ch 10's integrity check, run online)?); and <em>sampling for human review</em> (score a random sample by hand — expensive but ground-truth, and it <em>calibrates</em> the automated online scores, Ch 4's discipline). The mix: cheap automated scoring (judges, guardrails, implicit signals) on <em>all</em> traffic, human review on a <em>sample</em> to calibrate.</p>
+
+<p><strong>Drift detection — the thing online evals uniquely catch.</strong> Quality <em>degrades over time</em> for reasons offline evals can't see: <em>model drift</em> (the provider updated the model behind your API — Ch 4's pinning problem, now hitting production behavior), <em>data drift</em> (user inputs shift — a new use case emerges, seasonal changes, a viral prompt pattern), <em>concept drift</em> (what counts as a good answer changes — Vol 06 Ch 12's temporal knowledge, at the quality level). Online evals catch drift by <em>tracking metrics over time</em> — faithfulness this week vs last month, user-acceptance trending down, a spike in guardrail violations. A drift alert ("faithfulness dropped 8% this week") is the signal to investigate <em>before</em> users revolt. Offline evals are a snapshot; online evals are the <em>continuous monitoring</em> that catches the slow rot.</p>
+
+<p><strong>The feedback loop — online evals feed offline (closing the ring's flywheel).</strong> The deepest value: production failures caught by online evals become <em>new golden cases</em> (Ch 20's failure→golden loop — the real inputs you never imagined become permanent offline tests). Online eval finds a failure class → you add golden cases for it → your offline suite now catches it → CI gates it (Ch 9) → it never regresses. Online → offline → CI is the flywheel that makes your eval coverage <em>grow toward reality</em> over time, driven by production itself. This is how mature AI systems get <em>more</em> reliable in production rather than rotting — every real failure permanently strengthens the net.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: scoring production traffic continuously.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Design online eval for your systems (concept node, concrete): (1) Design the online eval layer for your brain-chat or research agent <em>if it were in production</em>: which reference-free judges run on all traffic (faithfulness, guardrails), which implicit signals you'd capture (retries, abandonment), what human-review sampling rate, and how you'd calibrate the automated scores. (2) Prototype one: run a reference-free faithfulness judge (Vol 03 Ch 18, no ground truth needed) on a batch of <em>unlabeled</em> real queries to your brain-chat — you're scoring "production" traffic. What did it catch? (3) Design drift detection: which metrics you'd track over time, what a drift alert looks like, and the online→offline→CI flywheel for one failure class. The online-eval design + the reference-free scoring result + the drift/flywheel design = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Contrast offline and online evals — what does each catch that the other can't?</li>
+<li>How do you score traffic with no ground truth? Name four techniques and the calibration step.</li>
+<li>Name the three types of drift and how online evals catch them.</li>
+<li>Explain the online→offline→CI flywheel and why it makes systems <em>more</em> reliable over time.</li>
+<li>Why do you need <em>both</em> offline and online evals, not either alone?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="rag-evals-intro" href="rag-evals-intro.html">rag-evals-intro</a></p>
+<p><a class="wiki-link" data-node-id="build-eval-judge" href="build-eval-judge.html">build-eval-judge</a></p>
+<p><a class="wiki-link" data-node-id="judge-bias-pinning" href="judge-bias-pinning.html">judge-bias-pinning</a></p>
+<p><a class="wiki-link" data-node-id="failure-to-golden-loop" href="failure-to-golden-loop.html">failure-to-golden-loop</a></p>
+<p><a class="wiki-link" data-node-id="temporal-knowledge" href="temporal-knowledge.html">temporal-knowledge</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

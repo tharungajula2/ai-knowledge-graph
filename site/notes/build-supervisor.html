@@ -35,17 +35,60 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: LangGraph Supervisor</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: agents</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Every organ so far — graphs, checkpointers, subgraph boundaries — assembles today into the pattern that runs your agent-lab and half the production multi-agent systems in industry: <strong>the supervisor</strong>. One coordinator that reads the incoming task, decides <em>which specialist team handles it</em>, dispatches, tracks the thread, and returns the result. The node summary is the spec: a supervisor that routes to 4 specialist subgraphs by intent using structured LLM output, persistence checkpointers, and thread state tracking — verified with 10 routing tests. Today you build the brain-stem; next chapter, the organs it routes to.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The routing decision — structured output or nothing.</strong> The supervisor's core is one LLM call whose <em>only</em> job is classification:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">class</span> <span class="tok-fn">Route</span>((<span class="tok-type">BaseModel</span>):
+    specialist: <span class="tok-type">Literal</span>[<span class="tok-str">"scheduler"</span>, <span class="tok-str">"scribe"</span>, <span class="tok-str">"researcher"</span>, <span class="tok-str">"analyst"</span>, <span class="tok-str">"none"</span>]
+    task_brief: <span class="tok-builtin">str</span>            <span class="tok-comment"># the task, restated cleanly for the specialist</span>
+    reasoning: <span class="tok-builtin">str</span>             <span class="tok-comment"># one line — audit trail, not decoration</span>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<span class="tok-kw">def</span> <span class="tok-fn">route_node</span>((state) <span class="tok-op">-&gt;</span> <span class="tok-builtin">dict</span>:
+    route = gateway.<span class="tok-fn">complete</span>((<span class="tok-type">ROUTER_PROMPT</span>, state[<span class="tok-str">"messages"</span>], schema=<span class="tok-type">Route</span>)   <span class="tok-comment"># enforced!</span>
+    <span class="tok-kw">return</span> {<span class="tok-str">"route"</span>: route}</code></pre>
+      </div>
+<p>Design decisions, each earned by a past chapter: <strong>schema-enforced</strong> (Vol 02, Ch 6 — a router that can emit "hmm, maybe the researcher?" is not a router; constrained decoding makes invalid routes <em>impossible</em>); <strong><code>none</code> is a first-class destination</strong> (the routing analog of NOT-IN-NOTES, Vol 03 — "just answer directly, no specialist needed" for smalltalk and trivia; without it, every "hello" convenes a committee — the least-autonomy principle enforced at the front door); <strong><code>task_brief</code> restates the task</strong> (the specialist receives a clean brief, not the parent's whole conversational sludge — the Ch 10 boundary mapping, made concrete: this string <em>is</em> the interface); <strong><code>reasoning</code> is logged</strong> (when routing goes wrong — it will — the one-line why turns debugging from archaeology into reading). The router prompt itself is a classification prompt, and everything from Vol 02 applies: crisp per-specialist descriptions (these are <em>tool descriptions</em> in spirit — Ch 3's craft, aimed at teams; the confusion-audit drill applies verbatim), few-shot examples covering the ambiguous boundaries (Vol 02, Ch 4 — show it borderline cases, not easy ones), temperature 0.</p>
+
+<p><strong>The graph shape.</strong> <code>route_node</code> → conditional edge reading <code>state["route"].specialist</code> → one of four subgraph nodes (this chapter: <strong>stub specialists</strong> — trivial one-node graphs that echo "scheduler received: {brief}"; real organs arrive next chapter, and the stubs are why the two builds can proceed independently — the Ch 10 boundary, cashing in as project management) or → <code>direct_answer</code> node (the <code>none</code> path) → <code>finalize</code> node (collect the specialist's result into the response) → END. Persistence: <strong>Postgres checkpointer, thread-per-conversation</strong> (Ch 6, non-negotiable per the node spec) — which delivers <em>thread state tracking</em>: multi-turn conversations where turn 3's "actually make that 4 PM" routes correctly because the thread's state carries what turn 1 scheduled. Track in state: the route history (<code>routes: list[Route]</code> with an append reducer — Ch 5) so the thread knows its own dispatch record.</p>
+
+<p><strong>The 10 routing tests — per the node, and how to make them mean something.</strong> Mock the router's gateway (fake-provider pattern, fourth appearance — scripted <code>Route</code> objects make tests deterministic and free) for the <em>plumbing</em> tests, and use the real router for the <em>judgment</em> tests with a small routing golden set (Vol 02 Ch 16, applied to classification — this is precision/recall on a 5-class problem; your Vol 01 Ch 12 vocabulary finally meets an agent): (1–4) one clean-cut case per specialist routes correctly; (5) smalltalk → <code>none</code>; (6) an ambiguous case (schedule-flavored research: "find a time when both papers' authors are speaking") — assert it routes to your <em>documented</em> choice, whichever you decide, because the decision being <em>deliberate</em> is the point; (7) thread continuity — follow-up turn routes consistently with thread history; (8) the brief-cleanliness test — <code>task_brief</code> contains the task, not the greeting sludge (string assertions on the mapping); (9) checkpointer survival — kill mid-route, resume, dispatch completes; (10) the routes-history reducer appends correctly across turns. Ten green = the brain-stem works.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a LangGraph supervisor that routes to 4 specialist subgraphs by intent using structured LLM output, persistence checkpointers, and thread state tracking; verify with 10 routing tests.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day, thanks to the stubs): router schema + prompt with few-shots → graph with stub specialists → Postgres checkpointer wired → the routing golden set (~15 utterances across the 5 destinations, ambiguous cases included, expected routes labeled — <em>write it before tuning the prompt</em>, per the iron law) → the 10 tests green → then the tuning loop you already know: run the golden set, read the misroutes, fix the prompt (usually a description clause or one more few-shot), rerun, <em>one change at a time</em>. Record the before/after routing accuracy in the note. Tag <code>agent-v0.4</code>. Homecoming: open agent-lab's supervisor and read its routing prompt cold — annotate which of today's design decisions it makes, which it skips, and one improvement you'd now make to your own frozen code. That annotation goes in the note; it's the freeze becoming a mirror.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why must the route be schema-enforced, and why is <code>none</code> a first-class destination? Name both principles at work.</li>
+<li>What is <code>task_brief</code>, in Ch 10's vocabulary, and what does the sludge test verify?</li>
+<li>What does thread state tracking deliver in user-visible terms? Give the turn-3 example.</li>
+<li>Which tests use mocked routing and which use the real router — and why does the split matter?</li>
+<li>Your ambiguous case: which way did you route it, and why is documenting the choice more important than the choice?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="subgraphs" href="subgraphs.html">subgraphs</a></p>
+<p><a class="wiki-link" data-node-id="structured-output" href="structured-output.html">structured-output</a></p>
+<p><a class="wiki-link" data-node-id="langgraph-checkpointers" href="langgraph-checkpointers.html">langgraph-checkpointers</a></p>
+<p><a class="wiki-link" data-node-id="prompt-quality" href="prompt-quality.html">prompt-quality</a></p>
+<p><a class="wiki-link" data-node-id="build-specialists" href="build-specialists.html">build-specialists</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

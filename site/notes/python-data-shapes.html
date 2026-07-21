@@ -35,17 +35,56 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Data Shapes</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Every AI system is plumbing for one substance: <strong>structured data flowing as dicts and JSON</strong>. An API request? A dict. The response? Nested dicts. A RAG chunk, an agent's tool call, your curriculum.json? Dicts, dicts, dicts. Master four shapes — list, dict, function, JSON — and you can read 90% of AI code on sight.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The two containers.</strong> <code>list</code> = ordered sequence, addressed by position (<code>msgs[0]</code>, <code>msgs[-1]</code> for last). <code>dict</code> = labeled shelves, addressed by key (<code>msg["role"]</code>). Real AI data is <em>nested</em> — lists of dicts of lists — and fluency means walking nests without blinking:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python">response = {
+  <span class="tok-str">"model"</span>: <span class="tok-str">"claude-sonnet-4-6"</span>,
+  <span class="tok-str">"content"</span>: [{<span class="tok-str">"type"</span>: <span class="tok-str">"text"</span>, <span class="tok-str">"text"</span>: <span class="tok-str">"Hello!"</span>}],
+  <span class="tok-str">"usage"</span>: {<span class="tok-str">"input_tokens"</span>: <span class="tok-num">12</span>, <span class="tok-str">"output_tokens"</span>: <span class="tok-num">4</span>}
+}
+text = response[<span class="tok-str">"content"</span>][<span class="tok-num">0</span>][<span class="tok-str">"text"</span>]        <span class="tok-comment"># walk: dict → list → dict</span>
+cost_in = response[<span class="tok-str">"usage"</span>][<span class="tok-str">"input_tokens"</span>]
+safe = response.<span class="tok-fn">get</span>((<span class="tok-str">"stop_reason"</span>, <span class="tok-str">"unknown"</span>) <span class="tok-comment"># .get = no crash if key absent</span></code></pre>
+      </div>
+<p><strong>Functions as contracts.</strong> <code>def cost(tokens: int, price_per_m: float = 3.0) -&gt; float:</code> — read it as a contract: takes these shapes, returns that shape. Default values, keyword arguments (<code>cost(tokens=500)</code>), and returning dicts/tuples cover most real signatures you'll meet.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>JSON — the wire format.</strong> JSON is just the universal <em>text</em> representation of dicts+lists, and every API speaks it. Two verbs, learn them cold: <code>json.dumps(obj)</code> (dict → string, to <em>send</em>) and <code>json.loads(s)</code> (string → dict, to <em>receive</em>). The classic beginner crash — <code>TypeError: string indices must be integers</code> — means you forgot <code>loads</code> and are indexing a raw string. The comprehension idiom rounds out fluency: <code>[m["text"] for m in messages if m["role"] == "user"]</code> — filter-and-extract in one line, everywhere in AI code.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: functions, dicts, JSON — the shapes of AI data.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>In <code>vizier-floor/</code>, write <code>shapes.py</code>: hand-build a fake API response like the above but with 3 content blocks; write functions <code>extract_all_text(response) -&gt; list[str]</code>, <code>total_tokens(response) -&gt; int</code>, and <code>to_json_file(response, path)</code> + <code>from_json_file(path)</code> using <code>dumps/loads</code> (via <code>json.dump</code>/<code>json.load</code> file variants). Round-trip it: build → save → load → extract → print. Bonus that pays forward: open your real <code>curriculum.json</code> from the brain repo and count nodes per domain with a comprehension.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>When do you reach for a list vs a dict? One sentence each.</li>
+<li>Read <code>data["items"][2]["meta"].get("tags", [])</code> out loud, naming each hop's type.</li>
+<li><code>dumps</code> vs <code>loads</code> — which direction is each, and which error tells you a <code>loads</code> is missing?</li>
+<li>Write from memory a comprehension extracting all <code>"text"</code> values where <code>"type" == "text"</code>.</li>
+<li>Why is "AI engineering is dict plumbing" only half a joke?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="python-typing-pydantic" href="python-typing-pydantic.html">python-typing-pydantic</a></p>
+<p><a class="wiki-link" data-node-id="python-classes-modules" href="python-classes-modules.html">python-classes-modules</a></p>
+<p><a class="wiki-link" data-node-id="build-token-cost-calculator" href="build-token-cost-calculator.html">build-token-cost-calculator</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

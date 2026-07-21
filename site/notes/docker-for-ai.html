@@ -35,17 +35,60 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Docker for AI Services</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>"It works on my machine" is the oldest lie in software — and the node summary names the cure: <strong>containerize a small service myself.</strong> Docker packages your application <em>with its entire environment</em> — the exact Python version, every dependency, the system libraries, the config — into a <em>container</em> that runs identically everywhere: your laptop, a teammate's machine, the cloud. You met Docker glancingly (Vol 03 Ch 8's pgvector, Vol 08 Ch 14's sandboxing); this build makes you fluent, because containers are how modern software <em>ships</em>, and every deployment node ahead assumes them.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>What Docker solves — reproducible environments (Vol 01 Ch 14's venv, taken to its logical end).</strong> A venv isolates Python packages; Docker isolates <em>everything</em> — the OS libraries, the Python runtime, the packages, the files, the config — into an <em>image</em> (a snapshot of a complete environment). A container is a <em>running instance</em> of an image. The guarantee: the container runs the same everywhere because it <em>carries its whole world with it</em>. This is Vol 07 Ch 11's reproducibility (pin code, data, environment) achieved for the environment vertex completely: the image <em>is</em> the pinned environment, byte-for-byte identical across machines. No more "works on my machine" — if it works in the container, it works everywhere the container runs.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The Dockerfile — the recipe.</strong> An image is built from a <code>Dockerfile</code> — a sequence of instructions:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">dockerfile</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-dockerfile"><span class="tok-type">FROM</span> python:<span class="tok-num">3.12</span>-slim              <span class="tok-comment"># start from a base image (Python pre-installed)</span>
+<span class="tok-type">WORKDIR</span> /app
+<span class="tok-type">COPY</span> requirements.txt .
+<span class="tok-type">RUN</span> pip install -r requirements.txt   <span class="tok-comment"># install deps (Vol 01 Ch 14, in the image)</span>
+<span class="tok-type">COPY</span> . .                           <span class="tok-comment"># copy your code in</span>
+<span class="tok-type">CMD</span> [<span class="tok-str">"uvicorn"</span>, <span class="tok-str">"main:app"</span>, <span class="tok-str">"--host"</span>, <span class="tok-str">"0.0.0.0"</span>]   <span class="tok-comment"># how to run it</span></code></pre>
+      </div>
+<p>Each instruction is a <em>layer</em> (cached — unchanged layers rebuild instantly, the key to fast iteration). <code>docker build</code> produces the image; <code>docker run</code> starts a container from it. The mental model: the Dockerfile is a reproducible script for building your app's entire environment, and the image is the frozen result.</p>
+
+<p><strong>AI-specific containerization concerns (the node's "for AI").</strong> <em>Image size</em> (AI dependencies are <em>huge</em> — torch, transformers, CUDA libraries can make images gigabytes; use slim base images, multi-stage builds to discard build-time deps, and <code>.dockerignore</code> to exclude junk — a bloated image is slow to push/pull/deploy). <em>GPU access</em> (if you self-serve models, the container needs GPU passthrough — NVIDIA's container runtime — a real complexity for AI, though API-based systems like yours mostly avoid it). <em>Secrets</em> (Vol 08 — <em>never</em> bake API keys into the image, which is a distributable artifact; inject them at <em>runtime</em> via environment variables — Ch 24's secrets management; a key baked into an image is a key leaked to everyone who has the image). <em>Layer caching for iteration</em> (copy <code>requirements.txt</code> and install <em>before</em> copying code, so code changes don't invalidate the dependency-install layer — the fast-iteration trick). <em>Model weights</em> (if bundling models, they bloat the image — often better to load from storage at runtime).</p>
+
+<p><strong>Verification.</strong> Containerize a small service (your Ch 1 FastAPI backend, or a slice): write the Dockerfile, build the image, run the container, and hit its endpoint — confirm it works <em>in the container</em>. Then the reproducibility proof: run it on a <em>different</em> environment (a clean directory, a teammate's machine, a cloud sandbox) and confirm identical behavior. Check the image size (and optimize it — multi-stage, slim base). Confirm secrets are <em>not</em> baked in (inspect the image, confirm no keys). The containerized-service-running + the size optimization + the secrets-not-baked check = proof.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: containerize a small service myself.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): write a Dockerfile for your FastAPI backend (Ch 1) → build the image → run the container, hit the endpoint, confirm it works → optimize (slim base, layer ordering for cache, <code>.dockerignore</code>, check the size) → prove reproducibility (run in a clean/different environment) → confirm runtime secret injection (keys via env, not baked). This is the packaging for every deployment ahead (Ch 20, 34). Tag <code>prod-v0.4</code>. The Dockerfile + the running container + the size optimization + the reproducibility proof = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What does Docker isolate that a venv doesn't, and what guarantee does that provide?</li>
+<li>Walk a Dockerfile's instructions and what "layers" and "caching" mean for iteration.</li>
+<li>Name three AI-specific containerization concerns and how each is handled.</li>
+<li>Why must secrets be injected at runtime, not baked into the image?</li>
+<li>What's the layer-ordering trick for fast iteration, and why does it work?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="python-environments" href="python-environments.html">python-environments</a></p>
+<p><a class="wiki-link" data-node-id="sandboxing-isolation" href="sandboxing-isolation.html">sandboxing-isolation</a></p>
+<p><a class="wiki-link" data-node-id="data-versioning-reproducibility" href="data-versioning-reproducibility.html">data-versioning-reproducibility</a></p>
+<p><a class="wiki-link" data-node-id="build-container-deployment" href="build-container-deployment.html">build-container-deployment</a></p>
+<p><a class="wiki-link" data-node-id="secrets-cost-engineering" href="secrets-cost-engineering.html">secrets-cost-engineering</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

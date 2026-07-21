@@ -35,17 +35,59 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Eval Harness</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>This ring built eval <em>pieces</em> — golden sets, judges, trajectory metrics, tool metrics, regression, tracing. The node summary unifies them: <strong>trajectory + judge + regression around the node-proposer, one command.</strong> An eval harness is the <em>integrated system</em> that runs all your evals on a target system with a single command and produces a complete quality report. This is the ring's engineering summit — the harness that makes evaluating your node-proposer (Vol 04 Ch 18, the M2 seed) as easy as running a test suite, and the infrastructure that makes eval-driven development (Ch 21) <em>practical</em> rather than aspirational.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Why the node-proposer as the target.</strong> The node-proposer (Vol 04 Ch 18) is your most complex agent — it surveys your brain, scans the frontier, and proposes nodes through a gate. It's <em>also</em> the highest-stakes to get right (it shapes your curriculum's growth — M2, The Bridge). And it's never been rigorously evaluated (you built it before this ring). Perfect target: complex enough to need every eval type, important enough to justify the harness, and un-measured enough that the harness will <em>find real problems</em>. Evaluating it also protects your brain's integrity — a node-proposer that proposes bad nodes, un-caught, degrades your curriculum.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The harness architecture — integration of the ring (every piece cashing in).</strong> <code>python -m evalharness run --target node-proposer</code> executes:</p>
+<ol>
+<li><em>Load the golden set</em> (Ch 2 — for the node-proposer: golden cases of "given this brain state + frontier findings, good proposals look like this," with expected proposal properties — connected, non-duplicate, correctly-formatted, well-scoped).</li>
+<li><em>Run the target</em> on each case, <em>with tracing</em> (Ch 13 — capture full trajectories: survey → scan → propose → gate).</li>
+<li><em>Score with the judge</em> (Ch 3 — calibrated, pinned per Ch 4 — proposal quality against rubrics: is the proposal well-connected? correctly-sized? genuinely novel? well-justified?).</li>
+<li><em>Trajectory + tool metrics</em> (Chs 5-6 — did it survey efficiently? use the researcher-subgraph correctly? did the frontier scan run? — the <em>path</em> quality, not just the proposals).</li>
+<li><em>Regression check</em> (Ch 8 — diff against the last baseline: did this change to the node-proposer improve or regress proposal quality?).</li>
+<li><em>Report</em> — a unified quality report: per-case scores, aggregate metrics, per-slice breakdowns, trajectory/tool scorecards, regression diff, cost/latency (Ch 17), and the judge's calibration number (Ch 4 — the report certifies its own trustworthiness). One command → complete picture.</li>
+</ol>
+
+<p><strong>The engineering standards — L-node rigor.</strong> Every eval component behind a clean interface (swap judges, add metrics without rewiring — Vol 04 Ch 10's boundaries); config-driven (which golden set, which judge version, which thresholds — one config, Vol 01 Ch 21); reproducible (pin everything — Ch 11: prompt version, judge version, golden-set version, all logged in the report so the eval is itself reproducible — evaluating the evaluator's reproducibility, the deepest rigor); fast enough to run often (tier the checks — Ch 9 — fast programmatic on every run, full judge-scored on demand); and <em>itself tested</em> (the harness's metric computations get pytest — an eval harness with buggy math produces confident lies, so the meta-tests matter most). This is your Vol 03 Ch 18 brain-eval, generalized into reusable infrastructure that any of your systems can plug into.</p>
+
+<p><strong>Verification.</strong> Run it on the node-proposer end to end: the report generates in one command; all metric types appear and compute correctly (reconcile against hand-computation on a case); the regression diff works (baseline, change, re-run, diff); the trajectory captures the proposer's full path; the judge's calibration is reported. Then the payoff: the harness <em>finds a real problem</em> with your node-proposer (it will — un-evaluated complex agents always have issues: maybe it over-proposes, or its proposals cluster in one domain, or its frontier scan is weak) — and <em>that finding</em> is the harness proving its worth. Fix the problem, re-run, watch the report confirm. Tag <code>eval-v1.0</code> — the harness is your permanent quality infrastructure.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: trajectory + judge + regression around the node-proposer, one command.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 2-3 honest days): the harness skeleton with pluggable eval components → golden set for the node-proposer → integrate judge (Ch 3), trajectory+tool metrics (Chs 5-6), regression (Ch 8), tracing (Ch 13), cost/latency (Ch 17) → the unified report generator → config-driven, reproducible, meta-tested → run on the node-proposer → <em>find and fix a real problem it surfaces</em>. Tag <code>eval-v1.0</code>. The one-command report + the real problem it found + the fix-and-reverify = the note. This harness evaluates every system you build from here forward.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why is the node-proposer the right harness target — complexity, stakes, and un-measured-ness?</li>
+<li>Walk the harness's six stages, naming the chapter each integrates.</li>
+<li>What does "the report certifies its own trustworthiness" mean — which numbers appear?</li>
+<li>Why must the harness itself be tested, and what does buggy eval math produce?</li>
+<li>What real problem did the harness find in your node-proposer, and how did you fix it?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="build-node-proposer" href="build-node-proposer.html">build-node-proposer</a></p>
+<p><a class="wiki-link" data-node-id="build-golden-dataset" href="build-golden-dataset.html">build-golden-dataset</a></p>
+<p><a class="wiki-link" data-node-id="build-eval-judge" href="build-eval-judge.html">build-eval-judge</a></p>
+<p><a class="wiki-link" data-node-id="trajectory-evals" href="trajectory-evals.html">trajectory-evals</a></p>
+<p><a class="wiki-link" data-node-id="build-tracing-instrumentation" href="build-tracing-instrumentation.html">build-tracing-instrumentation</a></p>
+<p><a class="wiki-link" data-node-id="failure-to-golden-loop" href="failure-to-golden-loop.html">failure-to-golden-loop</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

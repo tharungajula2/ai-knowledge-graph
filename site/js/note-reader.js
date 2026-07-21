@@ -11,6 +11,97 @@ function escapeHtml(text) {
     .replace(/'/g, '&#039;');
 }
 
+// ── Native 1-Pass Syntax Tokenizers (Zero Double-Escaping Leaks) ─────────────
+function highlightPythonCode(rawCodeText) {
+  if (!rawCodeText) return '';
+  let esc = String(rawCodeText)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  const tokens = [];
+  function addTok(cls, content) {
+    const idx = tokens.length;
+    tokens.push(`<span class="${cls}">${content}</span>`);
+    return `___TOK_${idx}___`;
+  }
+
+  esc = esc.replace(/(#.*)$/gm, (m) => addTok('tok-comment', m));
+  esc = esc.replace(/([fF]?"""[\s\S]*?"""|[fF]?'\\'\\'[\s\S]*?'\\'\\')/g, (m) => addTok('tok-str', m));
+  esc = esc.replace(/([fF]?"(?:[^"\\]|\\.)*"|[fF]?'(?:[^'\\]|\\.)*')/g, (m) => addTok('tok-str', m));
+  esc = esc.replace(/\b(def|class|return|import|from|if|elif|else|try|except|finally|for|while|in|is|and|or|not|None|True|False|self|async|await|pass|raise|with|as|yield|break|continue|lambda)\b/g, (m) => addTok('tok-kw', m));
+  esc = esc.replace(/\b(str|int|float|bool|list|dict|set|tuple|print|len|range|type|isinstance|super|open|any|all|enumerate|zip|map|filter)\b/g, (m) => addTok('tok-builtin', m));
+  esc = esc.replace(/\b([a-zA-Z_]\w*)\s*(?=\()/g, (m, fn) => {
+    if (m.startsWith('___TOK_')) return m;
+    return addTok('tok-fn', fn) + '(';
+  });
+  esc = esc.replace(/\b([A-Z][a-zA-Z0-9_]*)\b/g, (m) => {
+    if (m.startsWith('___TOK_')) return m;
+    return addTok('tok-type', m);
+  });
+  esc = esc.replace(/\b(\d+(?:\.\d+)?)\b/g, (m) => {
+    if (m.startsWith('___TOK_')) return m;
+    return addTok('tok-num', m);
+  });
+  esc = esc.replace(/(-&gt;)/g, (m) => addTok('tok-op', m));
+
+  tokens.forEach((tok, idx) => {
+    esc = esc.replace(`___TOK_${idx}___`, tok);
+  });
+
+  return esc;
+}
+
+function highlightShellCode(rawCodeText) {
+  if (!rawCodeText) return '';
+  let esc = String(rawCodeText)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  const tokens = [];
+  function addTok(cls, content) {
+    const idx = tokens.length;
+    tokens.push(`<span class="${cls}">${content}</span>`);
+    return `___TOK_${idx}___`;
+  }
+
+  esc = esc.replace(/^(\$\s+)/gm, (m) => addTok('tok-prompt', m));
+  esc = esc.replace(/\b(python|git|cd|mkdir|cat|ls|grep|npm|node|pip|curl|wget|echo|export|chmod|touch)\b/g, (m) => addTok('tok-cmd', m));
+  esc = esc.replace(/(\s-[a-zA-Z0-9_-]+|\s--[a-zA-Z0-9_-]+)/g, (m) => addTok('tok-flag', m));
+  esc = esc.replace(/("[^"]*"|'[^']*')/g, (m) => addTok('tok-str', m));
+
+  tokens.forEach((tok, idx) => {
+    esc = esc.replace(`___TOK_${idx}___`, tok);
+  });
+
+  return esc;
+}
+
+function highlightErrorCode(rawCodeText) {
+  if (!rawCodeText) return '';
+  let esc = String(rawCodeText)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  const tokens = [];
+  function addTok(cls, content) {
+    const idx = tokens.length;
+    tokens.push(`<span class="${cls}">${content}</span>`);
+    return `___TOK_${idx}___`;
+  }
+
+  esc = esc.replace(/(Traceback \(most recent call last\):)/g, (m) => addTok('tok-tb-header', m));
+  esc = esc.replace(/\b([A-Z]\w*Error:|[A-Z]\w*Exception:)/g, (m) => addTok('tok-err-title', m));
+
+  tokens.forEach((tok, idx) => {
+    esc = esc.replace(`___TOK_${idx}___`, tok);
+  });
+
+  return esc;
+}
+
 // Global Copy Code Handler
 window.copyCodeBlock = function(btn) {
   const wrapper = btn.closest('.code-block-wrapper');
@@ -62,7 +153,7 @@ window.openNoteReaderById = function(targetId) {
   }
 };
 
-// Configure Marked custom renderer for GFM tables and syntax highlighted code blocks
+// Configure Marked custom renderer for GFM tables and native block types
 if (typeof marked !== 'undefined') {
   const markedRenderer = new marked.Renderer();
 
@@ -81,26 +172,55 @@ if (typeof marked !== 'undefined') {
       rawCode = String(code || '');
     }
 
-    const cleanLang = (rawLang || 'text').toLowerCase();
-    let highlighted = '';
+    const cleanLang = (rawLang || 'text').toLowerCase().trim();
+    const cleanCode = rawCode.trim();
 
-    if (window.hljs && typeof window.hljs.highlight === 'function') {
-      try {
-        const validLang = window.hljs.getLanguage(cleanLang) ? cleanLang : 'plaintext';
-        highlighted = window.hljs.highlight(rawCode, { language: validLang }).value;
-      } catch (e) {
-        highlighted = escapeHtml(rawCode);
-      }
-    } else {
-      highlighted = escapeHtml(rawCode);
+    // 1. Output / Stdout Block
+    if (cleanLang === 'output' || cleanLang === 'stdout') {
+      return `<div class="code-block-wrapper block-output">
+        <div class="code-block-header">
+          <span class="code-lang badge-output">OUTPUT</span>
+          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
+        </div>
+        <pre><code class="output-text">${escapeHtml(cleanCode)}</code></pre>
+      </div>`;
     }
 
-    return `<div class="code-block-wrapper">
+    // 2. Terminal / Shell Block
+    if (cleanLang === 'bash' || cleanLang === 'sh' || cleanLang === 'shell' || cleanLang === 'terminal' || cleanLang === 'console' || cleanCode.startsWith('$ ')) {
+      return `<div class="code-block-wrapper block-terminal">
+        <div class="code-block-header">
+          <div class="terminal-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+            <span class="code-lang ml-2">TERMINAL</span>
+          </div>
+          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
+        </div>
+        <pre><code class="language-shell">${highlightShellCode(cleanCode)}</code></pre>
+      </div>`;
+    }
+
+    // 3. Error / Traceback Block
+    if (cleanLang === 'traceback' || cleanLang === 'error' || cleanCode.includes('Traceback (most recent call last):') || /^[A-Z]\w*Error:/.test(cleanCode)) {
+      return `<div class="code-block-wrapper block-error">
+        <div class="code-block-header">
+          <span class="code-lang badge-error">ERROR TRACEBACK</span>
+          <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
+        </div>
+        <pre><code class="language-error">${highlightErrorCode(cleanCode)}</code></pre>
+      </div>`;
+    }
+
+    // 4. Default / Python Block
+    const highlighted = highlightPythonCode(cleanCode);
+    return `<div class="code-block-wrapper block-python">
       <div class="code-block-header">
-        <span class="code-lang">${cleanLang}</span>
+        <span class="code-lang">${cleanLang || 'python'}</span>
         <button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button>
       </div>
-      <pre><code class="language-${cleanLang}">${highlighted}</code></pre>
+      <pre><code class="language-${cleanLang || 'python'}">${highlighted}</code></pre>
     </div>`;
   };
 

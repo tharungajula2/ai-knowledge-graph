@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: API Load Testing</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your system works for <em>you</em> — but will it work for a <em>hundred</em> concurrent users? The node summary: <strong>write a load testing suite using Locust/k6 to simulate concurrent users accessing agent endpoints and analyze latency spikes.</strong> Load testing answers "how does my system behave under real load?" <em>before</em> real users find out the hard way. It's how you discover your breaking points, latency cliffs, and bottlenecks in a controlled test rather than in a production incident — the empirical complement to all your scaling theory (Chs 25–28).</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Why load test — knowing your limits before users do.</strong> Your system has a <em>capacity</em> (how many concurrent requests before it degrades) and <em>behavior under load</em> (does latency climb gracefully or cliff-off? does it error? does it fall over?) — and you <em>don't know these</em> until you measure them (Vol 07's measure-don't-believe, for scale). Load testing <em>simulates</em> many concurrent users hitting your system, so you discover: the <em>capacity</em> (how many concurrent users before SLOs Ch 28 break), the <em>bottleneck</em> (what fails first — the database connections Ch 4? the LLM rate limits Vol 02 Ch 10? the workers Ch 26? CPU?), the <em>latency behavior</em> (p99 under load, Ch 28 — the "latency spikes" the node names), and the <em>failure mode</em> (does it degrade gracefully or catastrophically?). Knowing these lets you provision correctly (Ch 18), set limits (Ch 27), and define realistic SLOs (Ch 28) — <em>before</em> a traffic spike (or a demo to a recruiter) finds the breaking point for you.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The tools and the method (Locust/k6).</strong> <em>Locust</em> (Python-based — write user behavior as Python, familiar) and <em>k6</em> (JavaScript-based, high-performance) are load-testing frameworks: you define <em>virtual users</em> (their behavior — hit these endpoints, in this pattern) and the tool <em>simulates</em> many of them concurrently, ramping up load and measuring results. The method: define realistic user scenarios (a user chats, an agent runs — your real endpoints Ch 1); ramp load (10 users → 100 → 1000, watching where it breaks); measure (latency percentiles Ch 28, error rate, throughput, resource usage Ch 15); and <em>find the knee</em> — the load level where latency spikes or errors climb (the capacity limit). The AI-specific wrinkle: agent endpoints are <em>slow and expensive</em> (Vol 04 Ch 17), so load-testing them costs real money (LLM calls) — use demo mode (Ch 16 — mock the LLM so load tests are free and don't rate-limit you) to load-test the <em>system</em> (your API, DB, workers) without the LLM cost, then targeted small tests with real calls.</p>
+
+<p><strong>What load testing reveals (the actionable findings).</strong> <em>The bottleneck</em> (the first thing to saturate — Vol 04 Ch 17's profiling, for systems: don't guess what limits you, <em>measure</em> it; it's often the database connection pool Ch 4, or LLM rate limits Vol 02 Ch 10, not what you'd assume). <em>The capacity</em> (max sustainable concurrent load — informs provisioning Ch 18 and SLOs Ch 28). <em>The latency curve</em> (how p99 grows with load — graceful vs cliff). <em>The failure mode</em> (Ch 32's concern — does it shed load gracefully, or cascade-fail? — better to discover in a test). Each finding is actionable: the bottleneck is your optimization target, the capacity sets your scaling triggers (Ch 28's HPA), the failure mode drives your resilience work (Ch 32).</p>
+
+<p><strong>Verification — simulated load runs, per the node.</strong> Run the load test at increasing levels: confirm it measures latency percentiles, error rates, and throughput under load; identify the bottleneck (what saturates first); find the capacity (where SLOs break); characterize the latency spike (the knee). Then the payoff: <em>fix one bottleneck</em> the test found (add DB connections Ch 4, add workers Ch 26, add caching Ch 12) and <em>re-test</em> to confirm the capacity improved (Vol 07's measure-optimize-verify, for scale). The bottleneck-found-and-fixed loop is the build's real value.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Write a load testing suite using Locust/k6 to simulate concurrent users accessing agent endpoints and analyze latency spikes; verify with simulated load runs.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): a Locust/k6 load-test suite (realistic user scenarios hitting your agent endpoints Ch 1) → run against your system <em>in demo mode</em> (Ch 16 — free, no LLM cost/rate-limits) at ramping load → measure (latency p99, errors, throughput, resources) → find the bottleneck and the capacity → fix one bottleneck (Ch 4/26/12) → re-test to confirm improvement. This validates RESURRECTION's scale (Ch 34) and feeds the hardening pass (Ch 36). Tag <code>prod-v0.17</code>. The load-test suite + the bottleneck/capacity findings + the fix-and-retest improvement = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why load test — what do you not know about your system until you measure it under load?</li>
+<li>Describe the method (virtual users, ramping load, finding the knee) and the tools.</li>
+<li>Why use demo mode for load testing agent endpoints, and what does it let you test cheaply?</li>
+<li>What four things does load testing reveal, and why is each actionable?</li>
+<li>Why is the bottleneck often <em>not</em> what you'd guess, and which prior principle does that echo?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="cost-latency-dashboards" href="cost-latency-dashboards.html">cost-latency-dashboards</a></p>
+<p><a class="wiki-link" data-node-id="build-demo-mode" href="build-demo-mode.html">build-demo-mode</a></p>
+<p><a class="wiki-link" data-node-id="observability-slos" href="observability-slos.html">observability-slos</a></p>
+<p><a class="wiki-link" data-node-id="build-async-workers" href="build-async-workers.html">build-async-workers</a></p>
+<p><a class="wiki-link" data-node-id="failure-drills-rollbacks" href="failure-drills-rollbacks.html">failure-drills-rollbacks</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

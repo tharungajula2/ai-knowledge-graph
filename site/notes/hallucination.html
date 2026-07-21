@@ -35,17 +35,49 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Hallucination</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Ask a model for a citation and it may invent a paper — plausible authors, plausible journal, plausible year — that has never existed. It isn't lying; lying requires knowing the truth. The model is doing the <em>only thing it ever does</em>: producing the most plausible-sounding continuation. Usually plausible and true coincide. <strong>Hallucination is what happens in the gap between them.</strong></p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The mechanical cause — no lookup, only vibes.</strong> Recall Chapter 3's closing sentence: an LM has no database and no truth-checker, only "likely next in text like this." Facts seen thousands of times in training (capital of France) are burned so deeply into the weights that the plausible continuation <em>is</em> the truth. Facts seen rarely — or your company's internals, or anything after training ended — have weak or no imprint, but the model <em>still must emit a next token</em>, and the objective rewards <em>fluent</em> over <em>silent</em>. So it interpolates: text shaped exactly like a real answer, unmoored from reality. Crucially, the generation process feels identical from the inside whether the fact is solid or invented — which is why confidence and correctness are uncorrelated, and why "it sounded so sure" is worth nothing.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The high-risk zones — learn to smell them:</strong> specific citations/URLs/case law; niche or private-domain facts; anything post-cutoff; precise numbers and dates; long chains of reasoning (one early confabulation poisons everything downstream); and questions with false premises ("Why did X buy Y?" — the model would rather explain a fictional acquisition than push back). Also: asking a model <em>why it</em> answered something — its introspection is itself a plausible-sounding generation.</p>
+
+<p><strong>Grounding — the preview of half your brain.</strong> You cannot train hallucination away entirely; the honest fix is architectural: <strong>stop asking the weights to be the database.</strong> Put the true facts <em>into the context window</em> and instruct: answer from these documents; if absent, say "not found." Grounded generation transforms the task from "recall from vibes" to "read and synthesize" — which models are dramatically better at. Retrieval-then-generate is exactly Domain 03 (RAG); tool-use ("search instead of guessing") is Domain 05; verifying and measuring groundedness is the evaluation domain; and citations-with-answers is why enterprises will hire you. One concept, four rings of your brain.</p>
+
+<p><strong>The engineer's posture.</strong> Never ship raw model output as fact in high-stakes flows. Ground it, cite it, verify it, or human-gate it. Your own agent-lab already contains a human-approval gate — you built the posture before you had the vocabulary.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: why models confidently make things up; grounding preview.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Induce hallucination deliberately (harmless and instructive): ask any model for "5 academic papers on [some hyper-specific niche], with authors and years," then try to find them — expect casualties. Then ask a false-premise question about a fictional event. Finally, re-ask the first question but paste in a real reference text and instruct "only from this document; say NOT FOUND otherwise." Write down the behavioral difference — that difference <em>is</em> the RAG value proposition, witnessed personally.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Explain mechanically why hallucination is not a bug but the objective working as designed.</li>
+<li>Why is the model's confidence uncorrelated with correctness? Use "feels identical from the inside."</li>
+<li>List five high-risk zones from memory.</li>
+<li>Define grounding in one sentence, and name the domains of your brain it previews.</li>
+<li>What does "stop asking the weights to be the database" mean for system design?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="what-is-a-language-model" href="what-is-a-language-model.html">what-is-a-language-model</a></p>
+<p><a class="wiki-link" data-node-id="training-pipeline" href="training-pipeline.html">training-pipeline</a></p>
+<p><a class="wiki-link" data-node-id="context-windows" href="context-windows.html">context-windows</a></p>
+<p><a class="wiki-link" data-node-id="sampling-controls" href="sampling-controls.html">sampling-controls</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

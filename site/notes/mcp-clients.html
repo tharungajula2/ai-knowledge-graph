@@ -35,17 +35,65 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>MCP Clients</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: multi-agent-mcp</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You built a server (Ch 9) and a bridge (Ch 10); this chapter builds the third role — the <strong>client</strong> — and closes the loop. The node summary is small and complete: <strong>connect my server to a client and call it.</strong> A client is the connector inside a host (Ch 8) that speaks the protocol to a server. Building one demystifies the last MCP role and — the real payoff — lets your <em>own agent</em> become an MCP host, gaining any MCP server's tools.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>What a client does — the lifecycle.</strong> (1) <em>Launch/connect</em> — for stdio, spawn the server subprocess and establish the JSON-RPC channel over its stdin/stdout (for HTTP, open the connection); (2) <em>Initialize</em> — the MCP handshake: client and server exchange capabilities (protocol version, what the server offers); (3) <em>Discover</em> — <code>list_tools()</code> (and <code>list_resources()</code>, <code>list_prompts()</code> — Ch 12), returning the server's advertised capabilities with their schemas — <em>this is how an agent learns what a server can do at runtime</em>, dynamically, without hardcoding (the M+N dividend in action: your agent doesn't know the tools at build time, it discovers them at connect time); (4) <em>Invoke</em> — <code>call_tool(name, args)</code> sends the request, awaits the result; (5) <em>Close</em> — clean shutdown, terminate the subprocess.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">from</span> mcp <span class="tok-kw">import</span> <span class="tok-type">ClientSession</span>, <span class="tok-type">StdioServerParameters</span>
+<span class="tok-kw">from</span> mcp.client.stdio <span class="tok-kw">import</span> stdio_client
+
+<span class="tok-kw">async</span> <span class="tok-kw">def</span> <span class="tok-fn">use_server</span>(():
+    params = <span class="tok-fn">StdioServerParameters</span>((command=<span class="tok-str">"python"</span>, args=[<span class="tok-str">"system_utils_server.py"</span>])
+    <span class="tok-kw">async</span> <span class="tok-kw">with</span> <span class="tok-fn">stdio_client</span>((params) <span class="tok-kw">as</span> (read, write):
+        <span class="tok-kw">async</span> <span class="tok-kw">with</span> <span class="tok-fn">ClientSession</span>((read, write) <span class="tok-kw">as</span> session:
+            <span class="tok-kw">await</span> session.<span class="tok-fn">initialize</span>(()
+            tools = <span class="tok-kw">await</span> session.<span class="tok-fn">list_tools</span>(()          <span class="tok-comment"># DISCOVERY — runtime, dynamic</span>
+            result = <span class="tok-kw">await</span> session.<span class="tok-fn">call_tool</span>((<span class="tok-str">"disk_usage"</span>, {<span class="tok-str">"path"</span>: <span class="tok-str">"/"</span>})
+            <span class="tok-kw">return</span> result</code></pre>
+      </div>
+
+<p>Note it's <code>async</code> (Ch 10's whole reason for existing — a client in a sync agent needs the bridge). Note the discovery step: the tools aren't known until <code>list_tools()</code> — which is the profound part.</p>
+
+<p><strong>The agent-as-host payoff — where this connects to everything.</strong> The reason to build a client isn't to call one server manually; it's to make <strong>your agent an MCP host</strong> that can wield <em>any</em> MCP server's tools. The pattern: at agent startup, connect clients to configured servers, <code>list_tools()</code> from each, and <strong>register the discovered tools into your agent's toolbox</strong> (Vol 04 Ch 3's tool abstraction — MCP tools become just more tools in your dispatch, their JSON schemas becoming your tool definitions). Suddenly your Vol 04 research agent can use the filesystem server, the GitHub server, your Ch 9 utils server, your Ch 16 brain server — <em>without bespoke integration for any of them</em>, discovered and registered dynamically. That's the M+N dividend, delivered to your own agent: write the MCP-client-registration layer once, gain every MCP server forever. And it runs through the Ch 10 bridge, because your agent is sync-threaded and the client is async — the three MCP builds (server, bridge, client) compose into exactly your agent-lab's architecture, now fully authored by you.</p>
+
+<p><strong>The design decisions.</strong> <em>Connection management</em> — persistent (keep servers connected across the agent's life — the bridge's persistent session, Ch 10) vs on-demand (connect per task — simpler, slower); persistent is standard for tools an agent uses repeatedly. <em>Tool namespacing</em> — two servers might both expose <code>search</code>; prefix discovered tools with their server name (<code>utils.disk_usage</code>, <code>brain.query</code>) to avoid the collision (Vol 04 Ch 3's "never two confusable names," at server scale). <em>Failure handling</em> — a server subprocess dies mid-session; the client must detect and reconnect or degrade (Vol 04 Ch 16's guards, at the protocol layer). <em>Security</em> — you're launching subprocesses and trusting their tool descriptions; Ch 13's confused-deputy and tool-poisoning attacks live exactly here.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: connect my server to a client and call it.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. half a day, thanks to Chs 9–10): a client that connects to your Ch 9 server, initializes, discovers, and invokes — first standalone (async script), then the real integration: through your Ch 10 bridge, register the discovered MCP tools into your Vol 04 agent's toolbox with server-prefixed names, and run a task where your agent <em>chooses and calls an MCP tool it discovered at runtime</em> (ask it something needing <code>disk_usage</code>; watch it discover, select, and invoke your server's tool through the full server→bridge→client→agent stack). That end-to-end call — your agent using your server via your bridge and client, all three roles authored by you — is the note's centerpiece; trace it hop by hop. Then connect your client to <em>someone else's</em> MCP server (a public filesystem or fetch server) and watch your agent gain a capability you didn't write — the M+N dividend, felt. Tag <code>mcp-client-v0.1</code>.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Recite the client lifecycle's five stages.</li>
+<li>What is discovery, why is it "runtime and dynamic," and why is that the profound part?</li>
+<li>Explain the agent-as-host payoff — how do discovered tools become agent tools, and what dividend does that deliver?</li>
+<li>Why must the client be async, and how does it reach a sync agent?</li>
+<li>Name two client design decisions (namespacing, connection management) and the failure each prevents.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="mcp-fundamentals" href="mcp-fundamentals.html">mcp-fundamentals</a></p>
+<p><a class="wiki-link" data-node-id="build-mcp-server" href="build-mcp-server.html">build-mcp-server</a></p>
+<p><a class="wiki-link" data-node-id="build-mcp-bridge" href="build-mcp-bridge.html">build-mcp-bridge</a></p>
+<p><a class="wiki-link" data-node-id="designing-tools" href="designing-tools.html">designing-tools</a></p>
+<p><a class="wiki-link" data-node-id="mcp-security" href="mcp-security.html">mcp-security</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

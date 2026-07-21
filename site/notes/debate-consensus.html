@@ -35,17 +35,53 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Debate & Consensus</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: multi-agent-mcp</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Put three experts in a room, have them argue a hard question, and the answer that survives the argument is often better than any one expert's first take — <em>sometimes</em>. The node summary: <strong>agents arguing their way to better answers.</strong> Multi-agent debate is a real technique with real gains on specific problems — and a real cost, a real failure mode (confident agreement on a shared delusion), and a specific domain of usefulness you must know precisely, because used wrong it's expensive theater.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The mechanisms — three flavors of structured disagreement.</strong></p>
+<ol>
+<li><em>Debate proper</em>: N agents independently answer, then see each other's answers and <em>critique and revise</em> over rounds — the hope being that flaws get exposed and answers converge on truth. It's Vol 04 Ch 9's reflection, socialized: instead of one agent critiquing itself (and inheriting its own blind spots), <em>different</em> agents critique each other (escaping some blind spots — the "different model as critic beats same model" insight, Ch 9, scaled to a panel). The mechanism that makes it work when it works: <em>independent errors</em>. If agents fail differently, their disagreements surface the failures; the truth is the fixed point they converge toward because it's the one answer none of them can successfully attack.</li>
+<li><em>Consensus/voting (self-consistency, socialized)</em>: N agents answer independently; take the majority (Vol 02 Ch 5's self-consistency, now across agents rather than samples). Cheaper than debate (no rounds of cross-critique), and it works for the same reason — independent errors scatter, correct answers concentrate — but only when there's a <em>checkable convergence point</em> (a final answer to vote on), which is why it shines on math/logic/classification and flails on open-ended generation (what does "majority vote" mean across five essays?).</li>
+<li><em>Role-based adversarial</em>: assign <em>opposing</em> roles — a proposer and a skeptic, a red team and a blue team — to force examination that same-minded agents skip. The generator-critic (Ch 15's build) is the two-agent case; a full adversarial panel is its generalization.</li>
+</ol>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The killer failure mode — and it's the whole reason to be careful.</strong> <em>Correlated errors → confident consensus on a shared delusion.</em> The entire premise is <em>independent</em> errors; but agents built on the same base model share the same blind spots, the same training biases, the same hallucination attractors — so they can <em>agree, confidently, on the same wrong answer</em>, and debate then does something worse than nothing: it <em>manufactures false confidence</em>, three agents nodding along to a shared mistake, producing a consensus that <em>looks</em> more trustworthy than a lone answer while being no more correct. This is Vol 04 Ch 16's multi-agent amplification at its purest (uncertainty laundered into authority) and Ch 9's self-blindness caveat, multiplied. The mitigations, in ascending strength: <em>diversity</em> (different models, different prompts, different framings — genuine independence is the only real cure, and it's hard to achieve); <em>ground truth</em> (Ch 9's lesson, undefeated — a debate refereed by tests/retrieval/a verifier beats a debate refereed by vibes; the best "consensus" mechanism is often "check reality," not "count votes"); and <em>honest uncertainty</em> (agents reporting confidence and disagreement being <em>surfaced</em> rather than smoothed — Vol 04 Ch 16's <code>gaps</code>/confidence fields, at panel scale).</p>
+
+<p><strong>The cost reckoning — why this is often the wrong tool.</strong> Debate is <em>expensive</em>: N agents × R rounds × cross-critique context (each round, each agent re-reads everyone's answers — the scratchpad-growth disease, Vol 04 Ch 13, multiplied by the panel) — easily 5–15× a single answer's cost (Ch 7's math at its most brutal). It buys accuracy on <em>specific</em> problems (hard reasoning where independent-error convergence genuinely operates, high-stakes decisions where the cost is justified) and buys <em>nothing but a bigger bill</em> on problems a single good agent nails or on generation tasks with no convergence point. The doctrine, consistent with every ladder in this curriculum: <strong>spend debate only where evidence (Domain 07's evals) proves the accuracy gain justifies the multiplied cost</strong> — and suspect, always, that a grounded single agent or cheap voting beats an ungrounded expensive debate.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: agents arguing their way to better answers.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>The honest experiment (~40 lines, and a genuine surprise generator): pick 6 hard reasoning questions with <em>checkable</em> answers (tricky math, logic puzzles, questions with a false premise — Vol 01 Ch 10's territory). Run three ways, scoring accuracy and cost each: (a) single agent; (b) consensus — 5 independent answers, majority vote; (c) debate — 3 agents, 2 rounds of cross-critique. Then the crucial probe for the failure mode: find a question where all three agents <em>agreed and were all wrong</em> (correlated error — it will happen; when it does, you've witnessed manufactured false confidence in your own transcript) and one where debate <em>fixed</em> a single-agent error (independent-error convergence working). The accuracy/cost table + both specimens + one paragraph on when you'd actually pay for debate = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the three mechanisms, and explain the "independent errors" premise that all three depend on.</li>
+<li>Why does voting shine on math but flail on essays? Tie it to "checkable convergence point."</li>
+<li>State the killer failure mode precisely, and why debate makes it <em>worse</em> than a lone answer.</li>
+<li>Recite the mitigations in ascending strength, ending with the undefeated one.</li>
+<li>Give the cost multiplier and the doctrine for when debate is worth it — with your experiment's evidence.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="reflection-patterns" href="reflection-patterns.html">reflection-patterns</a></p>
+<p><a class="wiki-link" data-node-id="sampling-controls" href="sampling-controls.html">sampling-controls</a></p>
+<p><a class="wiki-link" data-node-id="agent-failure-modes" href="agent-failure-modes.html">agent-failure-modes</a></p>
+<p><a class="wiki-link" data-node-id="token-economics-of-teams" href="token-economics-of-teams.html">token-economics-of-teams</a></p>
+<p><a class="wiki-link" data-node-id="build-writer-critic" href="build-writer-critic.html">build-writer-critic</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

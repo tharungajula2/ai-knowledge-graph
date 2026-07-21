@@ -35,17 +35,66 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Agent Failure Modes</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: agents</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Vol 03 gave RAG its failure taxonomy and turned debugging into differential diagnosis; agents deserve the same, and need it more — because the loop that compounds progress compounds error (Ch 1's symmetry, now due). The node summary names the headliners: <strong>infinite loops, tool spam, derailment — and guards.</strong> You have personally witnessed most of this zoo already, on purpose, in your own transcripts. Today every specimen gets a name, a signature, and a guard — and agent debugging becomes a checklist, not a séance.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Family 1 — Loop pathologies (the agent won't stop, or stops wrong).</strong></p>
+<ul>
+<li><strong>The infinite loop</strong>: same action (or a tight cycle of actions) repeating — classic cause: an observation the agent can't interpret as progress, so it retries the only move it knows (you met it in Ch 4's no-max-steps drill; you felt its psychological twin in Ch 2). <em>Signature</em>: repeated identical/near-identical tool calls in the transcript. <em>Guards, layered</em>: max_steps (the crude floor, Ch 4); <strong>repetition detection</strong> — dispatch keeps a hash-set of (tool, args) this run and on a repeat injects the observation "you have already tried this exact call; the result will not change; try a different approach" (the loop-breaker that actually works — legible feedback, Ch 3's philosophy); and per-step budgets (Ch 14's nested bounds).</li>
+<li><strong>Premature termination</strong>: the mirror twin — the agent answers before verifying, from vibes (Ch 2's temptation, in silicon). <em>Signature</em>: Final Answer with claims no observation supports. <em>Guards</em>: the synthesizer's citation-integrity check (a claim with no Finding can't ship — Vol 03 Ch 10 as termination discipline), and a reflection pass gated on "does every claim trace?" (Ch 9, externally anchored).</li>
+<li><strong>Goal drift / derailment</strong> (the node's word): the agent wanders — a research question about API pricing becomes a tour of API history. <em>Cause</em>: the goal dilutes in a growing scratchpad (Ch 8 named it; Ch 13 priced it). <em>Signature</em>: late-transcript actions that serve no plan step. <em>Guards</em>: plan-and-execute structure (the plan pins the goal — Ch 8's core sale), the replan-check as drift-detector ("does this action serve a remaining step?"), and scratchpad compression keeping the goal's share of attention high.</li>
+</ul>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Family 2 — Tool pathologies (the agent acts badly).</strong></p>
+<ul>
+<li><strong>Tool spam</strong> (the node's word): calling tools when none is needed, or scattershot calls hoping something sticks — burning money and rate limits (Vol 02, Ch 10). <em>Cause</em>: usually descriptions without negative space (Ch 3 — "do NOT use for...") or a missing <code>none</code>/direct-answer path (Ch 11). <em>Guards</em>: description craft, the <code>none</code> route, and per-run tool-call budgets with the budget's remaining count <em>visible in the prompt</em> ("you have 3 tool calls remaining" — scarcity legibly stated changes behavior).</li>
+<li><strong>Wrong tool / malformed args</strong>: Ch 3's misuse modes plus garbage JSON. <em>Guards</em>: all built — naming consistency, arg validation at dispatch with legible error observations, the repair loop.</li>
+<li><strong>Fantasy observations</strong>: the agent hallucinates tool results instead of waiting for them — the no-stop-sequence bug (Ch 4's most instructive failure) and its subtler cousin: confidently "remembering" a result it never obtained. <em>Signature</em>: observations in the transcript that dispatch never produced (auditable — because your transcript is ground truth). <em>Guards</em>: stop sequences (mechanical), and the exoskeleton rule — synthesis only from typed Findings, never from prose memory (Ch 14's quarantine, doing double duty).</li>
+</ul>
+
+<p><strong>Family 3 — Compounding pathologies (small errors, amplified by the loop).</strong></p>
+<ul>
+<li><strong>Error cascade</strong>: one bad observation poisons every downstream decision — Vol 03 Ch 14's propagation, Ch 2's sabotage run, now at full scale. <em>Guards</em>: per-hop grounding (findings carry quotes — provenance as antibody), replan checks as circuit breakers, and the gate catching consequential actions born of poisoned reasoning before they touch the world (Ch 15 — the gate as the <em>last</em> line, which is why it's policy).</li>
+<li><strong>Context poisoning / injection</strong>: the adversarial cascade — Vol 02 Ch 12's indirect injection meeting Ch 14's open web. <em>Guards</em>: as deployed — delimiting, quarantine, provenance requirements, the gate. (One taxonomy, two volumes, converging: injection is an <em>induced</em> error cascade; the defenses unify.)</li>
+<li><strong>Multi-agent amplification</strong>: in supervisor systems, a specialist's confident-wrong result enters the parent's context with the <em>authority of a completed subtask</em> — the boundary that enables independence also launders uncertainty. <em>Guards</em>: <code>SpecialistResult</code> carrying confidence/gaps fields (the honesty schema — Ch 14's <code>gaps</code>, generalized), and the supervisor treating specialist outputs as observations to reason over, not facts to relay.</li>
+</ul>
+
+<p><strong>The diagnostic protocol — the chapter's takeaway, mirroring Vol 03's tree.</strong> (1) <em>Read the transcript</em> — the agent's scratchpad is ground truth; every pathology above has a transcript signature, listed. (2) Locate the <em>first</em> wrong step (not the loudest — cascades mean the visible failure is downstream of the cause; walk backward). (3) Classify by family: didn't stop right → loops; acted badly → tools; was fine then rotted → compounding. (4) Apply the named guard, <em>one change</em> (the discipline, always), rerun. And the meta-observation worth ending on: nearly every guard in this zoo is something you had already built before this chapter named it — budgets, legible errors, citations, plans, gates, quarantines. Good agent engineering isn't a safety layer bolted on; it's the same honest architecture, load-bearing twice.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: infinite loops, tool spam, derailment — and guards.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Breed the zoo — Vol 03's bestiary ritual, agent edition. Induce five specimens in your own stack, one per family minimum, each documented with {transcript excerpt, signature identified, first-wrong-step located, guard applied, rerun verdict}: (1) disable repetition detection + feed the Researcher an unanswerable query with a broken mock search → infinite loop (kill it; then re-arm the guard and watch the loop-breaker observation redirect it); (2) remove the citation-integrity check → catch one premature termination; (3) run a deliberately vague goal without a plan → document the drift, then rerun planned and diff; (4) strip a tool's negative-space clause → count the spam calls before/after restoring it; (5) replay Ch 2's sabotage as automation: script one poisoned mock observation early → trace the cascade in the transcript, then show the gate catching the consequential downstream action. Five pinned specimens = the note, and a debugging checklist you'll use for years.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Reproduce the zoo from memory: three families, ~nine specimens.</li>
+<li>For infinite loops: the cause, the signature, and the three-layer guard stack — and why the legible loop-breaker outperforms a bare max_steps.</li>
+<li>Distinguish derailment from premature termination by transcript signature, and name each one's structural guard.</li>
+<li>Walk the diagnostic protocol on: "the briefing confidently cites a source that says the opposite."</li>
+<li>Deliver the meta-observation about guards and architecture — with three examples from your own builds.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="rag-failure-modes" href="rag-failure-modes.html">rag-failure-modes</a></p>
+<p><a class="wiki-link" data-node-id="build-agent-from-scratch" href="build-agent-from-scratch.html">build-agent-from-scratch</a></p>
+<p><a class="wiki-link" data-node-id="injection-first-look" href="injection-first-look.html">injection-first-look</a></p>
+<p><a class="wiki-link" data-node-id="add-the-gate" href="add-the-gate.html">add-the-gate</a></p>
+<p><a class="wiki-link" data-node-id="plan-and-execute" href="plan-and-execute.html">plan-and-execute</a></p>
+<p><a class="wiki-link" data-node-id="scratchpads-working-memory" href="scratchpads-working-memory.html">scratchpads-working-memory</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

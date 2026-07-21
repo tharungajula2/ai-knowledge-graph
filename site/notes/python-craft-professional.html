@@ -35,17 +35,78 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Professional Python Craft</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Everything so far taught you to write code that <em>runs</em>. This chapter is the jump to code a <em>team</em> can trust: organized as a package, typed, <strong>tested</strong>, measured, and installable. This is the single loudest difference between "I did a course" and "I've worked on real software" — and it's what makes every build node after this one land at professional grade by default.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Layout — the standard skeleton</strong> (recognize it in every serious repo):</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">text</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-text">tokentools/
+├── pyproject.toml          <span class="tok-comment"># the project's ID card + dependencies + metadata</span>
+├── <span class="tok-type">README</span>.md
+├── src/tokentools/
+│   ├── __init__.py         <span class="tok-comment"># marks the package; exports the public API</span>
+│   ├── counter.py
+│   └── pricing.py
+└── tests/
+    └── test_counter.py</code></pre>
+      </div>
+<code>pyproject.toml</code> (name, version, dependencies, <code>requires-python</code>) is modern Python's single config file; with it, <code>pip install -e .</code> installs your package <em>editable</em> into your venv — imports work from anywhere, edits apply instantly. That one command is how professionals work on their own libraries.
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Testing with pytest — the heart of the chapter.</strong> A test is a tiny function that <em>asserts</em> the truth:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-comment"># tests/test_counter.py</span>
+<span class="tok-kw">from</span> tokentools.counter <span class="tok-kw">import</span> estimate_tokens
+<span class="tok-kw">import</span> pytest
+
+<span class="tok-kw">def</span> <span class="tok-fn">test_english_rule_of_thumb</span>(():
+    assert <span class="tok-fn">estimate_tokens</span>((<span class="tok-str">"hello world, how are you"</span>) == <span class="tok-num">6</span>   <span class="tok-comment"># ~4 chars/token</span>
+
+<span class="tok-kw">def</span> <span class="tok-fn">test_empty_string</span>(():
+    assert <span class="tok-fn">estimate_tokens</span>((<span class="tok-str">""</span>) == <span class="tok-num">0</span>
+
+<span class="tok-kw">def</span> <span class="tok-fn">test_rejects_non_string</span>(():
+    <span class="tok-kw">with</span> pytest.<span class="tok-fn">raises</span>((<span class="tok-type">TypeError</span>):
+        <span class="tok-fn">estimate_tokens</span>((<span class="tok-num">1234</span>)</code></pre>
+      </div>
+<p>Run <code>pytest</code> — it auto-discovers <code>test_<em>.py</code> files and prints green dots or precise failures. Internalize the trio every test suite needs: the happy path, the </em>edge cases<em> (empty, huge, unicode), and the </em>expected failures<em> (<code>pytest.raises</code>). Then the habit that changes how you build: <strong>the regression ritual</strong> — every bug you ever fix gets a test that reproduces it first, so it can never sneak back. Tests aren't bureaucracy; they're the safety net that makes you </em>brave* — you'll refactor fearlessly in ten minutes because <code>pytest</code> will catch anything you break. (This mindset scales all the way up: model evals in your evaluation domain are "pytest for AI behavior.")</p>
+
+<p><strong>Profiling — measure, never guess.</strong> When code is slow, humans guess wrong about why. <code>python -m cProfile -s cumtime main.py</code> prints where the time actually went, sorted by cumulative time; <code>time.perf_counter()</code> around a suspect block is the quick manual version. The law: optimize <em>only</em> what profiling proves is hot.</p>
+
+<p><strong>The craft checklist</strong> that turns any script into a professional artifact: package layout ✓ · type hints on every public function ✓ (Chapter 18) · docstrings saying <em>what and why</em> ✓ · tests covering happy/edge/failure ✓ · <code>pip install -e .</code> works in a fresh venv ✓ · README with a 5-line usage example ✓.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a modular package using typing conventions, unit tests with pytest, execution profiling, and metadata packaging; verify with test passes.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build the <code>tokentools</code> package exactly as laid out: <code>estimate_tokens(text)</code> (chars÷4 heuristic, TypeError on non-strings) and <code>estimate_cost(tokens, price_per_million)</code> in <code>pricing.py</code>, both typed and docstringed. Write ≥6 tests covering the trio for both functions. <code>pip install -e .</code> it, get all-green <code>pytest</code>, then profile a run that processes a 100k-word string 1,000 times and record the hot line in your note. All green = node lightable. (Keep this package — Chapter 22 imports it.)</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What belongs in <code>pyproject.toml</code>, and what does <code>pip install -e .</code> do that plain scripts can't?</li>
+<li>Name the test trio and write a <code>pytest.raises</code> block from memory.</li>
+<li>What is the regression ritual, and what emotional change do tests buy an engineer?</li>
+<li>Why "profile, never guess," and which command answers "where did the time go?"</li>
+<li>Recite the craft checklist.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="python-typing-pydantic" href="python-typing-pydantic.html">python-typing-pydantic</a></p>
+<p><a class="wiki-link" data-node-id="python-environments" href="python-environments.html">python-environments</a></p>
+<p><a class="wiki-link" data-node-id="build-token-cost-calculator" href="build-token-cost-calculator.html">build-token-cost-calculator</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

@@ -35,17 +35,40 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Synthesis: The Connected-Agents Map</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: multi-agent-mcp</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
-
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+          <h2 id="eli5">ELI5</h2>
+<p>The node summary sets the task: a <strong>review and architecture map of multi-agent communication and routing protocols</strong> — the whole ring rendered as one navigable picture, from "should this even be a team?" through how teams talk (handoffs, shared state, parallelism, debate) to how everything connects (MCP's three roles, the security surface, the protocol landscape). When you can draw this cold, you own the connective architecture of modern AI systems.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p>It starts with a <em>refusal</em>: the null hypothesis that one good agent usually wins, and the burden of proof on <em>many</em> — justified only by distinct specialties, context isolation, or parallelism, and <em>never</em> without pricing the coordination tax [1, 7]. When a team is warranted, one shape dominates: the <strong>orchestrator–worker</strong> — a coordinator that decomposes, dispatches, integrates, handles failure, and <em>owns the goal</em> [2], thin-orchestrator-fat-workers by default. Teams move work through <strong>handoffs</strong> — a distilled baton carrying task, curated context, and criterion, routed deterministically where the path is knowable and by LLM where it isn't, guarded against starvation, flooding, loops, and telephone-game decay [3]. They share knowledge along a spectrum from private scratchpads through message-passing to blackboards, paying coordination discipline in proportion to shared mutable state [4], and they <strong>parallelize</strong> only what's genuinely independent — fan-out/fan-in over <code>gather</code>, reducers merging concurrent writes, latency dropping while cost holds flat [5]. Sometimes they <strong>debate</strong> — reflection socialized, converging on truth <em>when errors are independent</em> and manufacturing false confidence <em>when they're correlated</em>, always outranked by ground truth and rarely worth its 5–15× bill [6]. And underneath the talking, the connective standard: <strong>MCP</strong>, the USB-C that collapsed M×N tool integration to M+N [8] — host, client, server [8]; a server you built exposing tools over stdio subprocesses [9]; the <strong>async-sync bridge</strong> that once froze your lab, rebuilt as a background event loop you authored [10]; a client that discovers tools at runtime and makes your agent a host of any server's capabilities [11]; the full three-primitive spec — tools for the model, resources for the app, prompts for the user [12]; a new attack surface of poisoned tools and confused deputies, defended by capability-minimalism and the gate [13]; and a contested agent-to-agent frontier read through permanent axes rather than hype [14]. It ships as real teams — a writer-critic whose gain you <em>measured</em> [15], your <strong>brain exposed as MCP infrastructure</strong> any AI can query [16], and the honest one-vs-many experiment that turned "use multi-agent" from a stance into a measured, task-dependent decision [17].</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: review and architecture map of multi-agent communication and routing protocols.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Three renditions, the ritual: <strong>(a)</strong> The narration, written, ≤700 words, your words, every node present and load-bearing. <strong>(b)</strong> The map — the node's literal demand: a two-region architecture diagram — <em>Teams</em> (orchestrator at center; workers around; handoff batons labeled; shared-state pattern marked; parallel fan-out/fan-in; debate panel) and <em>Protocols</em> (MCP's host-client-server triangle; your three servers/bridge/client; the three primitives; the security surface as red boundaries; the protocol landscape as the horizon). Draw the routing doctrine as a decision layer over both regions. Photograph into the note. <strong>(c)</strong> The 90-second spoken version — its interview home: <em>"when would you use multiple agents, and how do they coordinate and connect?"</em> — the second clause (coordination + MCP) is where your ring makes you rare. Record, critique, re-record.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Deliver the 90-second version cold — both clauses.</li>
+<li>Trace one task from "should this be a team?" through orchestration, a handoff, a parallel fan-out, to an MCP tool call — naming every mechanism and its chapter.</li>
+<li>Place the three shared-state patterns and the debate failure mode on your map from memory.</li>
+<li>Draw MCP's three roles and three primitives from memory.</li>
+<li>Draw the full map from memory.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="synthesis-multi-agent" href="synthesis-multi-agent.html">synthesis-multi-agent</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

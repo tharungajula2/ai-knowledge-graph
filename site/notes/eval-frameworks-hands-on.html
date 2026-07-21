@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Eval Frameworks Hands-on</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You've built golden datasets (Ch 2), a judge (Ch 3), and trajectory/tool metrics (Chs 5–6) — all by hand, which means you <em>understand</em> them (the curriculum's bet, again). Now the node summary: <strong>run current frameworks on my brain-chat.</strong> Eval frameworks package everything you built into reusable tooling — and because you built it bare, you'll see exactly what each framework does, what it does <em>well</em>, and where its opinions don't fit yours. This is the build-vs-buy chapter for evals: framework as convenience, never as magic.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>What eval frameworks provide (and you now recognize each piece).</strong> The current landscape (scan on build day — this is frontier-adjacent; names churn: RAGAS for RAG metrics, DeepEval/promptfoo/Braintrust/LangSmith-evals and others) generally packages: <em>dataset management</em> (your golden set, Ch 2, with versioning), <em>built-in metrics</em> (faithfulness, answer-relevance, context-recall — Vol 03 Ch 18's metrics you built by hand; plus general judge-based scorers, Ch 3), <em>judge orchestration</em> (running LLM judges at scale with the biases-and-calibration machinery, Ch 3-4 — though check whether <em>they</em> calibrate or just assume), <em>result tracking</em> (scores over versions, comparison, dashboards), and <em>CI integration</em> (Ch 9). The framework's value is <em>not doing it yourself</em> for the standard cases — and its risk is the same as every framework (Vol 04 Ch 5): opinions baked in, decisions hidden, occasional leaks.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The evaluation-of-the-evaluator — what to check (Ch 5's memory-framework axes, aimed at eval tools).</strong> <em>Does its judge calibrate, or assume?</em> (Ch 4 — a framework that ships an uncalibrated judge is shipping fiction with a nice UI; check whether you can validate and pin its judge). <em>Do its metrics match what you need?</em> (RAGAS's faithfulness is your Vol 03 Ch 18 metric — good; but does it handle <em>your</em> trajectory/tool needs, Chs 5-6, or only answer-quality?). <em>Can you customize rubrics?</em> (the node's "customized rubrics" — a framework that only does its built-in metrics can't score <em>your</em> specific quality criteria). <em>Does it own your data?</em> (Ch 11 — where do your eval results and golden sets live?). <em>Does it version-pin judges?</em> (Ch 4 — or do your scores silently drift?). Because you built the primitives, you can <em>read</em> each framework's answers to these — you're evaluating from knowledge, not hope.</p>
+
+<p><strong>Running it on brain-chat — the concrete task.</strong> Take your Vol 03 brain-chat (the RAG system with its own Vol 03 Ch 18 evals) and run a current framework's RAG metrics on it: faithfulness, context-recall, answer-relevance over a golden set. Then the revealing comparison: <em>your hand-built Vol 03 eval scores vs the framework's scores on the same system and data</em>. Do they agree? Where they differ, <em>why</em>? (Different judge, different metric definition, different calibration — and understanding the difference is worth more than either number alone.) This comparison — your bare-metal understanding checking the framework's black box — is the build's real lesson: frameworks are trustworthy <em>exactly to the degree you can reproduce and explain their numbers</em>.</p>
+
+<p><strong>The build-vs-buy verdict.</strong> After running it: for <em>your</em> systems, does the framework earn adoption? It probably does for <em>standard</em> metrics at scale (why re-implement faithfulness scoring and result-tracking?) and probably <em>doesn't</em> replace your custom needs (trajectory evals for your specific agent, Ch 5; your node-proposer's bespoke criteria). The mature answer, as always (Vol 06 Ch 5): <em>frameworks for the commodity metrics and infrastructure, custom for the parts unique to your system</em> — and only having built it bare lets you draw that line correctly.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: run current frameworks on my brain-chat.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): pick a current eval framework (scan on build day) → set it up on your brain-chat with a RAG-metrics golden set → run faithfulness/context-recall/answer-relevance → <strong>the comparison</strong>: run your hand-built Vol 03 Ch 18 evals on the same system/data and compare scores → investigate any disagreement (judge? metric definition? calibration?). Then the evaluation-of-the-evaluator: check the framework against the five axes (calibration, metric fit, customization, data ownership, judge pinning) and write the build-vs-buy verdict for your systems. The framework-vs-handbuilt comparison + the axis evaluation + the verdict = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the pieces an eval framework packages, and which of your hand-builds each corresponds to.</li>
+<li>What five things do you check when evaluating an eval framework, and why can you check them?</li>
+<li>Why is the hand-built-vs-framework score comparison the build's real lesson?</li>
+<li>State the framework trustworthiness principle (reproduce-and-explain).</li>
+<li>Give the build-vs-buy verdict shape — commodity vs custom.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="rag-evals-intro" href="rag-evals-intro.html">rag-evals-intro</a></p>
+<p><a class="wiki-link" data-node-id="build-eval-judge" href="build-eval-judge.html">build-eval-judge</a></p>
+<p><a class="wiki-link" data-node-id="build-chat-with-my-brain" href="build-chat-with-my-brain.html">build-chat-with-my-brain</a></p>
+<p><a class="wiki-link" data-node-id="memory-frameworks" href="memory-frameworks.html">memory-frameworks</a></p>
+<p><a class="wiki-link" data-node-id="judge-bias-pinning" href="judge-bias-pinning.html">judge-bias-pinning</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

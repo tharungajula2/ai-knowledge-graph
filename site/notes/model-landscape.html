@@ -35,17 +35,48 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>The Current Model Landscape</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: foundations</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>"Which model is best?" is like "which vehicle is best?" — meaningless without axes. A truck, a scooter, and an F1 car are all "best." The landscape stops being a confusing zoo of names the moment you carry a fixed set of axes and pin every new name onto them.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Axis 1 — Open-weights vs closed API.</strong> Closed (the frontier labs' flagships — Anthropic, OpenAI, Google): top capability, zero ops burden, per-token pricing, data leaves your walls, provider can deprecate. Open-weights (Meta's Llama line, Mistral, Alibaba's Qwen, DeepSeek, etc.): weights are files you can download — self-host, fine-tune freely, data stays home, but <em>you</em> own GPUs, serving, and upgrades. Note the honest term is open-<em>weights</em>, not open-source: you get the artifact, rarely the training data or full recipe. Enterprise conversations orbit this axis endlessly (compliance vs capability), which is why interviewers love it.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Axis 2 — Frontier vs small.</strong> Frontier models: maximum capability, maximum price and latency. Small models (single-digit billions of params) run on a laptop or phone, cost pennies, and — the key modern insight — a small model <em>fine-tuned for one narrow job</em> routinely beats a frontier generalist <em>at that job</em>. Production systems therefore <strong>route</strong>: cheap model for the easy 80%, frontier for the hard 20%. Model-tiering is a standard cost lever you'll pull in the production domain.</p>
+
+<p><strong>Axis 3 — Modality &amp; shape.</strong> Text-only vs multimodal (vision/audio in, sometimes images out); embedding models vs generative (Chapter 5); "reasoning" variants that spend extra thinking-tokens to buy accuracy on hard problems — a live tradeoff (latency &amp; cost vs depth) you now know how to evaluate.</p>
+
+<p><strong>Axis 4 — How to <em>read</em> claimed rankings.</strong> Benchmarks (exam-style scores) saturate and leak into training data; leaderboard arenas (humans blind-vote between model answers) measure preference, not truth; the only benchmark that finally matters is <strong>your own eval set on your own task</strong> — a drum the evaluation domain will beat loudly. Treat every launch-day claim as marketing until it survives your evals.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: open vs closed, frontier vs small — as of the day I light this node.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Run the frontier-scan: search the current top closed flagships, top open-weights families, and current pricing per million tokens for one frontier and one budget model. Build your personal landscape table with the four axes as columns and ~8 models as rows. Date-stamp it in the note — it is a snapshot, and per Rule 7 the <em>next</em> reader of this node might be you in a replan, re-running the scan.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Open-weights vs closed: give two decisive advantages each, and the compliance reason enterprises accept weaker models.</li>
+<li>Why can a small fine-tuned model beat a frontier generalist? What production pattern does that enable?</li>
+<li>What is a "reasoning" model spending, to buy what?</li>
+<li>Why are public benchmarks weak evidence, and what is the only benchmark that matters?</li>
+<li>Why is this node marked <code>frontier</code> — what rots, what doesn't?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="training-pipeline" href="training-pipeline.html">training-pipeline</a></p>
+<p><a class="wiki-link" data-node-id="sampling-controls" href="sampling-controls.html">sampling-controls</a></p>
+<p><a class="wiki-link" data-node-id="hallucination" href="hallucination.html">hallucination</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

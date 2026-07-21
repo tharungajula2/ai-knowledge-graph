@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Why Evals Rule Everything</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>In normal software, you write a test: <code>assert add(2,2) == 4</code>. It passes or fails, forever, deterministically. Now test an AI: <code>assert summarize(article) == ???</code> — there's no single right answer, the output changes every run (temperature, Vol 01 Ch 9), and "correct" is a spectrum, not a bit. The node summary is the whole ring's foundation: <strong>you can't improve what you can't measure.</strong> Evals are how you measure the unmeasurable — and mastering them is what separates engineers who <em>guess</em> their AI is good from engineers who <em>know</em>.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Why traditional testing breaks — the three walls.</strong> (1) <em>Non-determinism</em>: same input, different output each run (sampling, Vol 01 Ch 9) — <code>assert output == expected</code> is meaningless when output legitimately varies. (2) <em>No single correct answer</em>: "summarize this," "is this response helpful," "did the agent research well" — correctness is a <em>quality judgment on a spectrum</em>, not an equality check. (3) <em>Behavior emerges from prompts, not code</em>: you change a prompt (Vol 02 Ch 3) and behavior shifts in ways no unit test on the <em>code</em> would catch — the logic lives in natural language the compiler never sees. Traditional software engineering's entire quality apparatus — deterministic tests, code coverage, type checking — measures the <em>scaffolding</em> while the actual behavior (the model's outputs) goes unmeasured. Evals fill exactly that gap.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>What an eval actually is.</strong> An eval is a <em>measurement of AI output quality against a defined standard</em>, on a <em>fixed set of inputs</em>, producing a <em>score you can compare across versions</em>. Decompose that: a <strong>dataset</strong> (fixed inputs — Ch 2's golden set, so runs are comparable, Vol 02 Ch 16's iron law: you can't A/B on shifting inputs), a <strong>task</strong> (what the system should do), a <strong>scorer</strong> (how you turn an output into a number — exact-match, rubric, or LLM judge, Ch 3), and a <strong>metric</strong> (the aggregate — pass rate, average score, per-slice breakdown). Run the same dataset through two versions of your system, compare the scores: <em>that's</em> how you know if a change helped, and it's the only honest way. Everything in this ring elaborates this skeleton.</p>
+
+<p><strong>Why this is the senior superpower — the career argument, stated plainly.</strong> Junior engineers ship prompts and <em>hope</em> (they eyeball a few outputs, it looks good, they ship). Senior engineers ship prompts and <em>measure</em> (golden set, before/after scores, decision by evidence). The difference isn't intelligence — it's discipline, and it's <em>visible in the work</em>: "I improved the agent" (junior, unfalsifiable) vs "I improved faithfulness from 0.72 to 0.89 on my 20-case golden set while holding latency" (senior, evidenced). Every hiring manager for AI roles is starving for people who measure instead of vibe, because <em>un</em>measured AI systems are how companies ship confidently-wrong products (Vol 01 Ch 10's hallucination, undetected at scale). Evals are the discipline that makes AI engineering <em>engineering</em> rather than alchemy — and your target roles (the Infosys JD, the whole field) list it because it's rare and it's the thing that keeps AI products from silently rotting.</p>
+
+<p><strong>The eval mindset — what changes in how you work.</strong> Once you internalize evals: you never ship a prompt change without a before/after (Vol 02 Ch 16's loop, now law); every production failure becomes a permanent test case (Ch 20's failure→golden loop, the flywheel); you distrust your own eyeballing (one good-looking output proves nothing — n matters, Vol 02 Ch 16); and you treat "it feels better" as a hypothesis to test, not a conclusion. This mindset — <em>measure, don't believe</em> — is the ring's real gift, and it retroactively makes every system you've built (research agent, memory layer, node-proposer) improvable, because now you can tell if a change actually helped.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: you can't improve what you can't measure.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>The reckoning (concept node, honest): (1) Audit your own past six rings — for each major system (Feynman-bot, brain-chat, research agent, node-proposer, memory layer), ask: <em>how do I actually know it works?</em> Be brutal — where did you eyeball, where did you measure, where do you genuinely not know? The gaps are this ring's work. (2) Take one recent change you made "because it felt better" (a prompt tweak, a k-value, a reranker) and ask: could I <em>prove</em> it helped? What eval would I need? Write the eval you <em>should</em> have run. (3) Write the paragraph: articulate, in your own words, why <code>assert output == expected</code> fails for AI and what replaces it. The audit + the should-have-run eval + the paragraph = the note, and the audit <em>is</em> your ring roadmap.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the three walls that break traditional testing for AI, with an example of each.</li>
+<li>Decompose "an eval" into its four components, and why must the dataset be fixed?</li>
+<li>State the junior-vs-senior difference concretely, with the two ways of claiming an improvement.</li>
+<li>Why are hiring managers starving for eval discipline — what does its absence cause?</li>
+<li>Name three habits the eval mindset changes, and why "measure, don't believe" makes everything improvable.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="classical-ml-fundamentals" href="classical-ml-fundamentals.html">classical-ml-fundamentals</a></p>
+<p><a class="wiki-link" data-node-id="prompt-quality" href="prompt-quality.html">prompt-quality</a></p>
+<p><a class="wiki-link" data-node-id="rag-evals-intro" href="rag-evals-intro.html">rag-evals-intro</a></p>
+<p><a class="wiki-link" data-node-id="build-golden-dataset" href="build-golden-dataset.html">build-golden-dataset</a></p>
+<p><a class="wiki-link" data-node-id="failure-to-golden-loop" href="failure-to-golden-loop.html">failure-to-golden-loop</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

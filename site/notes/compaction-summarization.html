@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Compaction & Summarization</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: memory-knowledge</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>A store that only grows eventually collapses under its own weight — slow retrieval, noisy results, mounting cost (Ch 4's four costs of remembering everything). The node summary is the pressure valve: <strong>keeping memory small and sharp.</strong> Compaction is how memory stays useful over months and years: merging the specific into the general, the many into the essential, without losing what matters. It's Vol 03 Ch 15's summarization and Vol 02 Ch 17's chatbot trimming, grown into a first-class memory operation with its own hard tradeoffs.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The two operations — compaction vs summarization, distinguished.</strong> <em>Summarization</em> compresses a <em>sequence</em> into a shorter form (a conversation → its gist; ten episodic events → a paragraph) — the same map-reduce/refine shapes from Vol 03 Ch 15, now applied to memory. <em>Compaction</em> is broader: consolidating <em>related memories</em> into fewer, more general ones — merging "user liked the burger place Tuesday," "ordered pizza Friday," "got tacos Saturday" into one semantic memory "user enjoys casual fast food," and <em>deleting the specifics</em>. Compaction changes memory <em>type</em> (episodic specifics → semantic generalization — Ch 1's taxonomy in motion) and <em>reduces count</em>, not just length. Both keep the store small; compaction also makes it <em>smarter</em> by surfacing patterns the specifics only implied.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>When and how — the compaction triggers.</strong> <em>Threshold-based</em>: when memories about a subject exceed N, compact them (the store self-maintains). <em>Time-based</em>: periodically compact old episodic memories into semantic generalizations (last month's events → this month's understanding — mirrors how human memory consolidates episodic experience into semantic knowledge during, famously, sleep). <em>Redundancy-based</em>: when extraction (Ch 3) detects near-duplicates, compact on write. The mechanism is an LLM call (your gateway): "here are N related memories; produce the minimal set of memories that preserves their essential information" — structured output, the compacted memories replacing the originals (with provenance preserved — Ch 1's source tracking survives compaction, so you can still audit <em>what</em> got merged).</p>
+
+<p><strong>The central tradeoff — and it's genuinely hard.</strong> Compaction is <em>lossy by design</em> (Vol 03 Ch 15's warning, sharpened): you're deliberately destroying detail to preserve essence, and <strong>the detail you compact away might be the detail a future query needed.</strong> "User enjoys fast food" is useless when they later ask "what was that burger place I liked?" — the specific, compacted away, is gone. This is the memory engineer's genuine dilemma, and there's no free answer, only judgment: compact <em>too aggressively</em> and you lose retrievable specifics; compact <em>too little</em> and the store bloats (Ch 4's costs). The mitigations: <em>tiered compaction</em> (keep recent memories specific, compact only the old — recency-gated, Ch 4's decay logic applied to compaction), <em>archival-not-deletion</em> (compact into a general memory but <em>archive</em> the specifics to cold storage rather than deleting — recoverable if needed, Ch 4's archival tier), and <em>importance-gated</em> (never compact high-importance memories — a crucial specific stays specific forever). The design principle: <strong>compact the trivial and old aggressively; preserve the important and recent faithfully</strong> — the same optimal-relevance-not-maximal-recall philosophy, applied to consolidation.</p>
+
+<p><strong>The connection to context management — the same skill, three scales.</strong> Notice you've now met this operation at three scales, and seeing them as one deepens all three: <em>within a task</em> (scratchpad compaction, Vol 04 Ch 13 — distill observations), <em>within a session</em> (chat-history summarization, Vol 02 Ch 17 — compress old turns), <em>across sessions</em> (memory compaction, this chapter — consolidate the long-term store). Same fundamental move — trade detail for compactness to fit finite space — at working-memory, session-memory, and long-term-memory scales. The memory stack (Ch 2) has a compaction operation at every tier; mastering it once is mastering it everywhere.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: keeping memory small and sharp.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build compaction, feel the tradeoff (~40 lines on your store): (1) Implement subject-based compaction: gather all memories about one subject, LLM-compact them into a minimal set, replace (preserving provenance). Run it on an over-populated subject and measure the count reduction. (2) Feel the loss: after compacting, run a query that needed one of the <em>specific</em> memories you compacted away — watch the store fail to answer it. That failure is the tradeoff, witnessed. Then implement importance-gating (never compact the high-importance specific) and re-test — the crucial detail survives. (3) Design the tiered policy: write the one-paragraph compaction policy for your store — what compacts when, what's protected, what archives vs deletes. The count reduction + the loss specimen + the tiered policy = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Distinguish summarization from compaction — what does each reduce, and how does compaction change memory <em>type</em>?</li>
+<li>Name the three compaction triggers, and the human-memory analogy for time-based compaction.</li>
+<li>State the central tradeoff precisely, and give the "burger place" example of its cost.</li>
+<li>Recite the three mitigations, and the design principle that governs them.</li>
+<li>Name the three scales at which you've met this operation, and the single move common to all.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="retrieval-and-decay" href="retrieval-and-decay.html">retrieval-and-decay</a></p>
+<p><a class="wiki-link" data-node-id="long-context-strategies" href="long-context-strategies.html">long-context-strategies</a></p>
+<p><a class="wiki-link" data-node-id="scratchpads-working-memory" href="scratchpads-working-memory.html">scratchpads-working-memory</a></p>
+<p><a class="wiki-link" data-node-id="build-cli-chatbot" href="build-cli-chatbot.html">build-cli-chatbot</a></p>
+<p><a class="wiki-link" data-node-id="memory-extraction" href="memory-extraction.html">memory-extraction</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

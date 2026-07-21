@@ -35,17 +35,58 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Vector Database Benchmark</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: rag-retrieval</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Chapter 4 taught the machines on paper; vendors' blog posts all claim theirs is fastest. Time for the only opinion that matters: <strong>your corpus, your queries, your stopwatch.</strong> This build compares pgvector, a FAISS-style local index, and an embedded Chroma-style store on recall@k and latency — and its real product isn't the winner's name; it's <em>the harness itself</em>, a reusable instrument, and the experience of watching the speed↔recall dial move under your own fingers. This is Vol 01 Ch 12's "measure honestly" doctrine, aimed at infrastructure.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Corpus &amp; ground truth.</strong> Your chunks are too few for indexes to sweat, so synthesize scale: your real chunks plus generated filler to ~50k–100k vectors (embed sentences from any large public text, or generate variations — the <em>distribution</em> matters less than the volume). Then the keystone: <strong>ground truth = brute force.</strong> For 100 test queries (mix your real 12 from Ch 7 with sampled synthetics), compute the <em>true</em> top-10 by exhaustive cosine — slow, exact, run once, cached to disk. Every index is scored against this truth. Recall@10 = |index's top-10 ∩ true top-10| / 10, averaged over queries. (Notice the quiet lesson: you can only measure approximation because you kept an exact method alive — Ch 5's "primitive on purpose" store just became your measuring stick.)</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The contenders, one interface.</strong> Vol 01 Ch 16 discipline — a base class so the harness never cares who it's timing:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">class</span> <span class="tok-fn">VectorIndex</span>((<span class="tok-type">ABC</span>):
+    <span class="tok-kw">def</span> <span class="tok-fn">build</span>((<span class="tok-kw">self</span>, vectors, ids): ...
+    <span class="tok-kw">def</span> <span class="tok-fn">search</span>((<span class="tok-kw">self</span>, query_vec, k) <span class="tok-op">-&gt;</span> <span class="tok-builtin">list</span>[id]: ...</code></pre>
+      </div>
+<p>Implement three: <strong>PgVectorIndex</strong> (Postgres + pgvector in Docker — your first real Docker use; one <code>docker run</code> with the pgvector image, connection via <code>psycopg</code>; test HNSW, and IVFFlat if time permits), <strong>FaissStyleIndex</strong> (the <code>faiss</code> library in-process: <code>IndexFlatIP</code> for exact, <code>IndexHNSWFlat</code> for ANN — no server, pure library), <strong>ChromaStyleIndex</strong> (embedded Chroma: <code>pip install chromadb</code>, persistent local store, developer-experience contender). Plus <strong>BruteForce</strong> as the reference implementation of the same interface.</p>
+
+<p><strong>What to measure — and how to time honestly.</strong> Per contender: build time (ingestion cost — it differs wildly and matters for re-index-often corpora), then per-query latency as <strong>p50 and p95, never mean</strong> (one GC pause poisons a mean; p95 is what your slowest users feel — this vocabulary is production-domain currency, bank it now), recall@10 against ground truth, and RAM footprint (rough: process RSS before/after build). Timing hygiene: warm up each index with 20 throwaway queries first (cold caches lie), then time the 100. <strong>Then the chapter's soul — turn the dial</strong>: for HNSW (in both FAISS and pgvector), sweep <code>ef_search</code> across ~{16, 64, 256}; watch recall climb toward 1.0 as p95 latency climbs with it. Plot or table recall-vs-latency per setting. That curve — capability as a <em>frontier you choose a point on</em>, not a spec you read — is the single deepest thing this build teaches, and it generalizes to every engineering tradeoff in your career.</p>
+
+<p><strong>The report — comparative performance, per the node.</strong> <code>benchmark_report.md</code>, generated by the harness (tables from dicts — Vol 01 Ch 15 plumbing): environment notes (hardware matters; say what you ran on), corpus size, per-contender {build time, p50, p95, recall@10, RAM}, the ef_search sweep table, and a <em>recommendation paragraph with reasoning</em> — which store for your brain at 1k chunks today, and would the answer change at 10M? (Spoiler shape you should be able to predict from Ch 4 before running: at small scale everything is fast and the answer is developer ergonomics + the pgvector co-location argument; the interesting divergences appear at scale and under the dial. Verify against reality; report surprises honestly.)</p>
+
+<p><strong>Tests:</strong> the harness itself gets pytest — BruteForce recall must equal 1.0 exactly (if not, your ground truth or your recall math is broken — a self-checking instrument); interface compliance per contender; recall math on a tiny hand-computed case.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build a benchmarking script comparing pgvector, local FAISS-style indices, and embedded Chroma-style stores on a corpus, measuring recall@k and latency; verify with comparative performance reports.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>The spec is the hands-on: ground truth first → interface + BruteForce (self-check green) → FAISS (easiest) → Chroma → pgvector-in-Docker (budget half the build's time here; the Docker+psycopg friction <em>is</em> curriculum — your production domain will thank you) → measurements → the sweep → the report. Tag <code>rag-bench-v0.1</code>. The report and the recall-vs-latency curve go in the note — and the recommendation paragraph is interview gold verbatim: "I benchmarked three vector stores on my own corpus" is a sentence almost no candidate can say.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why must ground truth be brute force, and what does BruteForce-recall-equals-1.0 verify about your instrument?</li>
+<li>Define recall@10 precisely and compute it for: index returns {1,2,3,4,5,6,7,8,9,11}, truth is {1..10}.</li>
+<li>Why p95 over mean? Whose experience does each number describe?</li>
+<li>Describe your ef_search sweep results and state the frontier lesson in one sentence.</li>
+<li>Your recommendation and reasoning — for today's brain, and for 10M chunks. Defend both.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="vector-databases" href="vector-databases.html">vector-databases</a></p>
+<p><a class="wiki-link" data-node-id="embeddings-hands-on" href="embeddings-hands-on.html">embeddings-hands-on</a></p>
+<p><a class="wiki-link" data-node-id="classical-ml-fundamentals" href="classical-ml-fundamentals.html">classical-ml-fundamentals</a></p>
+<p><a class="wiki-link" data-node-id="build-hybrid-search" href="build-hybrid-search.html">build-hybrid-search</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

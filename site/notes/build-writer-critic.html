@@ -35,17 +35,52 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Writer + Critic</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: multi-agent-mcp</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>The cluster's warm-up build, and the cleanest possible multi-agent system: <strong>two agents improving a draft in a loop; add a supervisor; measure gain.</strong> The node summary embeds the whole scientific method — build the team, <em>and prove it's better than not having it</em>. This is Vol 04 Ch 9's reflection socialized into two real agents (Ch 6's role-based adversarial, minimal case), and — critically — the first build where you <em>measure the multi-agent gain</em> instead of assuming it, exactly as Ch 1 and Ch 7 demanded.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The two agents, and why they're two (not one reflecting).</strong> <em>Writer</em>: produces and revises the draft — its own context, its own system prompt (a generative voice). <em>Critic</em>: evaluates against explicit criteria and returns structured feedback — <em>separate</em> context, <em>separate</em> prompt (an evaluative voice). Why two agents rather than one agent critiquing itself (Vol 04 Ch 9)? The Ch 1 isolation argument, concretely: the critic that <em>never saw the writer's rationalizations</em> judges more honestly — fresh eyes, unpolluted by the generation's in-flight commitments. This is the multi-agent justification (reason 2, context isolation) actually <em>earning</em> its keep, and the build lets you test whether it does.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The loop.</strong> Writer drafts → Critic evaluates against a rubric (structured output: <code>Critique(approved: bool, issues: list[Issue])</code> — Vol 02 Ch 6, Vol 04 Ch 9's rubric discipline) → if not approved, feedback goes to Writer → Writer revises → repeat, <strong>budget-capped</strong> (Vol 04 Ch 9/16 — reflection loops are infinite-loop bait; max rounds, non-negotiable). LangGraph shape: writer node → critic node → conditional edge (approved → END; else → writer), with round-count in state.</p>
+
+<p><strong>Adding the supervisor (the node's "add a supervisor").</strong> The two-agent loop is peer-ish; the supervisor makes it orchestrated (Ch 2): a supervisor node that takes the task, dispatches to the writer-critic subgraph (Vol 04 Ch 10 — the loop is a <em>subgraph</em>), and decides completion/integration. Why add it? Scalability of the pattern (the supervisor could route to <em>different</em> writer-critic pairs by content type) and clean accountability (Ch 2's centralized-ownership virtue). It also sets up the measurement: supervisor-orchestrated team vs bare single agent.</p>
+
+<p><strong>Measuring the gain — the point of the whole build.</strong> This is where Ch 1's skepticism and Domain 07's evals meet in your own hands. Take a set of ~8 writing tasks with <em>checkable quality criteria</em> (a rubric: covers required points, correct format, cited if needed, under length, no hedging). Run each three ways, scoring quality and cost: (a) single agent, one shot; (b) single agent with self-reflection (Vol 04 Ch 9 — the <em>fair</em> baseline, because it isolates "two agents" from "just reflecting at all"); (c) the writer-critic team. The crucial comparison is <strong>(b) vs (c)</strong> — does <em>separating</em> the critic beat <em>self</em>-critique, and is the gain worth the cost (Ch 7)? Report honestly: the multi-agent gain might be real (isolation helps), marginal (self-reflection was most of it), or negative on some tasks (coordination overhead exceeded the benefit). <em>Whatever the numbers say is the finding</em> — this is a real experiment (Ch 17 scales it), and reporting an honest null or negative result is the mark of an engineer, not a hype-merchant.</p>
+
+<p><strong>Verification.</strong> Isolation: writer produces drafts, critic produces structured critiques with issues, loop terminates on approval and on budget. Integration: supervisor dispatches and completes. The measurement harness: the three-way scoring across 8 tasks, with a small rubric-based scorer (your Vol 03 Ch 18 eval instincts). Tests: budget cap fires; critic's rejection actually changes the next draft (assert the revision differs); approved drafts pass the rubric.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: two agents improving a draft in a loop; add a supervisor; measure gain.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): writer + critic nodes → the capped loop → the subgraph → the supervisor → the three-way measurement harness → run the 8 tasks → the honest comparison table. Then write the finding as if publishing it (it feeds Ch 17 and your capstone): <em>did separating the critic beat self-reflection, by how much, at what cost multiple, and on which task types?</em> Include the surprise if there is one (a task where the team did <em>worse</em>). Tag <code>writer-critic-v0.1</code>. The three-way table + the honest finding paragraph = the note — and notice you've now done, in miniature, exactly what Ch 17 does at full scale.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why two agents instead of one self-critiquing? State the isolation argument concretely.</li>
+<li>Why is the <em>fair</em> baseline single-agent-with-reflection, not single-agent-one-shot?</li>
+<li>What does the (b) vs (c) comparison actually test, and what are the three honest possible outcomes?</li>
+<li>Why is the budget cap non-negotiable, and where have you met this exact hazard before?</li>
+<li>Your finding: did isolation earn its keep? The number, the cost, and the honest verdict.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="reflection-patterns" href="reflection-patterns.html">reflection-patterns</a></p>
+<p><a class="wiki-link" data-node-id="debate-consensus" href="debate-consensus.html">debate-consensus</a></p>
+<p><a class="wiki-link" data-node-id="orchestrator-worker" href="orchestrator-worker.html">orchestrator-worker</a></p>
+<p><a class="wiki-link" data-node-id="when-many-beats-one" href="when-many-beats-one.html">when-many-beats-one</a></p>
+<p><a class="wiki-link" data-node-id="build-eval-judge" href="build-eval-judge.html">build-eval-judge</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

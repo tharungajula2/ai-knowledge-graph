@@ -35,17 +35,59 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: LLM-as-a-Judge Scorer</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Your golden set (Ch 2) has 20 cases with rubric expectations — but who <em>scores</em> the agent's answers against those rubrics? Doing it by hand for every eval run doesn't scale (you'll run evals hundreds of times). The node summary: <strong>build an LLM-as-a-judge scoring engine using customized rubrics, confidence metrics, and golden dataset assertions; verify by scoring 20 generated agent responses.</strong> An LLM judges another LLM's output against your criteria — powerful, scalable, and <em>dangerous if you trust it blind</em> (Ch 4). This build makes the judge, and makes it trustworthy through calibration.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>The judge — an LLM scoring against a rubric.</strong> The core call (your gateway, structured output — the pattern, one more time): given the input, the agent's output, and the case's rubric, score it.</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">class</span> <span class="tok-fn">JudgeVerdict</span>((<span class="tok-type">BaseModel</span>):
+    score: <span class="tok-builtin">float</span>                    <span class="tok-comment"># e.g. 0-1 or a rubric-point tally</span>
+    per_criterion: <span class="tok-builtin">dict</span>[<span class="tok-builtin">str</span>, <span class="tok-builtin">bool</span>]  <span class="tok-comment"># which rubric criteria were met — granular, not just a number</span>
+    reasoning: <span class="tok-builtin">str</span>                  <span class="tok-comment"># WHY this score — auditable, and forces the judge to think (Vol 02 Ch 5)</span>
+    confidence: <span class="tok-type">Literal</span>[<span class="tok-str">"high"</span>,<span class="tok-str">"medium"</span>,<span class="tok-str">"low"</span>]  <span class="tok-comment"># the node's "confidence metrics"</span></code></pre>
+      </div>
+<p>Design that matters: <em>per-criterion breakdown</em> (not a mysterious 0.7 but "cited sources: ✓, addressed all parts: ✗, honest about gaps: ✓" — granular scores are debuggable and actionable, aggregate scores are opaque); <em>reasoning before score</em> (Vol 02 Ch 5 — making the judge explain forces genuine evaluation over gut-guessing, and gives you an audit trail); <em>confidence</em> (the judge flagging its own uncertainty — low-confidence verdicts get human review, Ch 4); <em>rubric injected per case</em> (Ch 2's <code>expected</code> criteria become the judge's checklist — customized per case, the node's "customized rubrics"). Temperature 0 (Vol 01 Ch 9 — you want consistent scoring, and eval convention).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The calibration imperative — the step that makes the judge trustworthy (and the step everyone skips).</strong> An uncalibrated judge is a random number generator with good grammar. Before trusting <em>any</em> aggregate the judge produces, you must measure whether it agrees with <em>you</em>: (1) score N responses yourself, by hand, blind to the judge's verdicts; (2) run the judge on the same N; (3) compute agreement (exact, or within-tolerance for continuous scores). ≥80% agreement → trust the judge with eyes open; below → the judge is miscalibrated, and you fix it (tighter rubric, few-shot examples of correct scoring — Vol 02 Ch 4 aimed at judging, clearer criteria definitions) and re-calibrate until it agrees. <strong>Report the agreement number alongside every eval</strong> (Vol 03 Ch 18's discipline, now law) — an eval whose judge you haven't validated is a number you made up. This is the single most important idea in the chapter: <em>the judge is a measurement instrument, and unvalidated instruments produce fiction.</em></p>
+
+<p><strong>Golden dataset assertions — where judge meets ground truth (the node's phrase).</strong> For cases with <em>objectively</em> checkable expectations (a required fact present, a source cited, valid JSON), skip the judge and <em>assert programmatically</em> (cheaper, objective, no judge-bias — Vol 02 Ch 16's tier 1). Reserve the LLM judge for the <em>quality</em> judgments programmatic checks can't make (is the synthesis coherent? is the tone right? is the reasoning sound?). The mature scorer is <em>hybrid</em>: programmatic assertions for the checkable, LLM judge for the qualitative, human review for the low-confidence and the high-stakes. Don't LLM-judge what a regex can verify.</p>
+
+<p><strong>Verification — score 20 responses, per the node.</strong> Generate 20 responses from your research agent on the golden set (Ch 2), run the judge, and: verify per-criterion breakdowns are sensible; <em>calibrate</em> (score 15 yourself, measure agreement, report it — the mandatory step); confirm programmatic assertions catch the objectively-checkable; confirm low-confidence flags surface genuinely-ambiguous cases. Then the bias probe (Ch 4 preview): give the judge two answers — one correct-but-terse, one wrong-but-eloquent — and see if it favors the eloquent one (it often does; that's Ch 4's whole subject, met early).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Build an LLM-as-a-judge scoring engine using customized rubrics, confidence metrics, and golden dataset assertions; verify by scoring 20 generated agent responses.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day): the <code>JudgeVerdict</code> schema → the rubric-injected judge prompt (reasoning-before-score, per-criterion, confidence) → hybrid scoring (programmatic assertions + LLM judge) → run on 20 agent responses → <strong>calibrate</strong> (hand-score 15, measure and report agreement, fix if &lt;80%) → the bias probe. Then the honest artifact: your first <em>validated</em> eval score for your research agent, with its calibration number attached. Tag <code>eval-v0.2</code>. The scored results + the calibration agreement + the bias-probe result = the note; this judge scores every eval from here on, and its calibration number is its license to be trusted.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What does a good judge verdict contain beyond a score, and why does each field matter?</li>
+<li>Explain the calibration procedure and the 80% threshold — what does an uncalibrated judge produce?</li>
+<li>Why report the agreement number with every eval?</li>
+<li>When do you use programmatic assertions vs the LLM judge? Give the hybrid rule.</li>
+<li>Describe the eloquent-but-wrong bias probe and what it previews.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="rag-evals-intro" href="rag-evals-intro.html">rag-evals-intro</a></p>
+<p><a class="wiki-link" data-node-id="build-golden-dataset" href="build-golden-dataset.html">build-golden-dataset</a></p>
+<p><a class="wiki-link" data-node-id="judge-bias-pinning" href="judge-bias-pinning.html">judge-bias-pinning</a></p>
+<p><a class="wiki-link" data-node-id="structured-output" href="structured-output.html">structured-output</a></p>
+<p><a class="wiki-link" data-node-id="reflection-patterns" href="reflection-patterns.html">reflection-patterns</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

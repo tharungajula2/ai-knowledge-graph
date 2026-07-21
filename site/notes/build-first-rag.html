@@ -35,17 +35,64 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: First RAG Pipeline</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: rag-retrieval</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Four chapters of parts on the workbench: the why, the vectors, the chunks, the store. Today they become a machine — <strong>ingest → embed → store → retrieve → answer</strong>, the five verbs of the node summary, wired end to end with your own hands and <em>no framework</em>. When LangChain-style abstractions appear later in your journey, they'll be conveniences over a machine you've personally assembled — never magic. This is the ring's first working RAG, and the honest baseline every later chapter improves.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p>Corpus: start meaningfully small and <em>yours</em> — 10–15 of your own brain notes plus your PROJECT_TRUTH doc (markdown, header-structured: Ch 3 told you the right chunking family). Store: keep it deliberately primitive this chapter — chunks and vectors in memory or a JSON file, brute-force cosine search with <em>your own</em> Ch 2 function. Yes, primitive. You must feel brute force work (and later, in Ch 8, measure exactly what indexes buy over it). pgvector arrives in Ch 15 when the corpus earns it.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The five verbs, as functions (this decomposition <em>is</em> the architecture — every RAG framework on earth is these five names in a trenchcoat):</strong></p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">def</span> <span class="tok-fn">ingest</span>((paths: <span class="tok-builtin">list</span>[<span class="tok-type">Path</span>]) <span class="tok-op">-&gt;</span> <span class="tok-builtin">list</span>[<span class="tok-type">Doc</span>]          <span class="tok-comment"># read files, capture source metadata</span>
+<span class="tok-kw">def</span> <span class="tok-fn">chunk</span>((docs) <span class="tok-op">-&gt;</span> <span class="tok-builtin">list</span>[<span class="tok-type">Chunk</span>]                       <span class="tok-comment"># header-aware + heading-path prepend (Ch 3)</span>
+<span class="tok-kw">def</span> <span class="tok-fn">embed_and_store</span>((chunks) <span class="tok-op">-&gt;</span> <span class="tok-type">Store</span>                 <span class="tok-comment"># local model (Ch 2), batched; save vectors+text+metadata</span>
+<span class="tok-kw">def</span> <span class="tok-fn">retrieve</span>((query: <span class="tok-builtin">str</span>, store, k: <span class="tok-builtin">int</span> = <span class="tok-num">4</span>) <span class="tok-op">-&gt;</span> <span class="tok-builtin">list</span>[<span class="tok-type">Scored</span>]   <span class="tok-comment"># embed query, cosine against all, top-k</span>
+<span class="tok-kw">def</span> <span class="tok-fn">answer</span>((query: <span class="tok-builtin">str</span>, hits: <span class="tok-builtin">list</span>[<span class="tok-type">Scored</span>]) <span class="tok-op">-&gt;</span> <span class="tok-type">Answer</span>          <span class="tok-comment"># build grounded prompt, call gateway</span></code></pre>
+      </div>
+<p>Pydantic models for <code>Chunk</code> (id, content, source, heading_path, embedding) and <code>Answer</code> (text, sources_used) — the boundary discipline (Vol 02, Ch 6) applies to your own pipeline too.</p>
+
+<p><strong>The grounded prompt — where Volume 02 pays rent.</strong> Full skeleton: system rules ("You answer strictly from the provided context. If the context doesn't contain the answer, say exactly: NOT IN NOTES. For each claim, cite the chunk id in [brackets]."), retrieved chunks delimited as data — numbered, with their heading-paths visible (<code>&lt;chunk id=3 source="agents/gate.md &gt; HITL"&gt;...&lt;/chunk&gt;</code>) — then the question. Every clause earns its keep: strict-context fights hallucination (Vol 01, Ch 10), NOT-IN-NOTES makes honest failure <em>visible and testable</em>, bracket-citations preview Ch 10 of this volume, and delimiters are injection hygiene (Vol 02, Ch 12 — your notes are your own, but the <em>habit</em> must be unconditional). Temperature 0 (Vol 01, Ch 9's table: this is extraction-flavored work).</p>
+
+<p><strong>The inspection window — the build's real lesson.</strong> Add <code>--show-work</code>: print the query, the top-k chunks <em>with their similarity scores</em>, then the answer. Then live in that window: ask ten real questions about your own notes and <em>read what retrieval actually fetched before reading the answer</em>. You will see, within ten queries, at least one of each: a great hit (right chunk, high score, grounded answer — the system working), a <em>near miss</em> (right note, wrong chunk — chunking tension from Ch 3, alive), a <em>vocabulary miss</em> (you asked with words your notes don't use — Ch 13's future customer), and a correct NOT-IN-NOTES refusal. Congratulations: you've now personally met the failure taxonomy that Chapter 11 formalizes. Retrieval quality problems are <em>invisible</em> in the final answer and <em>obvious</em> in the inspection window — the single most important operational habit in all of RAG is: <strong>when the answer is wrong, look at the chunks first.</strong></p>
+
+<p><strong>Tests</strong> (Vol 01, Ch 21): chunker never severs a heading from its section; retrieval on a query <em>copied verbatim from a chunk</em> returns that chunk at rank 1 (the sanity floor); a question about content deliberately absent from the corpus yields NOT-IN-NOTES; <code>Answer.sources_used ⊆ retrieved ids</code>.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: ingest → embed → store → retrieve → answer.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it — suggested order: ingest+chunk (Ch 3's script grows up) → embed+store with the local model → retrieve (your cosine, a sort, top-k) → the grounded prompt via your gateway → <code>--show-work</code> → the ten-question inspection session, transcribed honestly into the note with each query labeled {hit | near-miss | vocab-miss | correct-refusal} → tests green → tag <code>rag-v0.1</code>. Estimated one honest day. Keep the ten labeled queries safe: they are the embryo of Ch 16's golden set and Ch 18's eval build — your measurement story starts with this exact list.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Recite the five verbs and each one's input → output.</li>
+<li>Justify every clause of the grounded prompt — four clauses, four reasons, four chapter citations.</li>
+<li>Why brute force <em>now</em> and indexes <em>later</em>? What does the primitive store let you feel?</li>
+<li>Describe one near-miss from your inspection session and diagnose it with Ch 3's vocabulary.</li>
+<li>State the operational habit this build installs, and why answer-reading alone can't debug RAG.</li>
+</ol>
+<hr>
+<h1 id="part-ii-retrieval-seriously">PART II — RETRIEVAL, SERIOUSLY</h1>
+<p><em>11 chapters. The baseline works; now make it good — old keyword magic, hybrid fusion, benchmarks, rerankers, citations, the failure taxonomy, filters, query surgery, multi-hop, the industrial pipeline, and the beginning of measurement.</em></p>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="why-rag" href="why-rag.html">why-rag</a></p>
+<p><a class="wiki-link" data-node-id="chunking" href="chunking.html">chunking</a></p>
+<p><a class="wiki-link" data-node-id="embeddings-hands-on" href="embeddings-hands-on.html">embeddings-hands-on</a></p>
+<p><a class="wiki-link" data-node-id="build-gateway" href="build-gateway.html">build-gateway</a></p>
+<p><a class="wiki-link" data-node-id="rag-failure-modes" href="rag-failure-modes.html">rag-failure-modes</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

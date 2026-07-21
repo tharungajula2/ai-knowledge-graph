@@ -35,17 +35,48 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>LoRA & QLoRA Concepts</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: frontier-capstone</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>Full fine-tuning of an 8B model means updating 8 billion numbers — optimizer states and gradients ballooning memory to multiples of the model's size, GPUs you'll never afford. Yet next chapter you will fine-tune that model on a <em>free</em> T4. The trick has two halves and both fit in a sentence: <strong>don't retrain the wall, hang pictures on it</strong> (LoRA), and <strong>store the wall in compressed form while you hang them</strong> (QLoRA). This chapter earns you the right to say those sentences precisely.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>LoRA — Low-Rank Adaptation.</strong> The insight: the <em>change</em> a fine-tune needs to make to the weights is far simpler than the weights themselves — mathematically, the update matrix has low rank. So: freeze every original weight. Beside chosen layers, add two small trainable matrices, A (d×r) and B (r×d), where the rank r is tiny (8, 16, 32). The layer's effective weight becomes W + B·A. Train <em>only</em> A and B — typically well under 1% of total parameters. The numbers that make it click: a 4096×4096 attention matrix is ~16.8M parameters; its r=16 LoRA pair is 4096×16 + 16×4096 ≈ 131K — <strong>128× fewer</strong>, per layer. Consequences that matter to you as an engineer: training memory collapses (tiny gradients/optimizer states), the output is a small <strong>adapter file</strong> (megabytes, not gigabytes — shippable, versionable, swappable: one base model, many adapters, one per task), and at inference the adapter can be merged into the base for zero added latency. The dial: higher r = more expressive, more data-hungry; r=16 is the workhorse default you'll use tomorrow.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>QLoRA — the Q is quantization.</strong> Even frozen, an 8B model in 16-bit needs ~16 GB just to <em>sit</em> in memory — over a free T4's limit before training starts. QLoRA stores the frozen base in <strong>4-bit</strong> (NF4 — a 4-bit format shaped to match the normal distribution real weights follow; smarter than naive rounding, near-lossless for this job), quantizing memory ~4×: the 8B base now sits in ~5 GB. The crucial subtlety: compute still happens in higher precision — weights are dequantized on the fly for each forward pass — and the LoRA adapters themselves stay in full precision. So the <em>frozen knowledge</em> is compressed; the <em>learning</em> is not. Chapter 1's local-inference quantization and this are the same physics, applied at serve-time there and train-time here. Total memory: 4-bit base + tiny adapters + small gradients ≈ a free-tier GPU. That's the entire miracle, demystified.</p>
+
+<p><strong>The honest limits.</strong> LoRA shapes <em>behavior</em> superbly (format, style, task-shape — exactly your Chapter 10 diagnosis); it does not implant large new knowledge (too few trainable parameters — RAG keeps that job). Catastrophic forgetting — the model losing general ability while learning your task — is muted by the frozen base but not gone; your held-out <em>general</em> checks in Chapter 12 will watch for it. And data quality dominates everything: 300 clean pairs beat 3,000 sloppy ones, which is why tomorrow's build spends more time on data than on training.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Parameter-efficient fine-tuning, LoRA weight adapters, quantization (NF4/FP4), and why a free T4 GPU is enough.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>No GPU today — a whiteboard session that makes tomorrow mechanical. (a) Draw the LoRA diagram from scratch: frozen W, the A/B bypass, the sum, sizes labeled for d=4096, r=16. (b) Compute, by hand, total LoRA parameters for a model where you adapt the attention projections across 32 layers, and the % of an 8B total. (c) Draw the QLoRA memory map for an 8B on a 16 GB T4: 4-bit base, adapters, gradients, optimizer, activations — where does the memory go? (d) Write the six-sentence interview answer: "What is LoRA, what does the Q add, and when would you use it?" Rehearse it aloud. All four go in the note; this note is one you <em>will</em> be asked to perform.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Why is the update low-rank while the weights aren't? Give the intuition, not just the claim.</li>
+<li>Do the 128× arithmetic for one 4096×4096 layer at r=16, from memory.</li>
+<li>What exactly is stored in 4-bit in QLoRA, what isn't, and why does that split preserve learning quality?</li>
+<li>Why does one base + many adapters change your <em>deployment</em> story? Connect to Vol 07's model registry.</li>
+<li>State LoRA's honest limits — the two things it won't do — and which tool covers each.</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="local-models" href="local-models.html">local-models</a></p>
+<p><a class="wiki-link" data-node-id="training-pipeline" href="training-pipeline.html">training-pipeline</a></p>
+<p><a class="wiki-link" data-node-id="prompt-vs-rag-vs-tune" href="prompt-vs-rag-vs-tune.html">prompt-vs-rag-vs-tune</a></p>
+<p><a class="wiki-link" data-node-id="build-qlora-finetune" href="build-qlora-finetune.html">build-qlora-finetune</a></p>
+<p><a class="wiki-link" data-node-id="model-serving-patterns" href="model-serving-patterns.html">model-serving-patterns</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

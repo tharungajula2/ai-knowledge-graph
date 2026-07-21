@@ -35,17 +35,61 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Golden Dataset</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>An eval is only as good as its dataset — and a bad dataset lies <em>confidently</em>, which is worse than no eval. The node summary: <strong>20 golden cases for my research agent.</strong> This build creates the measuring stick every other eval in this ring uses: a curated, versioned set of test cases with known-good expectations, covering the space of what your research agent must handle. You've built golden sets before (Vol 02 Ch 16, Vol 03 Ch 18); this makes it a rigorous, reusable, permanent artifact — the foundation the whole ring stands on.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>What a golden case contains.</strong> Each case is a structured record:</p>
+<div class="code-block-wrapper block-python">
+        <div class="code-block-header"><span class="code-lang">python</span><button class="btn-code-copy" onclick="copyCodeBlock(this)">Copy</button></div>
+        <pre><code class="language-python"><span class="tok-kw">class</span> <span class="tok-fn">GoldenCase</span>((<span class="tok-type">BaseModel</span>):
+    id: <span class="tok-builtin">str</span>
+    input: <span class="tok-builtin">str</span>                      <span class="tok-comment"># the research question</span>
+    category: <span class="tok-builtin">str</span>                   <span class="tok-comment"># the slice this tests (Ch 19's error analysis uses these)</span>
+    expected: <span class="tok-type">ExpectedResult</span>        <span class="tok-comment"># what good looks like — see below</span>
+    difficulty: <span class="tok-type">Literal</span>[<span class="tok-str">"easy"</span>,<span class="tok-str">"medium"</span>,<span class="tok-str">"hard"</span>,<span class="tok-str">"adversarial"</span>]
+    notes: <span class="tok-builtin">str</span>                      <span class="tok-comment"># why this case exists, what it probes</span></code></pre>
+      </div>
+<p>The <code>expected</code> is the subtle part, because your agent's output has no single right answer (Ch 1): rather than an exact string, <code>expected</code> holds <em>checkable criteria</em> — required facts the answer must contain, sources it should cite, a quality rubric ("addresses all parts of the question / cites sources / honest about gaps"), and for the research agent specifically, <em>trajectory</em> expectations (should use web search; should consult notes; Ch 5). Some cases check exact things (a factual query with a verifiable answer), most check <em>rubric satisfaction</em> — and mixing both is right (Vol 02 Ch 16's scoring tiers).</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Coverage — the design that makes the dataset honest (Vol 02 Ch 16's spread logic, formalized).</strong> 20 cases chosen to <em>cover the space</em>, not to be easy: <em>typical cases</em> (the bread-and-butter queries — most of the set), <em>hard cases</em> (multi-hop, ambiguous, requiring synthesis), <em>edge cases</em> (empty/malformed input, questions outside the agent's scope — should refuse honestly), <em>adversarial cases</em> (injection attempts in the question, false-premise questions, Vol 01 Ch 10 — the agent must not be manipulated or led). And critically, <em>category-tagged</em> (Ch 19's error analysis needs these slices — "vocabulary-mismatch queries," "multi-source synthesis," "temporal questions"): a dataset where you can score <em>per category</em> localizes weakness (aggregate scores hide which <em>kind</em> of query fails — Vol 03 Ch 18's slice lesson). Build it to <em>find</em> your agent's failures, not to confirm its successes — a golden set that your agent aces on day one is too easy to be useful.</p>
+
+<p><strong>The authorship discipline — where the real work is.</strong> <em>Build it before optimizing</em> (Vol 02 Ch 16's iron law — a golden set built after seeing outputs inherits the system's blind spots). <em>Author expectations by hand</em> (you decide what "good" is for each case — this is human judgment, slow and irreplaceable, and the reason golden sets are precious; you <em>are</em> the ground truth). <em>Source cases from reality</em> — your labeled inspection sessions across six rings (you've been told to keep them since Vol 03!), real questions you've asked your agents, and known failures (each past bug becomes a case — Ch 20's loop, seeded). <em>Version it in the repo</em> (it's an artifact that evolves — Ch 20 grows it; changes are tracked; Ch 11's data-versioning applies to golden sets too). <em>Keep it honest about difficulty</em> — label each case's difficulty so scores are interpretable (80% on easy cases ≠ 80% on adversarial ones).</p>
+
+<p><strong>Verification.</strong> A golden dataset's own quality checks: every case has checkable expectations (no "expected: a good answer" hand-waves — if you can't say what good means, you can't score it); coverage across all categories and difficulties (count them — gaps are blind spots); no duplicates; expectations are <em>achievable</em> (a case demanding the impossible is a broken case); and the meta-check — run your <em>current</em> agent against it and confirm it <em>fails some cases</em> (a golden set nothing fails isn't measuring anything).</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: 20 golden cases for my research agent.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. 1 day — the labeling <em>is</em> the work): the <code>GoldenCase</code> schema → gather ~20 cases from your six rings of real questions and known failures → author checkable expectations by hand for each (the slow, irreplaceable part) → tag category and difficulty → ensure coverage (typical/hard/edge/adversarial, multiple categories) → version in repo → the quality checks, including confirming your current agent fails some. Then the honest read: run your research agent against all 20, eyeball the results (Ch 3 automates scoring), and note which cases it fails — those failures are your ring's target list. Tag <code>eval-v0.1</code>. The dataset + the coverage table + the current-agent failure list = the note; every subsequent eval build consumes this dataset.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>What does a golden case contain, and why is <code>expected</code> checkable-criteria rather than an exact string?</li>
+<li>Recite the four coverage categories and why category-tagging matters for later analysis.</li>
+<li>Why build the dataset <em>before</em> optimizing, and why author expectations by hand?</li>
+<li>Why must a good golden set make your current agent <em>fail</em> some cases?</li>
+<li>Where do your cases come from, and why have you been told to keep inspection labels since Vol 03?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="prompt-quality" href="prompt-quality.html">prompt-quality</a></p>
+<p><a class="wiki-link" data-node-id="rag-evals-intro" href="rag-evals-intro.html">rag-evals-intro</a></p>
+<p><a class="wiki-link" data-node-id="build-research-agent" href="build-research-agent.html">build-research-agent</a></p>
+<p><a class="wiki-link" data-node-id="build-eval-judge" href="build-eval-judge.html">build-eval-judge</a></p>
+<p><a class="wiki-link" data-node-id="failure-to-golden-loop" href="failure-to-golden-loop.html">failure-to-golden-loop</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

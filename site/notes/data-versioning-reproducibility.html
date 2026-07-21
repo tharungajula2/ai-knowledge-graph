@@ -35,17 +35,50 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Data Versioning & Reproducibility</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: evals-observability</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You version your code (Git, Vol 01 Ch 19) — but ML results depend on <em>data</em> too, and data is usually <em>not</em> in Git (too big, binary, changing). The node summary: <strong>data versioning basics, git-for-data, reproducibility standards, and writing model cards.</strong> A result you can't reproduce is a result you can't trust or improve — and reproducibility in ML requires versioning not just code but <em>data</em>, <em>config</em>, and <em>environment</em>, plus documenting what you built (model cards). This is the discipline that separates "it worked once on my machine" from "anyone can reproduce this."</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Why code versioning isn't enough — the reproducibility triangle.</strong> To reproduce an ML result you need <em>three</em> things pinned, not one: <em>code</em> (Git handles this — Vol 01 Ch 19), <em>data</em> (the exact dataset version — and Git can't: datasets are large, binary, and Git chokes on them), and <em>environment</em> (the exact package versions — Vol 01 Ch 14's <code>requirements.txt</code>, and deeper: CUDA versions, hardware). Miss any vertex and reproduction fails: same code + different data = different result; same code + data + different package versions = possibly different result (a library update changed a default). Reproducibility is pinning all three, and data is the vertex people forget.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>Git-for-data — the tooling.</strong> Since Git can't version large data, tools like DVC (Data Version Control) and lakeFS add <em>data versioning</em> alongside Git: the <em>data itself</em> lives in object storage (S3, etc.), while a small <em>pointer/hash</em> lives in Git — so <code>git checkout &lt;commit&gt;</code> restores both the code <em>and</em> the matching data version (the pointer resolves to the right data). You get "git-for-data": versioned datasets, reproducible data states, data lineage (which data version produced which result). The pattern echoes your Vol 06 Ch 8 provenance instinct and Vol 03 Ch 15's content-hashing — pinning data by hash so a result traces to its exact inputs.</p>
+
+<p><strong>Reproducibility standards — the checklist.</strong> A reproducible ML result pins: <em>code version</em> (Git commit), <em>data version</em> (DVC hash / dataset snapshot), <em>environment</em> (locked dependencies, ideally containerized — a future domain's Docker), <em>config/hyperparameters</em> (Ch 10's tracking), <em>random seeds</em> (where determinism is wanted — Vol 01 Ch 9's note that even temp 0 isn't fully deterministic, but seeds pin what can be pinned), and <em>the run's metrics</em> (Ch 10). With all pinned, anyone can reproduce your result — the scientific standard, applied to ML. For your <em>LLM</em> work, the analog: pin the <em>prompt version</em>, the <em>model version</em> (Vol 01 Ch 11), the <em>judge version</em> (Ch 4), the <em>golden-set version</em> (Ch 2), and the <em>eval config</em> — the same discipline, LLM substrate, and the reason your eval history is trustworthy only if these are versioned.</p>
+
+<p><strong>Model cards — documenting what you built.</strong> A <em>model card</em> (the industry standard, from Google's "Model Cards" work) is a structured document accompanying a model: <em>what it does</em>, <em>what data it was trained on</em>, <em>how it performs</em> (metrics, and crucially <em>per-subgroup</em> — Vol 01 Ch 12's fairness dimension), <em>its limitations and failure modes</em> (Vol 04 Ch 16 honesty), <em>intended use and out-of-scope use</em>, and <em>ethical considerations</em> (bias, Vol 08's territory). Model cards are how you <em>communicate</em> a model responsibly — and writing one forces you to <em>know</em> your model's limits (the self-honesty of Vol 06 Ch 16's reviewer, applied to models). For LLM systems, the analog is a <em>system card</em> documenting your agent/RAG system's behavior, limits, and evals. Writing these is a senior, responsible-AI signal — most people ship models with no documentation of their limits.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Data versioning basics, git-for-data, reproducibility standards, and writing model cards.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Practice the reproducibility discipline (concept node, concrete): (1) Take your Ch 10 MLflow experiment and make it <em>fully reproducible</em> — pin code (Git), data (a versioned snapshot or DVC if you set it up), environment (locked deps), config (tracked), seed. Then the test: can a fresh checkout reproduce your result exactly? Document what it took. (2) Write a <em>model card</em> for your Ch 10 classifier (or a <em>system card</em> for your research agent): what it does, its data, its metrics <em>including where it's weak</em>, its limitations, intended/out-of-scope use. (3) The LLM mapping: write the reproducibility checklist for your <em>eval program</em> — what must be versioned (prompt, model, judge, golden set, config) for an eval score to be reproducible and comparable over time. The reproducibility test + the model/system card + the eval-reproducibility checklist = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the reproducibility triangle's three vertices, and why code-versioning alone fails.</li>
+<li>How does git-for-data work — where does the data live, where does the pointer live?</li>
+<li>Recite the reproducibility checklist, and its LLM-eval analog.</li>
+<li>What does a model card document, and why does writing one force self-honesty?</li>
+<li>What must be versioned for an LLM eval score to be comparable over time?</li>
+</ol>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="git-mastery" href="git-mastery.html">git-mastery</a></p>
+<p><a class="wiki-link" data-node-id="python-environments" href="python-environments.html">python-environments</a></p>
+<p><a class="wiki-link" data-node-id="build-experiment-tracker" href="build-experiment-tracker.html">build-experiment-tracker</a></p>
+<p><a class="wiki-link" data-node-id="judge-bias-pinning" href="judge-bias-pinning.html">judge-bias-pinning</a></p>
+<p><a class="wiki-link" data-node-id="ingestion-pipelines" href="ingestion-pipelines.html">ingestion-pipelines</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>

@@ -35,17 +35,53 @@
       <article class="insp-preview md" style="max-width:840px; margin:0 auto;">
         <h1>Build: Credential-Free Demo Mode</h1>
         <div class="metadata-row" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-          <span class="tag status-badge status-ghost">GHOST</span>
+          <span class="tag status-badge status-charging">CHARGING</span>
           <span class="tag">Domain: production</span>
-          <span class="tag">v0.1.0</span>
-          <span class="tag">Updated: 2026-07-20</span>
+          <span class="tag">v1.0.0</span>
+          <span class="tag">Updated: 2026-07-21</span>
           <span class="tag">Revisions: 0</span>
           
         </div>
         <div class="note-body md">
-          
+          <h2 id="eli5">ELI5</h2>
+<p>You want to show your agent-lab to a recruiter, run it in CI, or let someone try it — <em>without</em> handing over your Google tokens, your API keys, or racking up LLM costs. The node summary: <strong>design and build a credential-free mock/simulator mode for the dashboard and backend APIs to run safely without live keys; verify by running local tests.</strong> Demo mode is a fully-functional version of your system that runs on <em>simulated</em> data and <em>mocked</em> services — no real credentials, no real costs, no real side effects. It's how you demo safely, test comprehensively, and develop without burning money — and it's a mark of a thoughtfully-engineered system.</p>
+<h2 id="the-real-explanation">The Real Explanation</h2>
+<p><strong>Why demo mode is more than a nicety.</strong> It solves several real problems at once: <em>safe demos</em> (show the system to anyone — recruiters, the portfolio audience Vol 08 — without exposing your real inbox, real keys, or real data); <em>credential-free CI</em> (Vol 07 Ch 9 — your tests and CI pipeline run the <em>whole</em> system without needing real API keys in the CI environment, which would be a security risk and a cost — a system that can't be tested without live credentials is hard to test at all); <em>cost-free development</em> (iterate on the UI Ch 11, the flows, without every run costing LLM tokens Vol 04 Ch 17); and <em>reliable demos</em> (a live demo that depends on real APIs breaks when an API is down or rate-limited Vol 02 Ch 10 — demo mode is deterministic and always works, the difference between a demo that impresses and one that embarrasses you in front of a recruiter). Demo mode is <em>designed-in testability and demonstrability</em> — a senior engineering habit.</p>
 
-<!-- PASTE MASTERCLASS NOTE BELOW THIS LINE. Then set status to charging (pasted) or lit (mastered), bump version, update the updated date. -->
+<p><strong>The architecture — the seam that makes it possible (Vol 04 Ch 10's clean boundaries, cashing in).</strong> Demo mode works <em>because</em> you built clean interfaces: every external dependency (the LLM gateway Vol 02 Ch 11, the Gmail/Calendar readers Ch 8, the OAuth Ch 7, real tools) sits behind an interface, so demo mode <em>swaps the real implementation for a mock</em> (dependency injection, Ch 1's <code>Depends</code>): the mock gateway returns canned/simulated LLM responses (or a cheap local model), the mock Gmail reader returns fixture emails (including Vol 08's malicious-test email!), the mock tools simulate actions without executing them (a mock <code>send_email</code> that logs instead of sends). A single config flag (<code>DEMO_MODE=true</code>) flips every dependency to its mock. This is <em>why</em> the interface discipline mattered all along — a system with clean seams can run entirely on mocks; a tangled one can't (you can't demo-mode spaghetti). Demo mode is the <em>reward</em> for good architecture.</p>
+
+<p><strong>Designing good mocks (realistic but safe).</strong> The mocks must be <em>realistic enough to demo well</em> (canned LLM responses that show the system's real behavior, fixture data that looks real, simulated latency so the streaming Ch 2 still <em>feels</em> live) but <em>completely safe</em> (no real sends, no real reads, no costs, no credentials). Good mock data tells a <em>story</em> (a demo inbox with interesting emails, a demo calendar with a realistic day, agent responses that showcase capability) — the demo should <em>impress</em>, which means the mocks are curated, not random. And the mocks double as <em>test fixtures</em> (Vol 01 Ch 21, Vol 07 Ch 2 — the same simulated data that demos the system tests it), unifying demo and test.</p>
+
+<p><strong>Verification — local tests, per the node.</strong> Demo mode runs the <em>entire</em> system (backend Ch 1, cockpit Ch 11, agents, gate) with zero real credentials: assert no real API is called (mock the network, confirm no outbound calls to real services), no real costs incur, no real side effects happen (the mock <code>send_email</code> didn't send), and yet the <em>full flow works</em> (chat, agent execution, proposals, approvals, the cockpit lights up). Run it in CI (Vol 07 Ch 9) — the whole system tested without secrets. The "full system runs credential-free" test is the proof.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Where this appears in real systems and jobs: Design and build a credential-free mock/simulator mode for the dashboard and backend APIs to run safely without live keys; verify by running local tests.</p>
+<h2 id="hands-on">Hands-On</h2>
+<p>Build it (est. half a day, high-leverage): a <code>DEMO_MODE</code> config flag → mock implementations behind every external interface (gateway → canned responses, Gmail/Calendar → fixtures including a malicious-test email, OAuth → bypass, tools → simulated) → curated demo data that tells an impressive story → wire it via dependency injection (Ch 1) → verify the full system runs credential-free (no real calls, no costs, no side effects, full flow works) → run it in CI. This makes RESURRECTION (Ch 34) demoable and the whole system CI-testable. Tag <code>prod-v0.11</code>. The demo-mode flag + the credential-free full-system run + the CI integration = the note.</p>
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+<p>Artifacts: code links, screenshots, numbers.</p>
+<h2 id="prove-it">Prove It</h2>
+<ol>
+<li>Name the four problems demo mode solves (safe demos, credential-free CI, cost-free dev, reliable demos).</li>
+<li>Why does demo mode <em>depend on</em> clean interfaces — and why can't you demo-mode a tangled system?</li>
+<li>How does a single config flag swap the whole system to mocks (which pattern)?</li>
+<li>What makes a good mock — realistic-but-safe, and why should demo data tell a story?</li>
+<li>How do the mocks double as test fixtures, and what does the credential-free-full-run test prove?</li>
+</ol>
+<hr>
+<h1 id="part-iii-cloud-amp-deployment-ops">PART III — CLOUD &amp; DEPLOYMENT OPS</h1>
+<p><em>8 chapters. The cloud foundations: accounts and IAM, compute choices, container deployment, Kubernetes, CI/CD, the pipeline build, secrets and cost engineering, and static sites.</em></p>
+<hr>
+<h2 id="wikilinks">Wikilinks</h2>
+<p><a class="wiki-link" data-node-id="subgraphs" href="subgraphs.html">subgraphs</a></p>
+<p><a class="wiki-link" data-node-id="build-gateway" href="build-gateway.html">build-gateway</a></p>
+<p><a class="wiki-link" data-node-id="python-craft-professional" href="python-craft-professional.html">python-craft-professional</a></p>
+<p><a class="wiki-link" data-node-id="ci-gates-for-ai" href="ci-gates-for-ai.html">ci-gates-for-ai</a></p>
+<p><a class="wiki-link" data-node-id="build-command-center" href="build-command-center.html">build-command-center</a></p>
+<h2 id="status-log">Status log</h2>
+<ul>
+<li>Started: 2026-07-21</li>
+<li>Finished: null</li>
+</ul>
 
         </div>
       </article>
