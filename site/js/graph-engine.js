@@ -233,6 +233,37 @@ function renderGraph() {
     const r = getR(d);
     const color = nodeColor(d);
 
+    // 1. Vector Halo Aura (replaces CSS drop-shadow, eliminates square bounding box artifacts)
+    if (d.status === 'charging' || d.status === 'lit' || d.type === 'center' || d.type === 'domain' || d.type === 'milestone') {
+      content.append('circle')
+        .attr('class', 'node-halo')
+        .attr('r', r * (d.status === 'lit' ? 2.0 : 1.55))
+        .attr('fill', color)
+        .attr('opacity', d.status === 'lit' ? 0.24 : 0.09)
+        .attr('pointer-events', 'none');
+    }
+
+    // 2. Premium Charging Orbit Rings (rotating dashed ring & pulsing aura)
+    if (d.status === 'charging') {
+      content.append('circle')
+        .attr('class', 'charging-ring-dash')
+        .attr('r', r * 1.55)
+        .attr('fill', 'none')
+        .attr('stroke', '#f6ad55')
+        .attr('stroke-width', 1.2)
+        .attr('stroke-dasharray', '3,3')
+        .attr('opacity', 0.85);
+
+      content.append('circle')
+        .attr('class', 'charging-ring-pulse')
+        .attr('r', r * 1.25)
+        .attr('fill', 'none')
+        .attr('stroke', 'rgba(246, 173, 85, 0.45)')
+        .attr('stroke-width', 0.8)
+        .attr('opacity', 0.6);
+    }
+
+    // 3. Core Node Geometries
     if (d.type === 'milestone') {
       const hexRadius = r;
       const hx = hexRadius * 0.866;
@@ -240,36 +271,51 @@ function renderGraph() {
       const points = `0,-${hexRadius} ${hx},-${hy} ${hx},${hy} 0,${hexRadius} -${hx},${hy} -${hx},-${hy}`;
       
       content.append('polygon')
+        .attr('class', 'node-core')
         .attr('points', points)
-        .attr('fill', 'rgba(10, 15, 22, 0.9)')
+        .attr('fill', 'rgba(10, 15, 22, 0.95)')
         .attr('stroke', color)
         .attr('stroke-width', 2.0);
     } else if (d.type === 'capstone') {
       content.append('circle')
+        .attr('class', 'node-core-ring')
         .attr('r', r)
         .attr('fill', 'none')
         .attr('stroke', color)
         .attr('stroke-width', 1.8);
       content.append('circle')
+        .attr('class', 'node-core')
         .attr('r', r * 0.6)
         .attr('fill', color)
         .attr('stroke', 'none');
     } else if (d.type === 'domain') {
       content.append('circle')
+        .attr('class', 'node-core-ring')
         .attr('r', r)
         .attr('fill', 'none')
         .attr('stroke', color)
         .attr('stroke-width', 1.8);
       content.append('circle')
+        .attr('class', 'node-core')
         .attr('r', r * 0.4)
         .attr('fill', color)
         .attr('stroke', 'none');
     } else {
       content.append('circle')
+        .attr('class', 'node-core')
         .attr('r', r)
         .attr('fill', color)
-        .attr('stroke', d.type === 'center' ? 'rgba(62,226,226,.4)' : 'rgba(255,255,255,.15)')
-        .attr('stroke-width', d.type === 'center' ? 2 : 1);
+        .attr('stroke', d.type === 'center' ? 'rgba(62,226,226,.6)' : (d.status === 'charging' ? '#f6ad55' : 'rgba(255,255,255,.2)'))
+        .attr('stroke-width', d.type === 'center' ? 2 : (d.status === 'charging' ? 1.5 : 1));
+      
+      // Inner glowing core pin-point for charging & lit nodes
+      if (d.status === 'charging' || d.status === 'lit') {
+        content.append('circle')
+          .attr('class', 'node-center-pin')
+          .attr('r', r * 0.38)
+          .attr('fill', d.status === 'lit' ? '#ffffff' : '#fff5e6')
+          .attr('opacity', 0.95);
+      }
     }
   });
 
@@ -398,11 +444,13 @@ function updateNebulae() {
     .data(nebData, d => d.domain)
     .join(
       enter => enter.append('circle').attr('class', 'neb-outer')
-        .attr('r', 220)
+        .attr('cx', d => d.x)
+        .attr('cy', d => d.y)
+        .attr('r', 240)
         .attr('fill', d => d.color)
         .attr('opacity', 0)
         .attr('filter', 'url(#nebula-blur)')
-        .call(enter => enter.transition().duration(1200).attr('opacity', 0.05)),
+        .call(enter => enter.transition().duration(1000).attr('opacity', 0.11)),
       update => update.attr('cx', d => d.x).attr('cy', d => d.y),
       exit => exit.transition().duration(600).attr('opacity', 0).remove()
     );
@@ -411,11 +459,13 @@ function updateNebulae() {
     .data(nebData, d => `inner-${d.domain}`)
     .join(
       enter => enter.append('circle').attr('class', 'neb-inner')
-        .attr('r', 80)
+        .attr('cx', d => d.x)
+        .attr('cy', d => d.y)
+        .attr('r', 90)
         .attr('fill', d => d.color)
         .attr('opacity', 0)
         .attr('filter', 'url(#ring-glow)')
-        .call(enter => enter.transition().duration(1200).attr('opacity', 0.12)),
+        .call(enter => enter.transition().duration(1000).attr('opacity', 0.18)),
       update => update.attr('cx', d => d.x).attr('cy', d => d.y),
       exit => exit.transition().duration(600).attr('opacity', 0).remove()
     );

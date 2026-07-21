@@ -234,8 +234,55 @@
       • <b>Rings vs Galaxy:</b> Toggle views to switch between concentric learning paths and relational gravity fields.<br>
       • <b>Text Clutter:</b> Use <b>Smart</b> or <b>Main</b> labels to focus on primary categories.
     </div>
+    <!-- Trophy Grid -->
+    <div id="trophy-grid" style="
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 14px; margin-bottom: 10px; padding: 4px;
+    ">
+      <!-- Dynamically filled by JS -->
+    </div>
   </div>
+</div>
 
+<div id="canvas-container">
+  <div id="starfield"></div>
+  <div id="vignette"></div>
+  <canvas id="graph-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2;display:none;"></canvas>
+  <svg id="graph-svg" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:3;">
+    <defs>
+      <!-- Nebula blur filter -->
+      <filter id="nebula-blur" x="-200%" y="-200%" width="500%" height="500%">
+        <feGaussianBlur stdDeviation="60" />
+      </filter>
+      <!-- Ring lane glow (wide blur for ring halos) -->
+      <filter id="ring-glow" x="-100%" y="-100%" width="300%" height="300%">
+        <feGaussianBlur stdDeviation="8" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+      <!-- Premium Neon glow filter for active nodes -->
+      <filter id="glow-bright" x="-100%" y="-100%" width="300%" height="300%">
+        <feGaussianBlur stdDeviation="4" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+      <!-- Muted glow filter for connections -->
+      <filter id="glow-teal" x="-100%" y="-100%" width="300%" height="300%">
+        <feGaussianBlur stdDeviation="3.5" result="blur" />
+        <feColorMatrix type="matrix" values="0 0 0 0 0.16   0 0 0 0 0.5   0 0 0 0 0.5  0 0 0 0.8 0" />
+        <feMerge>
+          <feMergeNode />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+    <!-- Background layer for domain nebulae -->
+    <g class="nebulae-layer"></g>
+  </svg>
 </div>
 
 <!-- Search -->
@@ -309,76 +356,6 @@
       <div style="font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;">Your AI Engineering Achievements</div>
     </div>
     
-    <!-- Trophy Grid -->
-    <div id="trophy-grid" style="
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 14px; margin-bottom: 10px; padding: 4px;
-    ">
-      <!-- Dynamically filled by JS -->
-    </div>
-  </div>
-</div>
-
-<!-- Empty-state LIVE overlay (shown when live mode has zero lit nodes) -->
-<div id="live-empty-state" style="
-  display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-  z-index:50; text-align:center; pointer-events:none;
-  background:rgba(7,9,12,0.72); border:1px solid rgba(62,226,226,0.2);
-  border-radius:16px; padding:32px 40px; backdrop-filter:blur(16px);
-  max-width:340px; width:calc(100% - 48px);
-">
-  <div style="font-size:2rem;margin-bottom:12px;">🌑</div>
-  <div style="color:#3ee2e2;font-weight:700;font-size:1rem;letter-spacing:.06em;margin-bottom:8px;">The brain is dark — for now.</div>
-  <div style="color:#94a3b8;font-size:.82rem;line-height:1.6;">228 nodes await. Ignition is pending.<br>Switch to VISION to see the full plan.</div>
-  <button id="live-empty-dismiss" style="
-    margin-top:18px; pointer-events:all; background:rgba(42,127,127,.15);
-    border:1px solid rgba(62,226,226,.3); color:#3ee2e2; padding:6px 18px;
-    border-radius:6px; font-size:.75rem; font-weight:600; cursor:pointer;
-    font-family:inherit; letter-spacing:.04em;
-    transition:all .18s;
-  ">Dismiss</button>
-</div>
-
-<div id="canvas-container">
-  <div id="starfield"></div>
-  <div id="vignette"></div>
-  <canvas id="graph-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2;display:none;"></canvas>
-  <svg id="graph-svg" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:3;">
-    <defs>
-      <!-- Nebula blur filter -->
-      <filter id="nebula-blur" x="-200%" y="-200%" width="500%" height="500%">
-        <feGaussianBlur stdDeviation="60" />
-      </filter>
-      <!-- Ring lane glow (wide blur for ring halos) -->
-      <filter id="ring-glow" x="-100%" y="-100%" width="300%" height="300%">
-        <feGaussianBlur stdDeviation="8" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-      <!-- Premium Neon glow filter for active nodes -->
-      <filter id="glow-bright" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="4" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-      <!-- Muted glow filter for connections -->
-      <filter id="glow-teal" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="3.5" result="blur" />
-        <feColorMatrix type="matrix" values="0 0 0 0 0.16   0 0 0 0 0.5   0 0 0 0 0.5  0 0 0 0.8 0" />
-        <feMerge>
-          <feMergeNode />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-    <!-- Background layer for domain nebulae -->
-    <g class="nebulae-layer"></g>
-  </svg>
-</div>
 
 <!-- Library View Fullscreen Container -->
 <div id="library-view" class="glass" role="region" aria-label="Curriculum Library">

@@ -52,8 +52,7 @@ function loadData(src) {
 
     const liveEmpty = document.getElementById('live-empty-state');
     if (liveEmpty) {
-      const litCount = data.nodes.filter(n => n.status === 'lit' && n.type !== 'center' && n.type !== 'domain' && n.type !== 'milestone').length;
-      liveEmpty.style.display = (dataMode === 'live' && litCount === 0) ? 'block' : 'none';
+      liveEmpty.style.display = 'none';
     }
 
     const params = new URLSearchParams(window.location.search);

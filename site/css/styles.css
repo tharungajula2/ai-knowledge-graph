@@ -559,81 +559,77 @@ table.md-table tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
   transform-box: fill-box;
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease;
 }
-.node circle, .node polygon { transition: stroke-width .22s, stroke .22s, filter .22s; }
+.node circle, .node polygon { transition: stroke-width .22s, stroke .22s, opacity .22s; }
 
-.node:hover circle, .node:hover polygon { stroke: #fff !important; filter: drop-shadow(0 0 10px var(--node-glow, #fff)) !important; }
-.node.highlighted circle, .node.highlighted polygon { stroke: var(--bright) !important; stroke-width: 2.2px !important; filter: url(#glow-bright); }
+.node:hover circle.node-core, .node:hover polygon.node-core { stroke: #fff !important; }
+.node:hover .node-halo { opacity: 0.45 !important; transform: scale(1.3); }
+.node.highlighted circle.node-core, .node.highlighted polygon.node-core { stroke: var(--bright) !important; stroke-width: 2.2px !important; }
+.node.highlighted .node-halo { opacity: 0.55 !important; transform: scale(1.4); }
 .node.dimmed { opacity: .12; }
 
 /* Cinematic states */
 /* Live mode (ghosts faint) */
-body.live-mode .node.ghost { opacity: 0.12; }
-body.live-mode .node.ghost circle, body.live-mode .node.ghost polygon { stroke: rgba(255,255,255,0.06); stroke-width: 0.8px; filter: none !important; }
+body.live-mode .node.ghost { opacity: 0.15; }
+body.live-mode .node.ghost circle.node-core, body.live-mode .node.ghost polygon.node-core { stroke: rgba(255,255,255,0.08); stroke-width: 0.8px; }
 /* Charging: amber half-glow — clearly in-between ghost and lit */
-body.live-mode .node.charging { opacity: 0.72; }
-body.live-mode .node.charging circle, body.live-mode .node.charging polygon {
-  stroke: rgba(246, 173, 85, 0.55);
-  stroke-width: 1.4px;
-  stroke-dasharray: 4 2;
-  filter: drop-shadow(0 0 5px rgba(246,173,85,0.4));
-}
+body.live-mode .node.charging { opacity: 0.85; }
 body.live-mode .node.lit { opacity: 1.0; }
 
 /* Vision mode (all visible) */
 body.vision-mode .node.ghost { opacity: 0.65; }
-body.vision-mode .node.ghost circle, body.vision-mode .node.ghost polygon { stroke: rgba(255,255,255,0.25); stroke-width: 1.0px; filter: none !important; }
-/* Charging in vision mode: same amber accent but more visible */
-body.vision-mode .node.charging { opacity: 0.88; }
-body.vision-mode .node.charging circle, body.vision-mode .node.charging polygon {
-  stroke: rgba(246, 173, 85, 0.6);
-  stroke-width: 1.5px;
-  stroke-dasharray: 4 2;
-}
+body.vision-mode .node.ghost circle.node-core, body.vision-mode .node.ghost polygon.node-core { stroke: rgba(255,255,255,0.25); stroke-width: 1.0px; }
+/* Charging in vision mode */
+body.vision-mode .node.charging { opacity: 0.95; }
 body.vision-mode .node.lit { opacity: 1.0; }
 
-/* Common node animations */
-/* Charging: amber dashed-ring slow pulse — distinct from ghost AND lit */
-.node.charging circle, .node.charging polygon {
-  animation: charging-pulse 3.0s infinite ease-in-out;
+/* ── Sci-Fi Vector Node Animations (Zero Square Bounding Boxes) ── */
+.charging-ring-dash {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: charging-dash-spin 12s linear infinite;
 }
-@keyframes charging-pulse {
-  0%, 100% {
-    stroke-dashoffset: 0;
-    filter: drop-shadow(0 0 2px rgba(246,173,85,0.3));
-  }
-  50% {
-    stroke-dashoffset: 12;
-    filter: drop-shadow(0 0 9px rgba(246,173,85,0.75));
-  }
-}
-.node.lit circle, .node.lit polygon {
-  stroke: #fff;
-  stroke-width: 1.5px;
-  filter: drop-shadow(0 0 7px var(--node-glow, var(--bright)));
+@keyframes charging-dash-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-.node.milestone polygon {
+.charging-ring-pulse {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: charging-pulse-expand 2.5s ease-in-out infinite alternate;
+}
+@keyframes charging-pulse-expand {
+  0% { transform: scale(0.9); opacity: 0.25; }
+  100% { transform: scale(1.15); opacity: 0.75; }
+}
+
+.node.lit circle.node-core, .node.lit polygon.node-core {
+  stroke: #fff;
+  stroke-width: 1.6px;
+}
+
+.node.milestone polygon.node-core {
   animation: milestone-breath 3s infinite ease-in-out;
 }
 @keyframes milestone-breath {
-  0%, 100% { filter: drop-shadow(0 0 2px rgba(246, 135, 179, 0.35)); stroke-width: 1.8px; }
-  50% { filter: drop-shadow(0 0 9px rgba(246, 135, 179, 0.9)); stroke-width: 2.8px; }
+  0%, 100% { stroke-width: 1.8px; stroke-opacity: 0.7; }
+  50% { stroke-width: 2.8px; stroke-opacity: 1.0; }
 }
 
-.node.touched-today circle, .node.touched-today polygon { animation: today-pulse 1.2s infinite alternate !important; }
+.node.touched-today circle.node-core, .node.touched-today polygon.node-core { animation: today-pulse 1.2s infinite alternate !important; }
 
 @keyframes today-pulse {
-  0%   { stroke-width: 1.8px; stroke: #63b3ed; filter: drop-shadow(0 0 2px rgba(99, 179, 237, 0.5)); }
-  100% { stroke-width: 4px; stroke: #fff; filter: drop-shadow(0 0 12px rgba(99, 179, 237, 0.95)) url(#glow-bright); }
+  0%   { stroke-width: 1.8px; stroke: #63b3ed; }
+  100% { stroke-width: 3.5px; stroke: #fff; }
 }
 
 /* START HERE glow — first ghost node, amber invitation */
-.node.start-here circle {
+.node.start-here circle.node-core {
   animation: start-here-pulse 2s infinite ease-in-out !important;
 }
 @keyframes start-here-pulse {
-  0%, 100% { filter: drop-shadow(0 0 3px rgba(246,173,85,0.5)); stroke: rgba(246,173,85,0.5); stroke-width: 1.5px; }
-  50% { filter: drop-shadow(0 0 14px rgba(246,173,85,1.0)); stroke: #f6ad55; stroke-width: 3px; }
+  0%, 100% { stroke: rgba(246,173,85,0.6); stroke-width: 1.5px; }
+  50% { stroke: #f6ad55; stroke-width: 3px; }
 }
 
 .node-label {
