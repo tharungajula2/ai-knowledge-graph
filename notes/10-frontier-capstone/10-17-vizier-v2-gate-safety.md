@@ -3,7 +3,7 @@ id: vizier-v2-gate-safety
 title: "Build: v2 Gate & Security"
 domain: frontier-capstone
 ring: 10
-cluster: "VIZIER v2 — The Final Masterpiece"
+cluster: "AI Knowledge Graph v2 — The Final Masterpiece"
 type: build
 size: M
 status: charging

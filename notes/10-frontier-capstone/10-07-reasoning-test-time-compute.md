@@ -13,7 +13,7 @@ updated: 2026-07-21
 lit_date: null
 revisions: 0
 artifact: null
-wikilinks: ["reasoning-and-cot", "build-gateway", "cost-latency-budgets", "voice-agents", "trajectory-evals"]
+wikilinks: ["reasoning-prompts", "build-gateway", "cost-latency-budgets", "voice-agents", "trajectory-evals"]
 tags: [frontier-capstone]
 ---
 
@@ -47,7 +47,7 @@ Artifacts: code links, screenshots, numbers.
 ---
 
 ## Wikilinks
-[[reasoning-and-cot]]
+[[reasoning-prompts]]
 [[build-gateway]]
 [[cost-latency-budgets]]
 [[voice-agents]]

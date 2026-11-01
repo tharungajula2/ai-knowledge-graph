@@ -44,9 +44,11 @@ async function run() {
 
 async function draftSocialPosts(nodeId, notePath) {
   const noteContent = fs.readFileSync(notePath, 'utf-8');
-  const deepLink = `https://vizier-life-os.vercel.app/site/brain?node=${nodeId}`;
+  const deepLink = process.env.PUBLIC_SITE_URL
+    ? `${process.env.PUBLIC_SITE_URL.replace(/\/$/, '')}/?node=${encodeURIComponent(nodeId)}`
+    : 'https://github.com/tharungajula2/ai-knowledge-graph';
 
-  const prompt = `You are VIZIER's social post architect. You write educational content for LinkedIn.
+  const prompt = `You are AI Knowledge Graph's social post architect. You write educational content for LinkedIn.
 We want to draft posts based on this study note for "${nodeId}":
 ---
 ${noteContent}

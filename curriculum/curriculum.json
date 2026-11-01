@@ -1646,6 +1646,10 @@
         {
           "id": "reflection-patterns",
           "title": "Reflection / Reflexion"
+        },
+        {
+          "id": "reasoning-test-time-compute",
+          "title": "Reasoning & Test-Time Compute"
         }
       ]
     },
@@ -1896,6 +1900,10 @@
         {
           "id": "build-async-workers",
           "title": "Build: Background Queues & Workers"
+        },
+        {
+          "id": "failure-drills-rollbacks",
+          "title": "Failure Drills & Rollback Protocols"
         }
       ]
     },
@@ -2215,7 +2223,12 @@
       "note_revisions": 0,
       "has_content": true,
       "status": "charging",
-      "backlinks": []
+      "backlinks": [
+        {
+          "id": "voice-agents",
+          "title": "Voice Agents"
+        }
+      ]
     },
     {
       "id": "long-context-strategies",
@@ -2338,6 +2351,10 @@
         {
           "id": "ab-testing-prompts",
           "title": "A/B Testing Prompts"
+        },
+        {
+          "id": "prompt-vs-rag-vs-tune",
+          "title": "Prompting vs RAG vs Fine-Tuning"
         }
       ]
     },
@@ -3246,6 +3263,10 @@
         {
           "id": "model-serving-patterns",
           "title": "Model Serving & Latency Tradeoffs"
+        },
+        {
+          "id": "vizier-v2-memory-retrieval",
+          "title": "Build: v2 Memory & RAG"
         }
       ]
     },
@@ -3306,6 +3327,10 @@
         {
           "id": "online-evals",
           "title": "Online Evals"
+        },
+        {
+          "id": "agentic-rag-frontiers",
+          "title": "Agentic RAG Frontiers"
         }
       ]
     },
@@ -4643,7 +4668,7 @@
         },
         {
           "id": "define-vizier-v2",
-          "title": "Define VIZIER v2"
+          "title": "Define AI Knowledge Graph v2"
         }
       ]
     },
@@ -4711,7 +4736,7 @@
       "backlinks": [
         {
           "id": "define-vizier-v2",
-          "title": "Define VIZIER v2"
+          "title": "Define AI Knowledge Graph v2"
         }
       ]
     },
@@ -6409,6 +6434,10 @@
         {
           "id": "small-distilled-models",
           "title": "Small & Distilled Models"
+        },
+        {
+          "id": "prompt-vs-rag-vs-tune",
+          "title": "Prompting vs RAG vs Fine-Tuning"
         },
         {
           "id": "build-qlora-finetune",
@@ -9718,7 +9747,7 @@
         },
         {
           "id": "define-vizier-v2",
-          "title": "Define VIZIER v2"
+          "title": "Define AI Knowledge Graph v2"
         }
       ]
     },
@@ -9901,7 +9930,7 @@
       "cluster": "The Moving Edge (baseline guesses — expect replans)",
       "type": "concept",
       "size": "S",
-      "summary": "how the tools that built VIZIER actually work.",
+      "summary": "how the tools that built AI Knowledge Graph actually work.",
       "requires": [
         "computer-use-agents"
       ],
@@ -9917,7 +9946,7 @@
       "backlinks": [
         {
           "id": "define-vizier-v2",
-          "title": "Define VIZIER v2"
+          "title": "Define AI Knowledge Graph v2"
         }
       ]
     },
@@ -10178,14 +10207,14 @@
     },
     {
       "id": "define-vizier-v2",
-      "title": "Define VIZIER v2",
+      "title": "Define AI Knowledge Graph v2",
       "domain": "frontier-capstone",
       "domain_num": 10,
       "domain_title": "FRONTIER & CAPSTONE",
       "chapter_num": 14,
       "code": "10.14",
       "seq_num": 218,
-      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "cluster": "AI Knowledge Graph v2 — The Final Masterpiece",
       "type": "capstone",
       "size": "M",
       "summary": "spec the unified agent+brain rebuilt from scratch by ME, mapped back to the modules that taught it. → M5",
@@ -10227,7 +10256,7 @@
       "chapter_num": 15,
       "code": "10.15",
       "seq_num": 219,
-      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "cluster": "AI Knowledge Graph v2 — The Final Masterpiece",
       "type": "build",
       "size": "L",
       "summary": "Rebuild the ReAct execution framework and graph-based supervisor from scratch (taught by build-agent-from-scratch & build-supervisor).",
@@ -10262,7 +10291,7 @@
       "chapter_num": 16,
       "code": "10.16",
       "seq_num": 220,
-      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "cluster": "AI Knowledge Graph v2 — The Final Masterpiece",
       "type": "build",
       "size": "L",
       "summary": "Integrate long-term memory extraction and hybrid vector retrieval (taught by build-memory-layer & build-hybrid-search).",
@@ -10289,7 +10318,7 @@
       "chapter_num": 17,
       "code": "10.17",
       "seq_num": 221,
-      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "cluster": "AI Knowledge Graph v2 — The Final Masterpiece",
       "type": "build",
       "size": "M",
       "summary": "Connect the human-in-the-loop proposal queue and injection overlap scanner (taught by build-proposal-gate & build-overlap-scanner).",
@@ -10323,7 +10352,7 @@
       "chapter_num": 18,
       "code": "10.18",
       "seq_num": 222,
-      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "cluster": "AI Knowledge Graph v2 — The Final Masterpiece",
       "type": "build",
       "size": "M",
       "summary": "Implement LLM-as-a-judge regression testing and observability span tracing (taught by build-eval-judge & build-tracing-instrumentation).",
@@ -10352,7 +10381,7 @@
       "chapter_num": 19,
       "code": "10.19",
       "seq_num": 223,
-      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "cluster": "AI Knowledge Graph v2 — The Final Masterpiece",
       "type": "build",
       "size": "M",
       "summary": "Package, containerize, container-deploy, and establish CI/CD for the entire system (taught by build-github-actions-pipeline & build-container-deployment).",
@@ -10470,7 +10499,7 @@
       "cluster": "Graduation",
       "type": "build",
       "size": "M",
-      "summary": "VIZIER takes its throne on tharungajula.vercel.app.",
+      "summary": "AI Knowledge Graph takes its throne on the portfolio site.",
       "requires": [
         "the-demo-film"
       ],
@@ -10603,7 +10632,7 @@
     },
     {
       "id": "M5",
-      "title": "VIZIER v2",
+      "title": "AI Knowledge Graph v2",
       "description": "The final capstone: a unified agent+brain system spec'd and built by ME, not by an IDE agent.",
       "related_domains": [
         "frontier-capstone"

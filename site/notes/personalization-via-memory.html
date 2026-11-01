@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Personalization — VIZIER Living Brain</title>
+  <title>Personalization — AI Knowledge Graph</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 <body class="standalone-page">
   <div class="container">
     <header>
-      <a href="../index.html" class="brand">VIZIER</a>
+      <a href="../index.html" class="brand">AI Knowledge Graph</a>
       <div class="day-badge" id="day-badge">UNIVERSE 01 · AI ENGINEERING</div>
     </header>
     <nav style="margin-bottom: 24px;">
@@ -48,7 +48,7 @@
 <h2 id="the-real-explanation">The Real Explanation</h2>
 <p><strong>What personalization actually is — memory, retrieved and applied.</strong> Mechanically, it's the extract-out/retrieve-in loop (Ch 2) closing around a <em>person</em>: the assistant extracts durable facts about you (semantic — your role, goals), your history with it (episodic — past sessions, decisions), and your preferences-in-action (procedural — how you like things done, Ch 1's underrated type), then <em>retrieves the relevant subset into context</em> at the start of each interaction so the model behaves as if it knows you. No new mechanism — it's every chapter so far, aimed at a user. The magic the user feels ("it remembered!") is your retrieval-scoring (Ch 4) surfacing the right memory at the right moment.</p>
 
-<p><strong>The three tiers of personalization — ascending in value and difficulty.</strong> (1) <em>Knowing facts about you</em> (semantic): "you're targeting AI-engineering roles" — the assistant tailors content to your context. Table stakes; most "memory" features stop here. (2) <em>Knowing your history</em> (episodic): "last week we worked through the async bridge" — continuity across sessions, so you never re-explain; the assistant builds on shared past. (3) <em>Knowing how you work</em> (procedural — the highest tier, rarely done well): "you prefer terse answers with code first, you learn by analogy, you want to be challenged not coddled" — the assistant adapts its <em>behavior</em>, not just its content. This tier is where an assistant stops being a smart tool and becomes <em>yours</em> — and it's exactly what your Vizier study-buddy persona (Vol 02 Ch 17) would become with real procedural memory: it would learn <em>your</em> learning style from watching you learn.</p>
+<p><strong>The three tiers of personalization — ascending in value and difficulty.</strong> (1) <em>Knowing facts about you</em> (semantic): "you're targeting AI-engineering roles" — the assistant tailors content to your context. Table stakes; most "memory" features stop here. (2) <em>Knowing your history</em> (episodic): "last week we worked through the async bridge" — continuity across sessions, so you never re-explain; the assistant builds on shared past. (3) <em>Knowing how you work</em> (procedural — the highest tier, rarely done well): "you prefer terse answers with code first, you learn by analogy, you want to be challenged not coddled" — the assistant adapts its <em>behavior</em>, not just its content. This tier is where an assistant stops being a smart tool and becomes <em>yours</em> — and it's exactly what your AI Knowledge Graph study-buddy persona (Vol 02 Ch 17) would become with real procedural memory: it would learn <em>your</em> learning style from watching you learn.</p>
 
 <p><strong>Applying memory to behavior — how retrieved memory becomes personalized output.</strong> Retrieved memories enter the context (Ch 2), but <em>where and how</em> matters: <em>system-prompt injection</em> (relevant persistent facts and preferences prepended as context — "what you know about this user: ..." — Vol 02 Ch 2's system-prompt authority steering behavior with <em>personal</em> facts), <em>retrieved-context</em> (episodic memories surfaced when relevant to the current query — Vol 03's retrieval, personalized), and <em>procedural application</em> (preferences translated into instructions — "the user prefers bullets" becomes a format directive). The craft: inject <em>enough</em> to personalize, not <em>so much</em> that memories crowd the context (Ch 4's precision problem — surfacing ten memories when two are relevant is noise that degrades the response, the lost-in-the-middle tax on personalization).</p>
 

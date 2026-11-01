@@ -84,7 +84,7 @@ function updateLevelBar(xp) {
   if (levelNum === 2) levelTitle = 'Journeyman';
   else if (levelNum === 3) levelTitle = 'Engineer';
   else if (levelNum === 4) levelTitle = 'Architect';
-  else if (levelNum >= 5) levelTitle = 'Vizier';
+  else if (levelNum >= 5) levelTitle = 'Knowledge Mapper';
 
   const xpInLevel = xp % 1000;
   const progressPct = (xpInLevel / 1000) * 100;

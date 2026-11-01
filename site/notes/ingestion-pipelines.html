@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Build: Ingestion Pipeline & Seeder — VIZIER Living Brain</title>
+  <title>Build: Ingestion Pipeline & Seeder — AI Knowledge Graph</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 <body class="standalone-page">
   <div class="container">
     <header>
-      <a href="../index.html" class="brand">VIZIER</a>
+      <a href="../index.html" class="brand">AI Knowledge Graph</a>
       <div class="day-badge" id="day-badge">UNIVERSE 01 · AI ENGINEERING</div>
     </header>
     <nav style="margin-bottom: 24px;">
@@ -46,7 +46,7 @@
           <h2 id="eli5">ELI5</h2>
 <p>Everything so far ingested a handful of files with a script you ran by hand and trusted on faith. Production RAG lives or dies at ingestion — Ch 11 taught you that poisoned-at-birth failures are unfixable downstream — and <em>your</em> production corpus is the brain itself: hundreds of markdown notes, growing weekly for years. This build, per the node summary: <strong>parse markdown notes → clean semantic chunks → embeddings → seed pgvector — verified with chunk-length assertions.</strong> The pipeline you build today is the one your brain will actually run on; treat it like the permanent infrastructure it is.</p>
 <h2 id="the-real-explanation">The Real Explanation</h2>
-<p><strong>Stage 1 — Parse (markdown-aware, wikilink-aware).</strong> Walk the notes directory; per file, parse <em>structure</em>: frontmatter/metadata if present, header tree, code blocks (atomic — never split, per Ch 3's craft rules), and — the corpus's soul — <strong><a class="wiki-link" data-node-id="wikilinks" href="wikilinks.html">wikilinks</a></strong>: extract every one into the chunk's metadata (<code>links_to: list[str]</code>). You're not using them for retrieval yet; you're <em>preserving the graph</em> at ingestion so Ch 19 (GraphRAG) inherits a corpus that already knows its own edges. Ingestion decisions echo for rings — this one is deliberate foresight.</p>
+<p><strong>Stage 1 — Parse (markdown-aware, wikilink-aware).</strong> Walk the notes directory; per file, parse <em>structure</em>: frontmatter/metadata if present, header tree, code blocks (atomic — never split, per Ch 3's craft rules), and — the corpus's soul — <strong>wikilinks</strong>: extract every one into the chunk's metadata (<code>links_to: list[str]</code>). You're not using them for retrieval yet; you're <em>preserving the graph</em> at ingestion so Ch 19 (GraphRAG) inherits a corpus that already knows its own edges. Ingestion decisions echo for rings — this one is deliberate foresight.</p>
 
 <p><strong>Stage 2 — Chunk (clean and semantic, as the node demands).</strong> Ch 3's header-aware strategy, industrialized: split on the header tree, prepend the full heading-path, respect atomic units, apply a token-budget ceiling per chunk (oversized sections get recursive sub-splitting with overlap), and <em>drop</em> junk (empty sections, pure-link stubs below a floor). "Clean" is enforced, not hoped — see verification.</p>
 

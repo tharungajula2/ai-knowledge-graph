@@ -40,7 +40,7 @@ safe = response.get("stop_reason", "unknown") # .get = no crash if key absent
 Where this appears in real systems and jobs: functions, dicts, JSON — the shapes of AI data.
 
 ## Hands-On
-In `vizier-floor/`, write `shapes.py`: hand-build a fake API response like the above but with 3 content blocks; write functions `extract_all_text(response) -> list[str]`, `total_tokens(response) -> int`, and `to_json_file(response, path)` + `from_json_file(path)` using `dumps/loads` (via `json.dump`/`json.load` file variants). Round-trip it: build → save → load → extract → print. Bonus that pays forward: open your real `curriculum.json` from the brain repo and count nodes per domain with a comprehension.
+In `knowledge-graph-lab/`, write `shapes.py`: hand-build a fake API response like the above but with 3 content blocks; write functions `extract_all_text(response) -> list[str]`, `total_tokens(response) -> int`, and `to_json_file(response, path)` + `from_json_file(path)` using `dumps/loads` (via `json.dump`/`json.load` file variants). Round-trip it: build → save → load → extract → print. Bonus that pays forward: open your real `curriculum.json` from the brain repo and count nodes per domain with a comprehension.
 
 ## What I Built / Proof
 Artifacts: code links, screenshots, numbers.

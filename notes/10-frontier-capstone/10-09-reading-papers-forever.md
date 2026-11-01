@@ -13,7 +13,7 @@ updated: 2026-07-21
 lit_date: null
 revisions: 0
 artifact: null
-wikilinks: ["build-node-proposer", "frontier-scan", "model-landscape", "synthesis-foundations"]
+wikilinks: ["build-node-proposer", "model-landscape", "synthesis-foundations"]
 tags: [frontier-capstone]
 ---
 
@@ -53,7 +53,7 @@ Artifacts: code links, screenshots, numbers.
 
 ## Wikilinks
 [[build-node-proposer]]
-[[frontier-scan]]
+frontier scan
 [[model-landscape]]
 [[synthesis-foundations]]
 

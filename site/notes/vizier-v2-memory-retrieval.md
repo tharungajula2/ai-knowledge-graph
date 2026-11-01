@@ -33,7 +33,7 @@ Artifacts: code links, screenshots, numbers.
 [[build-memory-taxonomy]]
 [[privacy-in-memory]]
 [[citations-grounding]]
-[[build-ingestion-pipeline]]
+[[ingestion-pipelines]]
 [[agentic-rag-frontiers]]
 
 ## Status log

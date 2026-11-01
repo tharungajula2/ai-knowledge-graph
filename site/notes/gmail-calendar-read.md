@@ -27,7 +27,7 @@ Artifacts: code links, screenshots, numbers.
 5. Why is reading your inbox "precisely the scenario Vol 08 was built for"?
 
 CHUNK_EOF
-echo "lines: $(wc -l < /home/claude/VIZIER_TEXTBOOK_09_PRODUCTION.md)"
+echo "lines: $(wc -l < /path/to/production-notes.md)"
 ---
 
 # PART II — THE PLATFORM

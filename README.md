@@ -1,8 +1,8 @@
-# VIZIER — AI Engineering Learning Graph
+# AI Knowledge Graph
 
-VIZIER is a personal learning system for studying AI engineering through a structured, evolving curriculum. It turns Markdown study notes and a 228-entry syllabus into a browsable knowledge map, searchable chapter library, and in-page note reader.
+AI Knowledge Graph is a personal learning system for studying AI engineering through a structured, evolving curriculum. It turns Markdown study notes and a 228-entry syllabus into a browsable knowledge map, searchable chapter library, and in-page note reader.
 
-The repository name is `ai-knowledge-graph`; the implementation calls the project **VIZIER**. Its main deliverable is a static browser application backed by generated JSON and HTML. The curriculum covers foundations, APIs, retrieval, agents, multi-agent systems, memory, evaluation, safety, production, and frontier topics.
+Its main deliverable is a static browser application backed by generated JSON and HTML. The curriculum covers foundations, APIs, retrieval, agents, multi-agent systems, memory, evaluation, safety, production, and frontier topics.
 
 ## Explore
 

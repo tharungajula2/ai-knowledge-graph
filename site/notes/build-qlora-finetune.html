@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Build: QLoRA Fine-Tune — VIZIER Living Brain</title>
+  <title>Build: QLoRA Fine-Tune — AI Knowledge Graph</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 <body class="standalone-page">
   <div class="container">
     <header>
-      <a href="../index.html" class="brand">VIZIER</a>
+      <a href="../index.html" class="brand">AI Knowledge Graph</a>
       <div class="day-badge" id="day-badge">UNIVERSE 01 · AI ENGINEERING</div>
     </header>
     <nav style="margin-bottom: 24px;">
@@ -54,7 +54,7 @@
 
 <p><strong>The eval — the table that is the point.</strong> Same harness, three conditions on the 50 held-out pairs: (1) BEFORE — base model, plain prompt; (2) BEFORE+ — base model with your best few-shot prompt (the honest baseline your Chapter 10 memo built; skipping it is how people fake fine-tuning wins); (3) AFTER — tuned model, plain prompt. Metrics: JSON validity rate, field-exact-match rate, plus the general-probe score across conditions. Expected shape: AFTER beats both on the task metrics, with a much shorter prompt (a latency/cost win worth pricing with tokentools); general probe roughly flat (forgetting check). Whatever the numbers say, <strong>the numbers go in the table</strong> — an honest modest gain teaches more than an inflated one.</p>
 
-<p><strong>The artifact set.</strong> Export the adapter (megabytes). Write <code>finetune/FINETUNE_REPORT.md</code> in the VIZIER repo: task, data recipe (with the generation prompt), hand-review rubric and findings, hyperparameters, the loss curve, <strong>the before/after table</strong>, cost (₹0 — say it, it's a flex), "what I'd do differently," and — non-negotiable — a closing section titled <strong>"When NOT to fine-tune,"</strong> distilled from your Chapter 10 memo. That section is what separates "I ran a script" from "I have judgment."</p>
+<p><strong>The artifact set.</strong> Export the adapter (megabytes). Write <code>finetune/FINETUNE_REPORT.md</code> in the AI Knowledge Graph repo: task, data recipe (with the generation prompt), hand-review rubric and findings, hyperparameters, the loss curve, <strong>the before/after table</strong>, cost (₹0 — say it, it's a flex), "what I'd do differently," and — non-negotiable — a closing section titled <strong>"When NOT to fine-tune,"</strong> distilled from your Chapter 10 memo. That section is what separates "I ran a script" from "I have judgment."</p>
 <h2 id="why-it-matters">Why It Matters</h2>
 <p>Where this appears in real systems and jobs: Build a script to fine-tune a small open model (e.g. Llama-3-8B/Qwen-2.5-Coder) using QLoRA on a custom ~300 pair dataset, hand-review samples, evaluate on a 50-pair held-out set, and compile a before/after eval table artifact; verify with training loss metrics.</p>
 <h2 id="hands-on">Hands-On</h2>

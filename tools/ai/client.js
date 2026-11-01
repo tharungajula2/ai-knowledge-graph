@@ -112,7 +112,7 @@ const providers = [
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-          'HTTP-Referer': 'https://github.com/tharungajula2/vizier-ai'
+          'HTTP-Referer': 'https://github.com/tharungajula2/ai-knowledge-graph'
         },
         body: JSON.stringify(body)
       });
@@ -202,10 +202,10 @@ function getMockResponse(prompt, isJson) {
     }
   }
 
-  if (prompt.includes("VIZIER's social post architect")) {
+  if (prompt.includes("AI Knowledge Graph's social post architect")) {
     if (isJson) {
       return JSON.stringify({
-        text_post: `🚀 Ever wondered how AI models actually 'read' your text?\n\nThink of it like a traditional Indian spice box (Masala Dabba). You don't dump entire packets of spices in at once; you use specific measures of ingredients, each bringing a unique profile to the dish.\n\nAI models do the exact same thing with your words! They slice sentences into tiny chunks called 'tokens' and map their semantic flavors in a high-dimensional space.\n\nCheck out the full Feynman-style explanation on my living curriculum:\n${prompt.match(/https?:\/\/[^\s]+/)?.[0] || 'https://vizier-life-os.vercel.app/site/brain'}`,
+        text_post: `🚀 Ever wondered how AI models actually 'read' your text?\n\nThink of it like a traditional Indian spice box (Masala Dabba). You don't dump entire packets of spices in at once; you use specific measures of ingredients, each bringing a unique profile to the dish.\n\nAI models do the exact same thing with your words! They slice sentences into tiny chunks called 'tokens' and map their semantic flavors in a high-dimensional space.\n\nCheck out the full Feynman-style explanation on my living curriculum:\n${prompt.match(/https?:\/\/[^\s]+/)?.[0] || 'https://github.com/tharungajula2/ai-knowledge-graph'}`,
         carousel_outline: `Slide 1: Slicing sentences like spices! 🌶️\nSlide 2: What is a token? The raw ingredients of AI language.\nSlide 3: Words vs Chunks: Why AI splits words into sub-words.\nSlide 4: Mapping flavor: How models find coordinates for words.\nSlide 5: Common token traps (why AI fails at spelling or counting).\nSlide 6: Tap the link to explore the interactive visual graph!`,
         video_script: `[Visual: Close up of spices being sorted into a traditional dabba]\n"Just like you organize spices by flavor and warmth..."\n[Caption: AI doesn't read words!]\n"AI models organize words into coordinates called tokens. Let's break down how this shapes everything from search to chatbot memory in under 45 seconds..."`
       }, null, 2);

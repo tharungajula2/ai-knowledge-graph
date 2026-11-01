@@ -28,7 +28,7 @@ Artifacts: code links, screenshots, numbers.
 ---
 
 ## Wikilinks
-[[reasoning-and-cot]]
+[[reasoning-prompts]]
 [[build-gateway]]
 [[cost-latency-budgets]]
 [[voice-agents]]

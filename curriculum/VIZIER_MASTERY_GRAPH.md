@@ -1,4 +1,4 @@
-# VIZIER — THE MASTERY GRAPH (v1.0.0)
+# AI KNOWLEDGE GRAPH — THE MASTERY GRAPH (v1.0.0)
 ### 228 nodes. 10 domains. The past is locked. The future evolves.
 
 ---
@@ -52,7 +52,7 @@ into `agent-lab/`. Cluster headers group nodes; clusters imply sequence edges.
   use. Baseline node: `build-feynman-bot`.
 - **M4 — HALF-LIT BRAIN** · related: all · 50% of current plan's nodes lit; the halfway
   story post.
-- **M5 — VIZIER v2** · related: frontier-capstone · The final capstone: a unified
+- **M5 — AI Knowledge Graph v2** · related: frontier-capstone · The final capstone: a unified
   agent+brain system spec'd and built by ME, not by an IDE agent. Baseline node:
   `define-vizier-v2`.
 
@@ -354,7 +354,7 @@ frontier cluster from a fresh frontier-scan before I enter it.*
 - small-distilled-models — Small & Distilled Models (concept · S): why tiny models are eating the edge.
 - voice-agents — Voice Agents (concept · M): realtime speech loops; latency budgets.
 - computer-use-agents — Computer-Use & Browser Agents (concept · M): agents that click and type.
-- coding-agents — Coding Agents (concept · S): how the tools that built VIZIER actually work.
+- coding-agents — Coding Agents (concept · S): how the tools that built AI Knowledge Graph actually work.
 - agentic-rag-frontiers — Agentic RAG Frontiers (concept · S): retrieval as a tool inside the loop.
 - reasoning-test-time-compute — Reasoning & Test-Time Compute (concept · S): models that think longer, not just bigger.
 - protocol-futures — Protocol Futures (frontier · S): where MCP/A2A and successors are heading — live view.
@@ -366,8 +366,8 @@ frontier cluster from a fresh frontier-scan before I enter it.*
 - build-qlora-finetune — Build: QLoRA Fine-Tune (build · L): Build a script to fine-tune a small open model (e.g. Llama-3-8B/Qwen-2.5-Coder) using QLoRA on a custom ~300 pair dataset, hand-review samples, evaluate on a 50-pair held-out set, and compile a before/after eval table artifact; verify with training loss metrics.
 - preference-tuning-distillation — Alignment & Distillation (concept · M): DPO, RLHF, reward models, model distillation techniques, and evaluating tuned model alignment.
 
-### Cluster: VIZIER v2 — The Final Masterpiece
-- define-vizier-v2 — Define VIZIER v2 (capstone · M): spec the unified agent+brain rebuilt from scratch by ME, mapped back to the modules that taught it. → M5
+### Cluster: AI Knowledge Graph v2 — The Final Masterpiece
+- define-vizier-v2 — Define AI Knowledge Graph v2 (capstone · M): spec the unified agent+brain rebuilt from scratch by ME, mapped back to the modules that taught it. → M5
 - build-vizier-v2-core — Build: v2 Core ReAct Loop (build · L): Rebuild the ReAct execution framework and graph-based supervisor from scratch (taught by build-agent-from-scratch & build-supervisor).
 - vizier-v2-memory-retrieval — Build: v2 Memory & RAG (build · L): Integrate long-term memory extraction and hybrid vector retrieval (taught by build-memory-layer & build-hybrid-search).
 - vizier-v2-gate-safety — Build: v2 Gate & Security (build · M): Connect the human-in-the-loop proposal queue and injection overlap scanner (taught by build-proposal-gate & build-overlap-scanner).
@@ -377,7 +377,7 @@ frontier cluster from a fresh frontier-scan before I enter it.*
 ### Cluster: Graduation
 - the-full-story — The Full Story (synthesis · M): long-form essay — the whole arc.
 - the-demo-film — The Demo Film (build · S): record the cinematic brain tour + system walkthrough.
-- portfolio-integration — Portfolio Integration (build · M): VIZIER takes its throne on tharungajula.vercel.app.
+- portfolio-integration — Portfolio Integration (build · M): AI Knowledge Graph takes its throne on the portfolio site.
 - retrospective — Retrospective (synthesis · S): what actually changed in me; honest lessons.
 - graduation — 🏆 GRADUATION (capstone · S): the graph is lit. Publish the mega-post. Begin again.
 ---

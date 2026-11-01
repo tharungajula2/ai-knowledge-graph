@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vizier Render QA — 5 Real Stress Notes Standalone Preview</title>
+  <title>AI Knowledge Graph Render QA — 5 Real Stress Notes Standalone Preview</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -163,7 +163,7 @@
 
   <header class="header">
     <div class="title-group">
-      <h1>Vizier Render QA <span class="badge">FINAL QA PASSED</span></h1>
+      <h1>AI Knowledge Graph Render QA <span class="badge">FINAL QA PASSED</span></h1>
     </div>
     <div class="controls">
       <button class="btn-toggle active" id="btn-desktop" onclick="setViewport('desktop')">💻 Desktop (960px)</button>
@@ -208,7 +208,7 @@ You don't need to <em>write</em> clever object-oriented code to be an AI enginee
         self.history.<span class="tok-fn">append</span>({<span class="tok-str">"role"</span>: <span class="tok-str">"user"</span>, <span class="tok-str">"content"</span>: prompt})
         <span class="tok-kw">return</span> f<span class="tok-str">"[{self.name}] would call {self.model} here"</span>
 
-bot = <span class="tok-fn">Agent</span>(<span class="tok-str">"vizier"</span>, <span class="tok-str">"claude-sonnet-4-6"</span>)        <span class="tok-comment"># instantiate → __init__ fires</span>
+bot = <span class="tok-fn">Agent</span>(<span class="tok-str">"AI Knowledge Graph"</span>, <span class="tok-str">"claude-sonnet-4-6"</span>)        <span class="tok-comment"># instantiate → __init__ fires</span>
 bot.<span class="tok-fn">ask</span>(<span class="tok-str">"hello"</span>)                                   <span class="tok-comment"># method call; self is bot</span></code></pre>
       </div>
 Decoder ring for reading real code: <code>__init__</code> = constructor; <code>self</code> = "this particular object"; <code>bot.ask(...)</code> = function that lives on the object and can touch its data; <code>class ChatAgent(Agent):</code> = inheritance — ChatAgent <em>is an</em> Agent plus overrides (this is how LangChain's hundred retriever/LLM variants all share one interface — recognizing "subclass overriding a base method" unlocks that whole codebase style). You'll also constantly see <code>@dataclass</code> (auto-writes <code>__init__</code> for data-holding classes) and <code>@property</code> — recognize, don't memorize.
@@ -251,7 +251,9 @@ which <span class="tok-cmd">python</span>                       # verify: path n
       </div>
 The mental model: <code>activate</code> just edits your shell's PATH so <code>python</code> and <code>pip</code> resolve to the <code>.venv</code> copies. <code>requirements.txt</code> is how a teammate (or a server, or Docker in a later domain) rebuilds your exact toolbox: <code>pip install -r requirements.txt</code>. Two habits that mark professionals: <code>.venv/</code> goes in <code>.gitignore</code> (you commit the <em>recipe</em>, never the toolbox itself), and one project = one venv, created the minute the project folder is born. (Later you'll meet <code>uv</code> — a fast modern replacement doing the same jobs; the concepts transfer 1:1.)<h2 id="why-it-matters">Why It Matters</h2>
 Where this appears in real systems and jobs: venv, pip, running scripts like a pro.<h2 id="hands-on">Hands-On</h2>
-Create a folder <code>vizier-floor/</code>, and inside it a venv. Activate, prove isolation with <code>which python</code>, install <code>requests</code>, write <code>main.py</code> that imports requests and fetches any URL's status code, run it, freeze requirements. Then the real test: <code>deactivate</code>, delete <code>.venv</code> entirely, recreate it from <code>requirements.txt</code> alone, and run <code>main.py</code> again. If it runs, you've proven reproducibility — the entire point.<h2 id="what-i-built-proof">What I Built / Proof</h2>
+Create a folder <code>knowledge-graph-lab/</code>, and inside it a venv. Activate, prove isolation with <code>which python</code>, install <code>requests</code>, write <code>main.py</code> that imports requests and fetches any URL's status code, run it, freeze requirements. Then the real test: <code>deactivate</code>, delete <code>.venv</code> entirely, recreate it from <code>requirements.txt</code> alone, and run <code>main.py</code> again. If it runs, you've proven reproducibility — the entire point.
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+
 Artifacts: code links, screenshots, numbers.<h2 id="prove-it">Prove It</h2>
 1. What disease do venvs cure? Describe the two-projects conflict precisely.
 2. What does <code>activate</code> mechanically do to your shell?
@@ -292,7 +294,9 @@ safe = response.<span class="tok-fn">get</span>(<span class="tok-str">"stop_reas
 
 <strong>JSON — the wire format.</strong> JSON is just the universal <em>text</em> representation of dicts+lists, and every API speaks it. Two verbs, learn them cold: <code>json.dumps(obj)</code> (dict → string, to <em>send</em>) and <code>json.loads(s)</code> (string → dict, to <em>receive</em>). The classic beginner crash — <code>TypeError: string indices must be integers</code> — means you forgot <code>loads</code> and are indexing a raw string. The comprehension idiom rounds out fluency: <code>[m["text"] for m in messages if m["role"] == "user"]</code> — filter-and-extract in one line, everywhere in AI code.<h2 id="why-it-matters">Why It Matters</h2>
 Where this appears in real systems and jobs: functions, dicts, JSON — the shapes of AI data.<h2 id="hands-on">Hands-On</h2>
-In <code>vizier-floor/</code>, write <code>shapes.py</code>: hand-build a fake API response like the above but with 3 content blocks; write functions <code>extract_all_text(response) -&gt; list[str]</code>, <code>total_tokens(response) -&gt; int</code>, and <code>to_json_file(response, path)</code> + <code>from_json_file(path)</code> using <code>dumps/loads</code> (via <code>json.dump</code>/<code>json.load</code> file variants). Round-trip it: build → save → load → extract → print. Bonus that pays forward: open your real <code>curriculum.json</code> from the brain repo and count nodes per domain with a comprehension.<h2 id="what-i-built-proof">What I Built / Proof</h2>
+In <code>knowledge-graph-lab/</code>, write <code>shapes.py</code>: hand-build a fake API response like the above but with 3 content blocks; write functions <code>extract_all_text(response) -&gt; list[str]</code>, <code>total_tokens(response) -&gt; int</code>, and <code>to_json_file(response, path)</code> + <code>from_json_file(path)</code> using <code>dumps/loads</code> (via <code>json.dump</code>/<code>json.load</code> file variants). Round-trip it: build → save → load → extract → print. Bonus that pays forward: open your real <code>curriculum.json</code> from the brain repo and count nodes per domain with a comprehension.
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+
 Artifacts: code links, screenshots, numbers.<h2 id="prove-it">Prove It</h2>
 1. When do you reach for a list vs a dict? One sentence each.
 2. Read <code>data["items"][2]["meta"].get("tags", [])</code> out loud, naming each hop's type.
@@ -375,7 +379,9 @@ The distinctions that actually matter to an engineer:
 
 The nesting is strict: every agent uses GenAI, all serious GenAI is deep learning, all deep learning is ML, all ML is AI. The reverse directions are all false.<h2 id="why-it-matters">Why It Matters</h2>
 Where this appears in real systems and jobs: AI vs ML vs DL vs GenAI vs Agentic — the family tree.<h2 id="hands-on">Hands-On</h2>
-Open your Vizier dashboard (you built the perfect artifact for this chapter). Hover the rings from <code>foundations</code> outward and narrate out loud where each domain sits in the nesting dolls: which rings are "just ML," where generation enters, where agency enters. Then draw the nested-circles diagram on paper, from memory, with one real product example living in each band (e.g., a thermostat rule, a spam filter, image recognition, ChatGPT, an autonomous coding agent).<h2 id="what-i-built-proof">What I Built / Proof</h2>
+Open your AI Knowledge Graph dashboard (you built the perfect artifact for this chapter). Hover the rings from <code>foundations</code> outward and narrate out loud where each domain sits in the nesting dolls: which rings are "just ML," where generation enters, where agency enters. Then draw the nested-circles diagram on paper, from memory, with one real product example living in each band (e.g., a thermostat rule, a spam filter, image recognition, ChatGPT, an autonomous coding agent).
+<h2 id="what-i-built-proof">What I Built / Proof</h2>
+
 Artifacts: code links, screenshots, numbers.<h2 id="prove-it">Prove It</h2>
 1. What is the fundamental difference between classical rules-based AI and Machine Learning?
 2. How does Deep Learning bypass manual feature engineering?

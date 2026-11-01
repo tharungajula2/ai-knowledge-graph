@@ -29,7 +29,7 @@ Artifacts: code links, screenshots, numbers.
 
 ---
 
-# PART III — VIZIER v2: THE FINAL MASTERPIECE
+# PART III — AI Knowledge Graph v2: THE FINAL MASTERPIECE
 *6 chapters. The graduation proof your graph's own Prompt-2 rewrite demanded: the learner REBUILDS the entire agent system from scratch — supervisor, memory, gate, evals, deploy — each subsystem mapped to the nodes that taught it. v1 was built by an IDE agent while you watched. v2 is built by you while the whole curriculum watches. This is M5.*
 
 ---

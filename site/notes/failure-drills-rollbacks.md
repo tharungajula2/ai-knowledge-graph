@@ -32,7 +32,7 @@ Artifacts: code links, screenshots, numbers.
 ## Wikilinks
 [[observability-slos]]
 [[build-migration-runner]]
-[[fallbacks-graceful-degradation]]
+[[errors-retries-backoff]]
 [[hardening-pass]]
 [[monitoring-alerting]]
 

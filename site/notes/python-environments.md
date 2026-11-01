@@ -16,7 +16,7 @@ The mental model: `activate` just edits your shell's PATH so `python` and `pip` 
 Where this appears in real systems and jobs: venv, pip, running scripts like a pro.
 
 ## Hands-On
-Create a folder `vizier-floor/`, and inside it a venv. Activate, prove isolation with `which python`, install `requests`, write `main.py` that imports requests and fetches any URL's status code, run it, freeze requirements. Then the real test: `deactivate`, delete `.venv` entirely, recreate it from `requirements.txt` alone, and run `main.py` again. If it runs, you've proven reproducibility — the entire point.
+Create a folder `knowledge-graph-lab/`, and inside it a venv. Activate, prove isolation with `which python`, install `requests`, write `main.py` that imports requests and fetches any URL's status code, run it, freeze requirements. Then the real test: `deactivate`, delete `.venv` entirely, recreate it from `requirements.txt` alone, and run `main.py` again. If it runs, you've proven reproducibility — the entire point.
 
 ## What I Built / Proof
 Artifacts: code links, screenshots, numbers.

@@ -106,7 +106,7 @@ function parseMasteryGraph(filePath) {
   const content = fs.readFileSync(filePath, 'utf-8');
   
   let version = '1.0.0';
-  const versionMatch = content.match(/VIZIER\s*—\s*THE\s*MASTERY\s*GRAPH\s*\(v([\d.]+)\)/i);
+  const versionMatch = content.match(/THE\s*MASTERY\s*GRAPH\s*\(v([\d.]+)\)/i);
   if (versionMatch) {
     version = versionMatch[1];
   }
@@ -708,8 +708,8 @@ function compileCurriculum() {
   // Center node VIZIER
   d3LiveNodes.push({
     id: 'center-vizier',
-    label: 'VIZIER',
-    title: 'VIZIER',
+    label: 'AI Knowledge Graph',
+    title: 'AI Knowledge Graph',
     type: 'center',
     ring: 'center',
     status: 'lit',

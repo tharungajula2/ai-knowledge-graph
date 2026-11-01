@@ -13,7 +13,7 @@ updated: 2026-07-21
 lit_date: null
 revisions: 0
 artifact: null
-wikilinks: ["streaming-responses", "small-distilled-models", "cost-latency-budgets", "build-proposal-gate", "voice-landscape"]
+wikilinks: ["streaming-responses", "small-distilled-models", "cost-latency-budgets", "build-proposal-gate", "voice-audio-apis"]
 tags: [frontier-capstone]
 ---
 
@@ -31,7 +31,7 @@ Text chat forgives you half a second of thinking. A phone call does not. Say som
 Where this appears in real systems and jobs: realtime speech loops; latency budgets.
 
 ## Hands-On
-Build the *skeleton* to feel the budget (no polish required): mic capture → hosted speech-to-text → your gateway (small fast model, streaming) → hosted text-to-speech, playing the first sentence as soon as it's ready. Measure the full mouth-to-ear loop with honest timestamps at each stage. Then write the two-architecture comparison table for *your* VIZIER: if v2 grew a voice mode, which architecture, and where would the gate and the scanner live? That design paragraph is the artifact; the skeleton is the evidence.
+Build the *skeleton* to feel the budget (no polish required): mic capture → hosted speech-to-text → your gateway (small fast model, streaming) → hosted text-to-speech, playing the first sentence as soon as it's ready. Measure the full mouth-to-ear loop with honest timestamps at each stage. Then write the two-architecture comparison table for *your* AI Knowledge Graph: if v2 grew a voice mode, which architecture, and where would the gate and the scanner live? That design paragraph is the artifact; the skeleton is the evidence.
 
 ## What I Built / Proof
 Artifacts: code links, screenshots, numbers.
@@ -51,7 +51,7 @@ Artifacts: code links, screenshots, numbers.
 [[small-distilled-models]]
 [[cost-latency-budgets]]
 [[build-proposal-gate]]
-[[voice-landscape]]
+[[voice-audio-apis]]
 
 ## Status log
 - Started: 2026-07-21

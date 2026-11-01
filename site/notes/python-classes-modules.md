@@ -11,7 +11,7 @@ class Agent:
         self.history.append({"role": "user", "content": prompt})
         return f"[{self.name}] would call {self.model} here"
 
-bot = Agent("vizier", "claude-sonnet-4-6")        # instantiate → __init__ fires
+bot = Agent("AI Knowledge Graph", "claude-sonnet-4-6")        # instantiate → __init__ fires
 bot.ask("hello")                                   # method call; self is bot
 ```
 Decoder ring for reading real code: `__init__` = constructor; `self` = "this particular object"; `bot.ask(...)` = function that lives on the object and can touch its data; `class ChatAgent(Agent):` = inheritance — ChatAgent *is an* Agent plus overrides (this is how LangChain's hundred retriever/LLM variants all share one interface — recognizing "subclass overriding a base method" unlocks that whole codebase style). You'll also constantly see `@dataclass` (auto-writes `__init__` for data-holding classes) and `@property` — recognize, don't memorize.

@@ -13,7 +13,7 @@ updated: 2026-07-21
 lit_date: null
 revisions: 0
 artifact: null
-wikilinks: ["observability-slos", "build-migration-runner", "fallbacks-graceful-degradation", "hardening-pass", "monitoring-alerting"]
+wikilinks: ["observability-slos", "build-migration-runner", "errors-retries-backoff", "hardening-pass", "monitoring-alerting"]
 tags: [production]
 ---
 
@@ -51,7 +51,7 @@ Artifacts: code links, screenshots, numbers.
 ## Wikilinks
 [[observability-slos]]
 [[build-migration-runner]]
-[[fallbacks-graceful-degradation]]
+[[errors-retries-backoff]]
 [[hardening-pass]]
 [[monitoring-alerting]]
 

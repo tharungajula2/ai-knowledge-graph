@@ -46,9 +46,9 @@ Artifacts: code links, screenshots, numbers.
 
 ## Wikilinks
 [[the-full-story]]
-[[build-vizier-v2-core]]
-[[vizier-v2-gate-safety]]
-[[vizier-v2-redteam-ship]]
+[[build-vizier-v2-core|Build the v2 core]]
+[[vizier-v2-gate-safety|v2 gate and safety]]
+[[vizier-v2-redteam-ship|v2 red-team and shipping]]
 [[portfolio-integration]]
 
 ## Status log

@@ -3,7 +3,7 @@ id: vizier-v2-evals-traces
 title: "Build: v2 Evals & Tracing"
 domain: frontier-capstone
 ring: 10
-cluster: "VIZIER v2 — The Final Masterpiece"
+cluster: "AI Knowledge Graph v2 — The Final Masterpiece"
 type: build
 size: M
 status: charging

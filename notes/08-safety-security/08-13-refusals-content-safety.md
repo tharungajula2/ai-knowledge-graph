@@ -13,7 +13,7 @@ updated: 2026-07-21
 lit_date: null
 revisions: 0
 artifact: null
-wikilinks: ["guardrails-in-out", "roles-and-system-prompts", "responsible-shipping", "refusal_handling", "hallucination"]
+wikilinks: ["guardrails-in-out", "roles-and-system-prompts", "responsible-shipping", "hallucination"]
 tags: [safety-security]
 ---
 
@@ -52,7 +52,7 @@ Artifacts: code links, screenshots, numbers.
 [[guardrails-in-out]]
 [[roles-and-system-prompts]]
 [[responsible-shipping]]
-[[refusal_handling]]
+refusal handling
 [[hallucination]]
 
 ## Status log
