@@ -56,7 +56,7 @@
         <span class="tok-kw">self</span>.history.<span class="tok-fn">append</span>(({<span class="tok-str">"role"</span>: <span class="tok-str">"user"</span>, <span class="tok-str">"content"</span>: prompt})
         <span class="tok-kw">return</span> <span class="tok-str">f"[{self.name}] would call {self.model} here"</span>
 
-bot = <span class="tok-fn">Agent</span>((<span class="tok-str">"vizier"</span>, <span class="tok-str">"claude-sonnet-4-6"</span>)        <span class="tok-comment"># instantiate → __init__ fires</span>
+bot = <span class="tok-fn">Agent</span>((<span class="tok-str">"AI Knowledge Graph"</span>, <span class="tok-str">"claude-sonnet-4-6"</span>)        <span class="tok-comment"># instantiate → __init__ fires</span>
 bot.<span class="tok-fn">ask</span>((<span class="tok-str">"hello"</span>)                                   <span class="tok-comment"># method call; self is bot</span></code></pre>
       </div>
 <p>Decoder ring for reading real code: <code>__init__</code> = constructor; <code>self</code> = "this particular object"; <code>bot.ask(...)</code> = function that lives on the object and can touch its data; <code>class ChatAgent(Agent):</code> = inheritance — ChatAgent <em>is an</em> Agent plus overrides (this is how LangChain's hundred retriever/LLM variants all share one interface — recognizing "subclass overriding a base method" unlocks that whole codebase style). You'll also constantly see <code>@dataclass</code> (auto-writes <code>__init__</code> for data-holding classes) and <code>@property</code> — recognize, don't memorize.</p>
