@@ -1,6 +1,6 @@
-# VIZIER — Project Blueprint
+# AI Knowledge Graph — Project Blueprint
 
-This guide describes the implementation in this repository as checked in. The project is named `ai-knowledge-graph` on GitHub and calls its curriculum application **VIZIER**. The repository contains more than the browser app: its central deliverable is a static AI-engineering learning map, while adjacent `brain/` scripts and documents represent a broader personal knowledge/assistant concept and tooling experiments.
+This guide describes the implementation in this repository as checked in. The repository contains more than the browser app: its central deliverable is a static AI-engineering learning map, while adjacent `brain/` scripts and documents represent a broader personal knowledge/assistant concept and tooling experiments.
 
 ## Contents
 
@@ -18,7 +18,7 @@ This guide describes the implementation in this repository as checked in. The pr
 
 ## Purpose and audience
 
-VIZIER organizes an individual’s AI-engineering study into a graph-shaped curriculum. Its intended learner can move from foundational concepts through implementation exercises and capstones, record notes as Markdown, and navigate dependencies and cross-links spatially. The graph visualizes relationships already present in the syllabus and notes; it does not infer a knowledge graph from arbitrary documents or answer questions with an AI model.
+AI Knowledge Graph organizes an individual’s AI-engineering study into a graph-shaped curriculum. Its intended learner can move from foundational concepts through implementation exercises and capstones, record notes as Markdown, and navigate dependencies and cross-links spatially. The graph visualizes relationships already present in the syllabus and notes; it does not infer a knowledge graph from arbitrary documents or answer questions with an AI model.
 
 The curriculum’s ten domains are foundations; prompting and APIs; RAG and retrieval; agents; multi-agent systems and MCP; memory and knowledge; evaluation and observability; safety and security; production; and frontier/capstone work. Node records include an ID, title, domain, chapter/sequence, cluster, type, effort size, summary, prerequisite IDs, status, dates, and backlinks. The curriculum source is [the mastery graph](curriculum/VIZIER_MASTERY_GRAPH.md); authored content lives under [notes/](notes/).
 
@@ -68,7 +68,7 @@ flowchart LR
   compiler --> pagegen["tools/site-build/build.js"]
   pagegen --> pages["site/notes/*.md and *.html"]
   pagegen --> app["site/index.html + assets"]
-  indexes --> browser["VIZIER static SPA"]
+  indexes --> browser["AI Knowledge Graph static SPA"]
   pages --> browser
   browser --> graph["D3 graph"]
   browser --> library["Searchable library"]
@@ -87,7 +87,7 @@ The browser does not contain a backend service. Its graph and curriculum records
 | Browser selection, filters, layout | JavaScript memory | Resets on page reload. |
 | XP, streak, status counts | Generated metadata and statuses | Read/displayed by the UI; not edited by the UI. |
 | Celebration dismissal | Browser `localStorage` key `vizier_celebrated_capstones` | Prevents repeat capstone celebrations on that browser; unrelated to learning progress. |
-| Optional Supabase counters in older/adjacent brain index tooling | Environment file searched by `brain/` tools | Not required by the VIZIER static site and not part of its displayed curriculum dataset. |
+| Optional Supabase counters in older/adjacent brain index tooling | Environment file searched by `brain/` tools | Not required by the AI Knowledge Graph static site and not part of its displayed curriculum dataset. |
 
 ## Data model and processing
 
@@ -250,7 +250,7 @@ Some separate scripts inspect local environment files or talk to Supabase when c
 5. Track completion in a deliberate persistence layer only if multi-device or multiple-learner use becomes a product requirement; retain clear privacy boundaries.
 6. Add curriculum versioning and generated-artifact freshness checks so the source, JSON, and rendered pages cannot silently diverge.
 
-The graph-plus-curriculum pattern could transfer to **Trelis Student** as a visual map of learning goals, prerequisites, evidence/artifacts, and reflection notes. Keep the transferable parts (typed nodes, explicit prerequisite edges, status semantics, and generated views) while adapting the domain model and privacy rules to students; do not import VIZIER’s personal-assistant integrations or assume XP is a good educational metric.
+The graph-plus-curriculum pattern could support other learning contexts through typed nodes, explicit prerequisite edges, status semantics, and generated views. Any adaptation would need its own domain model, privacy rules, and evidence for the usefulness of XP.
 
 ## Source reference
 

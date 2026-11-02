@@ -16,7 +16,7 @@ Git is a time machine with parallel universes. Every **commit** is a snapshot yo
 Where this appears in real systems and jobs: branches, commits, history — understand my own daily ritual.
 
 ## Hands-On
-In `vizier-floor/`, run the full drama: `git init`, commit `main.py`, branch `experiment`, change a line, commit, switch back to `main`, change the *same* line differently, commit, merge `experiment` → hit the conflict on purpose → resolve it, commit. Then time-travel: `log --oneline`, `revert` the merge, watch the file change back, then `reflog` and observe your whole journey recorded. Screenshot the graph — artifact done.
+In `knowledge-graph-lab/`, run the full drama: `git init`, commit `main.py`, branch `experiment`, change a line, commit, switch back to `main`, change the *same* line differently, commit, merge `experiment` → hit the conflict on purpose → resolve it, commit. Then time-travel: `log --oneline`, `revert` the merge, watch the file change back, then `reflog` and observe your whole journey recorded. Screenshot the graph — artifact done.
 
 ## What I Built / Proof
 Artifacts: code links, screenshots, numbers.

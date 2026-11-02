@@ -26,7 +26,7 @@ Notice the anti-hallucination clause riding inside TASK ("if absent, use null �
 Where this appears in real systems and jobs: role + context + task + format — the reusable pattern.
 
 ## Hands-On
-Take three deliberately lazy prompts — "summarize this article", "fix this code", "write a LinkedIn post about my project" — and rebuild each as a full four-bone skeleton for a concrete scenario of yours (use real inputs: a real article, your actual code, your Vizier project). Run lazy vs skeleton for each and paste both outputs into your note. The delta you observe is the entire argument for this chapter — and the LinkedIn one, keep: it feeds Chapter 24's capstone post.
+Take three deliberately lazy prompts — "summarize this article", "fix this code", "write a LinkedIn post about my project" — and rebuild each as a full four-bone skeleton for a concrete scenario of yours (use real inputs: a real article, your actual code, your AI Knowledge Graph project). Run lazy vs skeleton for each and paste both outputs into your note. The delta you observe is the entire argument for this chapter — and the LinkedIn one, keep: it feeds Chapter 24's capstone post.
 
 ## What I Built / Proof
 Artifacts: code links, screenshots, numbers.

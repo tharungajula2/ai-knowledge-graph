@@ -135,7 +135,7 @@ body.galaxy-active::before {
 }
 
 .brand-row {
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;
   border-bottom: 1px solid var(--panel-border);
   padding-bottom: 10px;
 }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Build: "What Did I Learn?" Agent — VIZIER Living Brain</title>
+  <title>Build: "What Did I Learn?" Agent — AI Knowledge Graph</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 <body class="standalone-page">
   <div class="container">
     <header>
-      <a href="../index.html" class="brand">VIZIER</a>
+      <a href="../index.html" class="brand">AI Knowledge Graph</a>
       <div class="day-badge" id="day-badge">UNIVERSE 01 · AI ENGINEERING</div>
     </header>
     <nav style="margin-bottom: 24px;">
@@ -50,7 +50,7 @@
 <ul>
 <li><strong>Temporal queries</strong> (Ch 12): the defining capability — "what did I learn <em>during period X</em>?" retrieves nodes lit and notes written in that interval (your brain's lit-history <em>is</em> temporal data — each node has a lit-date; Ch 12's point-in-time query, over your own journey). "How has my understanding of X <em>evolved</em>?" tracks a concept across your notes' versions (deepening over time — the change-tracking query).</li>
 <li><strong>Graph-aware retrieval</strong> (Ch 11): "what are the themes of what I learned in Domain 05?" → community summary of that domain's subgraph (global question, GraphRAG-answered). "How does what I learned about memory connect to what I learned about RAG?" → graph walk between domains (relational question). Vector RAG couldn't answer either; your graph does.</li>
-<li><strong>Grounded, node-cited answers</strong> (Vol 03 Ch 10, non-negotiable): every claim cites the <em>node(s)</em> it came from — "you learned X (<a class="wiki-link" data-node-id="node-id" href="node-id.html">node-id</a>, lit July 20)" — so every recalled fact is verifiable against your own notes. A recall agent that answers without node-citations is untrustworthy (it might confabulate your learning — the cruelest hallucination, inventing a past you didn't have); citations make it a <em>mirror</em>, not a <em>storyteller</em>.</li>
+<li><strong>Grounded, node-cited answers</strong> (Vol 03 Ch 10, non-negotiable): every claim cites the <em>node(s)</em> it came from — "you learned X (node-id, lit July 20)" — so every recalled fact is verifiable against your own notes. A recall agent that answers without node-citations is untrustworthy (it might confabulate your learning — the cruelest hallucination, inventing a past you didn't have); citations make it a <em>mirror</em>, not a <em>storyteller</em>.</li>
 <li><strong>Built on the brain MCP server</strong> (Vol 05 Ch 16): this agent is a <em>client</em> of your brain server — it queries your learning through the MCP tools you already exposed (<code>search_brain</code>, <code>what_did_i_learn</code>, <code>find_related</code>), which means it's portable and composable, and it validates that server's design by being its most demanding consumer.</li>
 </ul>
 

@@ -13,7 +13,7 @@ updated: 2026-07-21
 lit_date: null
 revisions: 0
 artifact: null
-wikilinks: ["multi-hop-retrieval", "build-chat-with-my-brain", "graphrag-deep", "build-research-agent", "rag-evals"]
+wikilinks: ["multi-hop-retrieval", "build-chat-with-my-brain", "graphrag-deep", "build-research-agent", "rag-evals-intro"]
 tags: [frontier-capstone]
 ---
 
@@ -51,7 +51,7 @@ Artifacts: code links, screenshots, numbers.
 [[build-chat-with-my-brain]]
 [[graphrag-deep]]
 [[build-research-agent]]
-[[rag-evals]]
+[[rag-evals-intro]]
 
 ## Status log
 - Started: 2026-07-21

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Build: Feynman-Bot — VIZIER Living Brain</title>
+  <title>Build: Feynman-Bot — AI Knowledge Graph</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 <body class="standalone-page">
   <div class="container">
     <header>
-      <a href="../index.html" class="brand">VIZIER</a>
+      <a href="../index.html" class="brand">AI Knowledge Graph</a>
       <div class="day-badge" id="day-badge">UNIVERSE 01 · AI ENGINEERING</div>
     </header>
     <nav style="margin-bottom: 24px;">
@@ -44,7 +44,7 @@
         </div>
         <div class="note-body md">
           <h2 id="eli5">ELI5</h2>
-<p>Everything until now, strangers couldn't touch. This build crosses the line that matters most in your 45-day mission and your whole arc: <strong>ship something the public can use.</strong> The product is pure Vizier soul: a bot that explains any AI term the way this textbook does — with an Indian-daily-life analogy, at Feynman depth. Your learning method, productized. Your brain, with a door.</p>
+<p>Everything until now, strangers couldn't touch. This build crosses the line that matters most in your 45-day mission and your whole arc: <strong>ship something the public can use.</strong> The product is pure AI Knowledge Graph soul: a bot that explains any AI term the way this textbook does — with an Indian-daily-life analogy, at Feynman depth. Your learning method, productized. Your brain, with a door.</p>
 <h2 id="the-real-explanation">The Real Explanation</h2>
 <p><strong>The product.</strong> User types an AI term ("embeddings", "RAG", "backpropagation") → Feynman-Bot returns a tight, structured explanation: the analogy (chai, cricket, dabbawalas, railway reservations, joint-family WhatsApp groups — <em>specific</em> Indian daily life, not generic), the real definition, why it matters, and one "check yourself" question. Sound familiar? It's this textbook's chapter template, automated. You're not copying an idea — you're shipping your own learning philosophy.</p>
 
@@ -52,7 +52,7 @@
 
 <p><strong>The serving skeleton — your first API server.</strong> The bot needs a public face. Minimal FastAPI (it's Pydantic-native — Ch 6/18 skills transfer directly, and <code>async def</code> endpoints are Vol 01 Ch 17 paying off): one <code>POST /explain {term}</code> endpoint calling your gateway, one rate limit per IP (Ch 10's thinking, now <em>you're</em> the provider protecting <em>your</em> wallet — the free tiers you're calling have limits, so your public product must throttle its public), one tiny HTML page with an input box (keep it embarrassingly simple; the bot is the product, not the CSS). Deploy on a free tier (Render/Railway/Fly-style — pick current best free option on build day): env vars for keys (never in the repo — Ch 1's laws, now with real stakes), and a public URL that works from your phone.</p>
 
-<p><strong>Ship it — the M3 protocol.</strong> A public URL is necessary, not sufficient; <em>shipping</em> means telling people. The launch post (LinkedIn — the muscle from Vol 01's capstone): what it is, one screenshot, the URL, one honest sentence about what building it taught you, and the Vizier frame ("built as node 18 of ring 2 of a 228-node public journey"). Then the part nobody warns you about: strangers will type things you never imagined — keep the gateway ledger and a simple request log running, and <em>harvest</em>: every weird input becomes a golden-set row (Ch 16's regression ritual, fed by reality), every failure a fix, for at least a week post-launch. That week of tending is where the L-node's real learning lives. Milestone M3 lights when the URL is public and the post is up.</p>
+<p><strong>Ship it — the M3 protocol.</strong> A public URL is necessary, not sufficient; <em>shipping</em> means telling people. The launch post (LinkedIn — the muscle from Vol 01's capstone): what it is, one screenshot, the URL, one honest sentence about what building it taught you, and the AI Knowledge Graph frame ("built as node 18 of ring 2 of a 228-node public journey"). Then the part nobody warns you about: strangers will type things you never imagined — keep the gateway ledger and a simple request log running, and <em>harvest</em>: every weird input becomes a golden-set row (Ch 16's regression ritual, fed by reality), every failure a fix, for at least a week post-launch. That week of tending is where the L-node's real learning lives. Milestone M3 lights when the URL is public and the post is up.</p>
 <h2 id="why-it-matters">Why It Matters</h2>
 <p>Where this appears in real systems and jobs: explains any AI term with an Indian-life analogy — ship it public. → M3</p>
 <h2 id="hands-on">Hands-On</h2>

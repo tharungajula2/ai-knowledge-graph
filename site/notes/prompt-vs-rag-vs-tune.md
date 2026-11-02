@@ -30,8 +30,8 @@ Artifacts: code links, screenshots, numbers.
 ## Wikilinks
 [[training-pipeline]]
 [[why-rag]]
-[[prompt-engineering-craft]]
-[[golden-sets]]
+[[prompt-quality]]
+[[build-golden-dataset]]
 [[build-qlora-finetune]]
 
 ## Status log

@@ -32,7 +32,7 @@ Artifacts: code links, screenshots, numbers.
 [[build-chat-with-my-brain]]
 [[graphrag-deep]]
 [[build-research-agent]]
-[[rag-evals]]
+[[rag-evals-intro]]
 
 ## Status log
 - Started: 2026-07-21

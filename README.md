@@ -1,8 +1,8 @@
-# VIZIER — AI Engineering Learning Graph
+# AI Knowledge Graph
 
-VIZIER is a personal learning system for studying AI engineering through a structured, evolving curriculum. It turns Markdown study notes and a 228-entry syllabus into a browsable knowledge map, searchable chapter library, and in-page note reader.
+AI Knowledge Graph is a personal learning system for studying AI engineering through a structured, evolving curriculum. It turns Markdown study notes and a 228-entry syllabus into a browsable knowledge map, searchable chapter library, and in-page note reader.
 
-The repository name is `ai-knowledge-graph`; the implementation calls the project **VIZIER**. Its main deliverable is a static browser application backed by generated JSON and HTML. The curriculum covers foundations, APIs, retrieval, agents, multi-agent systems, memory, evaluation, safety, production, and frontier topics.
+Its main deliverable is a static browser application backed by generated JSON and HTML. The curriculum covers foundations, APIs, retrieval, agents, multi-agent systems, memory, evaluation, safety, production, and frontier topics.
 
 ## Explore
 
@@ -18,7 +18,7 @@ The repository name is `ai-knowledge-graph`; the implementation calls the projec
 - A Node.js compiler that parses the curriculum and note frontmatter, resolves `[[wikilinks]]`, builds node/edge metadata, emits JSON indexes, and generates note pages.
 - A note validator with curriculum-to-note checks, metadata checks, privacy-pattern scanning, and a minimum-content check for notes marked `lit`.
 
-The checked-in index reports 228 curriculum entries, 1,515 edges, zero entries marked `lit`, and all 228 marked `charging`. These are snapshot values in the committed generated data, not a claim that every planned exercise has been completed. Read [the implementation and maturity notes](PROJECT_BLUEPRINT.md#current-state-and-maturity) before interpreting the status UI.
+The checked-in index reports 228 curriculum entries, 1,522 edges, zero entries marked `lit`, and all 228 marked `charging`. These are snapshot values in the committed generated data, not a claim that every planned exercise has been completed. Read [the implementation and maturity notes](PROJECT_BLUEPRINT.md#current-state-and-maturity) before interpreting the status UI.
 
 ## Run locally
 

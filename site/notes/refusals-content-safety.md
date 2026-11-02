@@ -33,7 +33,7 @@ Artifacts: code links, screenshots, numbers.
 [[guardrails-in-out]]
 [[roles-and-system-prompts]]
 [[responsible-shipping]]
-[[refusal_handling]]
+refusal handling
 [[hallucination]]
 
 ## Status log

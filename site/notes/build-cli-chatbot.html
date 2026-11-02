@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Build: CLI Chatbot — VIZIER Living Brain</title>
+  <title>Build: CLI Chatbot — AI Knowledge Graph</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 <body class="standalone-page">
   <div class="container">
     <header>
-      <a href="../index.html" class="brand">VIZIER</a>
+      <a href="../index.html" class="brand">AI Knowledge Graph</a>
       <div class="day-badge" id="day-badge">UNIVERSE 01 · AI ENGINEERING</div>
     </header>
     <nav style="margin-bottom: 24px;">
@@ -63,7 +63,7 @@
 
 <p><strong>2. Streaming.</strong> Ch 8's iterator, printed token by token with <code>flush=True</code> — the bot must <em>feel</em> alive. (Reassembly matters here: the streamed chunks must be joined and appended to <code>messages</code>, or the bot forgets its own last answer — a classic bug; write the test.)</p>
 
-<p><strong>3. A persona.</strong> A real system prompt exercising Ch 2 and Ch 3: give it a name, a voice, a scope, a format rule. Make it yours — a study-buddy for the Vizier journey is the obvious candidate ("You are VIZ, a patient senior engineer; explain with Indian-daily-life analogies; keep answers under 150 words unless asked to go deep"). Watching <em>your</em> persona hold across 20 turns is Ch 2's persistence claim, verified personally.</p>
+<p><strong>3. A persona.</strong> A real system prompt exercising Ch 2 and Ch 3: give it a name, a voice, a scope, a format rule. Make it yours — a study-buddy for the AI Knowledge Graph journey is the obvious candidate ("You are VIZ, a patient senior engineer; explain with Indian-daily-life analogies; keep answers under 150 words unless asked to go deep"). Watching <em>your</em> persona hold across 20 turns is Ch 2's persistence claim, verified personally.</p>
 
 <p><strong>4. In-session memory management — the M-node's real meat.</strong> The list grows without bound; the window (Vol 01, Ch 8) does not. Implement a <strong>token budget</strong>: before each send, count the message list with your <code>tokentools</code>; while over budget (say 4k for the exercise — artificially low <em>so you actually hit it</em> in one session), do sliding-window trimming — drop oldest turns, <strong>never the system prompt</strong> (drop it and watch the persona dissolve mid-chat — do this once on purpose; it's the most instructive bug in the build). Stretch goal, and the bridge to Domain 06: instead of dropping old turns, <em>summarize</em> them — one LLM call compressing dropped turns into a paragraph prepended as context (Ch 15's Move 3, running live inside your own product). Print a small <code>[trimmed N turns, ~M tokens]</code> notice when it happens — visible mechanics teach.</p>
 

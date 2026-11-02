@@ -14,7 +14,7 @@ A 400-page contract, a codebase, a year of support tickets — and a question ab
 Where this appears in real systems and jobs: stuffing vs retrieval vs summarizing.
 
 ## Hands-On
-No build — a decision drill, on paper, timed like an interview. Four scenarios, and for each: chosen strategy (or hybrid), the two axes that decided it, cost sketch (rough token math — your `tokentools` prices), and the failure mode you're accepting. (a) Startup lawyer, one 300-page contract, ~30 questions over two days. (b) Support bot over 200k historical tickets, 5k queries/day. (c) "Brief the CEO on these 40 candidate resumes" — one deliverable. (d) Chat over your own Vizier brain notes — currently ~small, growing weekly for years. Write all four into the note; (d)'s answer is literally your Domain 03 capstone build being designed early — mark it.
+No build — a decision drill, on paper, timed like an interview. Four scenarios, and for each: chosen strategy (or hybrid), the two axes that decided it, cost sketch (rough token math — your `tokentools` prices), and the failure mode you're accepting. (a) Startup lawyer, one 300-page contract, ~30 questions over two days. (b) Support bot over 200k historical tickets, 5k queries/day. (c) "Brief the CEO on these 40 candidate resumes" — one deliverable. (d) Chat over your own AI Knowledge Graph brain notes — currently ~small, growing weekly for years. Write all four into the note; (d)'s answer is literally your Domain 03 capstone build being designed early — mark it.
 
 ## What I Built / Proof
 Artifacts: code links, screenshots, numbers.

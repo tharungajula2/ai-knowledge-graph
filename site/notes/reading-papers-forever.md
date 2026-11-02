@@ -34,7 +34,7 @@ Artifacts: code links, screenshots, numbers.
 
 ## Wikilinks
 [[build-node-proposer]]
-[[frontier-scan]]
+frontier scan
 [[model-landscape]]
 [[synthesis-foundations]]
 

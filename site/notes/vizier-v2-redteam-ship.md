@@ -42,7 +42,7 @@ Artifacts: code links, screenshots, numbers.
 [[build-migration-runner]]
 [[monitoring-alerting]]
 [[resurrection]]
-[[define-vizier-v2]]
+[[define-vizier-v2|Define AI Knowledge Graph v2]]
 
 ## Status log
 - Started: 2026-07-21

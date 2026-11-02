@@ -3,7 +3,7 @@ id: vizier-v2-memory-retrieval
 title: "Build: v2 Memory & RAG"
 domain: frontier-capstone
 ring: 10
-cluster: "VIZIER v2 — The Final Masterpiece"
+cluster: "AI Knowledge Graph v2 — The Final Masterpiece"
 type: build
 size: L
 status: charging
@@ -13,7 +13,7 @@ updated: 2026-07-21
 lit_date: null
 revisions: 0
 artifact: null
-wikilinks: ["build-memory-layer", "build-hybrid-search", "build-memory-taxonomy", "privacy-in-memory", "citations-grounding", "build-ingestion-pipeline", "agentic-rag-frontiers"]
+wikilinks: ["build-memory-layer", "build-hybrid-search", "build-memory-taxonomy", "privacy-in-memory", "citations-grounding", "ingestion-pipelines", "agentic-rag-frontiers"]
 tags: [frontier-capstone]
 ---
 
@@ -52,7 +52,7 @@ Artifacts: code links, screenshots, numbers.
 [[build-memory-taxonomy]]
 [[privacy-in-memory]]
 [[citations-grounding]]
-[[build-ingestion-pipeline]]
+[[ingestion-pipelines]]
 [[agentic-rag-frontiers]]
 
 ## Status log

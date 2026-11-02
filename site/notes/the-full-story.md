@@ -28,7 +28,7 @@ Artifacts: code links, screenshots, numbers.
 ---
 
 ## Wikilinks
-[[define-vizier-v2]]
+[[define-vizier-v2|Define AI Knowledge Graph v2]]
 [[retrospective]]
 
 ## Status log

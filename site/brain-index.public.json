@@ -2,8 +2,8 @@
   "nodes": [
     {
       "id": "center-vizier",
-      "label": "VIZIER",
-      "title": "VIZIER",
+      "label": "AI Knowledge Graph",
+      "title": "AI Knowledge Graph",
       "type": "center",
       "ring": "center",
       "status": "lit",
@@ -1723,6 +1723,10 @@
         {
           "id": "reflection-patterns",
           "title": "Reflection / Reflexion"
+        },
+        {
+          "id": "reasoning-test-time-compute",
+          "title": "Reasoning & Test-Time Compute"
         }
       ],
       "slug": "reasoning-prompts",
@@ -1975,6 +1979,10 @@
         {
           "id": "build-async-workers",
           "title": "Build: Background Queues & Workers"
+        },
+        {
+          "id": "failure-drills-rollbacks",
+          "title": "Failure Drills & Rollback Protocols"
         }
       ],
       "slug": "errors-retries-backoff",
@@ -2294,7 +2302,12 @@
       "size": "S",
       "status": "charging",
       "summary": "speech-to-text and text-to-speech landscape.",
-      "backlinks": [],
+      "backlinks": [
+        {
+          "id": "voice-agents",
+          "title": "Voice Agents"
+        }
+      ],
       "slug": "voice-audio-apis",
       "started": "2026-07-21",
       "completed": null,
@@ -2417,6 +2430,10 @@
         {
           "id": "ab-testing-prompts",
           "title": "A/B Testing Prompts"
+        },
+        {
+          "id": "prompt-vs-rag-vs-tune",
+          "title": "Prompting vs RAG vs Fine-Tuning"
         }
       ],
       "slug": "prompt-quality",
@@ -3328,6 +3345,10 @@
         {
           "id": "model-serving-patterns",
           "title": "Model Serving & Latency Tradeoffs"
+        },
+        {
+          "id": "vizier-v2-memory-retrieval",
+          "title": "Build: v2 Memory & RAG"
         }
       ],
       "slug": "ingestion-pipelines",
@@ -3388,6 +3409,10 @@
         {
           "id": "online-evals",
           "title": "Online Evals"
+        },
+        {
+          "id": "agentic-rag-frontiers",
+          "title": "Agentic RAG Frontiers"
         }
       ],
       "slug": "rag-evals-intro",
@@ -4730,7 +4755,7 @@
         },
         {
           "id": "define-vizier-v2",
-          "title": "Define VIZIER v2"
+          "title": "Define AI Knowledge Graph v2"
         }
       ],
       "slug": "build-node-proposer",
@@ -4798,7 +4823,7 @@
       "backlinks": [
         {
           "id": "define-vizier-v2",
-          "title": "Define VIZIER v2"
+          "title": "Define AI Knowledge Graph v2"
         }
       ],
       "slug": "capstone-agents",
@@ -6497,6 +6522,10 @@
         {
           "id": "small-distilled-models",
           "title": "Small & Distilled Models"
+        },
+        {
+          "id": "prompt-vs-rag-vs-tune",
+          "title": "Prompting vs RAG vs Fine-Tuning"
         },
         {
           "id": "build-qlora-finetune",
@@ -9818,7 +9847,7 @@
         },
         {
           "id": "define-vizier-v2",
-          "title": "Define VIZIER v2"
+          "title": "Define AI Knowledge Graph v2"
         }
       ],
       "slug": "synthesis-production",
@@ -10013,11 +10042,11 @@
       "cluster": "The Moving Edge (baseline guesses — expect replans)",
       "size": "S",
       "status": "charging",
-      "summary": "how the tools that built VIZIER actually work.",
+      "summary": "how the tools that built AI Knowledge Graph actually work.",
       "backlinks": [
         {
           "id": "define-vizier-v2",
-          "title": "Define VIZIER v2"
+          "title": "Define AI Knowledge Graph v2"
         }
       ],
       "slug": "coding-agents",
@@ -10289,8 +10318,8 @@
     },
     {
       "id": "define-vizier-v2",
-      "label": "Define VIZIER v2",
-      "title": "Define VIZIER v2",
+      "label": "Define AI Knowledge Graph v2",
+      "title": "Define AI Knowledge Graph v2",
       "type": "capstone",
       "ring": "frontier-capstone",
       "domain": "frontier-capstone",
@@ -10299,7 +10328,7 @@
       "chapter_num": 14,
       "code": "10.14",
       "seq_num": 218,
-      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "cluster": "AI Knowledge Graph v2 — The Final Masterpiece",
       "size": "M",
       "status": "charging",
       "summary": "spec the unified agent+brain rebuilt from scratch by ME, mapped back to the modules that taught it. → M5",
@@ -10343,7 +10372,7 @@
       "chapter_num": 15,
       "code": "10.15",
       "seq_num": 219,
-      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "cluster": "AI Knowledge Graph v2 — The Final Masterpiece",
       "size": "L",
       "status": "charging",
       "summary": "Rebuild the ReAct execution framework and graph-based supervisor from scratch (taught by build-agent-from-scratch & build-supervisor).",
@@ -10375,7 +10404,7 @@
       "chapter_num": 16,
       "code": "10.16",
       "seq_num": 220,
-      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "cluster": "AI Knowledge Graph v2 — The Final Masterpiece",
       "size": "L",
       "status": "charging",
       "summary": "Integrate long-term memory extraction and hybrid vector retrieval (taught by build-memory-layer & build-hybrid-search).",
@@ -10402,7 +10431,7 @@
       "chapter_num": 17,
       "code": "10.17",
       "seq_num": 221,
-      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "cluster": "AI Knowledge Graph v2 — The Final Masterpiece",
       "size": "M",
       "status": "charging",
       "summary": "Connect the human-in-the-loop proposal queue and injection overlap scanner (taught by build-proposal-gate & build-overlap-scanner).",
@@ -10434,7 +10463,7 @@
       "chapter_num": 18,
       "code": "10.18",
       "seq_num": 222,
-      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "cluster": "AI Knowledge Graph v2 — The Final Masterpiece",
       "size": "M",
       "status": "charging",
       "summary": "Implement LLM-as-a-judge regression testing and observability span tracing (taught by build-eval-judge & build-tracing-instrumentation).",
@@ -10461,7 +10490,7 @@
       "chapter_num": 19,
       "code": "10.19",
       "seq_num": 223,
-      "cluster": "VIZIER v2 — The Final Masterpiece",
+      "cluster": "AI Knowledge Graph v2 — The Final Masterpiece",
       "size": "M",
       "status": "charging",
       "summary": "Package, containerize, container-deploy, and establish CI/CD for the entire system (taught by build-github-actions-pipeline & build-container-deployment).",
@@ -10580,7 +10609,7 @@
       "cluster": "Graduation",
       "size": "M",
       "status": "charging",
-      "summary": "VIZIER takes its throne on tharungajula.vercel.app.",
+      "summary": "AI Knowledge Graph takes its throne on the portfolio site.",
       "backlinks": [
         {
           "id": "the-demo-film",
@@ -10720,8 +10749,8 @@
     },
     {
       "id": "M5",
-      "label": "VIZIER v2",
-      "title": "VIZIER v2",
+      "label": "AI Knowledge Graph v2",
+      "title": "AI Knowledge Graph v2",
       "type": "milestone",
       "ring": "milestones",
       "status": "charging",
@@ -17235,6 +17264,11 @@
     },
     {
       "source": "failure-drills-rollbacks",
+      "target": "errors-retries-backoff",
+      "type": "wikilink"
+    },
+    {
+      "source": "failure-drills-rollbacks",
       "target": "hardening-pass",
       "type": "wikilink"
     },
@@ -17539,6 +17573,11 @@
       "type": "wikilink"
     },
     {
+      "source": "voice-agents",
+      "target": "voice-audio-apis",
+      "type": "wikilink"
+    },
+    {
       "source": "domain-frontier-capstone",
       "target": "computer-use-agents",
       "type": "containment"
@@ -17639,6 +17678,11 @@
       "type": "wikilink"
     },
     {
+      "source": "agentic-rag-frontiers",
+      "target": "rag-evals-intro",
+      "type": "wikilink"
+    },
+    {
       "source": "domain-frontier-capstone",
       "target": "reasoning-test-time-compute",
       "type": "containment"
@@ -17647,6 +17691,11 @@
       "source": "agentic-rag-frontiers",
       "target": "reasoning-test-time-compute",
       "type": "dependency"
+    },
+    {
+      "source": "reasoning-test-time-compute",
+      "target": "reasoning-prompts",
+      "type": "wikilink"
     },
     {
       "source": "reasoning-test-time-compute",
@@ -17741,6 +17790,16 @@
     {
       "source": "prompt-vs-rag-vs-tune",
       "target": "why-rag",
+      "type": "wikilink"
+    },
+    {
+      "source": "prompt-vs-rag-vs-tune",
+      "target": "prompt-quality",
+      "type": "wikilink"
+    },
+    {
+      "source": "prompt-vs-rag-vs-tune",
+      "target": "build-golden-dataset",
       "type": "wikilink"
     },
     {
@@ -17976,6 +18035,11 @@
     {
       "source": "vizier-v2-memory-retrieval",
       "target": "citations-grounding",
+      "type": "wikilink"
+    },
+    {
+      "source": "vizier-v2-memory-retrieval",
+      "target": "ingestion-pipelines",
       "type": "wikilink"
     },
     {
@@ -18316,7 +18380,7 @@
     "lit_count": 0,
     "charging_count": 228,
     "ghost_count": 0,
-    "edge_count": 1515,
+    "edge_count": 1522,
     "universe": {
       "number": 1,
       "codename": "AI ENGINEERING",

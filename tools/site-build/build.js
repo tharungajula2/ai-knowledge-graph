@@ -192,25 +192,25 @@ function simpleMarkdownToHtml(md, domain) {
   html = html.replace(/&lt;!--([\s\S]*?)--&gt;/g, '<!--$1-->');
 
   // Blockquotes: > quote
-  html = html.replace(/^\s*&gt;\s+(.*)$/gm, '<blockquote>$1</blockquote>');
+  html = html.replace(/^[ \t]*&gt;[ \t]+(.*)$/gm, '<blockquote>$1</blockquote>');
 
   // Horizontal rules: --- or ***
-  html = html.replace(/^\s*(---|\*\*\*|___)\s*$/gm, '<hr>');
+  html = html.replace(/^[ \t]*(---|\*\*\*|___)[ \t]*$/gm, '<hr>');
 
   // Headers: # Header, ## Header, ### Header, #### Header
-  html = html.replace(/^\s*#\s+(.*)$/gm, (match, p1) => {
+  html = html.replace(/^[ \t]*#[ \t]+(.*)$/gm, (match, p1) => {
     const cleanId = p1.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     return `<h1 id="${cleanId}">${p1}</h1>`;
   });
-  html = html.replace(/^\s*##\s+(.*)$/gm, (match, p1) => {
+  html = html.replace(/^[ \t]*##[ \t]+(.*)$/gm, (match, p1) => {
     const cleanId = p1.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     if (p1.toLowerCase().includes('where this could be wrong') || p1.toLowerCase().includes('debated')) {
       return `<h2 id="${cleanId}" class="section-challenged">${p1}</h2>`;
     }
     return `<h2 id="${cleanId}">${p1}</h2>`;
   });
-  html = html.replace(/^\s*###\s+(.*)$/gm, '<h3>$1</h3>');
-  html = html.replace(/^\s*####\s+(.*)$/gm, '<h4>$1</h4>');
+  html = html.replace(/^[ \t]*###[ \t]+(.*)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^[ \t]*####[ \t]+(.*)$/gm, '<h4>$1</h4>');
 
   // Task lists
   html = html.replace(/^\s*[-*+]\s+\[ \]\s+(.*)$/gm, '<li class="task-list-item"><input type="checkbox" disabled /> <span>$1</span></li>');
@@ -641,7 +641,7 @@ function buildSite() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${title} — VIZIER Living Brain</title>
+  <title>${title} — AI Knowledge Graph</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -652,7 +652,7 @@ function buildSite() {
 <body class="standalone-page">
   <div class="container">
     <header>
-      <a href="../index.html" class="brand">VIZIER</a>
+      <a href="../index.html" class="brand">AI Knowledge Graph</a>
       <div class="day-badge" id="day-badge">${universeBadgeText}</div>
     </header>
     <nav style="margin-bottom: 24px;">

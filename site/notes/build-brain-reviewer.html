@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Build: Self-Critical Graph Reviewer — VIZIER Living Brain</title>
+  <title>Build: Self-Critical Graph Reviewer — AI Knowledge Graph</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 <body class="standalone-page">
   <div class="container">
     <header>
-      <a href="../index.html" class="brand">VIZIER</a>
+      <a href="../index.html" class="brand">AI Knowledge Graph</a>
       <div class="day-badge" id="day-badge">UNIVERSE 01 · AI ENGINEERING</div>
     </header>
     <nav style="margin-bottom: 24px;">
@@ -49,7 +49,7 @@
 <p><strong>The two review dimensions — structure and honesty.</strong></p>
 <ol>
 <li><strong>Structural review</strong> (graph analytics — Ch 13's unlocked queries, applied): parse the note-link graph and compute health metrics — <em>sparse domains</em> (rings with few internal or cross-domain links — knowledge islands that should connect to the whole but don't; the node's "identifies sparse domains"); <em>orphan nodes</em> (notes with no incoming/outgoing links — disconnected knowledge); <em>weak bridges</em> (domains that <em>should</em> relate — foundations underpins everything — but have thin connection); <em>centrality imbalance</em> (a domain where one node carries all the links and the rest are peripheral). These are graph-structural facts, computable (Ch 13's centrality/connectivity queries), and each points at a <em>specific</em> place your knowledge graph is weaker than it should be — actionable, not vague.</li>
-<li><strong>Honesty review</strong> (LLM-powered — the node's "honesty checks"): this is the deeper, more Vizier-soul dimension. Prompt an LLM to audit notes for intellectual honesty against your own standards: <em>claimed-but-undemonstrated understanding</em> (a note that asserts a concept without the Feynman explanation or worked example your template demands — Vol 01's whole method: does this note actually <em>show</em> understanding or just <em>claim</em> it?); <em>missing prerequisites</em> (a note using a concept it never links to or grounds); <em>staleness</em> (a note whose understanding you've since deepened — Ch 12's temporal dimension — flagged for update); <em>overconfidence</em> (claims stated more strongly than the note's evidence supports — Vol 01 Ch 10's calibration, aimed at your own writing). This is your brain holding <em>itself</em> to the honesty standard the whole curriculum preaches.</li>
+<li><strong>Honesty review</strong> (LLM-powered — the node's "honesty checks"): this is the deeper, more AI Knowledge Graph-soul dimension. Prompt an LLM to audit notes for intellectual honesty against your own standards: <em>claimed-but-undemonstrated understanding</em> (a note that asserts a concept without the Feynman explanation or worked example your template demands — Vol 01's whole method: does this note actually <em>show</em> understanding or just <em>claim</em> it?); <em>missing prerequisites</em> (a note using a concept it never links to or grounds); <em>staleness</em> (a note whose understanding you've since deepened — Ch 12's temporal dimension — flagged for update); <em>overconfidence</em> (claims stated more strongly than the note's evidence supports — Vol 01 Ch 10's calibration, aimed at your own writing). This is your brain holding <em>itself</em> to the honesty standard the whole curriculum preaches.</li>
 </ol>
 
 <p><strong>The output — actionable, gated suggestions.</strong> The reviewer produces a <em>review report</em> (structural metrics + honesty flags, per domain) and <em>suggestions</em>: sparse domain X wants connections to Y (feeds Ch 15's link-suggester — the reviewer <em>finds</em> the sparse regions the suggester should target, closing a loop); note Z claims understanding it doesn't demonstrate — revisit it; these notes are stale — update. Suggestions that would <em>modify</em> the brain (new edges, flagged notes) route through the gate (Vol 04 Ch 15) or, for edges, hand off to Ch 15's suggester; the reviewer <em>diagnoses</em>, the human (with the suggester's help) <em>treats</em>. Crucially, honesty flags are <em>for you</em> — "this note overclaims" is an invitation to re-study, exactly the curriculum's self-honest spirit: the reviewer is a mirror that shows you where your understanding is thinner than your notes pretend.</p>

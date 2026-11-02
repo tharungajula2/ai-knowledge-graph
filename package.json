@@ -1,7 +1,7 @@
 {
-  "name": "vizier-ai",
+  "name": "ai-knowledge-graph",
   "version": "1.0.0",
-  "description": "VIZIER Brain — Interactive AI Engineering Curriculum & Living Brain",
+  "description": "AI Knowledge Graph — interactive AI engineering curriculum and note reader",
   "scripts": {
     "next-node": "node tools/next-node.js",
     "finish-node": "node tools/finish-node.js",

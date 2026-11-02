@@ -3,7 +3,7 @@ id: vizier-v2-redteam-ship
 title: "Build: v2 Deploy & Ship"
 domain: frontier-capstone
 ring: 10
-cluster: "VIZIER v2 — The Final Masterpiece"
+cluster: "AI Knowledge Graph v2 — The Final Masterpiece"
 type: build
 size: M
 status: charging
@@ -61,7 +61,7 @@ Artifacts: code links, screenshots, numbers.
 [[build-migration-runner]]
 [[monitoring-alerting]]
 [[resurrection]]
-[[define-vizier-v2]]
+[[define-vizier-v2|Define AI Knowledge Graph v2]]
 
 ## Status log
 - Started: 2026-07-21

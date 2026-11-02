@@ -24,7 +24,7 @@ A play has a script with speaker labels: DIRECTOR (instructions the audience nev
 **The message array.** From now on you send not a string but a structured conversation:
 ```python
 messages = [
-    {"role": "system", "content": "You are a support agent for Vizier. Answer only from provided docs. If unsure, say so. Never discuss competitors."},
+    {"role": "system", "content": "You are a support agent for AI Knowledge Graph. Answer only from provided docs. If unsure, say so. Never discuss competitors."},
     {"role": "user", "content": "Hey, what's your refund policy?"},
     {"role": "assistant", "content": "Our policy is..."},   # prior turns get re-sent
     {"role": "user", "content": "And for annual plans?"}

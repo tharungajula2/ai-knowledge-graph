@@ -3,7 +3,7 @@ Not all memory is one thing — and treating it as one thing is why so many "mem
 
 ## The Real Explanation
 **The three memory types — borrowed from cognitive science, earning their keep in code.**
-- **Semantic memory** — *facts about the world and the user*, timeless-ish, context-free. "The user's name is Tharun." "Tharun is targeting AI-engineering roles." "The project is called Vizier." These are the *what-is* memories: true regardless of when or how learned, retrievable as standalone facts. This is where personalization lives (Ch 7).
+- **Semantic memory** — *facts about the world and the user*, timeless-ish, context-free. "The user's name is Tharun." "Tharun is targeting AI-engineering roles." "The project is called AI Knowledge Graph." These are the *what-is* memories: true regardless of when or how learned, retrievable as standalone facts. This is where personalization lives (Ch 7).
 - **Episodic memory** — *events, experiences, specific interactions with time and context*. "On July 18, the user asked me to plan their week." "Last session we debugged the async bridge together." The *what-happened* memories: tied to a moment, useful for continuity and for learning from experience (this is Reflexion's lesson-store, Vol 04 Ch 9, formalized as a memory type — you've met the middle horizon before).
 - **Procedural memory** — *how to do things; learned skills and preferences-in-action*. "When the user asks for a summary, they prefer bullets under 100 words." "To deploy this project, run these steps." The *how-to* memories: often the highest-value and most-overlooked; they make an agent get *better at working with you* over time, not just *know more about you*.
 

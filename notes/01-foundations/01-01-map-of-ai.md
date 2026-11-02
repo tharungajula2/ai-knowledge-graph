@@ -37,7 +37,7 @@ The nesting is strict: every agent uses GenAI, all serious GenAI is deep learnin
 Where this appears in real systems and jobs: AI vs ML vs DL vs GenAI vs Agentic — the family tree.
 
 ## Hands-On
-Open your Vizier dashboard (you built the perfect artifact for this chapter). Hover the rings from `foundations` outward and narrate out loud where each domain sits in the nesting dolls: which rings are "just ML," where generation enters, where agency enters. Then draw the nested-circles diagram on paper, from memory, with one real product example living in each band (e.g., a thermostat rule, a spam filter, image recognition, ChatGPT, an autonomous coding agent).
+Open your AI Knowledge Graph dashboard (you built the perfect artifact for this chapter). Hover the rings from `foundations` outward and narrate out loud where each domain sits in the nesting dolls: which rings are "just ML," where generation enters, where agency enters. Then draw the nested-circles diagram on paper, from memory, with one real product example living in each band (e.g., a thermostat rule, a spam filter, image recognition, ChatGPT, an autonomous coding agent).
 
 ## What I Built / Proof
 Artifacts: code links, screenshots, numbers.

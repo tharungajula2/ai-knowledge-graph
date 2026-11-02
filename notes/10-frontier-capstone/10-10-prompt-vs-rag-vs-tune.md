@@ -13,7 +13,7 @@ updated: 2026-07-21
 lit_date: null
 revisions: 0
 artifact: null
-wikilinks: ["training-pipeline", "why-rag", "prompt-engineering-craft", "golden-sets", "build-qlora-finetune"]
+wikilinks: ["training-pipeline", "why-rag", "prompt-quality", "build-golden-dataset", "build-qlora-finetune"]
 tags: [frontier-capstone]
 ---
 
@@ -49,8 +49,8 @@ Artifacts: code links, screenshots, numbers.
 ## Wikilinks
 [[training-pipeline]]
 [[why-rag]]
-[[prompt-engineering-craft]]
-[[golden-sets]]
+[[prompt-quality]]
+[[build-golden-dataset]]
 [[build-qlora-finetune]]
 
 ## Status log

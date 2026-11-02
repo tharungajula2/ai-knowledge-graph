@@ -3,7 +3,7 @@ id: build-vizier-v2-core
 title: "Build: v2 Core ReAct Loop"
 domain: frontier-capstone
 ring: 10
-cluster: "VIZIER v2 — The Final Masterpiece"
+cluster: "AI Knowledge Graph v2 — The Final Masterpiece"
 type: build
 size: L
 status: charging
@@ -52,7 +52,7 @@ Artifacts: code links, screenshots, numbers.
 [[build-specialists]]
 [[build-mcp-bridge]]
 [[langgraph-state]]
-[[define-vizier-v2]]
+[[define-vizier-v2|Define AI Knowledge Graph v2]]
 
 ## Status log
 - Started: 2026-07-21

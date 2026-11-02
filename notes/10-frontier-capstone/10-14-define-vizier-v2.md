@@ -1,9 +1,9 @@
 ---
 id: define-vizier-v2
-title: "Define VIZIER v2"
+title: "Define AI Knowledge Graph v2"
 domain: frontier-capstone
 ring: 10
-cluster: "VIZIER v2 — The Final Masterpiece"
+cluster: "AI Knowledge Graph v2 — The Final Masterpiece"
 type: capstone
 size: M
 status: charging
@@ -21,7 +21,7 @@ tags: [frontier-capstone]
 The most senior act in engineering isn't writing code — it's writing the document that makes the code *inevitable*: the spec. v1 never had one; it had a conversation with an IDE agent and whatever emerged. v2 begins the opposite way: you, alone, writing the complete specification of a unified agent+brain system — every subsystem, every interface, every acceptance test — **mapped back to the modules that taught it**. Chapter 5 told you the skill shift: specify, decompose, verify. This chapter is where you prove you've made it.
 
 ## The Real Explanation
-**1. The mission sentence.** One sentence, no commas doing heavy lifting: what v2 *is*. Draft to react against: *"VIZIER v2 is a deployed agent system that manages my knowledge graph and my communications through a human-approval gate — specified, built, evaluated, secured, and operated entirely by me."* Fight with it until it's yours.
+**1. The mission sentence.** One sentence, no commas doing heavy lifting: what v2 *is*. Draft to react against: *"AI Knowledge Graph v2 is a deployed agent system that manages my knowledge graph and my communications through a human-approval gate — specified, built, evaluated, secured, and operated entirely by me."* Fight with it until it's yours.
 
 **2. The architecture map.** One diagram, your hand: the supervisor and specialists (Vol 04), the MCP connections (Vol 05), the memory layer (Vol 06), retrieval (Vol 03), the gateway underneath every call (Vol 02), the gate and scanner athwart every write (Vol 08), tracing and evals around everything (Vol 07), the deployment envelope (Vol 09). Every box carries two labels: what it does, and **the node that taught it** — this teacher-mapping is the node's explicit demand, and it's what makes v2 a graduation proof rather than a rewrite.
 
@@ -37,7 +37,7 @@ The most senior act in engineering isn't writing code — it's writing the docum
 Where this appears in real systems and jobs: spec the unified agent+brain rebuilt from scratch by ME, mapped back to the modules that taught it. → M5
 
 ## Hands-On
-Write `VIZIER_V2_SPEC.md` (3–6 pages, in the repo, versioned). Then two quality gates before it counts: (1) the **teacher audit** — every subsystem in the spec names its teaching node(s); any subsystem you can't map means either scope creep (cut it) or a ghost node you skipped (light it first — the graph is the prerequisite checker); (2) the **red-team read** — reread your own spec wearing Vol 08 goggles and Vol 07 goggles, one paragraph each on what the adversary and the evaluator would say is underspecified. Fix, commit, tag `v2-spec-1.0`. Lighting this node lights the fuse on M5.
+Write `AI_KNOWLEDGE_GRAPH_V2_SPEC.md` (3–6 pages, in the repo, versioned). Then two quality gates before it counts: (1) the **teacher audit** — every subsystem in the spec names its teaching node(s); any subsystem you can't map means either scope creep (cut it) or a ghost node you skipped (light it first — the graph is the prerequisite checker); (2) the **red-team read** — reread your own spec wearing Vol 08 goggles and Vol 07 goggles, one paragraph each on what the adversary and the evaluator would say is underspecified. Fix, commit, tag `v2-spec-1.0`. Lighting this node lights the fuse on M5.
 
 ## What I Built / Proof
 Artifacts: code links, screenshots, numbers.
